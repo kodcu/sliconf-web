@@ -3,8 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "history": "^4.6.3",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.5",
+    "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1",
+    "react-router-redux": "^5.0.0-alpha.6",
+    "redux": "^3.7.1",
+    "redux-persist": "^4.8.2",
+    "redux-thunk": "^2.2.0",
+    "superagent": "^3.5.2"
   },
   "devDependencies": {
     "react-scripts": "1.0.10"
