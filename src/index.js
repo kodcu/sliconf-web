@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
 import { Route, Switch} from 'react-router-dom'
 import store, { history } from './reducks'
-import {App,Login,Register} from './containers';
 import { ThemeProvider } from 'styled-components'
 import Theme from './theme'
 
@@ -16,10 +15,10 @@ ReactDOM.render(
         <Switch>
           <Route path="/login" component={Login}/>
           <Route path="/register" component={Register}/>
-          <Route path="/" component={App}/>
+          <Route path="/" component={Home}/>
         </Switch>
       </ThemeProvider>
     </ConnectedRouter>
-  </Provider>, 
+  </Provider>,
   document.getElementById('root')
 );

@@ -1,0 +1,90 @@
+*{
+	margin:0;
+	padding:0;
+	box-sizing:border-box;
+}
+
+.mtop{
+	margin-top:15vh;
+}
+
+@media (max-width: 750px){
+	.mtop{
+		margin-top:0;
+	}
+	.navbar-list{
+		display:none;
+	}
+}
+
+a:hover {
+    color: #29b573;
+}
+
+.navbar{
+    display: block;
+    width: 100%;
+    height: 6.5rem;
+    background: #fff;
+    z-index: 99;
+    border-bottom: 1px solid #eee;
+}
+
+.logo{
+	font-size:2.6rem;
+	line-height:6.5rem;
+}
+
+.navbar-list {
+    list-style: none;
+    margin-bottom: 0;
+}
+
+.navbar-item {
+    position: relative;
+    float: left;
+    margin-bottom: 0;
+}
+
+.navbar-link {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .2rem;
+    margin-right: 35px;
+    text-decoration: none;
+    line-height: 6.5rem;
+    color: #222;
+}
+
+
+.button.button-primary, button.button-primary, input[type="submit"].button-primary, input[type="reset"].button-primary, input[type="button"].button-primary {
+   color: #FFF;
+   background-color: #29b573;
+   border-color: #29b573;
+	border-radius: 500px !important;
+	transition:0.2s box-shadow, 0.1s background-color;
+	box-shadow: 0px 0px 21px -7px #29b573;
+}
+
+.button.button-primary:hover, button.button-primary:hover, input[type="submit"].button-primary:hover, input[type="reset"].button-primary:hover, input[type="button"].button-primary:hover, .button.button-primary:focus, button.button-primary:focus, input[type="submit"].button-primary:focus, input[type="reset"].button-primary:focus, input[type="button"].button-primary:focus {
+   color: #FFF;
+   background-color: #25a568;
+   border-color: #25a568;
+	box-shadow: 0px 0px 21px -4px #25a568;
+}
+
+input[type="email"], input[type="number"], input[type="search"], input[type="text"], input[type="tel"], input[type="url"], input[type="password"], textarea, select {
+   border-radius: 0;
+   border-color: white;
+   border-bottom: 1px solid rgba(0,0,0,0.6);
+   transition: 0.1s border, 0.2s padding-left;
+	padding-left: 0;
+	border-width:2px !important;
+}
+
+input[type="email"]:focus, input[type="number"]:focus, input[type="search"]:focus, input[type="text"]:focus, input[type="tel"]:focus, input[type="url"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
+	padding-left:10px;
+	border-color:white;
+	border-bottom-color:#29b573;
+}
