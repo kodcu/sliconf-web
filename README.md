@@ -1,3 +1,16 @@
+Projeye arka taraf için şimdilik json-server eklendi.
+Kurulumu:
+
+``npm install -g json-server``
+Komutu çalıştırdıgımız klasörün içinde db.json dosyası oluşturuyoruz.
+
+``json-server --watch db.json --port 3001`` komutu ile server çalışır hale geliyor.
+
+``GET http:\\localhost:3001\users`` bize db.json içindeki usersları döndürücektir.
+
+https://github.com/typicode/json-server
+
+
 Bu proje [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
