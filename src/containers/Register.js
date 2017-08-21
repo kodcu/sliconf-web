@@ -6,7 +6,7 @@ import NavBar from '../components/navbar'
 import './skeleton.css'
 import './styles.css'
 
-class Login extends Component {
+class Register extends Component {
 
   state = {
       username:"",
@@ -56,7 +56,7 @@ class Login extends Component {
                 </div>
                 <div className="twelve columns">
                   <label htmlFor="username">Mail</label>
-                  <input type="text" placeholder="i.e. rick" id="username"  value={this.state.email} onChange={(e)=>this.setState({username:e.target.value})}/>
+                  <input type="text" placeholder="i.e. rick" id="username"  value={this.state.username} onChange={(e)=>this.setState({username:e.target.value})}/>
                 </div>
                 <div className="twelve columns">
                   <label htmlFor="pass">Password</label>
@@ -103,4 +103,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Login)
+export default connect(mapStateToProps,mapDispatchToProps)(Register)
