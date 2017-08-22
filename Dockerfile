@@ -4,11 +4,11 @@ WORKDIR /
 
 COPY . /.
 
-RUN npm install
+RUN yarn install
 
-RUN npm install -g serve
+RUN yarn global add serve
 
-RUN npm run build
+RUN yarn build
 
 EXPOSE 5000
 
