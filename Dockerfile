@@ -1,14 +1,10 @@
 FROM node:6.11.2-alpine
 
-WORKDIR /
+RUN npm install
 
-COPY . /.
+RUN npm install -g serve
 
-RUN yarn install
-
-RUN yarn global add serve
-
-RUN yarn build
+RUN npm build
 
 EXPOSE 5000
 

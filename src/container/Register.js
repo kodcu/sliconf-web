@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-//import {Link} from 'react-router-dom'
-import NavBar from '../components/navbar'
-import './skeleton.css'
-import './styles.css'
+import MasterPage from "./MasterPage";
 
 class Register extends Component {
 
@@ -13,34 +9,14 @@ class Register extends Component {
       email:"",
       password:""
   }
-  handleRegister(email,username, password) {
 
-        console.log(email,username, password)
-
-        //TODO Check if email is already exist
-        var new_Data = {  email : email, password: password }
-        new_Data = JSON.stringify(new_Data)
-
-        //Adding new data to db.json
-        fetch('http://localhost:3001/users', {
-                      method: 'POST',
-                      headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                      },
-                      body: new_Data
-        })
+  register = (email,username, password) => {
+      // action creatorü bind et :) sonra this.props.register bam bam bam xd
   }
-
 
   render() {
     return (
-      <div>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
-        <title>sliConf</title>
-        <NavBar/>
+      <MasterPage>
         <div className="container mtop">
           <div className="row">
             <div className="six columns">
@@ -65,7 +41,7 @@ class Register extends Component {
               </div>
               <div className="row">
                 <div className="six columns">
-                  <input className="button-primary" type="submit" defaultValue="register" onClick={()=>this.handleRegister(this.state.email,this.state.username,this.state.password)}/>
+                  <input className="button-primary" type="submit" defaultValue="register" onClick={this.register}/>
                 </div>
               </div>
             </div>
@@ -85,7 +61,7 @@ class Register extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </MasterPage>
 
     );
   }
@@ -99,7 +75,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        pushState: push
     }
 }
 
