@@ -4,7 +4,12 @@ import {Router, Route, Switch} from 'react-router-dom'
 import Login from "./Login";
 import Register from "./Register";
 import Home from "./Home";
+import Events from "./EventList";
+import AddEvent from "./EventPage";
+import Settings from "./Settings";
+import AddEventSuccess from "./EventSuccess";
 import {history} from '../reducks'
+import PrivateRoute from "./PrivateRoute";
 
 
 class App extends Component {
@@ -15,6 +20,10 @@ class App extends Component {
                <Switch>
                   <Route path="/login" component={Login}/>
                   <Route path="/register" component={Register}/>
+                  <PrivateRoute path="/events" component={Events}/>
+                  <PrivateRoute path="/addeventsuccess" component={AddEventSuccess}/>
+                  <PrivateRoute path="/addevent" component={AddEvent}/>
+                  <PrivateRoute path="/settings" component={Settings}/>
                   <Route path="/" component={Home}/>
                </Switch>
             </Router>

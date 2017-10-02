@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import MasterPage from './MasterPage'
 
 class EventPage extends Component {
 
-   createEvent() {
-      console.log("Event name : " + this.state.event_name)
-      console.log("Event time : " + this.state.event_time)
-      //TODO send event_name & time as props
-      this.props.history.push('/event-success')
-   }
+    createEvent() {
+        console.log("Event name : " + this.state.event_name)
+        console.log("Event time : " + this.state.event_time)
+        //TODO send event_name & time as props
+        this.props.history.push('/addeventsuccess')
+    }
 
    state = {
       event_name: "",
@@ -23,7 +24,7 @@ class EventPage extends Component {
                   <div className="twelve columns">
                      <div className="row">
                         <div className="twelve columns">
-                           <h2>Welcome, Stranger!</h2>
+                           <h2 style={{color: '#29b573'}}>Welcome{this.props.user !== undefined ? ", "+this.props.user : "!"}</h2>
                            <h4>Let's create your Event.</h4>
                         </div>
                      </div>
@@ -57,4 +58,16 @@ class EventPage extends Component {
 }
 
 
-export default EventPage
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        user: state.auth.user,
+        loggingIn: state.auth.loggingIn
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventPage)

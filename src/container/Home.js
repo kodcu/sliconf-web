@@ -12,20 +12,14 @@ class Home extends Component {
                   <div className="twelve columns">
                      <div className="row">
                         <div className="twelve columns">
-                           <h2 style={{color: '#29b573'}}>Welcome back, {this.props.loggingIn ? this.props.user.username : "Stranger"}</h2>
-                           <h4 style={{fontSize: '2rem', color: 'gray'}}>Let's search an event.</h4>
+                           <h2 style={{color: '#29b573'}}>Welcome{this.props.user !== undefined ? ", "+this.props.user : "!"}</h2>
+                           <h4 style={{fontSize: '2rem', color: 'gray'}}>You can download the app on</h4>
                         </div>
                      </div>
-                     <div className="row" style={{marginTop: 50}}>
+                     <div className="row">
                         <div className="six columns">
-                           <label htmlFor="search">Event Name</label>
-                           <input type="text" placeholder="i.e. Javaday or K162" id="search"
-                                  style={{fontSize: '2rem'}}/>
-                        </div>
-                     </div>
-                     <div className="row" style={{marginTop: 50}}>
-                        <div className="six columns">
-                           <input className="button-primary" type="submit" defaultValue="search"/>
+                           <a className="button button-primary" style={{marginRight: '10px'}}>Google Play</a>
+                           <a className="button button-primary">Apple Store</a>
                         </div>
                      </div>
                   </div>

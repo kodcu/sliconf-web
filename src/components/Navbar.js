@@ -10,13 +10,14 @@ class NavBar extends Component {
             <div className="container">
                <div className="row">
                   <div className="six columns">
-                     <Link to="/"><h1 className="logo">sli<b>Conf</b></h1></Link>
+                     <h1 className="logo"><Link to="/">sli<b>Conf</b></Link></h1>
                   </div>
                   <div className="six columns">
                      <ul className="navbar-list">
                         <AuthView out><li className="navbar-item"><Link className="navbar-link" to="/login">Sign In</Link></li></AuthView>
                         <AuthView out><li className="navbar-item"><Link className="navbar-link" to="/register">Register</Link></li></AuthView>
-                        <AuthView in><li className="navbar-item"><Link className="navbar-link" to="/event">Event</Link></li></AuthView>
+                        <AuthView in><li className="navbar-item"><Link className="navbar-link" to="/events">Event</Link></li></AuthView>
+                        <AuthView in><li className="navbar-item"><Link className="navbar-link" to="/settings">Settings</Link></li></AuthView>
                      </ul>
                   </div>
                </div>

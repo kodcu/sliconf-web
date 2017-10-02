@@ -32,7 +32,7 @@ class EventSuccess extends Component {
 
                      <div className="row mtop100">
                         <div className="six columns">
-                           <input className="button-primary" type="submit" value="next"/>
+                           <button className="button button-primary" onClick={() => this.props.history.push('/events')}>Next</button>
                         </div>
                      </div>
 

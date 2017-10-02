@@ -1,23 +1,81 @@
 import React, { Component } from 'react';
+import {bindActionCreators, createStore} from 'redux';
 import { connect } from 'react-redux';
+import * as AuthActions from '../reducks/modules/auth'
 import MasterPage from "./MasterPage";
+import classNames from 'classnames'
+
+
+function veriler(state = [], action) {
+    switch (action.type) {
+        case 'USER_LOGIN':
+            return {
+                ...state,
+                id: action.id,
+                email: action.email,
+                name: action.name,
+            }
+        default:
+            return state
+    }
+}
+
+let store = createStore(veriler)
 
 class Register extends Component {
 
   state = {
       username:"",
       email:"",
-      password:""
+      password:"",
+      warning:false,
+      message:""
   }
+
+
+    componentWillReceiveProps(nextProps){
+        if(this.props.auth.loginError !== nextProps.auth.loginError){
+            this.setState({warning:true})
+        }
+        //Birden fazla componentWillReceiveProps cagirilmasin diye bu sekilde sarmalaniyor
+        if((this.props.auth.status !== nextProps.auth.status)){
+            if(nextProps.auth.status === false){
+                //Yanlis girdi, mesaj bas
+                this.setState({warning:true, message:nextProps.auth.message})
+            }else{
+                //Dogru girildi, storela
+                this.setState({kullaniciId:nextProps.auth.returnObject.id})
+                store.dispatch({type: 'USER_LOGIN', id: nextProps.auth.returnObject.id, email: nextProps.auth.returnObject.email, name: nextProps.auth.returnObject.name})
+                console.log(store.getState())
+            }
+        }
+    }
+
 
   register = (email,username, password) => {
-      // action creatorü bind et :) sonra this.props.register bam bam bam xd
+      // action creatorü bind ettikten sonra this.props.register :)
+      this.props.register(this.state.username,this.state.email, this.state.password)
   }
 
+    kapat = () => {
+        this.setState({warning:false})
+    }
+
   render() {
+
+
+      if(this.props.auth.user){
+          // zaten oturum açılmış ise / adresine yolla
+          this.props.history.push('/addevent')
+      }
+
+
     return (
       <MasterPage>
         <div className="container mtop">
+          <div className={classNames('row warning',{'show':this.state.warning})}>
+            <h4>{this.state.message}</h4><div className="kapa" onClick={this.kapat}>X</div>
+          </div>
           <div className="row">
             <div className="six columns">
               <div className="row">
@@ -28,20 +86,20 @@ class Register extends Component {
               <div className="row">
                 <div className="twelve columns">
                   <label htmlFor="email">Username</label>
-                  <input type="email" placeholder="i.e. morty" id="email"  value={this.state.email} onChange={(e)=>this.setState({email:e.target.value})}/>
+                  <input type="email" placeholder="i.e. altuga@kodcu.com" id="email"  value={this.state.email} onChange={(e)=>this.setState({email:e.target.value})}/>
                 </div>
                 <div className="twelve columns">
                   <label htmlFor="username">Mail</label>
-                  <input type="text" placeholder="i.e. rick" id="username"  value={this.state.username} onChange={(e)=>this.setState({username:e.target.value})}/>
+                  <input type="text" placeholder="i.e. altuga" id="username"  value={this.state.username} onChange={(e)=>this.setState({username:e.target.value})}/>
                 </div>
                 <div className="twelve columns">
                   <label htmlFor="pass">Password</label>
-                  <input type="password" placeholder="i.e. rick" id="pass" value={this.state.password} onChange={(e)=>this.setState({password:e.target.value})} />
+                  <input type="password" placeholder="i.e. 123456" id="pass" value={this.state.password} onChange={(e)=>this.setState({password:e.target.value})} />
                 </div>
               </div>
               <div className="row">
                 <div className="six columns">
-                  <input className="button-primary" type="submit" defaultValue="register" onClick={this.register}/>
+                  <button className="button-primary" onClick={this.register}>Register</button>
                 </div>
               </div>
             </div>
@@ -69,13 +127,14 @@ class Register extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        user: state.username
+        auth: state.auth
     }
 }
+
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-    }
+    return {...bindActionCreators(AuthActions,dispatch)}
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Register)
+export default connect(mapStateToProps, mapDispatchToProps)(Register)
+
