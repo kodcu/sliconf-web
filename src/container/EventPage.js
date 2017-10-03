@@ -1,12 +1,29 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import MasterPage from './MasterPage'
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import 'react-datepicker/dist/react-datepicker.css';
 
 class EventPage extends Component {
 
+    constructor (props) {
+        super(props)
+        this.state = {
+            startDate: moment()
+        };
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(date) {
+        this.setState({
+            startDate: date
+        });
+    }
+
     createEvent() {
         console.log("Event name : " + this.state.event_name)
-        console.log("Event time : " + this.state.event_time)
+        console.log("Event time : " + this.state.startDate)
         //TODO send event_name & time as props
         this.props.history.push('/addeventsuccess')
     }
@@ -38,9 +55,10 @@ class EventPage extends Component {
                      <div className="row mtop25">
                         <div className="six columns">
                            <label htmlFor="date">Event date</label>
-                           <input type="text" placeholder="i.e. 21/03/2018" id="datepicker"
-                                  value={this.state.event_time}
-                                  onChange={(e) => this.setState({event_time: e.target.value})}/>
+                            <DatePicker
+                                selected={this.state.startDate}
+                                onChange={this.handleChange}
+                            />
                         </div>
                      </div>
                      <div className="row mtop50">

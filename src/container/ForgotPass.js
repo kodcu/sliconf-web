@@ -4,33 +4,11 @@ import {connect} from 'react-redux';
 import * as AuthActions from '../reducks/modules/auth'
 import MasterPage from './MasterPage'
 import classNames from 'classnames'
-import {Link} from 'react-router-dom';
-
-function veriler(state = [], action) {
-    switch (action.type) {
-        case 'USER_LOGIN':
-            return {
-                ...state,
-                id: action.id,
-                email: action.email,
-                name: action.name,
-            }
-        default:
-            return state
-    }
-}
-
-let store = createStore(veriler)
-
 
 class Login extends Component {
 
    state = {
-      name: "",
-      password: "",
-      warning:false,
-      message:"",
-      kullaniciId:"",
+      name: ""
    }
 
    componentWillReceiveProps(nextProps){
@@ -48,8 +26,7 @@ class Login extends Component {
          }else{
              //Dogru girildi, storela
              this.setState({kullaniciId:nextProps.auth.returnObject.id})
-             store.dispatch({type: 'USER_LOGIN', id: nextProps.auth.returnObject.id, email: nextProps.auth.returnObject.email, name: nextProps.auth.returnObject.name})
-             console.log(store.getState())
+
          }
        }
    }
@@ -72,38 +49,25 @@ class Login extends Component {
       return (
          <MasterPage>
             <div className="container mtop">
-            <div className={classNames('row warning',{'show':this.state.warning})}>
-               <h4>{this.state.message}</h4><div className="kapa" onClick={this.kapat}>X</div>
-            </div>
                <div className="row">
                   <div className="six columns">
                      <div className="row">
                         <div className="twelve columns">
-                           <h2 style={{color: '#29b573'}}>Sign In</h2>
+                           <h2 style={{color: '#29b573'}}>Forgot Password</h2>
                         </div>
                      </div>
                      <div className="row">
                         <div className="twelve columns">
-                           <label htmlFor="email">Username</label>
-                           <input type="email" placeholder="i.e. altuga" id="email" value={this.state.name}
+                           <label htmlFor="email">Email</label>
+                           <input type="email" placeholder="i.e. altuga@kodcu.com" id="email" value={this.state.name}
                                   onChange={(e) => this.setState({name: e.target.value})}/>
-                        </div>
-                        <div className="twelve columns">
-                           <label htmlFor="pass">Password</label>
-                           <input type="password" placeholder="i.e. 123456" id="pass" value={this.state.password}
-                                  onChange={(e) => this.setState({password: e.target.value})}/>
                         </div>
                      </div>
                      <div className="row">
                         <div className="six columns">
-                           <button className="button-primary" onClick={this.login}>Sign In</button>
+                           <button className="button-primary" onClick={this.login}>Send Mail</button>
                         </div>
                      </div>
-                      <div className="row">
-                          <div className="six columns">
-                              <Link className="forgotpass" to="/forgotpass">Forgot your password?</Link>
-                          </div>
-                      </div>
                   </div>
 
                </div>

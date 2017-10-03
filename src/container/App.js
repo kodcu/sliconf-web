@@ -8,6 +8,7 @@ import Events from "./EventList";
 import AddEvent from "./EventPage";
 import Settings from "./Settings";
 import AddEventSuccess from "./EventSuccess";
+import ForgotPass from "./ForgotPass";
 import {history} from '../reducks'
 import PrivateRoute from "./PrivateRoute";
 
@@ -20,10 +21,11 @@ class App extends Component {
                <Switch>
                   <Route path="/login" component={Login}/>
                   <Route path="/register" component={Register}/>
-                  <PrivateRoute path="/events" component={Events}/>
-                  <PrivateRoute path="/addeventsuccess" component={AddEventSuccess}/>
-                  <PrivateRoute path="/addevent" component={AddEvent}/>
-                  <PrivateRoute path="/settings" component={Settings}/>
+                  <Route path="/forgotpass" component={ForgotPass}/>
+                  <Route path="/events" component={Events}/>
+                  <Route path="/addeventsuccess" component={AddEventSuccess}/>
+                  <Route path="/addevent" component={AddEvent}/>
+                  <Route path="/settings" component={Settings}/>
                   <Route path="/" component={Home}/>
                </Switch>
             </Router>

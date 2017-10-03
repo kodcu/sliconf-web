@@ -144,8 +144,14 @@ input[type="email"]:focus, input[type="number"]:focus, input[type="search"]:focu
     background: white;
     margin: 10px;
     cursor:pointer;
+    display:none
 }
 
 .mbottom100{
     margin-bottom:100px;
+}
+.forgotpass{
+    color: black;
+    text-decoration: none;
+    font-size: 11px;
 }

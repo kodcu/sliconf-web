@@ -103,20 +103,7 @@ class Register extends Component {
                 </div>
               </div>
             </div>
-            <div className="six columns">
-              <div className="row">
-                <div className="six columns">
-                  <h3 style={{color: 'gray'}}>or</h3>
-                </div>
-              </div>
-              <div className="row">
-                <div className="six columns">
-                  <a className="button button-primary" style={{background: '#547dbe', borderColor: '#547dbe', boxShadow: '0px 0px 21px -4px #547dbe'}}>Register with Facebook</a>
-                  <a className="button button-primary" style={{background: '#3b5a9a', borderColor: '#3b5a9a', boxShadow: '0px 0px 21px -4px #3b5a9a'}}>Register with Google</a>
-                  <a className="button button-primary" style={{background: '#2d9cd7', borderColor: '#2d9cd7', boxShadow: '0px 0px 21px -4px #2d9cd7'}}>Register with Twitter</a>
-                </div>
-              </div>
-            </div>
+
           </div>
         </div>
       </MasterPage>

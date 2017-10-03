@@ -19,9 +19,9 @@ class Settings extends Component {
 
    }
 
-    update = (email,username, password, passwordAgain) => {
+    update = (username,email, password, passwordAgain) => {
         // action creatorü bind ettikten sonra this.props.update :)
-        this.props.update(this.state.username,this.state.email, this.state.password, this.state.passwordAgain)
+        this.props.update(this.state.email,this.state.username, this.state.password, this.state.passwordAgain)
     }
    render() {
       return (
@@ -37,25 +37,29 @@ class Settings extends Component {
                     <div className="row mtop50">
                         <div className="six columns">
                             <label htmlFor="name">full name</label>
-                            <input type="text" placeholder="i.e. Altuğ Bilgin Altıntaş" id="name" />
+                            <input type="text" placeholder="i.e. Altuğ Bilgin Altıntaş" id="name" value={this.state.username}
+                                   onChange={(e) => this.setState({username: e.target.value})} />
                         </div>
                     </div>
                     <div className="row">
                         <div className="six columns">
                             <label htmlFor="mail">e-mail</label>
-                            <input type="email" placeholder="i.e. altuga@kodcu.com" id="mail" />
+                            <input type="email" placeholder="i.e. altuga@kodcu.com" id="mail" value={this.state.email}
+                                   onChange={(e) => this.setState({email: e.target.value})} />
                         </div>
                     </div>
                     <div className="row">
                         <div className="six columns">
                             <label htmlFor="pass">password</label>
-                            <input type="password" placeholder="i.e. 123456" id="pass" />
+                            <input type="password" placeholder="i.e. 123456" id="pass" value={this.state.password}
+                                   onChange={(e) => this.setState({password: e.target.value})} />
                         </div>
                     </div>
                     <div className="row">
                         <div className="six columns">
                             <label htmlFor="passa">password (again)</label>
-                            <input type="password" placeholder="i.e. 123456" id="passa" />
+                            <input type="password" placeholder="i.e. 123456" id="passa" value={this.state.passwordAgain}
+                                   onChange={(e) => this.setState({passwordAgain: e.target.value})} />
                         </div>
                     </div>
 
@@ -86,7 +90,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    return {}
+    return {...bindActionCreators(AuthActions,dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings)
