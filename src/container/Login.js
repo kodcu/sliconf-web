@@ -22,13 +22,14 @@ class Login extends Component {
       }
 
       //Birden fazla componentWillReceiveProps cagirilmasin diye bu sekilde sarmalaniyor
-      if ((this.props.auth.status !== nextProps.auth.status)) {
+      if ((this.props.auth.user !== nextProps.auth.user)) {
 
          if (nextProps.auth.status === false) {
             //Yanlis girdi, mesaj bas
             this.setState({warning: true, message: nextProps.auth.message})
          } else {
             //Dogru girildi, storela
+            this.props.history.push('/')
          }
       }
    }
@@ -97,7 +98,6 @@ const mapStateToProps = (state, ownProps) => {
       auth: state.auth
    }
 }
-
 
 const mapDispatchToProps = (dispatch, ownProps) => {
    return {...bindActionCreators(AuthActions, dispatch)}

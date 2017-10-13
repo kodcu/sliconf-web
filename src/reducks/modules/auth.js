@@ -1,3 +1,5 @@
+import loginMock from "../../mock/login";
+
 const LOAD = 'auth/LOAD';
 const LOAD_SUCCESS = 'auth/LOAD_SUCCESS';
 const LOAD_FAIL = 'auth/LOAD_FAIL';
@@ -17,7 +19,7 @@ const UPDATE_FAIL = 'auth/LOGOUT_FAIL';
 const initialState = {
    loaded: false,
    //loggingIn:true,
-   user: {id:'id123',username: 'gox'}
+   //user: {id:'id123',username: 'gox'}
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -46,14 +48,13 @@ export default function reducer(state = initialState, action = {}) {
             ...state,
             loggingIn: true
          };
-       case LOGIN_SUCCESS:
+      case LOGIN_SUCCESS:
          return {
             ...state,
             loggingIn: false,
             status: action.result.status,
             message: action.result.message,
-             user: action.result.returnObject.name,
-             returnObject: action.result.returnObject,
+            user: action.result.returnObject
          };
       case LOGIN_FAIL:
          return {
@@ -62,27 +63,26 @@ export default function reducer(state = initialState, action = {}) {
             user: null,
             loginError: action.error
          };
-       case REGISTER:
-           return {
-               ...state,
-               loggingIn: true
-           };
-       case REGISTER_SUCCESS:
-           return {
-               ...state,
-               loggingIn: false,
-               status: action.result.status,
-               message: action.result.message,
-               user: action.result.returnObject.name,
-               returnObject: action.result.returnObject,
-           };
-       case REGISTER_FAIL:
-           return {
-               ...state,
-               loggingIn: false,
-               user: null,
-               loginError: action.error
-           };
+      case REGISTER:
+         return {
+            ...state,
+            loggingIn: true
+         };
+      case REGISTER_SUCCESS:
+         return {
+            ...state,
+            loggingIn: false,
+            status: action.result.status,
+            message: action.result.message,
+            user: action.result.returnObject,
+         };
+      case REGISTER_FAIL:
+         return {
+            ...state,
+            loggingIn: false,
+            user: null,
+            loginError: action.error
+         };
       case LOGOUT:
          return {
             ...state,
@@ -96,27 +96,27 @@ export default function reducer(state = initialState, action = {}) {
          };
       case LOGOUT_FAIL:
          return {
-             ...state,
-             loggingOut: false,
-             logoutError: action.error
+            ...state,
+            loggingOut: false,
+            logoutError: action.error
          };
-       case UPDATE:
-           return {
-               ...state,
-               loggingOut: true
-           };
-       case UPDATE_SUCCESS:
-           return {
-               ...state,
-               loggingOut: false,
-               user: null
-           };
-       case UPDATE_FAIL:
-           return {
-               ...state,
-               loggingOut: false,
-               logoutError: action.error
-           };
+      case UPDATE:
+         return {
+            ...state,
+            loggingOut: true
+         };
+      case UPDATE_SUCCESS:
+         return {
+            ...state,
+            loggingOut: false,
+            user: null
+         };
+      case UPDATE_FAIL:
+         return {
+            ...state,
+            loggingOut: false,
+            logoutError: action.error
+         };
       default:
          return state;
    }
@@ -137,31 +137,32 @@ export function load() {
 export function login(name, password) {
    return {
       types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-      promise: (client) => client.post('http://localhost:8080/service/users/login', {
+      mock: loginMock
+      /*promise: (client) => client.post('http://localhost:8080/service/users/login', {
          params: {"token":"auth"},
          data: {name, password}
+      })*/
+   }
+}
+
+export function register(email, name, password) {
+   return {
+      types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
+      promise: (client) => client.post('http://localhost:8080/service/users/register', {
+         params: {"token": "auth"},
+         data: {email, name, password}
       })
    }
 }
 
-export function register(email,name, password) {
-    return {
-        types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
-        promise: (client) => client.post('http://localhost:8080/service/users/register', {
-            params: {"token":"auth"},
-            data: {email, name, password}
-        })
-    }
-}
-
-export function update(email,name, password, passwordAgain) {
-    return {
-        types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
-        promise: (client) => client.post('http://localhost:8080/service/users/update', {
-            params: {"token":"auth"},
-            data: {email, name, password, passwordAgain}
-        })
-    }
+export function update(email, name, password, passwordAgain) {
+   return {
+      types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
+      promise: (client) => client.post('http://localhost:8080/service/users/update', {
+         params: {"token": "auth"},
+         data: {email, name, password, passwordAgain}
+      })
+   }
 }
 
 export function logout() {

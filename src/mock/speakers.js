@@ -3,21 +3,21 @@ export default [
       "id":"spe1",
       "name": "Altuğ Bilgin Altıntaş",
       "workingat": "kodcu",
-      "about": "dfdfdf",
+      "level": "beginner",
       "topic": "Kanban"
    },
    {
       "id":"spe2",
       "name": "Lemi Orhan",
       "workingat": "iyzico",
-      "about": "dfdfdf",
+      "level": "middle",
       "topic": "Git"
    },
    {
       "id":"spe3",
       "name": "Hüseyin Akdoğan",
       "workingat": "kodcu",
-      "about": "dfdfdf",
+      "level": "advanced",
       "topic": "Java 9"
    }
 ]

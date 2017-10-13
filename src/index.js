@@ -7,6 +7,7 @@ import store from './reducks'
 
 import './stylesheets/skeleton.css'
 import './stylesheets/styles.css'
+import 'react-datepicker/dist/react-datepicker.css';
 
 ReactDOM.render(
    <Provider store={store}>

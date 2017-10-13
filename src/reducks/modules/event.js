@@ -4,6 +4,10 @@ const FETCH_EVENT = 'event/FETCH_EVENT';
 const FETCH_EVENT_SUCCESS = 'event/FETCH_EVENT_SUCCESS';
 const FETCH_EVENT_FAIL = 'event/FETCH_EVENT_FAIL';
 
+const ADD_SPEAKER = 'event/SAVE_SPEAKER';
+const ADD_SPEAKER_SUCCESS = 'event/SAVE_SPEAKER_SUCCESS';
+const ADD_SPEAKER_FAIL = 'event/SAVE_SPEAKER_FAIL';
+
 const FETCH_EVENTS = 'event/FETCH_EVENTS';
 const FETCH_EVENTS_SUCCESS = 'event/FETCH_EVENTS_SUCCESS';
 const FETCH_EVENTS_FAIL = 'event/FETCH_EVENTS_FAIL';
@@ -55,6 +59,24 @@ export default function reducer(state = initialState, action = {}) {
             events: [],
             error: action.error
          };
+      // add speaker to event
+      case ADD_SPEAKER:
+         return {
+            ...state,
+            loading: true
+         };
+      case ADD_SPEAKER_SUCCESS:
+         return {
+            ...state,
+            loading: false,
+            error: null
+         };
+      case ADD_SPEAKER_FAIL:
+         return {
+            ...state,
+            loading: false,
+            error: action.error
+         };
       default:
          return state;
    }
@@ -64,6 +86,15 @@ export function fetchEvent(userId) {
    return {
       types: [FETCH_EVENT, FETCH_EVENT_SUCCESS, FETCH_EVENT_FAIL],
       promise: (client) => client.post('http://localhost:8080/service/events/get/with-key/'+userId)
+   }
+}
+
+export function addSpeaker(eventId,speaker) {
+   return {
+      types: [ADD_SPEAKER, ADD_SPEAKER_SUCCESS, ADD_SPEAKER_FAIL],
+      promise: (client) => client.post('http://localhost:8080/service/events/'+eventId,{
+         data: speaker
+      })
    }
 }
 

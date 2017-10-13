@@ -70,7 +70,7 @@ export function fetchSpeaker(speakerId) {
 export function fetchEventSpeakers(eventId) {
    return {
       types: [FETCH_SPEAKERS, FETCH_SPEAKERS_SUCCESS, FETCH_SPEAKERS_FAIL],
-      mock: speakers,
+      mock: speakers
       //promise: (client) => client.post('http://localhost:8080/service/events/'+eventId+'/speakers')
    }
 }

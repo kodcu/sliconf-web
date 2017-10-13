@@ -12,6 +12,8 @@ import ForgotPass from "./ForgotPass";
 import {history} from '../reducks'
 import PrivateRoute from "./PrivateRoute";
 import MasterPage from "./MasterPage";
+import Speakers from "./Speakers";
+import AddSpeaker from "./AddSpeaker";
 
 class App extends Component {
    render() {
@@ -22,10 +24,12 @@ class App extends Component {
                   <Route path="/login" component={Login}/>
                   <Route path="/register" component={Register}/>
                   <Route path="/forgotpass" component={ForgotPass}/>
-                  <Route path="/events" component={Events}/>
-                  <Route path="/addeventsuccess" component={AddEventSuccess}/>
-                  <Route path="/addevent" component={AddEvent}/>
-                  <Route path="/settings" component={Settings}/>
+                  <PrivateRoute path="/events/:eventId/speakers" component={Speakers}/>
+                  <PrivateRoute path="/events/:eventId/addspeaker" component={AddSpeaker}/>
+                  <PrivateRoute path="/events" component={Events}/>
+                  <PrivateRoute path="/addeventsuccess" component={AddEventSuccess}/>
+                  <PrivateRoute path="/addevent" component={AddEvent}/>
+                  <PrivateRoute path="/settings" component={Settings}/>
                   <Route path="/" component={Home}/>
                </Switch>
             </MasterPage>
