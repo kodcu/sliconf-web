@@ -17,7 +17,7 @@ const UPDATE_FAIL = 'auth/LOGOUT_FAIL';
 const initialState = {
    loaded: false,
    //loggingIn:true,
-   //user: {username: 'gox'}
+   user: {id:'id123',username: 'gox'}
 };
 
 export default function reducer(state = initialState, action = {}) {

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import MasterPage from './MasterPage'
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -35,7 +34,6 @@ class EventPage extends Component {
 
    render() {
       return (
-         <MasterPage>
             <div className="container mtop">
                <div className="row">
                   <div className="twelve columns">
@@ -70,7 +68,6 @@ class EventPage extends Component {
                   </div>
                </div>
             </div>
-         </MasterPage>
       );
    }
 }

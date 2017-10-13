@@ -4,20 +4,20 @@ import {Router, Route, Switch} from 'react-router-dom'
 import Login from "./Login";
 import Register from "./Register";
 import Home from "./Home";
-import Events from "./EventList";
+import Events from "./Events";
 import AddEvent from "./EventPage";
 import Settings from "./Settings";
 import AddEventSuccess from "./EventSuccess";
 import ForgotPass from "./ForgotPass";
 import {history} from '../reducks'
 import PrivateRoute from "./PrivateRoute";
-
+import MasterPage from "./MasterPage";
 
 class App extends Component {
    render() {
       return (
-         <div>
-            <Router history={history}>
+         <Router history={history}>
+            <MasterPage>
                <Switch>
                   <Route path="/login" component={Login}/>
                   <Route path="/register" component={Register}/>
@@ -28,8 +28,8 @@ class App extends Component {
                   <Route path="/settings" component={Settings}/>
                   <Route path="/" component={Home}/>
                </Switch>
-            </Router>
-         </div>
+            </MasterPage>
+         </Router>
       );
    }
 }

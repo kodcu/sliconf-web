@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import MasterPage from "./MasterPage";
 
 class EventSuccess extends Component {
-
 
    state = {
       event_name: "",
@@ -11,7 +9,6 @@ class EventSuccess extends Component {
 
    render() {
       return (
-         <MasterPage>
             <div className="container mtop">
                <div className="row">
                   <div className="twelve columns">
@@ -40,7 +37,6 @@ class EventSuccess extends Component {
                   </div>
                </div>
             </div>
-         </MasterPage>
       );
    }
 }
