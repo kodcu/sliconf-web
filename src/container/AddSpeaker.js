@@ -1,10 +1,25 @@
 import React from 'react';
+import Dropzone from 'react-dropzone'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as EvensActions from '../reducks/modules/event'
 import PageHead from "../components/PageHead";
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+
+const ImageInfo = ({image,onCancel}) => {
+   return (
+      <div className="row">
+         <div className="two columns">
+            <img src={image.preview} width="100%" alt=""/>
+         </div>
+         <div className="six columns">
+            <p><strong>{image.name}</strong> (<small>{Math.ceil(image.size/1024)} kbs</small>)</p>
+            <p><button className="button-primary">Upload</button> <button className="button-primary" onClick={onCancel}>Cancel</button></p>
+         </div>
+      </div>
+   )
+}
 
 class AddSpeaker extends React.Component {
 
@@ -15,11 +30,24 @@ class AddSpeaker extends React.Component {
       room:'0',
       detail:'',
       startDate:moment().unix() * 1000,
-      duration:''
+      duration:'',
+      image:null
+   }
+
+   getSpeakerData = () => {
+      return {
+         fullName:this.state.fullName,
+         level:this.state.level,
+         title:this.state.title,
+         room:this.state.room,
+         detail:this.state.detail,
+         startDate:this.state.startDate,
+         duration:this.state.duration
+      }
    }
 
    addSpeaker = () => {
-      this.props.addSpeaker(this.props.match.eventId,{...this.state})
+      this.props.addSpeaker(this.props.match.eventId,{...this.getSpeakerData()})
    }
 
    changeValue = (name) => {
@@ -33,12 +61,37 @@ class AddSpeaker extends React.Component {
       }
    }
 
+   onDropFiles = (acceptedFiles, rejectedFiles) => {
+      if(acceptedFiles.length){
+         this.setState({image:acceptedFiles[0]})
+      }
+   }
+
+   imageUploadView = () => {
+      if(this.state.image){
+         return <ImageInfo image={this.state.image} onCancel={()=>this.setState({image:null})}/>
+      }else{
+         return <Dropzone
+            accept="image/jpeg, image/png"
+            onDrop={this.onDropFiles}
+         >
+            <p><small>Try dropping speaker photo here, or click to select files to upload.</small></p>
+            <p><small>Only *.jpeg and *.png images will be accepted</small></p>
+         </Dropzone>
+      }
+   }
+
    render() {
       return (
          <div className="container mtop">
             <div className="row">
                <div className="twelve columns">
                   <PageHead title="Add Speaker"/>
+                  <div className="row">
+                     <div className="twelve columns">
+                        {this.imageUploadView()}
+                     </div>
+                  </div>
                   <div className="row">
                      <div className="six columns">
                         <div className="row">
