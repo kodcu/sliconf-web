@@ -2,15 +2,28 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as AuthActions from '../reducks/modules/auth'
+import classNames from 'classnames'
+import {Link} from 'react-router-dom';
+import Validator from '../helpers/Validator';
 
 class Login extends Component {
 
    state = {
-      name: ""
+      name: "",
+      mailWarning:false
    }
 
-   sendForgotMail = (name, password) => {
-      //
+   sendForgotMail = (email) => {
+      //reset
+      this.setState({mailWarning: false})
+      if (!Validator.minMaxLen(5,50,this.state.email) || !Validator.isMail(this.state.email)){
+         // uyarı ver
+         console.log("email uygun değil")
+         this.setState({mailWarning: true})
+      }else{
+         // herşey okey
+         this.props.sendForgotMail(this.state.email)
+      }
    }
 
    closeWarning = () => {
@@ -30,8 +43,8 @@ class Login extends Component {
                   <div className="row">
                      <div className="twelve columns">
                         <label htmlFor="email">Email</label>
-                        <input type="email" placeholder="i.e. altuga@kodcu.com" id="email" value={this.state.name}
-                               onChange={(e) => this.setState({name: e.target.value})}/>
+                        <input className={classNames({'hata': this.state.mailWarning})} type="email" placeholder="i.e. altuga@kodcu.com" id="email" value={this.state.email}
+                               onChange={(e) => this.setState({email: e.target.value})}/>
                      </div>
                   </div>
                   <div className="row">
@@ -47,8 +60,14 @@ class Login extends Component {
    }
 }
 
+const mapStateToProps = (state, ownProps) => {
+   return {
+      auth: state.auth
+   }
+}
+
 const mapDispatchToProps = (dispatch, ownProps) => {
    return {...bindActionCreators(AuthActions, dispatch)}
 }
 
-export default connect(null, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

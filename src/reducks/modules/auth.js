@@ -155,6 +155,16 @@ export function register(email, name, password) {
    }
 }
 
+export function sendForgotMail(email) {
+   return {
+      types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
+      promise: (client) => client.post('http://localhost:8080/service/users/forgot', {
+         params: {"token": "auth"},
+         data: {email}
+      })
+   }
+}
+
 export function update(email, name, password, passwordAgain) {
    return {
       types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],

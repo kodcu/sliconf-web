@@ -9,11 +9,13 @@ import Validator from '../helpers/Validator';
 class Login extends Component {
 
    state = {
-      email: "",
+      user: "",
       password: "",
       warning: false,
       message: "",
       kullaniciId: "",
+      userWarning:false,
+      passWarning:false
    }
 
    componentWillReceiveProps(nextProps) {
@@ -35,15 +37,19 @@ class Login extends Component {
    }
 
    login = () => {
-      if (!Validator.minMaxLen(5,50,this.state.email)){
+      //reset
+      this.setState({userWarning: false, passWarning:false})
+      if (!Validator.minMaxLen(4,50,this.state.user)){
          // uyarı ver
-         console.log("email uygun değil")
+         console.log("isim uygun değil")
+         this.setState({userWarning: true})
       }else if(!Validator.minLen(8,this.state.password)){
          // uyarı ver
          console.log('şifre 8 karakterden kısa')
+         this.setState({passWarning: true})
       }else{
          // herşey okey
-         this.props.login(this.state.email, this.state.password)
+         this.props.login(this.state.user, this.state.password)
       }
    }
 
@@ -67,12 +73,12 @@ class Login extends Component {
                      </div>
                      <div className="row">
                         <div className="twelve columns">
-                           <label htmlFor="email">Username</label>
-                           <input type="email" placeholder="i.e. altuga" id="email" value={this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>
+                           <label htmlFor="user">Username</label>
+                           <input className={classNames({'hata': this.state.userWarning})} type="text" placeholder="i.e. altuga" id="user" value={this.state.user} onChange={(e) => this.setState({user: e.target.value})}/>
                         </div>
                         <div className="twelve columns">
                            <label htmlFor="pass">Password</label>
-                           <input type="password" placeholder="i.e. 123456" id="pass" value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
+                           <input className={classNames({'hata': this.state.passWarning})} type="password" placeholder="i.e. 123456" id="pass" value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
                         </div>
                      </div>
                      <div className="row">

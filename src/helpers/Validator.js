@@ -14,4 +14,10 @@ export default class Validator {
    static minMaxLen(minLen, maxLen, value) {
       return Validator.minLen(minLen, value) && Validator.maxLen(maxLen, value)
    }
+
+   // email kosullarini sagliyorsa true doner
+   static isMail(value) {
+      var mailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return mailRegex.test(value)
+   }
 }

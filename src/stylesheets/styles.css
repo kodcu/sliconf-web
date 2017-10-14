@@ -764,3 +764,16 @@ select:focus {
 .approved .comment {
     border-left: 3px solid #29b573;
 }
+
+.logo a{
+    text-decoration: none;
+    color: #222;
+}
+
+.warning .kapa {
+    display: none;
+}
+
+input.hata {
+    border-bottom-color: #F44336 !important;
+}
