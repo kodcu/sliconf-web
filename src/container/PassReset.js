@@ -5,17 +5,14 @@ import * as AuthActions from '../reducks/modules/auth'
 import classNames from 'classnames'
 import Validator from '../helpers/Validator';
 
-class Register extends Component {
+class PassReset extends Component {
 
    state = {
-      username: "",
-      email: "",
+      resetID:this.props.match.resetId,
       password: "",
       passworda: "",
       warning: false,
       message: "",
-      userWarning:false,
-      mailWarning:false,
       passWarning:false,
       passaWarning:false
    }
@@ -25,30 +22,15 @@ class Register extends Component {
       if (this.props.auth.loginError !== nextProps.auth.loginError) {
          this.setState({warning: true})
       }
-      //Birden fazla componentWillReceiveProps cagirilmasin diye bu sekilde sarmalaniyor
-      if ((this.props.auth.status !== nextProps.auth.status)) {
-         if (nextProps.auth.status === false) {
-            //Yanlis girdi, mesaj bas
-            this.setState({warning: true, message: nextProps.auth.message})
-         } else {
-            //Dogru girildi, storela
-            this.setState({kullaniciId: nextProps.auth.returnObject.id})
-         }
-      }
    }
 
+   componentWillMount(){
+      this.setState({resetID:this.props.match.params.resetId})
+   }
 
-   register = (email, username, password) => {
-      this.setState({userWarning: false, mailWarning:false, passWarning:false, passaWarning:false})
-      if(!Validator.minLen(4,this.state.username)){
-         // uyarı ver
-         console.log('username uygun degil')
-         this.setState({userWarning: true})
-      }else if (!Validator.minMaxLen(5,50,this.state.email) || !Validator.isMail(this.state.email)){
-         // uyarı ver
-         console.log("email uygun değil")
-         this.setState({mailWarning: true})
-      }else if(!Validator.minLen(8,this.state.password)){
+   resetPassword = (resetID, password) => {
+      this.setState({passWarning:false, passaWarning:false})
+      if(!Validator.minLen(8,this.state.password)){
          // uyarı ver
          console.log('şifre 8 karakterden kısa')
          this.setState({passWarning: true})
@@ -62,7 +44,7 @@ class Register extends Component {
          this.setState({passWarning: true, passaWarning: true})
       }else{
          // herşey okey
-         this.props.register(this.state.username, this.state.email, this.state.password)
+         this.props.resetPassword(this.state.resetID, this.state.password)
       }
    }
 
@@ -81,20 +63,10 @@ class Register extends Component {
                   <div className="six columns">
                      <div className="row">
                         <div className="twelve columns">
-                           <h2 style={{color: '#29b573'}}>Register</h2>
+                           <h2 style={{color: '#29b573'}}>Reset Password</h2>
                         </div>
                      </div>
                      <div className="row">
-                       <div className="twelve columns">
-                        <label htmlFor="username">Username</label>
-                        <input className={classNames({'hata': this.state.userWarning})} type="text" placeholder="i.e. altuga" id="username" value={this.state.username}
-                               onChange={(e) => this.setState({username: e.target.value})}/>
-                        </div>
-                        <div className="twelve columns">
-                           <label htmlFor="email">Mail</label>
-                           <input className={classNames({'hata': this.state.mailWarning})} type="email" placeholder="i.e. altuga@kodcu.com" id="email" value={this.state.email}
-                                  onChange={(e) => this.setState({email: e.target.value})}/>
-                        </div>
                         <div className="twelve columns">
                            <label htmlFor="pass">Password</label>
                            <input className={classNames({'hata': this.state.passWarning})} type="password" placeholder="i.e. 123456" id="pass" value={this.state.password}
@@ -106,9 +78,9 @@ class Register extends Component {
                                onChange={(e) => this.setState({passworda: e.target.value})}/>
                         </div>
                      </div>
-                     <div className="row mbottom100">
+                     <div className="row">
                         <div className="six columns">
-                           <button className="button-primary" onClick={this.register}>Register</button>
+                           <button className="button-primary" onClick={this.resetPassword}>Reset</button>
                         </div>
                      </div>
                   </div>
@@ -130,5 +102,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
    return {...bindActionCreators(AuthActions, dispatch)}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register)
+export default connect(mapStateToProps, mapDispatchToProps)(PassReset)
 

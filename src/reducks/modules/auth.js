@@ -9,6 +9,9 @@ const LOGIN_FAIL = 'auth/LOGIN_FAIL';
 const REGISTER = 'auth/REGISTER';
 const REGISTER_SUCCESS = 'auth/REGISTER_SUCCESS';
 const REGISTER_FAIL = 'auth/REGISTER_FAIL';
+const RESETPASS = 'auth/REGISTER';
+const RESETPASS_SUCCESS = 'auth/REGISTER_SUCCESS';
+const RESETPASS_FAIL = 'auth/REGISTER_FAIL';
 const LOGOUT = 'auth/LOGOUT';
 const LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS';
 const LOGOUT_FAIL = 'auth/LOGOUT_FAIL';
@@ -83,6 +86,18 @@ export default function reducer(state = initialState, action = {}) {
             user: null,
             loginError: action.error
          };
+      case RESETPASS:
+         return {
+            ...state
+         };
+      case RESETPASS_SUCCESS:
+         return {
+            ...state
+         };
+      case RESETPASS_FAIL:
+         return {
+            ...state
+         };
       case LOGOUT:
          return {
             ...state,
@@ -102,20 +117,15 @@ export default function reducer(state = initialState, action = {}) {
          };
       case UPDATE:
          return {
-            ...state,
-            loggingOut: true
+            ...state
          };
       case UPDATE_SUCCESS:
          return {
-            ...state,
-            loggingOut: false,
-            user: null
+            ...state
          };
       case UPDATE_FAIL:
          return {
-            ...state,
-            loggingOut: false,
-            logoutError: action.error
+            ...state
          };
       default:
          return state;
@@ -155,12 +165,32 @@ export function register(email, name, password) {
    }
 }
 
-export function update(email, name, password, passwordAgain) {
+export function sendForgotMail(email) {
    return {
       types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
+      promise: (client) => client.post('http://localhost:8080/service/users/forgot', {
+         params: {"token": "auth"},
+         data: {email}
+      })
+   }
+}
+
+export function resetPassword(resetID, password) {
+   return {
+      types: [RESETPASS, RESETPASS_SUCCESS, RESETPASS_FAIL],
+      promise: (client) => client.post('http://localhost:8080/service/users/resetpass', {
+         params: {"token": "auth"},
+         data: {resetID, password}
+      })
+   }
+}
+
+export function update(fullname, email, name, password) {
+   return {
+      types: [UPDATE, UPDATE_SUCCESS, UPDATE_FAIL],
       promise: (client) => client.post('http://localhost:8080/service/users/update', {
          params: {"token": "auth"},
-         data: {email, name, password, passwordAgain}
+         data: {fullname, email, name, password}
       })
    }
 }

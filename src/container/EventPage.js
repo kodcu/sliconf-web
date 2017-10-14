@@ -39,7 +39,7 @@ class EventPage extends Component {
                   <div className="row">
                      <div className="twelve columns">
                         <h2 style={{color: '#29b573'}}>
-                           Welcome{this.props.user !== undefined ? ", " + this.props.user.name : "!"}</h2>
+                           Welcome{this.props.user !== undefined ? ", " + this.props.user : "!"}</h2>
                         <h4>Let's create your Event.</h4>
                      </div>
                   </div>
