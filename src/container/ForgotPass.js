@@ -3,7 +3,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as AuthActions from '../reducks/modules/auth'
 import classNames from 'classnames'
-import {Link} from 'react-router-dom';
 import Validator from '../helpers/Validator';
 
 class Login extends Component {
