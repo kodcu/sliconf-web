@@ -5,7 +5,7 @@ export default function reducer(state = {}, action = {}) {
       return {
          ...state,
          ...action.payload,
-         rehydrate: true
+         loaded: true
       };
    }
 
