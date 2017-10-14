@@ -5,6 +5,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Home from "./Home";
 import Events from "./Events";
+import Logout from "./Logout";
 import AddEvent from "./EventPage";
 import Settings from "./Settings";
 import AddEventSuccess from "./EventSuccess";
@@ -28,6 +29,7 @@ class App extends Component {
                   <Route path="/forgotpass" component={ForgotPass}/>
                   <Route path="/resetpass/:resetId" component={PassReset}/>
                   <Route path="/mailsuccess" component={MailSuccess}/>
+                  <Route path="/logout" component={Logout}/>
                   <PrivateRoute path="/events/:eventId/speakers" component={Speakers}/>
                   <PrivateRoute path="/events/:eventId/addspeaker" component={AddSpeaker}/>
                   <PrivateRoute path="/events" component={Events}/>

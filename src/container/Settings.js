@@ -95,7 +95,7 @@ class Settings extends Component {
                </div>
 
 
-               <div className="row mtop50">
+               <div className="row mtop50 mbottom100">
                   <div className="six columns">
                      <button className="button-primary" onClick={this.update}>Update</button>
                   </div>

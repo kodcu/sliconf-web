@@ -106,7 +106,7 @@ class Register extends Component {
                                onChange={(e) => this.setState({passworda: e.target.value})}/>
                         </div>
                      </div>
-                     <div className="row">
+                     <div className="row mbottom100">
                         <div className="six columns">
                            <button className="button-primary" onClick={this.register}>Register</button>
                         </div>

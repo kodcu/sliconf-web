@@ -39,7 +39,7 @@ class EventPage extends Component {
                   <div className="row">
                      <div className="twelve columns">
                         <h2 style={{color: '#29b573'}}>
-                           Welcome{this.props.user !== undefined ? ", " + this.props.user : "!"}</h2>
+                           Add Event</h2>
                         <h4>Let's create your Event.</h4>
                      </div>
                   </div>
@@ -59,7 +59,7 @@ class EventPage extends Component {
                         />
                      </div>
                   </div>
-                  <div className="row mtop50">
+                  <div className="row mtop50 mbottom100">
                      <div className="six columns">
                         <input className="button-primary" type="submit" defaultValue="next"
                                onClick={() => this.createEvent()}/>
