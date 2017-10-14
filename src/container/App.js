@@ -14,6 +14,9 @@ import PrivateRoute from "./PrivateRoute";
 import MasterPage from "./MasterPage";
 import Speakers from "./Speakers";
 import AddSpeaker from "./AddSpeaker";
+import PassReset from "./PassReset";
+import MailSuccess from "./MailSuccess";
+import Logout from "./Logout";
 
 class App extends Component {
    render() {
@@ -25,6 +28,9 @@ class App extends Component {
                      <Route path="/login" component={Login}/>
                      <Route path="/register" component={Register}/>
                      <Route path="/forgotpass" component={ForgotPass}/>
+                     <Route path="/resetpass/:resetId" component={PassReset}/>
+                     <Route path="/mailsuccess" component={MailSuccess}/>
+                     <Route path="/logout" component={Logout}/>
                      <PrivateRoute path="/events/:eventId/speakers" component={Speakers}/>
                      <PrivateRoute path="/events/:eventId/addspeaker" component={AddSpeaker}/>
                      <PrivateRoute path="/events" component={Events}/>
