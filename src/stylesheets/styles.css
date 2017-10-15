@@ -785,3 +785,61 @@ input.hata {
 .mbottom100{
     margin-bottom:100px;
 }
+
+.resim {
+    background-size: cover;
+    background-position: 50%;
+    width: 250px;
+    height: 250px;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    margin: 0 auto;
+    box-shadow: 0 3px 13px -5px rgba(0,0,0,0.3);
+    position:relative;
+    transition:0.3s background-image;
+}
+
+.resim:hover{
+    background-image:url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7) !important;
+}
+
+.resim:hover::before, .resim:hover::after{
+    background:#333;
+}
+
+.resimHolder{
+    border-radius: 50%;
+    background: #fefefe;
+    width: 250px;
+    height: 250px;
+    color: white;
+    margin: 0 auto;
+    box-shadow: 0 3px 13px -5px rgba(0,0,0,0.3);
+    position:relative;
+}
+
+.resim::before, .resimHolder::before{
+    content:'';
+    position:absolute;
+    left:120px;
+    width:10px;
+    top:50px;
+    height:150px;
+    background:#bbbbbb;
+    transition:0.3s background;
+}
+
+.resim::after, .resimHolder::after{
+    content:'';
+    position:absolute;
+    left:50px;
+    width:150px;
+    top:120px;
+    height:10px;
+    background:#bbbbbb;
+    transition:0.3s background;
+}
+
+.resim::before, .resim::after{
+    background:transparent;
+}

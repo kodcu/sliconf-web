@@ -10,12 +10,8 @@ import moment from 'moment';
 const ImageInfo = ({image,onCancel}) => {
    return (
       <div className="row">
-         <div className="two columns">
-            <img src={image.preview} width="100%" alt=""/>
-         </div>
-         <div className="six columns">
-            <p><strong>{image.name}</strong> (<small>{Math.ceil(image.size/1024)} kbs</small>)</p>
-            <p><button className="button-primary">Upload</button> <button className="button-primary" onClick={onCancel}>Cancel</button></p>
+         <div className="twelve columns">
+            <div className="resim" style={{backgroundImage:'url("'+image.preview+'")'}} width="100%" alt=""></div>
          </div>
       </div>
    )
@@ -31,7 +27,9 @@ class AddSpeaker extends React.Component {
       detail:'',
       startDate:moment().unix() * 1000,
       duration:'',
-      image:null
+      image:null,
+      linkedin:'',
+      twitter:'',
    }
 
    getSpeakerData = () => {
@@ -74,9 +72,9 @@ class AddSpeaker extends React.Component {
          return <Dropzone
             accept="image/jpeg, image/png"
             onDrop={this.onDropFiles}
+            style={{}}
+            className={"resimHolder"}
          >
-            <p><small>Try dropping speaker photo here, or click to select files to upload.</small></p>
-            <p><small>Only *.jpeg and *.png images will be accepted</small></p>
          </Dropzone>
       }
    }
@@ -88,11 +86,6 @@ class AddSpeaker extends React.Component {
                <div className="twelve columns">
                   <PageHead title="Add Speaker"/>
                   <div className="row">
-                     <div className="twelve columns">
-                        {this.imageUploadView()}
-                     </div>
-                  </div>
-                  <div className="row">
                      <div className="six columns">
                         <div className="row">
                            <div className="twelve columns">
@@ -102,7 +95,7 @@ class AddSpeaker extends React.Component {
                         </div>
                         <div className="row">
                            <div className="twelve columns">
-                              <label htmlFor="username">Title</label>
+                              <label htmlFor="username">Works At</label>
                               <input className="u-full-width" type="text" placeholder="i.e. microservices" value={this.state.title} onChange={this.changeValue('title')} />
                            </div>
                         </div>
@@ -112,8 +105,24 @@ class AddSpeaker extends React.Component {
                               <textarea style={{minHeight: 110}} className="u-full-width" value={this.state.detail} onChange={this.changeValue('detail')} />
                            </div>
                         </div>
+                        <div className="row">
+                           <div className="six columns">
+                              <label htmlFor="pass">linkedin</label>
+                              <input type="text" className="u-full-width" value={this.state.linkedin} onChange={this.changeValue('linkedin')} />
+                           </div>
+                           <div className="six columns">
+                              <label htmlFor="pass">twitter</label>
+                              <input type="text" className="u-full-width" value={this.state.twitter} onChange={this.changeValue('twitter')} />
+                           </div>
+                        </div>
                      </div>
                      <div className="six columns">
+                        <div className="row">
+                           <div className="twelve columns">
+                              {this.imageUploadView()}
+                           </div>
+                        </div>
+                        {/*
                         <div className="row">
                            <div className="six columns">
                               <label htmlFor="exampleRecipientInput">Level</label>
@@ -147,12 +156,14 @@ class AddSpeaker extends React.Component {
                               />
                            </div>
                         </div>
+
                         <div className="row">
                            <div className="six columns">
                               <label>Duration(<small>minutes</small>)</label>
                               <input type="number" className="u-full-width" value={this.state.duration} onChange={this.changeValue('duration')} placeholder="i.e. 50"/>
                            </div>
                         </div>
+                        */}
                      </div>
                   </div>
                   <div className="row mtop50">
