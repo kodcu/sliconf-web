@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
+import {bindActionCreators} from 'redux';
+import * as EventActions from '../reducks/modules/event'
+import {connect} from 'react-redux';
 
 class EventSuccess extends Component {
-
-   state = {
-      event_name: "",
-      event_time: ""
-   }
 
    render() {
       return (
@@ -22,7 +20,7 @@ class EventSuccess extends Component {
                      <div className="row mtop50">
                         <div className="six columns">
                            <p>You can use this code to search your event.</p>
-                           <h2 className="code">K512</h2>
+                           <h2 className="code">{this.props.event.creation.id}</h2>
                         </div>
                      </div>
 
@@ -40,6 +38,15 @@ class EventSuccess extends Component {
       );
    }
 }
+const mapStateToProps = (state, ownProps) => {
+   return {
+      event: state.event,
+      user: state.auth.user,
+   }
+}
 
+const mapDispatchToProps = (dispatch, ownProps) => {
+   return {...bindActionCreators(EventActions, dispatch)}
+}
 
-export default EventSuccess
+export default connect(mapStateToProps, mapDispatchToProps)(EventSuccess)

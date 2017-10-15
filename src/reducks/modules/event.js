@@ -1,4 +1,5 @@
 import events from "../../mock/events";
+import eventCreated from "../../mock/createevent";
 
 const FETCH_EVENT = 'event/FETCH_EVENT';
 const FETCH_EVENT_SUCCESS = 'event/FETCH_EVENT_SUCCESS';
@@ -7,6 +8,10 @@ const FETCH_EVENT_FAIL = 'event/FETCH_EVENT_FAIL';
 const ADD_SPEAKER = 'event/SAVE_SPEAKER';
 const ADD_SPEAKER_SUCCESS = 'event/SAVE_SPEAKER_SUCCESS';
 const ADD_SPEAKER_FAIL = 'event/SAVE_SPEAKER_FAIL';
+
+const ADD_EVENT = 'event/ADD_EVENT';
+const ADD_EVENT_SUCCESS = 'event/ADD_EVENT_SUCCESS';
+const ADD_EVENT_FAIL = 'event/ADD_EVENT_FAIL';
 
 const FETCH_EVENTS = 'event/FETCH_EVENTS';
 const FETCH_EVENTS_SUCCESS = 'event/FETCH_EVENTS_SUCCESS';
@@ -77,6 +82,25 @@ export default function reducer(state = initialState, action = {}) {
             loading: false,
             error: action.error
          };
+      // add event to system
+      case ADD_EVENT:
+         return {
+            ...state,
+            loading: true
+         };
+      case ADD_EVENT_SUCCESS:
+         return {
+            ...state,
+            creation: action.result.returnObject,
+            loading: false,
+            error: null
+         };
+      case ADD_EVENT_FAIL:
+         return {
+            ...state,
+            loading: false,
+            error: action.error
+         };
       default:
          return state;
    }
@@ -86,6 +110,16 @@ export function fetchEvent(userId) {
    return {
       types: [FETCH_EVENT, FETCH_EVENT_SUCCESS, FETCH_EVENT_FAIL],
       promise: (client) => client.post('http://localhost:8080/service/events/get/with-key/'+userId)
+   }
+}
+
+export function createEvent(userId, name, date) {
+   return {
+      types: [ADD_EVENT, ADD_EVENT_SUCCESS, ADD_EVENT_FAIL],
+      mock: eventCreated,
+      //promise: (client) => client.post('http://localhost:8080/service/events/create/with-key/'+userId,{
+      //   data: {userId, name, date}
+      //})
    }
 }
 

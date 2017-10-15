@@ -1,34 +1,48 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import DatePicker from 'react-datepicker';
+import {bindActionCreators} from 'redux';
+import * as EventActions from '../reducks/modules/event'
 import moment from 'moment';
 
 class EventPage extends Component {
 
+   componentWillReceiveProps(nextProps) {
+      if (this.props.event.error !== nextProps.event.error) {
+         this.setState({warning: true})
+      }
+
+      //Birden fazla componentWillReceiveProps cagirilmasin diye bu sekilde sarmalaniyor
+      if ((this.props.event !== nextProps.event)) {
+         if (nextProps.event.status === false) {
+            //Yanlis girdi, mesaj bas
+            this.setState({warning: true, message: nextProps.event.message})
+         } else {
+            //Dogru girildi, storela
+            console.log("Event name : " + this.state.event_name)
+            console.log("Event time : " + this.state.event_time)
+            console.log("Event code : " + this.props.event.id)
+            this.props.history.push('/addeventsuccess')
+         }
+      }
+   }
+
    constructor(props) {
       super(props)
       this.state = {
-         startDate: moment()
+         event_name: "",
+         event_time:moment().unix() * 1000
       };
-      this.handleChange = this.handleChange.bind(this);
    }
 
-   handleChange(date) {
-      this.setState({
-         startDate: date
-      });
+   changeDateValue = (name) => {
+      return (date) => {
+         this.setState({[name]:moment(date).unix() * 1000})
+      }
    }
 
-   createEvent() {
-      console.log("Event name : " + this.state.event_name)
-      console.log("Event time : " + this.state.startDate)
-      //TODO send event_name & time as props
-      this.props.history.push('/addeventsuccess')
-   }
-
-   state = {
-      event_name: "",
-      event_time: ""
+   createEvent = () => {
+      this.props.createEvent(this.props.user.id,this.state.event_name, this.state.event_time)
    }
 
    render() {
@@ -38,8 +52,7 @@ class EventPage extends Component {
                <div className="twelve columns">
                   <div className="row">
                      <div className="twelve columns">
-                        <h2 style={{color: '#29b573'}}>
-                           Welcome{this.props.user !== undefined ? ", " + this.props.user : "!"}</h2>
+                        <h2 style={{color: '#29b573'}}>Add Event</h2>
                         <h4>Let's create your Event.</h4>
                      </div>
                   </div>
@@ -54,15 +67,15 @@ class EventPage extends Component {
                      <div className="six columns">
                         <label htmlFor="date">Event date</label>
                         <DatePicker
-                           selected={this.state.startDate}
-                           onChange={this.handleChange}
+                           className="u-full-width"
+                           selected={moment(this.state.event_time)}
+                           onChange={this.changeDateValue('event_time')}
                         />
                      </div>
                   </div>
-                  <div className="row mtop50">
+                  <div className="row mtop50 mbottom100">
                      <div className="six columns">
-                        <input className="button-primary" type="submit" defaultValue="next"
-                               onClick={() => this.createEvent()}/>
+                        <button className="button-primary" onClick={this.createEvent}>next</button>
                      </div>
                   </div>
                </div>
@@ -75,13 +88,13 @@ class EventPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
    return {
+      event: state.event.creation,
       user: state.auth.user,
-      loggingIn: state.auth.loggingIn
    }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return {}
+   return {...bindActionCreators(EventActions, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventPage)
