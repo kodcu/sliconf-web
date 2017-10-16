@@ -148,7 +148,7 @@ export function login(name, password) {
    return {
       types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
       mock: loginMock
-      /*promise: (client) => client.post('http://localhost:8080/service/users/login', {
+      /*promise: (client) => client.post('/users/login', {
          params: {"token":"auth"},
          data: {name, password}
       })*/
@@ -158,7 +158,7 @@ export function login(name, password) {
 export function register(email, name, password) {
    return {
       types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
-      promise: (client) => client.post('http://localhost:8080/service/users/register', {
+      promise: (client) => client.post('/users/register', {
          params: {"token": "auth"},
          data: {email, name, password}
       })
@@ -168,7 +168,7 @@ export function register(email, name, password) {
 export function sendForgotMail(email) {
    return {
       types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
-      promise: (client) => client.post('http://localhost:8080/service/users/forgot', {
+      promise: (client) => client.post('/users/forgot', {
          params: {"token": "auth"},
          data: {email}
       })
@@ -178,7 +178,7 @@ export function sendForgotMail(email) {
 export function resetPassword(resetID, password) {
    return {
       types: [RESETPASS, RESETPASS_SUCCESS, RESETPASS_FAIL],
-      promise: (client) => client.post('http://localhost:8080/service/users/resetpass', {
+      promise: (client) => client.post('/users/resetpass', {
          params: {"token": "auth"},
          data: {resetID, password}
       })
@@ -188,7 +188,7 @@ export function resetPassword(resetID, password) {
 export function update(fullname, email, name, password) {
    return {
       types: [UPDATE, UPDATE_SUCCESS, UPDATE_FAIL],
-      promise: (client) => client.post('http://localhost:8080/service/users/update', {
+      promise: (client) => client.post('/users/update', {
          params: {"token": "auth"},
          data: {fullname, email, name, password}
       })

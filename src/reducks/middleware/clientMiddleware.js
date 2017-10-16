@@ -1,3 +1,5 @@
+import ApiClient from "../../helpers/ApiClient";
+
 export default function clientMiddleware(client) {
    return ({dispatch, getState}) => {
       return next => action => {
@@ -25,6 +27,9 @@ export default function clientMiddleware(client) {
          // auto loading-success-failure management
          const [REQUEST, SUCCESS, FAILURE] = types;
          next({...rest, type: REQUEST});
+
+         // TODO getState().auth.token olacak
+         client.token = 'token123';
 
          const actionPromise = promise(client);
          actionPromise.then(

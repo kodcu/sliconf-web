@@ -4,6 +4,7 @@ import {combineReducers} from "redux"
 import rehydrate from "./rehydrate"
 import auth from "./auth"
 import event from "./event"
+import image from "./image"
 import speaker from "./speaker"
 
 export default combineReducers({
@@ -11,5 +12,6 @@ export default combineReducers({
    rehydrate,
    auth,
    event,
+   image,
    speaker
 });

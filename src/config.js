@@ -10,9 +10,8 @@ const environment = {
 module.exports = Object.assign({
   host: process.env.HOST || 'localhost',
   port: process.env.PORT,
-  apiHost: process.env.APIHOST || 'localhost',
-  apiPort: process.env.APIPORT,
+  apiHost: process.env.APIHOST || 'http://localhost:8080/service',
   app: {
-    title: 'Slicon'
+    title: 'Sliconf'
   }
 }, environment);

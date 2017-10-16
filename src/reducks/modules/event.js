@@ -109,7 +109,7 @@ export default function reducer(state = initialState, action = {}) {
 export function fetchEvent(userId) {
    return {
       types: [FETCH_EVENT, FETCH_EVENT_SUCCESS, FETCH_EVENT_FAIL],
-      promise: (client) => client.post('http://localhost:8080/service/events/get/with-key/'+userId)
+      promise: (client) => client.post('/events/get/with-key/'+userId)
    }
 }
 
@@ -117,7 +117,7 @@ export function createEvent(userId, name, date) {
    return {
       types: [ADD_EVENT, ADD_EVENT_SUCCESS, ADD_EVENT_FAIL],
       mock: eventCreated,
-      //promise: (client) => client.post('http://localhost:8080/service/events/create/with-key/'+userId,{
+      //promise: (client) => client.post('/events/create/with-key/'+userId,{
       //   data: {userId, name, date}
       //})
    }
@@ -126,7 +126,7 @@ export function createEvent(userId, name, date) {
 export function addSpeaker(eventId,speaker) {
    return {
       types: [ADD_SPEAKER, ADD_SPEAKER_SUCCESS, ADD_SPEAKER_FAIL],
-      promise: (client) => client.post('http://localhost:8080/service/events/'+eventId,{
+      promise: (client) => client.post('/events/'+eventId,{
          data: speaker
       })
    }
@@ -136,6 +136,6 @@ export function fetchEvents(userId) {
    return {
       types: [FETCH_EVENTS, FETCH_EVENTS_SUCCESS, FETCH_EVENTS_FAIL],
       mock: events,
-      //promise: (client) => client.post('http://localhost:8080/service/events/list/'+userId)
+      //promise: (client) => client.post('/events/list/'+userId)
    }
 }
