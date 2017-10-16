@@ -1,26 +1,26 @@
 import React from 'react';
 
-const ListItem = ({speaker}) => {
+const ListItem = ({talk}) => {
    return (
       <tr>
          <td><div className="image rounded mini" style={{backgroundImage: 'url(http://www.maxfm.com.tr/files/artists/rick-astley/images/ricast1006.jpg)'}}/></td>
-         <td>{speaker.name}</td>
-         <td>{speaker.workingat}</td>
+         <td>{talk.name}</td>
+         <td>{talk.workingat}</td>
          <td><a href="" className="button">Linkedin</a> <a href="" className="button">Twitter</a> <a href="" className="button">About</a></td>
       </tr>
    )
 }
 
-const SpeakersNotAvailable = () => {
+const talksNotAvailable = () => {
    return (
       <tr>
-         <td colSpan="2">No speakers to be listed!</td>
+         <td colSpan="2">No talks to be listed!</td>
       </tr>
    )
 }
 
 
-class SpeakerList extends React.Component {
+class TalkList extends React.Component {
 
    render() {
       return (
@@ -37,9 +37,9 @@ class SpeakerList extends React.Component {
                      </tr>
                      </thead>
                      <tbody>
-                     {(this.props.speakers && this.props.speakers.length) ? null : <SpeakersNotAvailable/> }
-                     {this.props.speakers ? this.props.speakers.map((speaker)=>{
-                        return <ListItem key={speaker.id} speaker={speaker}/>
+                     {(this.props.talks && this.props.talks.length) ? null : <talksNotAvailable/> }
+                     {this.props.talks ? this.props.talks.map((talk)=>{
+                        return <ListItem key={talk.id} talk={talk}/>
                      }) : null}
                      </tbody>
                   </table>
@@ -51,4 +51,4 @@ class SpeakerList extends React.Component {
    }
 }
 
-export default SpeakerList
+export default TalkList

@@ -21,7 +21,7 @@ class Events extends Component {
                <div className="twelve columns">
                   <PageHead title="Events"/>
                   <Loading row="3" loading={this.props.event.loading}>
-                        <EventList title="Upcoming Events" events={this.props.event.events}/>
+                        <EventList title="Upcoming Events" events={this.props.event.events} {...this.props}/>
                         <EventList title="Finished Events" />
                   </Loading>
                   <div className="row mtop25 mbottom100">

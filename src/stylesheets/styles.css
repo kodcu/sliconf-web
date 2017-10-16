@@ -692,7 +692,7 @@ input[type="url"]:focus,
 input[type="password"]:focus,
 textarea:focus,
 select:focus {
-    padding-left: 10px;
+    padding-left: 0px;
     border-color: white;
     border-bottom-color: #29b573;
 }
@@ -906,4 +906,88 @@ input.hata {
 
 .navbar-item.active a{
     color: #29b573;
+}
+
+
+
+.eventimage {
+    width: 48px;
+    height: 48px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.button-red, .button-red:hover{
+    background: #F44336;
+    border-color: #F44336;
+    color: white;
+}
+
+
+.noproblem, .problem{
+    width:32px;
+    height:32px;
+    display:inline-block;
+    background:url("../img/check.png");
+}
+
+.problem{
+    background:url("../img/warning.png");
+}
+
+.remove {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-left: 10px;
+    background:url("../img/x.png");
+}
+
+.room {
+    border-radius: 5px;
+    padding: 10px;
+    display: inline-block;
+    margin: 12px 12px 0 0;
+    float:left;
+    font-weight:500;
+}
+
+.sponsor, .addSponsor{
+    width:220px;
+    height:220px;
+    background-size:contain;
+    background-position:50%;
+    float: left;
+    margin: 26px 26px 0 0 ;
+    border-radius:5px;
+}
+@media screen and (min-width: 1215px) {
+    .sponsor:nth-child(4n), .addSponsor:nth-child(4n){
+        margin-right:0px;
+    }
+
+}
+
+.addSponsor {
+    border-radius: 50%;
+    background: #eaeaea;
+    font-size: 250px;
+    line-height: 200px;
+    text-align: center;
+    color: #333;
+}
+
+li.react-datepicker__time-list-item {
+    width: 100px;
+    margin: 0;
+}
+
+ul.react-datepicker__time-list {
+    overflow-x: hidden;
+}
+
+.react-datepicker-wrapper, .react-datepicker__input-container{
+    width:100%;
 }

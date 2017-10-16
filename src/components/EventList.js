@@ -1,22 +1,12 @@
 import React from 'react';
 
-const ListItem = ({event}) => {
-   return (
-      <tr>
-         <td><img src={event.logo} alt="" style={{height:'3em'}}/></td>
-         <td>{event.name}</td>
-         <td>{event.date.toString()}</td>
-      </tr>
-   )
-}
-
 const EventsNotAvailable = () => {
    return (
       <tr>
          <td colSpan="2">No events to be listed!</td>
       </tr>
    )
-}
+};
 
 class EventList extends React.Component {
 
@@ -37,12 +27,20 @@ class EventList extends React.Component {
                            <th>Logo</th>
                            <th>Title</th>
                            <th>Date</th>
+                           <th>Status</th>
+                           <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         {(this.props.events && this.props.events.length) ? null : <EventsNotAvailable/> }
                         {this.props.events ? this.props.events.map((event)=>{
-                           return <ListItem key={event.id} event={event}/>
+                           return <tr key={event.id}>
+                              <td><div className='eventimage' style={{backgroundImage:'url('+event.logo+')'}}/></td>
+                              <td>{event.name}</td>
+                              <td>{event.date.toString()}</td>
+                              <td>{(event.status==='active') ? <div className="noproblem"></div> : <div className="problem"></div> }</td>
+                              <td><button  onClick={() => this.props.history.push('/events/'+event.id+'/edit')}>Edit</button></td>
+                           </tr>
                         }) : null}
                         </tbody>
                      </table>

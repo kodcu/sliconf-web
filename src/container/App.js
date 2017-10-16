@@ -14,7 +14,9 @@ import {history} from '../reducks'
 import PrivateRoute from "./PrivateRoute";
 import MasterPage from "./MasterPage";
 import Speakers from "./Speakers";
+import Talks from "./Talks";
 import AddSpeaker from "./AddSpeaker";
+import AddTalk from "./AddTalk";
 import PassReset from "./PassReset";
 import MailSuccess from "./MailSuccess";
 import Logout from "./Logout";
@@ -33,7 +35,9 @@ class App extends Component {
                      <Route path="/mailsuccess" component={MailSuccess}/>
                      <Route path="/logout" component={Logout}/>
                      <PrivateRoute path="/events/:eventId/speakers" component={Speakers}/>
+                     <PrivateRoute path="/events/:eventId/talks" component={Talks}/>
                      <PrivateRoute path="/events/:eventId/addspeaker" component={AddSpeaker}/>
+                     <PrivateRoute path="/events/:eventId/addtalk" component={AddTalk}/>
                      <PrivateRoute path="/events/:eventId/edit" component={EditEvent}/>
                      <PrivateRoute path="/events" component={Events}/>
                      <PrivateRoute path="/addeventsuccess" component={AddEventSuccess}/>
