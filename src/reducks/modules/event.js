@@ -1,4 +1,5 @@
 import events from "../../mock/events";
+import eventfetch from "../../mock/fetchevent";
 import eventCreated from "../../mock/createevent";
 
 const FETCH_EVENT = 'event/FETCH_EVENT';
@@ -35,7 +36,7 @@ export default function reducer(state = initialState, action = {}) {
          return {
             ...state,
             loading: false,
-            event: action.result,
+            event: action.result.returnObject,
             error: null
          };
       case FETCH_EVENT_FAIL:
@@ -109,7 +110,8 @@ export default function reducer(state = initialState, action = {}) {
 export function fetchEvent(userId) {
    return {
       types: [FETCH_EVENT, FETCH_EVENT_SUCCESS, FETCH_EVENT_FAIL],
-      promise: (client) => client.post('/events/get/with-key/'+userId)
+      mock: eventfetch,
+      //promise: (client) => client.post('/events/get/with-key/'+userId)
    }
 }
 

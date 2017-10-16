@@ -175,12 +175,13 @@ export function sendForgotMail(email) {
    }
 }
 
-export function resetPassword(resetID, password) {
+export function resetPassword(token, password) {
+   console.log(token, password)
    return {
       types: [RESETPASS, RESETPASS_SUCCESS, RESETPASS_FAIL],
       promise: (client) => client.post('/users/resetpass', {
          params: {"token": "auth"},
-         data: {resetID, password}
+         data: {token, password}
       })
    }
 }

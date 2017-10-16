@@ -8,7 +8,7 @@ import Validator from '../helpers/Validator';
 class PassReset extends Component {
 
    state = {
-      resetID:this.props.match.resetId,
+      token:this.props.match.token,
       password: "",
       passworda: "",
       warning: false,
@@ -25,10 +25,10 @@ class PassReset extends Component {
    }
 
    componentWillMount(){
-      this.setState({resetID:this.props.match.params.resetId})
+      this.setState({token:this.props.match.params.token})
    }
 
-   resetPassword = (resetID, password) => {
+   resetPassword = (token, password) => {
       this.setState({passWarning:false, passaWarning:false})
       if(!Validator.minLen(8,this.state.password)){
          // uyarı ver
@@ -44,7 +44,7 @@ class PassReset extends Component {
          this.setState({passWarning: true, passaWarning: true})
       }else{
          // herşey okey
-         this.props.resetPassword(this.state.resetID, this.state.password)
+         this.props.resetPassword(this.state.token, this.state.password)
       }
    }
 

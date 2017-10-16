@@ -20,14 +20,14 @@ class EventSuccess extends Component {
                      <div className="row mtop50">
                         <div className="six columns">
                            <p>You can use this code to search your event.</p>
-                           <h2 className="code">{this.props.event.creation.id}</h2>
+                           <h2 className="code">{this.props.event.creation.key}</h2>
                         </div>
                      </div>
 
 
                      <div className="row mtop100">
                         <div className="six columns">
-                           <button className="button button-primary" onClick={() => this.props.history.push('/events')}>Next</button>
+                           <button className="button button-primary" onClick={() => this.props.history.push('/events/'+this.props.event.creation.key+'/edit')}>Next</button>
                         </div>
                      </div>
 

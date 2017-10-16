@@ -86,7 +86,7 @@ class AddSpeaker extends React.Component {
                            <div className="twelve columns">
                               <label htmlFor="username">Works At</label>
                               <input className="u-full-width" type="text" placeholder="i.e. microservices"
-                                     value={this.state.title} onChange={this.changeValue('title')}/>
+                                     value={this.state.workingAt} onChange={this.changeValue('workingAt')}/>
                            </div>
                         </div>
                         <div className="row">
@@ -116,7 +116,7 @@ class AddSpeaker extends React.Component {
                                  accept="image/jpeg, image/png"
                                  onDrop={this.onDropFiles}
                                  style={{}}
-                                 className={"resimHolder"}
+                                 className={classNames('resimHolder', {'active':this.state.imageId})}
                               >
                                  {this.state.imageId ? <div className="row">
                                     <div className="twelve columns">

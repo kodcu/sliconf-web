@@ -21,7 +21,7 @@ class EventPage extends Component {
             //Dogru girildi, storela
             console.log("Event name : " + this.state.event_name)
             console.log("Event time : " + this.state.event_time)
-            console.log("Event code : " + this.props.event.id)
+            console.log("Event code : " + this.props.event.key)
             this.props.history.push('/addeventsuccess')
          }
       }

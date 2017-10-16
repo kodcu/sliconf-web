@@ -786,6 +786,8 @@ input.hata {
     margin-bottom:100px;
 }
 
+
+/* RESIM YUKLEME ILE ILGILI */
 .resim {
     background-size: cover;
     background-position: 50%;
@@ -799,12 +801,8 @@ input.hata {
     transition:0.3s background-image;
 }
 
-.resim:hover{
-    background-image:url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7) !important;
-}
-
-.resim:hover::before, .resim:hover::after{
-    background:#333;
+.resimHolder:hover .resim::before, .resimHolder:hover .resim::after{
+    background:#bbb;
 }
 
 .resimHolder{
@@ -816,6 +814,11 @@ input.hata {
     margin: 0 auto;
     box-shadow: 0 3px 13px -5px rgba(0,0,0,0.3);
     position:relative;
+    border-radius:50%;
+}
+
+.resimHolder.active::before, .resimHolder.active::after{
+    display:none;
 }
 
 .resim::before, .resimHolder::before{
@@ -827,6 +830,8 @@ input.hata {
     height:150px;
     background:#bbbbbb;
     transition:0.3s background;
+    z-index: 3;
+    border-radius: 10px;
 }
 
 .resim::after, .resimHolder::after{
@@ -838,8 +843,67 @@ input.hata {
     height:10px;
     background:#bbbbbb;
     transition:0.3s background;
+    z-index: 3;
+    border-radius: 10px;
 }
 
 .resim::before, .resim::after{
     background:transparent;
+}
+
+.resimHolder.active::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    border-radius: 50%;
+    z-index: 3;
+    background: transparent;
+}
+
+.resimHolder.active:hover::before{
+    background: rgba(0,0,0,0.6);
+}
+
+
+/*  */
+.button-primary {
+    transition:0.3s background-color, 0.3s border-color;
+}
+
+.button-primary.disabled {
+    background-color: darkgray !important;
+    border-color: darkgray !important;
+    box-shadow: 0px 0px 21px -7px darkgray !important;
+}
+
+.tabs{
+    border: 1px solid darkgray;
+    border-left: 0;
+    border-right: 0;
+}
+
+.tab{
+    clear:both;
+    display:none;
+}
+
+.tab.active{
+    display:block;
+}
+
+.clickable{
+    cursor:pointer;
+}
+
+.navbar-item a{
+    display:inline-block;
+    width:100%;
+    height:100%;
+}
+
+.navbar-item.active a{
+    color: #29b573;
 }
