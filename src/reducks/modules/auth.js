@@ -147,11 +147,9 @@ export function load() {
 export function login(name, password) {
    return {
       types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-      mock: loginMock
-      /*promise: (client) => client.post('/users/login', {
-         params: {"token":"auth"},
+      promise: (client) => client.post('/users/login', {
          data: {name, password}
-      })*/
+      })
    }
 }
 
@@ -159,7 +157,6 @@ export function register(email, name, password) {
    return {
       types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
       promise: (client) => client.post('/users/register', {
-         params: {"token": "auth"},
          data: {email, name, password}
       })
    }

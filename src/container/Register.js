@@ -17,7 +17,8 @@ class Register extends Component {
       userWarning:false,
       mailWarning:false,
       passWarning:false,
-      passaWarning:false
+      passaWarning:false,
+      kullaniciId:'',
    }
 
 
@@ -32,7 +33,8 @@ class Register extends Component {
             this.setState({warning: true, message: nextProps.auth.message})
          } else {
             //Dogru girildi, storela
-            this.setState({kullaniciId: nextProps.auth.returnObject.id})
+            this.setState({kullaniciId: nextProps.auth.user.id})
+
          }
       }
    }
@@ -62,7 +64,7 @@ class Register extends Component {
          this.setState({passWarning: true, passaWarning: true})
       }else{
          // herşey okey
-         this.props.register(this.state.username, this.state.email, this.state.password)
+         this.props.register(this.state.email, this.state.username, this.state.password)
       }
    }
 

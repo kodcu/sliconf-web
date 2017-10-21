@@ -42,7 +42,9 @@ class EventPage extends Component {
    }
 
    createEvent = () => {
-      this.props.createEvent(this.props.user.id,this.state.event_name, this.state.event_time)
+      var t = moment( this.state.event_time );
+      var formatted = t.format("YYYY-MM-DDTHH:mm:ss.000");
+      this.props.createEvent(this.props.user.id,this.state.event_name, formatted)
    }
 
    render() {
@@ -57,14 +59,14 @@ class EventPage extends Component {
                      </div>
                   </div>
                   <div className="row mtop50">
-                     <div className="six columns">
+                     <div className="three columns">
                         <label htmlFor="name">Event Name</label>
-                        <input type="text" placeholder="i.e. Javaday" id="name" value={this.state.event_name}
+                        <input className={"u-full-width"} type="text" placeholder="i.e. Javaday" id="name" value={this.state.event_name}
                                onChange={(e) => this.setState({event_name: e.target.value})}/>
                      </div>
                   </div>
                   <div className="row mtop25">
-                     <div className="six columns">
+                     <div className="three columns">
                         <label htmlFor="date">Event date</label>
                         <DatePicker
                            className="u-full-width"
@@ -88,7 +90,7 @@ class EventPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
    return {
-      event: state.event.creation,
+      event: state.event,
       user: state.auth.user,
    }
 }

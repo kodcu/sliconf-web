@@ -7,7 +7,7 @@ function formatUrl(path) {
    const adjustedPath = path[0] !== '/' ? '/' + path : path;
 
    if (process.env.NODE_ENV === "development") {
-      return 'http://localhost:8080/service' + adjustedPath;
+      return 'http://sliconf.com:8090/service' + adjustedPath;
    }
    return '/service' + adjustedPath;
 }
@@ -28,13 +28,16 @@ export default class ApiClient {
             const request = superagent[method](formatUrl(path));
 
             request.set("Content-Type", "application/json")
+            /*
             if(this.token){
                request.set('token',this.token);
             }
-
+            */
             if (params) {
                request.query(params);
             }
+
+            console.log(data)
             if (data) {
                request.send(JSON.stringify(data));
             }

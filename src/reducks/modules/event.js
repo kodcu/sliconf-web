@@ -56,7 +56,8 @@ export default function reducer(state = initialState, action = {}) {
          return {
             ...state,
             loading: false,
-            events: action.result
+            active: action.result.returnObject.active,
+            passive: action.result.returnObject.passive,
          };
       case FETCH_EVENTS_FAIL:
          return {
@@ -118,10 +119,9 @@ export function fetchEvent(userId) {
 export function createEvent(userId, name, date) {
    return {
       types: [ADD_EVENT, ADD_EVENT_SUCCESS, ADD_EVENT_FAIL],
-      mock: eventCreated,
-      //promise: (client) => client.post('/events/create/with-key/'+userId,{
-      //   data: {userId, name, date}
-      //})
+      promise: (client) => client.post('/events/create/'+userId,{
+         data: {userId, name, date}
+      })
    }
 }
 
@@ -137,7 +137,6 @@ export function addSpeaker(eventId,speaker) {
 export function fetchEvents(userId) {
    return {
       types: [FETCH_EVENTS, FETCH_EVENTS_SUCCESS, FETCH_EVENTS_FAIL],
-      mock: events,
-      //promise: (client) => client.post('/events/list/'+userId)
+      promise: (client) => client.get('/events/list/'+userId)
    }
 }

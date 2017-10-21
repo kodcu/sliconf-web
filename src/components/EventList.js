@@ -3,7 +3,7 @@ import React from 'react';
 const EventsNotAvailable = () => {
    return (
       <tr>
-         <td colSpan="2">No events to be listed!</td>
+         <td colSpan="6">No events to be listed!</td>
       </tr>
    )
 };
@@ -26,6 +26,7 @@ class EventList extends React.Component {
                         <tr>
                            <th>Logo</th>
                            <th>Title</th>
+                           <th>Key</th>
                            <th>Date</th>
                            <th>Status</th>
                            <th>Actions</th>
@@ -37,8 +38,9 @@ class EventList extends React.Component {
                            return <tr key={event.id}>
                               <td><div className='eventimage' style={{backgroundImage:'url('+event.logo+')'}}/></td>
                               <td>{event.name}</td>
-                              <td>{event.date.toString()}</td>
-                              <td>{(event.status==='active') ? <div className="noproblem"></div> : <div className="problem"></div> }</td>
+                              <td>{event.key}</td>
+                              <td>{event.date.date.day.toString()+"."+event.date.date.month.toString()+"."+event.date.date.year.toString()}</td>
+                              <td>{(event.name==='active') ? <div className="noproblem"></div> : <div className="problem"></div> }</td>
                               <td><button  onClick={() => this.props.history.push('/events/'+event.id+'/edit')}>Edit</button></td>
                            </tr>
                         }) : null}
