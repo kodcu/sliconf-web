@@ -3,11 +3,12 @@ import Dropzone from 'react-dropzone'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as SpeakerActions from '../reducks/modules/event'
-import * as ImageActions from '../reducks/modules/image'
 import PageHead from "../components/PageHead";
 import moment from 'moment';
 import classNames from 'classnames';
 import randomColor from 'random-color'
+
+import ImageUpload from '../components/ImageUpload'
 
 class EditEvent extends React.Component {
 
@@ -43,13 +44,6 @@ class EditEvent extends React.Component {
    }
 
    componentWillReceiveProps(nextProps) {
-      if (nextProps.image.id && this.props.image.id !== nextProps.image.id) {
-         this.setState({imageId: nextProps.image.id})
-      }
-
-      if (nextProps.floorimage.id && this.props.floorimage.id !== nextProps.floorimage.id) {
-         this.setState({floorimageId: nextProps.floorimage.id})
-      }
       if (nextProps.speaker && this.props.speaker !== nextProps.speaker) {
          setTimeout(()=>{
             // yüklendi bildirimi çıkarılabilir
@@ -86,6 +80,13 @@ class EditEvent extends React.Component {
       return {backgroundImage: 'url("http://i.pravatar.cc/150?img=' + rand + '")'}
    }
 
+   onEventImageLoaded = (imageId) => {
+      this.setState({imageId})
+   }
+
+   onFloorImageLoaded = (imageId) => {
+      this.setState({floorimageId:imageId})
+   }
 
    onDropFiles = (acceptedFiles, rejectedFiles) => {
       if (acceptedFiles.length) {
@@ -145,19 +146,16 @@ class EditEvent extends React.Component {
                         <div className="six columns mtop50">
                            <div className="row">
                               <div className="twelve columns">
-                                 <Dropzone
-                                    accept="image/jpeg, image/png"
-                                    onDrop={this.onDropFiles}
-                                    style={{}}
-                                    className={classNames('resimHolder', {'active':this.state.imageId})}
-                                 >
-                                    {this.state.imageId ? <div className="row">
-                                       <div className="twelve columns">
-                                          {/* img url mocktur */}
-                                          <div className="resim" style={{backgroundImage: 'url("http://i.pravatar.cc/150?img=' + this.state.imageId + '")'}} width="100%" alt=""></div>
-                                       </div>
-                                    </div>: ''}
-                                 </Dropzone>
+                                 <ImageUpload onLoad={this.onEventImageLoaded}>
+                                    {this.state.imageId ?
+                                       <div className="row">
+                                          <div className="twelve columns">
+                                             {/* img url mocktur */}
+                                             <div className="resim" style={{backgroundImage: 'url("http://i.pravatar.cc/150?img=' + this.state.imageId + '")'}} width="100%" alt=""></div>
+                                          </div>
+                                       </div>: ''}
+                                    }
+                                 </ImageUpload>
                               </div>
                            </div>
                         </div>
@@ -318,19 +316,16 @@ class EditEvent extends React.Component {
                            <h3>Floor Plan</h3>
                            <div className="row">
                               <div className="twelve columns">
-                                 <Dropzone
-                                    accept="image/jpeg, image/png"
-                                    onDrop={this.onDropFiles}
-                                    style={{}}
-                                    className={classNames('resimHolder', {'active':this.state.floorimageId})}
-                                 >
-                                    {this.state.floorimageId ? <div className="row">
-                                       <div className="twelve columns">
-                                          {/* img url mocktur */}
-                                          <div className="resim" style={{backgroundImage: 'url("http://i.pravatar.cc/150?img=' + this.state.floorimageId + '")'}} width="100%" alt=""></div>
-                                       </div>
-                                    </div>: ''}
-                                 </Dropzone>
+                                 <ImageUpload onLoad={this.onFloorImageLoaded}>
+                                    {this.state.floorimageId ?
+                                       <div className="row">
+                                          <div className="twelve columns">
+                                             {/* img url mocktur */}
+                                             <div className="resim" style={{backgroundImage: 'url("http://i.pravatar.cc/150?img=' + this.state.floorimageId + '")'}} width="100%" alt=""></div>
+                                          </div>
+                                       </div>: ''}
+                                    }
+                                 </ImageUpload>
                               </div>
                            </div>
                         </div>
@@ -364,8 +359,6 @@ class EditEvent extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
    return {
-      image: state.image,
-      floorimage: state.floorimage,
       event: state.event,
       auth: state.auth,
    }
@@ -373,7 +366,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return bindActionCreators({...SpeakerActions,...ImageActions}, dispatch)
+   return bindActionCreators({...SpeakerActions}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditEvent)

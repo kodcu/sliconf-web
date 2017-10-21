@@ -1,9 +1,7 @@
 import React from 'react';
-import Dropzone from 'react-dropzone'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as TalkActions from '../reducks/modules/speaker'
-import * as ImageActions from '../reducks/modules/image'
 import PageHead from "../components/PageHead";
 import moment from 'moment';
 import classNames from 'classnames';
@@ -37,9 +35,7 @@ class AddTalk extends React.Component {
    }
 
    addTalk = () => {
-      if(this.state.imageId){
-         this.props.addTalk(this.props.match.params.eventId, {...this.getTalkData()})
-      }
+      this.props.addTalk(this.props.match.params.eventId, {...this.getTalkData()})
    }
 
    changeValue = (name) => {
@@ -51,13 +47,6 @@ class AddTalk extends React.Component {
    changeDateValue = (name) => {
       return (date) => {
          this.setState({[name]: moment(date).unix() * 1000})
-      }
-   }
-
-   onDropFiles = (acceptedFiles, rejectedFiles) => {
-      if (acceptedFiles.length) {
-         //this.setState({image: acceptedFiles[0]})
-         this.props.uploadImage(acceptedFiles[0])
       }
    }
 
@@ -151,7 +140,6 @@ class AddTalk extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
    return {
-      image: state.image,
       talk: state.talk,
       auth: state.auth,
    }
@@ -159,7 +147,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return bindActionCreators({...TalkActions,...ImageActions}, dispatch)
+   return bindActionCreators({...TalkActions}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTalk)

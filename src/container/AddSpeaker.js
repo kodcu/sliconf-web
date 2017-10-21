@@ -1,12 +1,11 @@
 import React from 'react';
-import Dropzone from 'react-dropzone'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as SpeakerActions from '../reducks/modules/speaker'
-import * as ImageActions from '../reducks/modules/image'
 import PageHead from "../components/PageHead";
 import moment from 'moment';
 import classNames from 'classnames';
+import ImageUpload from '../components/ImageUpload'
 
 class AddSpeaker extends React.Component {
 
@@ -60,11 +59,8 @@ class AddSpeaker extends React.Component {
       }
    }
 
-   onDropFiles = (acceptedFiles, rejectedFiles) => {
-      if (acceptedFiles.length) {
-         //this.setState({image: acceptedFiles[0]})
-         this.props.uploadImage(acceptedFiles[0])
-      }
+   onImageLoaded = (imageId) => {
+      this.setState({imageId})
    }
 
    render() {
@@ -112,19 +108,14 @@ class AddSpeaker extends React.Component {
                      <div className="six columns">
                         <div className="row">
                            <div className="twelve columns">
-                              <Dropzone
-                                 accept="image/jpeg, image/png"
-                                 onDrop={this.onDropFiles}
-                                 style={{}}
-                                 className={classNames('resimHolder', {'active':this.state.imageId})}
-                              >
+                              <ImageUpload onLoad={this.onImageLoaded}>
                                  {this.state.imageId ? <div className="row">
                                     <div className="twelve columns">
                                        {/* img url mocktur */}
                                        <div className="resim" style={{backgroundImage: 'url("http://i.pravatar.cc/150?img=' + this.state.imageId + '")'}} width="100%" alt=""></div>
                                     </div>
                                  </div>: ''}
-                              </Dropzone>
+                              </ImageUpload>
                            </div>
                         </div>
                         {/*
@@ -193,7 +184,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return bindActionCreators({...SpeakerActions,...ImageActions}, dispatch)
+   return bindActionCreators({...SpeakerActions}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddSpeaker)
