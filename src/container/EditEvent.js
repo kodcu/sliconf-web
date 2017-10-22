@@ -314,7 +314,7 @@ class EditEvent extends React.Component {
                <div className="twelve columns">
                   <PageHead title="Edit Event"/>
                   <div className="container u-full-width tabs">
-                     <ul className="navbar-list clickable">
+                     <ul className="navbar-list clickable noselect">
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="general"})}
                             onClick={(e) => this.setState({activeTab: 'general'})}><a className="navbar-link">General</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="social"})}
