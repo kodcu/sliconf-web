@@ -20,27 +20,25 @@ class EditEvent extends React.Component {
 
    state = {
       id: this.props.match.eventId,
-      /*
-      name: this.props.fetch.event.event.name,
-      startdate: moment(this.props.fetch.event.event.startdate*1000),
-      enddate: moment(this.props.fetch.event.event.enddate*1000),
-      logo: this.props.fetch.event.event.logo,
-      description: this.props.fetch.event.event.description,
-      youtube: this.props.fetch.event.event.about.social.youtube,
-      twitter: this.props.fetch.event.event.about.social.twitter,
-      facebook: this.props.fetch.event.event.about.social.facebook,
-      instagram: this.props.fetch.event.event.about.social.instagram,
-      web: this.props.fetch.event.event.about.web,
-      phone: this.props.fetch.event.event.about.phone[0],
-      phonea: this.props.fetch.event.event.about.phone[1],
-      lat: this.props.fetch.event.event.about.location.lat,
-      lng: this.props.fetch.event.event.about.location.lng,
-      mapdescription: this.props.fetch.event.event.about.location.description,
-      rooms:this.props.fetch.event.event.rooms,
-      sponsors: this.props.fetch.event.event.sponsor,
-      tags: this.props.fetch.event.event.sponsortags,
-      floorplan : this.props.fetch.event.event.floorplan,
-      */
+      name:"",
+      startdate:"",
+      enddate: "",
+      logo: "",
+      description: "",
+      youtube: "",
+      twitter: "",
+      facebook: "",
+      instagram: "",
+      web: "",
+      phone: "",
+      phonea: "",
+      lat: "",
+      lng: "",
+      mapdescription: "",
+      rooms:"",
+      sponsors: "",
+      tags: "",
+      floorplan : "",
       modalImage: null,
       activeTab: "general",
       isLoading:false,
@@ -65,6 +63,29 @@ class EditEvent extends React.Component {
    */
 
    componentWillReceiveProps(nextProps) {
+      if(nextProps.fetch.event.event.name !== this.props.name){
+         this.setState({
+            name: this.props.fetch.event.event.name,
+            startdate: moment(this.props.fetch.event.event.startdate*1000),
+            enddate: moment(this.props.fetch.event.event.enddate*1000),
+            logo: this.props.fetch.event.event.logo,
+            description: this.props.fetch.event.event.description,
+            youtube: this.props.fetch.event.event.about.social.youtube,
+            twitter: this.props.fetch.event.event.about.social.twitter,
+            facebook: this.props.fetch.event.event.about.social.facebook,
+            instagram: this.props.fetch.event.event.about.social.instagram,
+            web: this.props.fetch.event.event.about.web,
+            phone: this.props.fetch.event.event.about.phone[0],
+            phonea: this.props.fetch.event.event.about.phone[1],
+            lat: this.props.fetch.event.event.about.location.lat,
+            lng: this.props.fetch.event.event.about.location.lng,
+            mapdescription: this.props.fetch.event.event.about.location.description,
+            rooms:this.props.fetch.event.event.rooms,
+            sponsors: this.props.fetch.event.event.sponsor,
+            tags: this.props.fetch.event.event.sponsortags,
+            floorplan : this.props.fetch.event.event.floorplan,
+         });
+      }
       if (nextProps.speaker && this.props.speaker !== nextProps.speaker) {
          setTimeout(()=>{
             // yuklendi bildirimi cikartilabilir
