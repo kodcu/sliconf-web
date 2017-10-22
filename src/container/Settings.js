@@ -33,11 +33,11 @@ class Settings extends Component {
          // uyarı ver
          console.log("email uygun değil")
          this.setState({mailWarning: true})
-      }else if(!Validator.minLen(8,this.state.password) || this.state.password===""){
+      }else if(!Validator.minLen(8,this.state.password) || this.state.password!==""){
          // uyarı ver
          console.log('şifre 8 karakterden kısa')
          this.setState({passWarning: true})
-      }else if(!Validator.minLen(8,this.state.passwordAgain) || this.state.passwordAgain===""){
+      }else if(!Validator.minLen(8,this.state.passwordAgain) || this.state.passwordAgain!==""){
          // uyarı ver
          console.log('şifre (again) 8 karakterden kısa')
          this.setState({passaWarning: true})
