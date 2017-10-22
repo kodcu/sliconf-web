@@ -64,7 +64,7 @@ class EditEvent extends React.Component {
 
    componentWillReceiveProps(nextProps) {
       console.log(nextProps);
-      if((this.props.fetch.event.event.name !== nextProps.event.name){
+      if(this.props.fetch.event.event.name !== nextProps.event.name){
          this.setState({
             name: nextProps.event.name,
             startdate: moment(nextProps.event.startdate*1000),
