@@ -41,7 +41,7 @@ class Settings extends Component {
          // uyarı ver
          console.log('şifre (again) 8 karakterden kısa')
          this.setState({passaWarning: true})
-      }else if(this.state.password!==this.state.passwordAgain){
+      }else if(this.state.password!==this.state.passwordAgain || (this.state.passwordAgain!=="" && this.state.password!=="")){
          // uyarı ver
          console.log('uyusmuyor')
          this.setState({passWarning: true, passaWarning: true})
