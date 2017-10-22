@@ -41,7 +41,7 @@ class EventList extends React.Component {
                               <td>{event.key}</td>
                               <td>{event.date.date.day.toString()+"."+event.date.date.month.toString()+"."+event.date.date.year.toString()}</td>
                               <td>{(event.name==='active') ? <div className="noproblem"></div> : <div className="problem"></div> }</td>
-                              <td><button  onClick={() => this.props.history.push('/events/'+event.id+'/edit')}>Edit</button></td>
+                              <td><button  onClick={() => this.props.history.push('/events/'+event.key+'/edit')}>Edit</button></td>
                            </tr>
                         }) : null}
                         </tbody>

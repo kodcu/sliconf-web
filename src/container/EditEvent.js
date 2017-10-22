@@ -20,6 +20,7 @@ class EditEvent extends React.Component {
 
    state = {
       id: this.props.match.eventId,
+      /*
       name: this.props.fetch.event.event.name,
       startdate: moment(this.props.fetch.event.event.startdate*1000),
       enddate: moment(this.props.fetch.event.event.enddate*1000),
@@ -39,6 +40,7 @@ class EditEvent extends React.Component {
       sponsors: this.props.fetch.event.event.sponsor,
       tags: this.props.fetch.event.event.sponsortags,
       floorplan : this.props.fetch.event.event.floorplan,
+      */
       modalImage: null,
       activeTab: "general",
       isLoading:false,
