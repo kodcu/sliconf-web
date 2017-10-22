@@ -183,12 +183,12 @@ export function resetPassword(token, password) {
    }
 }
 
-export function update(fullname, email, name, password) {
+export function update(userId, username, fullname, oldpassword, password) {
    return {
       types: [UPDATE, UPDATE_SUCCESS, UPDATE_FAIL],
       promise: (client) => client.post('/users/update', {
          params: {"token": "auth"},
-         data: {fullname, email, name, password}
+         data: {userId, username, fullname, oldpassword, password}
       })
    }
 }

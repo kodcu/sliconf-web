@@ -2,15 +2,16 @@ export default {
    "event": {
       "id": "K123",
          "name": "Javaday Istanbul 2018",
-         "date": "05-05-2018:08:00",
+         "startdate": "1508003749",
+         "enddate": "1508003749",
          "logo": "https://pbs.twimg.com/profile_images/869175415822327808/O67MAYb2_400x400.jpg",
          "description": "blablabla",
          "about": {
-         "sosial": {
-            "youtube": "",
-            "twitter": "",
-            "facebook": "",
-            "instagram": ""
+         "social": {
+            "youtube": "y",
+            "twitter": "t",
+            "facebook": "f",
+            "instagram": "i"
          },
          "web": "www.sliconf.com.tr",
             "phone": [
@@ -23,6 +24,18 @@ export default {
             "description": "Hilton Kongre Ve Fuar Salonu, Hilton Hotel 50 N, 34367 Şişli / Istanbul"
          }
       },
+      "rooms":[
+         {
+            "id": "r1",
+            "label": "Room 1",
+            "floor": "f1"
+         },
+         {
+            "id": "r2",
+            "label": "Room 2",
+            "floor": "f2"
+         }
+      ],
       "agenda": [
          {
             "key": "asc123",
@@ -54,19 +67,38 @@ export default {
             ]
          }
       ],
-      "floorplan": "http://www.newpoint.com.tr/img/thumb/kat-plani.png",
+      "floorplan": [
+         {
+            "id":"f1",
+            "name":"Kat 1",
+            "image":"http://dulukpark.com/admin/uploads/image/kat-plani/zemin-kat-3-11-2015.jpg"
+         },
+         {
+            "id":"f2",
+            "name":"Kat 2",
+            "image":"http://www.adilgrup.com/Images/PhotoGalery/sancakli_evleri_AveC_Blok_planlar_normalKat.jpg"
+         }
+      ],
+
+      "sponsortags":{
+         "s1":"Diamond",
+         "s2":"Gold",
+      },
+
          "sponsor": {
-         "catagory1": [
+         "s1": [
             {
+               "id":"p1",
                "logo": "https://javaday.istanbul/wp-content/uploads/2016/07/peak-1.png",
-               "name": ""
+               "name": "Sponsor1"
             },
             {
+               "id":"p2",
                "logo": "https://javaday.istanbul/wp-content/uploads/2016/07/kodcu.png",
-               "name": ""
+               "name": "Sponsor2"
             }
          ],
-         "catagory2": []
+         "s2": []
       }
    }
 }

@@ -18,6 +18,10 @@ const FETCH_EVENTS = 'event/FETCH_EVENTS';
 const FETCH_EVENTS_SUCCESS = 'event/FETCH_EVENTS_SUCCESS';
 const FETCH_EVENTS_FAIL = 'event/FETCH_EVENTS_FAIL';
 
+const FETCH_ROOMS = 'event/FETCH_ROOMS';
+const FETCH_ROOMS_SUCCESS = 'event/FETCH_ROOMS_SUCCESS';
+const FETCH_ROOMS_FAIL = 'event/FETCH_ROOMS_FAIL';
+
 const initialState = {
    loading: false,
    event: null,
@@ -33,10 +37,11 @@ export default function reducer(state = initialState, action = {}) {
             loading: true
          };
       case FETCH_EVENT_SUCCESS:
+         console.log(action.result)
          return {
             ...state,
             loading: false,
-            event: action.result.returnObject,
+            event: action.result,
             error: null
          };
       case FETCH_EVENT_FAIL:
@@ -64,6 +69,25 @@ export default function reducer(state = initialState, action = {}) {
             ...state,
             loading: false,
             events: [],
+            error: action.error
+         };
+      // rooms
+      case FETCH_ROOMS:
+         return {
+            ...state,
+            loading: true
+         };
+      case FETCH_ROOMS_SUCCESS:
+         return {
+            ...state,
+            loading: false,
+            rooms: action.result.returnObject,
+         };
+      case FETCH_ROOMS_FAIL:
+         return {
+            ...state,
+            loading: false,
+            rooms: [],
             error: action.error
          };
       // add speaker to event
@@ -108,11 +132,11 @@ export default function reducer(state = initialState, action = {}) {
    }
 }
 
-export function fetchEvent(userId) {
+export function fetchEvent(eventId) {
    return {
       types: [FETCH_EVENT, FETCH_EVENT_SUCCESS, FETCH_EVENT_FAIL],
       mock: eventfetch,
-      //promise: (client) => client.post('/events/get/with-key/'+userId)
+      promise: (client) => client.post('/events/get/with-key/'+eventId)
    }
 }
 
@@ -138,5 +162,12 @@ export function fetchEvents(userId) {
    return {
       types: [FETCH_EVENTS, FETCH_EVENTS_SUCCESS, FETCH_EVENTS_FAIL],
       promise: (client) => client.get('/events/list/'+userId)
+   }
+}
+
+export function fetchRooms(eventId) {
+   return {
+      types: [FETCH_ROOMS, FETCH_ROOMS_SUCCESS, FETCH_ROOMS_FAIL],
+      promise: (client) => client.get('/events/rooms/'+eventId)
    }
 }

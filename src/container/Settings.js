@@ -8,18 +8,21 @@ import Validator from '../helpers/Validator';
 class Settings extends Component {
 
    state = {
+      userId:this.props.user.id,
       username: this.props.user.name,
       email: this.props.user.email,
       fullname: this.props.user.fullname,
+      oldpassword: "",
       password: "",
       passwordAgain: "",
       userWarning:false,
       mailWarning:false,
+      oldpassWarning:false,
       passWarning:false,
       passaWarning:false
    }
 
-   update = (username, email, password, passwordAgain) => {
+   update = (userId, username, fullname, oldpassword, password) => {
       // action creatorü bind ettikten sonra this.props.update :)
       this.setState({userWarning: false, mailWarning:false, passWarning:false, passaWarning:false})
       if(!Validator.minLen(4,this.state.username)){
@@ -44,7 +47,7 @@ class Settings extends Component {
          this.setState({passWarning: true, passaWarning: true})
       }else{
          // herşey okey
-         this.props.update(this.state.fullname, this.state.email, this.state.username, this.state.password)
+         this.props.update(this.state.userId, this.state.username ,this.state.fullname, this.state.oldpassword, this.state.password)
       }
    }
 
@@ -77,6 +80,13 @@ class Settings extends Component {
                      <label htmlFor="mail">e-mail</label>
                      <input className={classNames({'hata': this.state.mailWarning})} type="email" placeholder="i.e. altuga@kodcu.com" id="mail" value={this.state.email}
                             onChange={(e) => this.setState({email: e.target.value})}/>
+                  </div>
+               </div>
+               <div className="row">
+                  <div className="six columns">
+                     <label htmlFor="pass">old password</label>
+                     <input className={classNames({'hata': this.state.oldpassWarning})} type="password" placeholder="i.e. 123456" id="pass" value={this.state.oldpassword}
+                            onChange={(e) => this.setState({oldpassword: e.target.value})}/>
                   </div>
                </div>
                <div className="row">

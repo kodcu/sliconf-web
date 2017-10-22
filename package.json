@@ -6,7 +6,8 @@
     "babel-polyfill": "^6.23.0",
     "classnames": "^2.2.5",
     "history": "^4.6.3",
-    "random-color": "^1.0.1",
+    "string-to-color": "^1.0.1",
+    "react-modal":"^3.0.4",
     "react": "^16.0.0",
     "react-datepicker": "^0.55.0",
     "react-dom": "^16.0.0",
@@ -19,7 +20,8 @@
     "redux": "^3.7.1",
     "redux-persist": "^4.8.2",
     "redux-thunk": "^2.2.0",
-    "superagent": "^3.5.2"
+    "superagent": "^3.5.2",
+    "moment": "^2.19.1"
   },
   "devDependencies": {
     "react-scripts": "1.0.10"

@@ -952,9 +952,23 @@ input.hata {
     margin: 12px 12px 0 0;
     float:left;
     font-weight:500;
+    position: relative;
+    z-index: 2;
 }
 
-.sponsor, .addSponsor{
+.room::before {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    content: '';
+    background: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+}
+
+.sponsor, .addSponsor, .floor{
     width:220px;
     height:220px;
     background-size:contain;
@@ -962,6 +976,8 @@ input.hata {
     float: left;
     margin: 26px 26px 0 0 ;
     border-radius:5px;
+    background-repeat: no-repeat;
+    position:relative;
 }
 @media screen and (min-width: 1215px) {
     .sponsor:nth-child(4n), .addSponsor:nth-child(4n){
@@ -971,12 +987,18 @@ input.hata {
 }
 
 .addSponsor {
+    width:160px;
+    height:160px;
+    margin:66px 66px 40px 40px;
     border-radius: 50%;
     background: #eaeaea;
-    font-size: 250px;
-    line-height: 200px;
+    font-size: 200px;
+    line-height: 140px;
     text-align: center;
     color: #333;
+    cursor:pointer;
+    display: block;
+    overflow: hidden;
 }
 
 li.react-datepicker__time-list-item {
@@ -990,4 +1012,96 @@ ul.react-datepicker__time-list {
 
 .react-datepicker-wrapper, .react-datepicker__input-container{
     width:100%;
+}
+
+.sponsorsWithTags {
+    display: block;
+    clear: both;
+    overflow: auto;
+}
+
+.sponsors h1{
+    margin-top: 25px;
+    margin-bottom:0;
+}
+
+.plan {
+    width: 214px;
+    margin: 3px;
+    height: 180px;
+    background-position: 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: white;
+}
+
+.aciklama {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+
+.floor {
+    background: #eaeaea;
+}
+
+.floor:hover .overModal, .sponsor:hover .overModal{
+    opacity:1;
+}
+
+.overModal {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
+    opacity: 0;
+    transition:0.3s opacity;
+}
+
+.overModal .remove, .overModal .edit {
+    width: 50px;
+    height: 50px;
+    margin-top: 85px;
+    margin-left: 40px;
+    float: left;
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:50%;
+}
+
+.overModal .remove {
+    background-image:url("../img/xbw.png");
+}
+
+.overModal .edit {
+    background-image:url("../img/ebw.png");
+}
+
+.Modal{
+    max-width: 600px;
+    max-height: 400px;
+    background: white;
+    border: 1px solid darkgray;
+    border-radius: 5px;
+    margin:0 auto;
+    margin-top: calc(50vh - 200px);
+    z-index: 6;
+    padding: 30px;
+    outline:none;
+    overflow:auto;
+
+}
+
+.Overlay {
+    z-index: 6;
+    background: rgba(255, 255, 255, 0.9);
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
