@@ -63,27 +63,28 @@ class EditEvent extends React.Component {
    */
 
    componentWillReceiveProps(nextProps) {
-      if((nextProps.fetch != null) || this.props.name !== nextProps.fetch.event.event.name){
+      console.log(nextProps);
+      if((nextProps.fetch !== null) || (this.props.name !== nextProps.event.name)){
          this.setState({
-            name: nextProps.fetch.event.event.name,
-            startdate: moment(nextProps.fetch.event.event.startdate*1000),
-            enddate: moment(nextProps.fetch.event.event.enddate*1000),
-            logo: nextProps.fetch.event.event.logo,
-            description: nextProps.fetch.event.event.description,
-            youtube: nextProps.fetch.event.event.about.social.youtube,
-            twitter: nextProps.fetch.event.event.about.social.twitter,
-            facebook: nextProps.fetch.event.event.about.social.facebook,
-            instagram: nextProps.fetch.event.event.about.social.instagram,
-            web: nextProps.fetch.event.event.about.web,
-            phone: nextProps.fetch.event.event.about.phone[0],
-            phonea: nextProps.fetch.event.event.about.phone[1],
-            lat: nextProps.fetch.event.event.about.location.lat,
-            lng: nextProps.fetch.event.event.about.location.lng,
-            mapdescription: nextProps.fetch.event.event.about.location.description,
-            rooms:nextProps.fetch.event.event.rooms,
-            sponsors: nextProps.fetch.event.event.sponsor,
-            tags: nextProps.fetch.event.event.sponsortags,
-            floorplan : nextProps.fetch.event.event.floorplan,
+            name: nextProps.event.name,
+            startdate: moment(nextProps.event.startdate*1000),
+            enddate: moment(nextProps.event.enddate*1000),
+            logo: nextProps.event.logo,
+            description: nextProps.event.description,
+            youtube: nextProps.event.about.social.youtube,
+            twitter: nextProps.event.about.social.twitter,
+            facebook: nextProps.event.about.social.facebook,
+            instagram: nextProps.event.about.social.instagram,
+            web: nextProps.event.about.web,
+            phone: nextProps.event.about.phone[0],
+            phonea: nextProps.event.about.phone[1],
+            lat: nextProps.event.about.location.lat,
+            lng: nextProps.event.about.location.lng,
+            mapdescription: nextProps.event.about.location.description,
+            rooms:nextProps.event.rooms,
+            sponsors: nextProps.event.sponsor,
+            tags: nextProps.event.sponsortags,
+            floorplan : nextProps.event.floorplan,
          });
       }
       if (nextProps.speaker && this.props.speaker !== nextProps.speaker) {
