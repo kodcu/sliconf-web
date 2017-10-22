@@ -33,11 +33,11 @@ class Settings extends Component {
          // uyarı ver
          console.log("email uygun değil")
          this.setState({mailWarning: true})
-      }else if(!Validator.minLen(8,this.state.password)){
+      }else if(!Validator.minLen(8,this.state.password) || this.state.password===""){
          // uyarı ver
          console.log('şifre 8 karakterden kısa')
          this.setState({passWarning: true})
-      }else if(!Validator.minLen(8,this.state.passwordAgain)){
+      }else if(!Validator.minLen(8,this.state.passwordAgain) || this.state.passwordAgain===""){
          // uyarı ver
          console.log('şifre (again) 8 karakterden kısa')
          this.setState({passaWarning: true})
@@ -91,14 +91,14 @@ class Settings extends Component {
                </div>
                <div className="row">
                   <div className="six columns">
-                     <label htmlFor="pass">password</label>
+                     <label htmlFor="pass">new password</label>
                      <input className={classNames({'hata': this.state.passWarning})} type="password" placeholder="i.e. 123456" id="pass" value={this.state.password}
                             onChange={(e) => this.setState({password: e.target.value})}/>
                   </div>
                </div>
                <div className="row">
                   <div className="six columns">
-                     <label htmlFor="passa">password (again)</label>
+                     <label htmlFor="passa">new password (again)</label>
                      <input className={classNames({'hata': this.state.passaWarning})} type="password" placeholder="i.e. 123456" id="passa" value={this.state.passwordAgain}
                             onChange={(e) => this.setState({passwordAgain: e.target.value})}/>
                   </div>
