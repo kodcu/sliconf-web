@@ -5,6 +5,20 @@ import {connect} from 'react-redux';
 
 class EventSuccess extends Component {
 
+   state = {
+      key:""
+   };
+
+   componentWillReceiveProps(nextProps) {
+      if ((this.props.event !== nextProps.event)) {
+         console.log(nextProps.event.creation.key)
+            this.setState({
+               key:nextProps.event.creation.key
+            });
+      }
+   }
+
+
    render() {
       return (
             <div className="container mtop">
@@ -20,7 +34,7 @@ class EventSuccess extends Component {
                      <div className="row mtop50">
                         <div className="six columns">
                            <p>You can use this code to search your event.</p>
-                           <h2 className="code">{this.props.event.creation.key}</h2>
+                           <h2 className="code">{this.state.key}</h2>
                         </div>
                      </div>
 
