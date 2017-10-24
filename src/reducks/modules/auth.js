@@ -165,28 +165,26 @@ export function register(email, username, password) {
 export function sendForgotMail(email) {
    return {
       types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
-      promise: (client) => client.post('/users/forgot', {
-         data: {email}
-      })
+      promise: (client) => client.post('/users/password-reset/send/'+email)
    }
 }
 
-export function resetPassword(token, password) {
-   console.log(token, password)
+export function resetPassword(token, pass) {
+   console.log(token, pass)
    return {
       types: [RESETPASS, RESETPASS_SUCCESS, RESETPASS_FAIL],
-      promise: (client) => client.post('/users/resetpass', {
-         data: {token, password}
+      promise: (client) => client.post('/users/password-reset/reset/'+token, {
+         //TODO passwordleri gercekver
+         data: {pass, "repass":pass}
       })
    }
 }
 
-export function update(userId, username, fullname, oldpassword, password) {
+export function update(id, username, fullname, oldpassword, password) {
    return {
       types: [UPDATE, UPDATE_SUCCESS, UPDATE_FAIL],
       promise: (client) => client.post('/users/update', {
-         params: {"token": "auth"},
-         data: {userId, username, fullname, oldpassword, password}
+         data: {id, username, fullname, oldpassword, password}
       })
    }
 }
