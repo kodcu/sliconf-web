@@ -12,7 +12,7 @@ class Register extends Component {
       email: "",
       password: "",
       passworda: "",
-      warning: false,
+      warning: true,
       message: "",
       userWarning:false,
       mailWarning:false,
@@ -23,8 +23,10 @@ class Register extends Component {
 
 
    componentWillReceiveProps(nextProps) {
-      if (this.props.auth.loginError !== nextProps.auth.loginError) {
-         this.setState({warning: true})
+      if(this.props.auth !== nextProps.auth){
+         this.setState({
+            message:nextProps.auth.message
+         });
       }
       //Birden fazla componentWillReceiveProps cagirilmasin diye bu sekilde sarmalaniyor
       if ((this.props.auth.status !== nextProps.auth.status)) {
@@ -34,7 +36,7 @@ class Register extends Component {
          } else {
             //Dogru girildi, storela
             this.setState({kullaniciId: nextProps.auth.user.id})
-
+            this.props.history.push("/addevent/first")
          }
       }
    }

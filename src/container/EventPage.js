@@ -7,6 +7,10 @@ import moment from 'moment';
 
 class EventPage extends Component {
 
+   state = {
+      isFirst:"",
+   }
+
    componentWillReceiveProps(nextProps) {
       if (this.props.event.error !== nextProps.event.error) {
          this.setState({warning: true})
@@ -55,7 +59,7 @@ class EventPage extends Component {
                   <div className="row">
                      <div className="twelve columns">
                         <h2 style={{color: '#29b573'}}>Add Event</h2>
-                        <h4>Let's create your Event.</h4>
+                        <h4>Let's create your{this.state.isFirst} Event.</h4>
                      </div>
                   </div>
                   <div className="row mtop50">

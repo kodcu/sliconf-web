@@ -144,7 +144,7 @@ export function createEvent(userId, name, date) {
    return {
       types: [ADD_EVENT, ADD_EVENT_SUCCESS, ADD_EVENT_FAIL],
       promise: (client) => client.post('/events/create/'+userId,{
-         data: {userId, name, date}
+         data: {userId, name, "startDate":date, "endDate":date}
       })
    }
 }

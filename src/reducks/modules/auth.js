@@ -144,20 +144,20 @@ export function load() {
    };
 }
 
-export function login(name, password) {
+export function login(username, password) {
    return {
       types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
       promise: (client) => client.post('/users/login', {
-         data: {name, password}
+         data: {username, password}
       })
    }
 }
 
-export function register(email, name, password) {
+export function register(email, username, password) {
    return {
       types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
       promise: (client) => client.post('/users/register', {
-         data: {email, name, password}
+         data: {email, username, password}
       })
    }
 }
@@ -166,7 +166,6 @@ export function sendForgotMail(email) {
    return {
       types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
       promise: (client) => client.post('/users/forgot', {
-         params: {"token": "auth"},
          data: {email}
       })
    }
@@ -177,7 +176,6 @@ export function resetPassword(token, password) {
    return {
       types: [RESETPASS, RESETPASS_SUCCESS, RESETPASS_FAIL],
       promise: (client) => client.post('/users/resetpass', {
-         params: {"token": "auth"},
          data: {token, password}
       })
    }

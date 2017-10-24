@@ -9,7 +9,7 @@ class Settings extends Component {
 
    state = {
       userId:this.props.user.id,
-      username: this.props.user.name,
+      username: this.props.user.username,
       email: this.props.user.email,
       fullname: this.props.user.fullname,
       oldpassword: "",
@@ -33,14 +33,6 @@ class Settings extends Component {
          // uyarı ver
          console.log("email uygun değil")
          this.setState({mailWarning: true})
-      }else if(!Validator.minLen(8,this.state.password) || this.state.password!==""){
-         // uyarı ver
-         console.log('şifre 8 karakterden kısa')
-         this.setState({passWarning: true})
-      }else if(!Validator.minLen(8,this.state.passwordAgain) || this.state.passwordAgain!==""){
-         // uyarı ver
-         console.log('şifre (again) 8 karakterden kısa')
-         this.setState({passaWarning: true})
       }else if(this.state.password!==this.state.passwordAgain || (this.state.passwordAgain!=="" && this.state.password!=="")){
          // uyarı ver
          console.log('uyusmuyor')
@@ -78,7 +70,7 @@ class Settings extends Component {
                <div className="row">
                   <div className="six columns">
                      <label htmlFor="mail">e-mail</label>
-                     <input className={classNames({'hata': this.state.mailWarning})} type="email" placeholder="i.e. altuga@kodcu.com" id="mail" value={this.state.email}
+                     <input disabled={true} className={classNames({'hata': this.state.mailWarning})} type="email" placeholder="i.e. altuga@kodcu.com" id="mail" value={this.state.email}
                             onChange={(e) => this.setState({email: e.target.value})}/>
                   </div>
                </div>
