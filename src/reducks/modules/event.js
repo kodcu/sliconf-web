@@ -22,6 +22,9 @@ const FETCH_ROOMS = 'event/FETCH_ROOMS';
 const FETCH_ROOMS_SUCCESS = 'event/FETCH_ROOMS_SUCCESS';
 const FETCH_ROOMS_FAIL = 'event/FETCH_ROOMS_FAIL';
 
+const REMOVE_ROOM_FROM_LOCAL = 'event/REMOVE_ROOM_FROM_LOCAL';
+const ADD_ROOM_TO_LOCAL = 'event/ADD_ROOM_TO_LOCAL';
+
 const initialState = {
    loading: false,
    event: null,
@@ -37,11 +40,11 @@ export default function reducer(state = initialState, action = {}) {
             loading: true
          };
       case FETCH_EVENT_SUCCESS:
-         console.log(action.result)
+         //console.log(action.result)
          return {
             ...state,
             loading: false,
-            event: action.result,
+            event: action.result.event,
             error: null
          };
       case FETCH_EVENT_FAIL:
@@ -127,6 +130,16 @@ export default function reducer(state = initialState, action = {}) {
             loading: false,
             error: action.error
          };
+      case REMOVE_ROOM_FROM_LOCAL:
+         return {
+            ...state,
+            event:{...state.event,rooms:[...state.event.rooms.filter(room=>room.id!==action.roomId)]}
+         };
+      case ADD_ROOM_TO_LOCAL:
+         return {
+            ...state,
+            event:{...state.event,rooms:[...state.event.rooms,action.room]}
+         };
       default:
          return state;
    }
@@ -169,5 +182,19 @@ export function fetchRooms(eventId) {
    return {
       types: [FETCH_ROOMS, FETCH_ROOMS_SUCCESS, FETCH_ROOMS_FAIL],
       promise: (client) => client.get('/events/rooms/'+eventId)
+   }
+}
+
+export function removeRoomFromLocal(roomId) {
+   return {
+      type: REMOVE_ROOM_FROM_LOCAL,
+      roomId
+   }
+}
+
+export function addRoomToLocal(room) {
+   return {
+      type: ADD_ROOM_TO_LOCAL,
+      room
    }
 }
