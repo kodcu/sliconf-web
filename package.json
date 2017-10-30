@@ -22,7 +22,8 @@
     "redux-thunk": "^2.2.0",
     "superagent": "^3.5.2",
     "moment": "^2.19.1",
-    "styled-components":"^2.2.2"
+    "styled-components":"^2.2.2",
+    "random-string":"^0.2.0"
   },
   "devDependencies": {
     "react-scripts": "1.0.10"

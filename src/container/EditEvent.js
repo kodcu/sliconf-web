@@ -139,7 +139,7 @@ class EditEvent extends React.Component {
    renderSponsor = (sponsorId, sponsorName, sponsorTag, sponsorImage) => {
       return(
          <div key={sponsorId} className="sponsor" data-id={sponsorId} data-name={sponsorName} data-tag={sponsorTag} style={{backgroundImage:"url("+sponsorImage+")"}}>
-            <div className="overModal"><div className="remove"/><div className="edit"/></div>
+            <div className="overModal"><div className="remove"/><div className="edit" onClick={this.openModal} /></div>
          </div>
       )
    };
@@ -222,14 +222,14 @@ class EditEvent extends React.Component {
    render() {
       return (
          <div className="container mtop">
-            <button onClick={this.openModal}>Open Modal</button>
+            <div onClick={this.openModal}>{this.props.children}</div>
             <Modal
                className="Modal"
                overlayClassName="Overlay"
                isOpen={this.state.modalIsOpen}
                onAfterOpen={this.afterOpenModal}
                onRequestClose={this.closeModal}
-               contentLabel="Example Modal"
+               contentLabel="Add Image"
             >
 
                <div className="row">
