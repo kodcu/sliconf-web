@@ -18,8 +18,10 @@ import Talks from "./Talks";
 import AddSpeaker from "./AddSpeaker";
 import AddTalk from "./AddTalk";
 import PassReset from "./PassReset";
+import PassChange from "./PassChange";
 import MailSuccess from "./MailSuccess";
 import Logout from "./Logout";
+import ModerateComments from "./ModerateComments";
 
 class App extends Component {
    render() {
@@ -39,17 +41,19 @@ class App extends Component {
                      <PrivateRoute path="/events/:eventId/addspeaker" component={AddSpeaker}/>
                      <PrivateRoute path="/events/:eventId/addtalk" component={AddTalk}/>
                      <PrivateRoute path="/events/:eventId/edit" component={EditEvent}/>
+                     <PrivateRoute path="/events/:eventId/moderate" component={ModerateComments}/>
                      <PrivateRoute path="/events" component={Events}/>
                      <PrivateRoute path="/addeventsuccess" component={AddEventSuccess}/>
                      <PrivateRoute path="/addevent" component={AddEvent}/>
                      <PrivateRoute path="/settings" component={Settings}/>
+                     <PrivateRoute path="/changepassword" component={PassChange}/>
                      <Route path="/" component={Home}/>
                   </Switch>
                </MasterPage>
             </Router>
          );
       }
-      return <h5>Loading...</h5>
+      return <h5></h5>
    }
 }
 

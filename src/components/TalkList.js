@@ -4,8 +4,8 @@ const ListItem = ({talk}) => {
    return (
       <tr>
          <td><div className="image rounded mini" style={{backgroundImage: 'url(http://www.maxfm.com.tr/files/artists/rick-astley/images/ricast1006.jpg)'}}/></td>
-         <td>{talk.name}</td>
-         <td>{talk.workingat}</td>
+         <td>{talk.speaker}</td>
+         <td>{talk.topic}</td>
          <td><a href="" className="button">Linkedin</a> <a href="" className="button">Twitter</a> <a href="" className="button">About</a></td>
       </tr>
    )
@@ -32,7 +32,7 @@ class TalkList extends React.Component {
                      <tr>
                         <th style={{width: 40}}>Photo</th>
                         <th>Full Name</th>
-                        <th>Working At</th>
+                        <th>Topic</th>
                         <th>Actions</th>
                      </tr>
                      </thead>

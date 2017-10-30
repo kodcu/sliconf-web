@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import * as AuthActions from '../reducks/modules/auth'
 import classNames from 'classnames'
 import Validator from '../helpers/Validator';
+import randomString from 'random-string';
 
 class Register extends Component {
 
@@ -19,24 +20,29 @@ class Register extends Component {
       passWarning:false,
       passaWarning:false,
       kullaniciId:'',
+      iePass:randomString({length: 8}),
    }
 
 
    componentWillReceiveProps(nextProps) {
-      if(this.props.auth !== nextProps.auth){
-         this.setState({
-            message:nextProps.auth.message
-         });
-      }
-      //Birden fazla componentWillReceiveProps cagirilmasin diye bu sekilde sarmalaniyor
-      if ((this.props.auth.status !== nextProps.auth.status)) {
-         if (nextProps.auth.status === false) {
-            //Yanlis girdi, mesaj bas
-            this.setState({warning: true, message: nextProps.auth.message})
-         } else {
-            //Dogru girildi, storela
-            this.setState({kullaniciId: nextProps.auth.user.id})
-            this.props.history.push("/addevent/first")
+      if (this.props.auth.loginError !== nextProps.auth.loginError) {
+         this.setState({warning: true, message:"Cannot reach destination server! ("+this.props.auth.loginError.status+")"})
+      }else {
+         if (this.props.auth !== nextProps.auth) {
+            this.setState({
+               message: nextProps.auth.message
+            });
+         }
+         //Birden fazla componentWillReceiveProps cagirilmasin diye bu sekilde sarmalaniyor
+         if ((this.props.auth.status !== nextProps.auth.status)) {
+            if (nextProps.auth.status === false) {
+               //Yanlis girdi, mesaj bas
+               this.setState({warning: true, message: nextProps.auth.message})
+            } else {
+               //Dogru girildi, storela
+               this.setState({kullaniciId: nextProps.auth.user.id})
+               this.props.history.push("/addevent/first")
+            }
          }
       }
    }
@@ -45,23 +51,28 @@ class Register extends Component {
    register = (email, username, password) => {
       this.setState({userWarning: false, mailWarning:false, passWarning:false, passaWarning:false})
       if(!Validator.minLen(4,this.state.username)){
-         // uyarı ver
+         // uyari ver
          console.log('username uygun degil')
+         this.setState({warning: true, message: "Username too short - minimum length is 4 characters."})
          this.setState({userWarning: true})
       }else if (!Validator.minMaxLen(5,50,this.state.email) || !Validator.isMail(this.state.email)){
-         // uyarı ver
+         // uyari ver
          console.log("email uygun değil")
          this.setState({mailWarning: true})
+         this.setState({warning: true, message: "Please enter a valid email."})
       }else if(!Validator.minLen(8,this.state.password)){
-         // uyarı ver
+         // uyari ver
          console.log('şifre 8 karakterden kısa')
+         this.setState({warning: true, message: "Password too short - minimum length is 8 characters."})
          this.setState({passWarning: true})
       }else if(!Validator.minLen(8,this.state.passworda)){
-         // uyarı ver
+         // uyari ver
          console.log('şifre (again) 8 karakterden kısa')
+         this.setState({warning: true, message: "Password too short - minimum length is 8 characters."})
          this.setState({passaWarning: true})
       }else if(this.state.password!==this.state.passworda){
-         // uyarı ver
+         // uyari ver
+         this.setState({warning: true, message: "Passwords did not match. Please enter the same password in both fields."})
          console.log('uyusmuyor')
          this.setState({passWarning: true, passaWarning: true})
       }else{
@@ -70,16 +81,13 @@ class Register extends Component {
       }
    }
 
-   closeWarning = () => {
-      this.setState({warning: false})
-   }
-
    render() {
       return (
          <div className="container mtop">
                <div className={classNames('row warning', {'show': this.state.warning})}>
-                  <h4>{this.state.message}</h4>
-                  <div className="kapa" onClick={this.closeWarning}>X</div>
+                  <div className="twelve columns">
+                     <h4>{this.state.message}</h4>
+                  </div>
                </div>
                <div className="row">
                   <div className="six columns">
@@ -101,12 +109,12 @@ class Register extends Component {
                         </div>
                         <div className="twelve columns">
                            <label htmlFor="pass">Password</label>
-                           <input className={classNames({'hata': this.state.passWarning})} type="password" placeholder="i.e. 123456" id="pass" value={this.state.password}
+                           <input className={classNames({'hata': this.state.passWarning})} type="password" placeholder={"i.e. "+this.state.iePass} id="pass" value={this.state.password}
                                   onChange={(e) => this.setState({password: e.target.value})}/>
                         </div>
                         <div className="twelve columns">
                         <label htmlFor="pass">Password (again)</label>
-                        <input className={classNames({'hata': this.state.passaWarning})} type="password" placeholder="i.e. 123456" id="pass" value={this.state.passworda}
+                        <input className={classNames({'hata': this.state.passaWarning})} type="password" placeholder={"i.e. "+this.state.iePass} id="pass" value={this.state.passworda}
                                onChange={(e) => this.setState({passworda: e.target.value})}/>
                         </div>
                      </div>

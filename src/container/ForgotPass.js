@@ -9,29 +9,44 @@ class Login extends Component {
 
    state = {
       name: "",
-      mailWarning:false
+      mailWarning:false,
+      warning:false,
+      message:"",
+   }
+
+   componentWillReceiveProps(nextProps) {
+      if (this.props.auth.error !== nextProps.auth.error) {
+         this.setState({warning: true})
+      }
+      if(this.props.auth !== nextProps.auth){
+         console.log(nextProps.message)
+         this.setState({warning: true, message: nextProps.auth.message})
+      }
+
    }
 
    sendForgotMail = (email) => {
       //reset
       this.setState({mailWarning: false})
       if (!Validator.minMaxLen(5,50,this.state.email) || !Validator.isMail(this.state.email)){
-         // uyarı ver
+         // uyari ver
          console.log("email uygun değil")
+         this.setState({warning: true, message: "Please enter a valid email."});
          this.setState({mailWarning: true})
       }else{
-         // herşey okey
+         // hersey okey
          this.props.sendForgotMail(this.state.email)
       }
-   }
-
-   closeWarning = () => {
-      this.setState({warning: false})
    }
 
    render() {
       return (
          <div className="container mtop">
+            <div className={classNames('row warning', {'show': this.state.warning})}>
+               <div className="twelve columns">
+                  <h4>{this.state.message}</h4>
+               </div>
+            </div>
             <div className="row">
                <div className="six columns">
                   <div className="row">

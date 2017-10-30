@@ -9,13 +9,10 @@ class EventSuccess extends Component {
       key:""
    };
 
-   componentWillReceiveProps(nextProps) {
-      if ((this.props.event !== nextProps.event)) {
-         console.log(nextProps.event.creation.key)
-            this.setState({
-               key:nextProps.event.creation.key
-            });
-      }
+   componentWillMount() {
+         this.setState({
+            key:this.props.event.creation.key
+         });
    }
 
 

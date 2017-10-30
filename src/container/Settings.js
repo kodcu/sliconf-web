@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as AuthActions from '../reducks/modules/auth'
 import classNames from 'classnames'
@@ -8,55 +9,56 @@ import Validator from '../helpers/Validator';
 class Settings extends Component {
 
    state = {
-      userId:this.props.user.id,
-      username: this.props.user.username,
-      email: this.props.user.email,
-      fullname: this.props.user.fullname,
-      oldpassword: "",
-      password: "",
-      passwordAgain: "",
+      userId:this.props.auth.user.id,
+      username: this.props.auth.user.username,
+      email: this.props.auth.user.email,
+      fullname: this.props.auth.user.fullname,
       userWarning:false,
-      mailWarning:false,
-      oldpassWarning:false,
-      passWarning:false,
-      passaWarning:false
+      warning:true,
+      message:""
    }
 
-   update = (userId, username, fullname, oldpassword, password) => {
-      // action creatorü bind ettikten sonra this.props.update :)
-      this.setState({userWarning: false, mailWarning:false, passWarning:false, passaWarning:false})
+   componentWillReceiveProps(nextProps) {
+      if (this.props.auth.error !== nextProps.auth.error) {
+         this.setState({warning: true})
+      }
+      if(this.props.auth !== nextProps.auth){
+         console.log(nextProps.message)
+         this.setState({warning: true, message: nextProps.auth.message})
+      }
+
+   }
+
+   update = (userId, username, fullname) => {
+      this.setState({userWarning: false})
       if(!Validator.minLen(4,this.state.username)){
-         // uyarı ver
-         console.log('username uygun degil')
-         this.setState({userWarning: true})
-      }else if (!Validator.minMaxLen(5,50,this.state.email) || !Validator.isMail(this.state.email)){
-         // uyarı ver
-         console.log("email uygun değil")
-         this.setState({mailWarning: true})
-      }else if(this.state.password!==this.state.passwordAgain || (this.state.passwordAgain!=="" && this.state.password!=="")){
-         // uyarı ver
-         console.log('uyusmuyor')
-         this.setState({passWarning: true, passaWarning: true})
+         this.setState({userWarning: true, warning:true, message:"Please enter a name that is at least 4 characters long."})
       }else{
-         // herşey okey
-         this.props.update(this.state.userId, this.state.username ,this.state.fullname, this.state.oldpassword, this.state.password)
+         this.props.update(this.state.userId, this.state.username, this.state.fullname);
       }
    }
 
    render() {
       return (
          <div className="container mtop">
+            <div className="row">
             <div className="twelve columns">
+               <div className={classNames('row warning', {'show': this.state.warning})}>
+                  <div className="twelve columns">
+                     <h4>{this.state.message}</h4>
+                  </div>
+               </div>
                <div className="row">
                   <div className="twelve columns">
                      <h2>Settings</h2>
+                     <Link to="/changepassword">To change your password, click here.</Link>
                   </div>
                </div>
 
                <div className="row mtop50">
                   <div className="six columns">
                      <label htmlFor="name">full name</label>
-                     <input className={classNames({'hata': this.state.userWarning})} type="text" placeholder="i.e. Altuğ Bilgin Altıntaş" id="name" value={this.state.fullname}
+                     <input type="text" placeholder="i.e. Altuğ Bilgin Altıntaş" id="name" value={this.state.fullname}
                             onChange={(e) => this.setState({fullname: e.target.value})}/>
                   </div>
                </div>
@@ -74,28 +76,6 @@ class Settings extends Component {
                             onChange={(e) => this.setState({email: e.target.value})}/>
                   </div>
                </div>
-               <div className="row">
-                  <div className="six columns">
-                     <label htmlFor="pass">old password</label>
-                     <input className={classNames({'hata': this.state.oldpassWarning})} type="password" placeholder="i.e. 123456" id="pass" value={this.state.oldpassword}
-                            onChange={(e) => this.setState({oldpassword: e.target.value})}/>
-                  </div>
-               </div>
-               <div className="row">
-                  <div className="six columns">
-                     <label htmlFor="pass">new password</label>
-                     <input className={classNames({'hata': this.state.passWarning})} type="password" placeholder="i.e. 123456" id="pass" value={this.state.password}
-                            onChange={(e) => this.setState({password: e.target.value})}/>
-                  </div>
-               </div>
-               <div className="row">
-                  <div className="six columns">
-                     <label htmlFor="passa">new password (again)</label>
-                     <input className={classNames({'hata': this.state.passaWarning})} type="password" placeholder="i.e. 123456" id="passa" value={this.state.passwordAgain}
-                            onChange={(e) => this.setState({passwordAgain: e.target.value})}/>
-                  </div>
-               </div>
-
 
                <div className="row mtop50 mbottom100">
                   <div className="six columns">
@@ -106,6 +86,7 @@ class Settings extends Component {
 
             </div>
 
+            </div>
          </div>
       );
    }
@@ -114,8 +95,8 @@ class Settings extends Component {
 
 const mapStateToProps = (state, ownProps) => {
    return {
-      user: state.auth.user,
-      loggingIn: state.auth.loggingIn
+      auth: state.auth,
+      message: state.auth.message
    }
 }
 

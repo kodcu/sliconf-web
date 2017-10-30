@@ -21,7 +21,8 @@
     "redux-persist": "^4.8.2",
     "redux-thunk": "^2.2.0",
     "superagent": "^3.5.2",
-    "moment": "^2.19.1"
+    "moment": "^2.19.1",
+    "styled-components":"^2.2.2"
   },
   "devDependencies": {
     "react-scripts": "1.0.10"

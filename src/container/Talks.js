@@ -4,12 +4,11 @@ import {connect} from 'react-redux';
 import * as talkActions from '../reducks/modules/speaker'
 import PageHead from "../components/PageHead";
 import Loading from "../components/Loading";
-import talkList from "../components/TalkList";
+import TalkList from "../components/TalkList";
 
 class Talks extends React.Component {
 
    componentWillMount(){
-      console.log("ye")
       this.props.fetchEventTalks(this.props.match.params.eventId);
    }
 
@@ -19,8 +18,8 @@ class Talks extends React.Component {
             <div className="row">
                <div className="twelve columns">
                   <PageHead title="All Talks"/>
-                  <Loading row="3" loading={this.props.talk.loading}>
-                     <talkList talks={this.props.talk.talks}/>
+                  <Loading row="3" loading={this.props.speaker.loading}>
+                     <TalkList talks={this.props.speaker.talks}/>
                   </Loading>
                </div>
             </div>
@@ -32,7 +31,7 @@ class Talks extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
    return {
-      talk: state.talk,
+      speaker: state.speaker,
       auth: state.auth,
    }
 }

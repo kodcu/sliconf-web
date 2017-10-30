@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import Validator from '../helpers/Validator';
 import randomString from 'random-string';
 
-class PassReset extends Component {
+class PassChange extends Component {
 
    state = {
       token:this.props.match.token,
@@ -14,21 +14,29 @@ class PassReset extends Component {
       passworda: "",
       warning: false,
       message: "",
+      oldpassword:"",
+      opassWarning:false,
       passWarning:false,
       passaWarning:false,
+      iePasso:randomString({length: 8}),
       iePass:randomString({length: 8}),
    }
 
 
    componentWillReceiveProps(nextProps) {
+      this.setState({warning: false})
       if (this.props.auth.error !== nextProps.auth.error) {
          console.log(this.props.auth.error);
          this.setState({warning: true, message:"Cannot reach destination server! ("+this.props.auth.error.status+")"})
       }
-
-      if (this.props.auth !== nextProps.auth) {
-         console.log(nextProps.message)
-         this.setState({warning: true, message: nextProps.auth.message})
+      if(nextProps.auth.loaded){
+         console.log(nextProps.auth)
+         if (this.props.auth !== nextProps.auth) {
+            console.log(nextProps.message)
+            if(nextProps.auth.message!=""){
+               this.setState({warning: true, message: nextProps.auth.message})
+            }
+         }
       }
    }
 
@@ -36,26 +44,31 @@ class PassReset extends Component {
       this.setState({token:this.props.match.params.token})
    }
 
-   resetPassword = (token, password) => {
-      this.setState({passWarning:false, passaWarning:false})
-      if(!Validator.minLen(8,this.state.password)){
+   changePassword = (token, password) => {
+      this.setState({passWarning:false, passaWarning:false, opassWarning:false})
+      if(!Validator.minLen(8,this.state.oldpassword)){
+         // uyari ver
+         console.log('şifre (again) 8 karakterden kısa')
+         this.setState({warning:true, message:"Password too short - minimum length is 8 characters."})
+         this.setState({opassWarning: true})
+      }else if(!Validator.minLen(8,this.state.password)){
          // uyari ver
          console.log('şifre 8 karakterden kısa')
-         this.setState({userWarning: true, warning:true, message:"Password too short - minimum length is 8 characters."})
+         this.setState({warning:true, message:"Password too short - minimum length is 8 characters."})
          this.setState({passWarning: true})
       }else if(!Validator.minLen(8,this.state.passworda)){
          // uyari ver
          console.log('şifre (again) 8 karakterden kısa')
-         this.setState({userWarning: true, warning:true, message:"Password too short - minimum length is 8 characters."})
+         this.setState({warning:true, message:"Password too short - minimum length is 8 characters."})
          this.setState({passaWarning: true})
       }else if(this.state.password!==this.state.passworda){
          // uyari ver
          console.log('uyusmuyor')
-         this.setState({userWarning: true, warning:true, message:"Passwords did not match. Please enter the same password in both fields."})
+         this.setState({warning:true, message:"Passwords did not match. Please enter the same password in both fields."})
          this.setState({passWarning: true, passaWarning: true})
       }else{
          // hersey okey
-         this.props.resetPassword(this.state.token, this.state.password)
+         this.props.changePassword(this.props.auth.user.id, this.state.oldpassword, this.state.password)
       }
    }
 
@@ -71,24 +84,29 @@ class PassReset extends Component {
                   <div className="six columns">
                      <div className="row">
                         <div className="twelve columns">
-                           <h2 style={{color: '#29b573'}}>Reset Password</h2>
+                           <h2 style={{color: '#29b573'}}>Change Password</h2>
                         </div>
                      </div>
                      <div className="row">
+                        <div className="twelve columns mtop50">
+                           <label htmlFor="pass">CURRENT Password</label>
+                           <input className={classNames({'hata': this.state.opassWarning})} type="password" placeholder={"i.e. "+this.state.iePasso} id="pass" value={this.state.oldpassword}
+                                  onChange={(e) => this.setState({oldpassword: e.target.value})}/>
+                        </div>
                         <div className="twelve columns">
-                           <label htmlFor="pass">Password</label>
+                           <label htmlFor="pass">NEW Password</label>
                            <input className={classNames({'hata': this.state.passWarning})} type="password" placeholder={"i.e. "+this.state.iePass} id="pass" value={this.state.password}
                                   onChange={(e) => this.setState({password: e.target.value})}/>
                         </div>
                         <div className="twelve columns">
-                        <label htmlFor="pass">Password (again)</label>
+                        <label htmlFor="pass">NEW Password (again)</label>
                         <input className={classNames({'hata': this.state.passaWarning})} type="password" placeholder={"i.e. "+this.state.iePass} id="pass" value={this.state.passworda}
                                onChange={(e) => this.setState({passworda: e.target.value})}/>
                         </div>
                      </div>
-                     <div className="row">
+                     <div className="row mtop50">
                         <div className="six columns">
-                           <button className="button-primary" onClick={this.resetPassword}>Reset</button>
+                           <button className="button-primary" onClick={this.changePassword}>Update</button>
                         </div>
                      </div>
                   </div>
@@ -110,5 +128,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
    return {...bindActionCreators(AuthActions, dispatch)}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PassReset)
+export default connect(mapStateToProps, mapDispatchToProps)(PassChange)
 

@@ -1,12 +1,12 @@
 export default {
    "event": {
       "id": "K123",
-         "name": "Javaday Istanbul 2018",
-         "startdate": "1508003749",
-         "enddate": "1508003749",
-         "logo": "https://pbs.twimg.com/profile_images/869175415822327808/O67MAYb2_400x400.jpg",
-         "description": "blablabla",
-         "about": {
+      "name": "Javaday Istanbul 2018",
+      "startdate": "1508003749",
+      "enddate": "1508003749",
+      "logo": "https://pbs.twimg.com/profile_images/869175415822327808/O67MAYb2_400x400.jpg",
+      "description": "blablabla",
+      "about": {
          "social": {
             "youtube": "y",
             "twitter": "t",
@@ -14,7 +14,7 @@ export default {
             "instagram": "i"
          },
          "web": "www.sliconf.com.tr",
-            "phone": [
+         "phone": [
             "555-555-5555",
             "333-333-3333"
          ],
@@ -24,7 +24,7 @@ export default {
             "description": "Hilton Kongre Ve Fuar Salonu, Hilton Hotel 50 N, 34367 Şişli / Istanbul"
          }
       },
-      "rooms":[
+      "rooms": [
          {
             "id": "r1",
             "label": "Room 1",
@@ -69,31 +69,31 @@ export default {
       ],
       "floorplan": [
          {
-            "id":"f1",
-            "name":"Kat 1",
-            "image":"http://dulukpark.com/admin/uploads/image/kat-plani/zemin-kat-3-11-2015.jpg"
+            "id": "f1",
+            "name": "Kat 1",
+            "image": "http://dulukpark.com/admin/uploads/image/kat-plani/zemin-kat-3-11-2015.jpg"
          },
          {
-            "id":"f2",
-            "name":"Kat 2",
-            "image":"http://www.adilgrup.com/Images/PhotoGalery/sancakli_evleri_AveC_Blok_planlar_normalKat.jpg"
+            "id": "f2",
+            "name": "Kat 2",
+            "image": "http://www.adilgrup.com/Images/PhotoGalery/sancakli_evleri_AveC_Blok_planlar_normalKat.jpg"
          }
       ],
 
-      "sponsortags":{
-         "s1":"Diamond",
-         "s2":"Gold",
+      "sponsortags": {
+         "s1": "Diamond",
+         "s2": "Gold",
       },
 
-         "sponsor": {
+      "sponsor": {
          "s1": [
             {
-               "id":"p1",
+               "id": "p1",
                "logo": "https://javaday.istanbul/wp-content/uploads/2016/07/peak-1.png",
                "name": "Sponsor1"
             },
             {
-               "id":"p2",
+               "id": "p2",
                "logo": "https://javaday.istanbul/wp-content/uploads/2016/07/kodcu.png",
                "name": "Sponsor2"
             }

@@ -4,11 +4,14 @@ import DatePicker from 'react-datepicker';
 import {bindActionCreators} from 'redux';
 import * as EventActions from '../reducks/modules/event'
 import moment from 'moment';
+import classNames from 'classnames'
 
 class EventPage extends Component {
 
    state = {
       isFirst:"",
+      warning: true,
+      message: "",
    }
 
    componentWillReceiveProps(nextProps) {
@@ -18,15 +21,21 @@ class EventPage extends Component {
 
       //Birden fazla componentWillReceiveProps cagirilmasin diye bu sekilde sarmalaniyor
       if ((this.props.event !== nextProps.event)) {
+         console.log(nextProps.event.status)
          if (nextProps.event.status === false) {
             //Yanlis girdi, mesaj bas
             this.setState({warning: true, message: nextProps.event.message})
-         } else {
+         } else if (nextProps.event.status === true){
+            if(nextProps.event.creation.key !== this.props.event.creation.key){
+
             //Dogru girildi, storela
             console.log("Event name : " + this.state.event_name)
             console.log("Event time : " + this.state.event_time)
             console.log("Event code : " + this.props.event.key)
+
             this.props.history.push('/addeventsuccess')
+
+            }
          }
       }
    }
@@ -62,6 +71,11 @@ class EventPage extends Component {
                         <h4>Let's create your{this.state.isFirst} Event.</h4>
                      </div>
                   </div>
+                  <div className={classNames('row warning', {'show': this.state.warning})}>
+                     <div className="twelve columns">
+                        <h4>{this.state.message}</h4>
+                     </div>
+                  </div>
                   <div className="row mtop50">
                      <div className="three columns">
                         <label htmlFor="name">Event Name</label>
@@ -74,6 +88,8 @@ class EventPage extends Component {
                         <label htmlFor="date">Event date</label>
                         <DatePicker
                            className="u-full-width"
+                           minDate={moment()}
+                           maxDate={moment().add(5, "years")}
                            selected={moment(this.state.event_time)}
                            onChange={this.changeDateValue('event_time')}
                         />

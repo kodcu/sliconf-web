@@ -2,6 +2,7 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as EventActions from '../reducks/modules/event';
+import * as RoomActions from '../reducks/modules/room';
 import PageHead from "../components/PageHead";
 import moment from 'moment';
 import classNames from 'classnames';
@@ -10,35 +11,38 @@ import ImageUpload from '../components/ImageUpload';
 import DatePicker from 'react-datepicker';
 import ReactDOMServer from 'react-dom/server';
 import Modal from 'react-modal';
+import RoomTag from "../components/RoomTag";
+import RoomCreate from "../components/RoomCreate";
 
 class EditEvent extends React.Component {
 
    componentWillMount(){
+      console.log(this.props)
       this.props.fetchEvent("K123");
    }
 
 
    state = {
       id: this.props.match.eventId,
-      name:"",
-      startdate:"",
-      enddate: "",
-      logo: "",
-      description: "",
-      youtube: "",
-      twitter: "",
-      facebook: "",
-      instagram: "",
-      web: "",
-      phone: "",
-      phonea: "",
-      lat: "",
-      lng: "",
-      mapdescription: "",
-      rooms:"",
-      sponsors: "",
-      tags: "",
-      floorplan : "",
+      name: this.props.event.name,
+      startdate: moment(this.props.event.startdate*1000),
+      enddate: moment(this.props.event.enddate*1000),
+      logo: this.props.event.logo,
+      description: this.props.event.description,
+      youtube: this.props.event.about.social.youtube,
+      twitter: this.props.event.about.social.twitter,
+      facebook: this.props.event.about.social.facebook,
+      instagram: this.props.event.about.social.instagram,
+      web: this.props.event.about.web,
+      phone: this.props.event.about.phone[0],
+      phonea: this.props.event.about.phone[1],
+      lat: this.props.event.about.location.lat,
+      lng: this.props.event.about.location.lng,
+      mapdescription: this.props.event.about.location.description,
+      rooms:this.props.event.rooms,
+      sponsors: this.props.event.sponsor,
+      tags: this.props.event.sponsortags,
+      floorplan : this.props.event.floorplan,
       modalImage: null,
       activeTab: "general",
       isLoading:false,
@@ -63,30 +67,6 @@ class EditEvent extends React.Component {
    */
 
    componentWillReceiveProps(nextProps) {
-      console.log(nextProps);
-      if(this.props.fetch.event.event.name !== nextProps.event.name){
-         this.setState({
-            name: nextProps.event.name,
-            startdate: moment(nextProps.event.startdate*1000),
-            enddate: moment(nextProps.event.enddate*1000),
-            logo: nextProps.event.logo,
-            description: nextProps.event.description,
-            youtube: nextProps.event.about.social.youtube,
-            twitter: nextProps.event.about.social.twitter,
-            facebook: nextProps.event.about.social.facebook,
-            instagram: nextProps.event.about.social.instagram,
-            web: nextProps.event.about.web,
-            phone: nextProps.event.about.phone[0],
-            phonea: nextProps.event.about.phone[1],
-            lat: nextProps.event.about.location.lat,
-            lng: nextProps.event.about.location.lng,
-            mapdescription: nextProps.event.about.location.description,
-            rooms:nextProps.event.rooms,
-            sponsors: nextProps.event.sponsor,
-            tags: nextProps.event.sponsortags,
-            floorplan : nextProps.event.floorplan,
-         });
-      }
       if (nextProps.speaker && this.props.speaker !== nextProps.speaker) {
          setTimeout(()=>{
             // yuklendi bildirimi cikartilabilir
@@ -125,33 +105,13 @@ class EditEvent extends React.Component {
    //I miss jquery
    $ = (sSelector) =>{
       let curr_node = document.querySelectorAll(sSelector);
-         return curr_node.length > 0 ? curr_node : false
+      return curr_node.length > 0 ? curr_node : false
    };
 
-   roomRemoveClick = (event) => {
-      let roomId = event.currentTarget.getAttribute("data-id");
-      this.$(".room[data-room="+roomId+"]")[0].remove();
-   };
 
    tagRemoveClick = (event) => {
       let roomId = event.currentTarget.getAttribute("data-id");
       this.$(".room[data-tag="+roomId+"]")[0].remove();
-   };
-
-   renderRoom = (roomId, modalImageId, roomLabel) => {
-      return(
-         <div key={roomId} data-room={roomId} data-floor={modalImageId} className="room" style={{background:this.getRandomColor(roomLabel)}}>{roomLabel} <div className="remove" data-id={roomId} onClick={this.roomRemoveClick}/></div>
-      )
-   };
-
-   getRooms = () => {
-      let indents = [];
-      for (let i = 0; i < this.state.rooms.length; i++) {
-         indents.push(this.renderRoom(this.state.rooms[i].id, this.state.rooms[i].floor, this.state.rooms[i].label));
-      }
-      return(
-         indents
-      )
    };
 
    renderTag = (tagId, tagLabel) => {
@@ -227,8 +187,6 @@ class EditEvent extends React.Component {
    //TODO idleri arkadan al
 
    createRoom = () => {
-      this.$(".rooms")[0].insertAdjacentHTML('beforeend',ReactDOMServer.renderToStaticMarkup(this.renderRoom(this.state.roomName, this.state.modalImageId, this.state.roomName)));
-      this.forceUpdate()
    };
 
    createTag = () => {
@@ -287,15 +245,15 @@ class EditEvent extends React.Component {
                   <div className="six columns">
 
 
-                               <ImageUpload onLoad={this.onFloorImageLoaded}>
-                                    {this.state.modalImage ?
-                                       <div className="row">
-                                          <div className="twelve columns">
-                                             <div className="resim" style={{backgroundImage: 'url("http://i.pravatar.cc/150?img=' + this.state.modalImage + '")'}} width="100%" alt=""/>
-                                          </div>
-                                       </div>: ''}
-                                    }
-                                 </ImageUpload>
+                     <ImageUpload onLoad={this.onFloorImageLoaded}>
+                        {this.state.modalImage ?
+                           <div className="row">
+                              <div className="twelve columns">
+                                 <div className="resim" style={{backgroundImage: 'url("http://i.pravatar.cc/150?img=' + this.state.modalImage + '")'}} width="100%" alt=""/>
+                              </div>
+                           </div>: ''}
+                        }
+                     </ImageUpload>
 
 
                   </div>
@@ -455,27 +413,10 @@ class EditEvent extends React.Component {
                      <div className="row mtop50">
                         <div className="twelve columns">
                            <h3>Rooms</h3>
-                           <div className="row">
-                              <div className="twelve columns" style={{marginLeft:0}}>
-                                 <div className="five columns">
-                                    <label htmlFor="roomname">Room Name</label>
-                                    <input className="u-full-width" type="text" placeholder="i.e. Room 1" id="roomname" value={this.state.roomName} onChange={(e) => this.setState({roomName: e.currentTarget.value})}/>
-                                 </div>
-                                 <div className="four columns">
-                                    <label htmlFor="floorname">Floor</label>
-                                    <select className="u-full-width" value={this.state.modalImageId} onChange={this.changeValue('modalImageId')}>
-                                       <option value="f1">Floor 1</option>
-                                       <option value="f2">Floor 2</option>
-                                    </select>
-                                 </div>
-                                 <div className="three columns">
-                                    <button className='u-full-width' style={{marginTop:21}} onClick={this.createRoom}>Create Room</button>
-                                 </div>
-                              </div>
-                           </div>
+                           <RoomCreate eventId={this.props.event.id}/>
                            <div className="row">
                               <div className="twelve columns rooms" style={{marginLeft:0}}>
-                                 {this.getRooms()}
+                                 {this.props.event ? this.props.event.rooms.map((room)=><RoomTag key={room.id} room={room} eventId={this.props.event.id}/>) : ''}
                               </div>
                            </div>
 
@@ -559,13 +500,14 @@ class EditEvent extends React.Component {
 const mapStateToProps = (state) => {
    return {
       fetch: state.event,
+      event: state.event.event,
       auth: state.auth,
    }
 };
 
 
 const mapDispatchToProps = (dispatch) => {
-   return bindActionCreators({...EventActions}, dispatch)
+   return bindActionCreators({...EventActions,...RoomActions}, dispatch)
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditEvent)

@@ -15,9 +15,12 @@ const RESETPASS_FAIL = 'auth/REGISTER_FAIL';
 const LOGOUT = 'auth/LOGOUT';
 const LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS';
 const LOGOUT_FAIL = 'auth/LOGOUT_FAIL';
-const UPDATE = 'auth/LOGOUT';
-const UPDATE_SUCCESS = 'auth/LOGOUT_SUCCESS';
-const UPDATE_FAIL = 'auth/LOGOUT_FAIL';
+const UPDATE = 'auth/UPDATE';
+const UPDATE_SUCCESS = 'auth/UPDATE_SUCCESS';
+const UPDATE_FAIL = 'auth/UPDATE_FAIL';
+const CHANGEPASS = 'auth/CHANGEPASS';
+const CHANGEPASS_SUCCESS = 'auth/CHANGEPASS_SUCCESS';
+const CHANGEPASS_FAIL = 'auth/CHANGEPASS_FAIL';
 
 const initialState = {
    loaded: false,
@@ -88,15 +91,24 @@ export default function reducer(state = initialState, action = {}) {
          };
       case RESETPASS:
          return {
-            ...state
+            ...state,
+            loading: true
          };
       case RESETPASS_SUCCESS:
          return {
-            ...state
+            ...state,
+            loading: false,
+            loaded: true,
+            status: action.result.status,
+            message: action.result.message,
+            error:null,
          };
       case RESETPASS_FAIL:
          return {
-            ...state
+            ...state,
+            loading: false,
+            loaded: true,
+            error: action.error
          };
       case LOGOUT:
          return {
@@ -117,15 +129,47 @@ export default function reducer(state = initialState, action = {}) {
          };
       case UPDATE:
          return {
-            ...state
+            ...state,
+            loading: true
          };
       case UPDATE_SUCCESS:
          return {
-            ...state
+            ...state,
+            loading: false,
+            loaded: true,
+            user: action.result.returnObject,
+            error:null,
+            status: action.result.status,
+            message: action.result.message
          };
       case UPDATE_FAIL:
          return {
-            ...state
+            ...state,
+            loading: false,
+            loaded: false,
+            error: action.error
+         };
+      case CHANGEPASS:
+         return {
+            ...state,
+            loading: true
+         };
+      case CHANGEPASS_SUCCESS:
+         return {
+            ...state,
+            loading: false,
+            loaded: true,
+            user: action.result.returnObject,
+            error:null,
+            status: action.result.status,
+            message: action.result.message
+         };
+      case CHANGEPASS_FAIL:
+         return {
+            ...state,
+            loading: false,
+            loaded: false,
+            error: action.error
          };
       default:
          return state;
@@ -180,11 +224,20 @@ export function resetPassword(token, pass) {
    }
 }
 
-export function update(id, username, fullname, oldpassword, password) {
+export function update(id, username, fullname) {
    return {
       types: [UPDATE, UPDATE_SUCCESS, UPDATE_FAIL],
       promise: (client) => client.post('/users/update', {
-         data: {id, username, fullname, oldpassword, password}
+         data: {id, username, fullname}
+      })
+   }
+}
+
+export function changePassword(id, oldpassword, password) {
+   return {
+      types: [CHANGEPASS, CHANGEPASS_SUCCESS, CHANGEPASS_FAIL],
+      promise: (client) => client.post('/users/changePassword', {
+         data: {id, oldpassword, password}
       })
    }
 }

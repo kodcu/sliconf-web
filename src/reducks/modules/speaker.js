@@ -116,7 +116,6 @@ export default function reducer(state = initialState, action = {}) {
             loading: true
          };
       case FETCH_TALKS_SUCCESS:
-         console.log("geldi")
          return {
             ...state,
             loading: false,

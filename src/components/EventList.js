@@ -39,7 +39,7 @@ class EventList extends React.Component {
                               <td><div className='eventimage' style={{backgroundImage:'url('+event.logo+')'}}/></td>
                               <td>{event.name}</td>
                               <td>{event.key}</td>
-                              <td>{event.date.date.day.toString()+"."+event.date.date.month.toString()+"."+event.date.date.year.toString()}</td>
+                              <td>{event.startDate.date.day.toString()+"."+event.startDate.date.month.toString()+"."+event.startDate.date.year.toString()}</td>
                               <td>{(event.name==='active') ? <div className="noproblem"></div> : <div className="problem"></div> }</td>
                               <td><button  onClick={() => this.props.history.push('/events/'+event.key+'/edit')}>Edit</button></td>
                            </tr>
