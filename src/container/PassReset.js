@@ -22,7 +22,6 @@ class PassReset extends Component {
 
    componentWillReceiveProps(nextProps) {
       if (this.props.auth.error !== nextProps.auth.error) {
-         console.log(this.props.auth.error);
          this.setState({warning: true, message:"Cannot reach destination server! ("+this.props.auth.error.status+")"})
       }
 

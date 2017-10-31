@@ -1,5 +1,3 @@
-import loginMock from "../../mock/login";
-
 const LOAD = 'auth/LOAD';
 const LOAD_SUCCESS = 'auth/LOAD_SUCCESS';
 const LOAD_FAIL = 'auth/LOAD_FAIL';
@@ -12,6 +10,9 @@ const REGISTER_FAIL = 'auth/REGISTER_FAIL';
 const RESETPASS = 'auth/REGISTER';
 const RESETPASS_SUCCESS = 'auth/REGISTER_SUCCESS';
 const RESETPASS_FAIL = 'auth/REGISTER_FAIL';
+const FORGOTPASS = 'auth/REGISTER';
+const FORGOTPASS_SUCCESS = 'auth/REGISTER_SUCCESS';
+const FORGOTPASS_FAIL = 'auth/REGISTER_FAIL';
 const LOGOUT = 'auth/LOGOUT';
 const LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS';
 const LOGOUT_FAIL = 'auth/LOGOUT_FAIL';
@@ -33,6 +34,7 @@ export default function reducer(state = initialState, action = {}) {
       case LOAD:
          return {
             ...state,
+            message:"",
             loading: true
          };
       case LOAD_SUCCESS:
@@ -52,6 +54,7 @@ export default function reducer(state = initialState, action = {}) {
       case LOGIN:
          return {
             ...state,
+            message:"",
             loggingIn: true
          };
       case LOGIN_SUCCESS:
@@ -72,6 +75,7 @@ export default function reducer(state = initialState, action = {}) {
       case REGISTER:
          return {
             ...state,
+            message:"",
             loggingIn: true
          };
       case REGISTER_SUCCESS:
@@ -92,6 +96,7 @@ export default function reducer(state = initialState, action = {}) {
       case RESETPASS:
          return {
             ...state,
+            message:"",
             loading: true
          };
       case RESETPASS_SUCCESS:
@@ -104,6 +109,29 @@ export default function reducer(state = initialState, action = {}) {
             error:null,
          };
       case RESETPASS_FAIL:
+         console.log(action.error)
+         return {
+            ...state,
+            loading: false,
+            loaded: true,
+            error: action.error
+         };
+      case FORGOTPASS:
+         return {
+            ...state,
+            message:"",
+            loading: true
+         };
+      case FORGOTPASS_SUCCESS:
+         return {
+            ...state,
+            loading: false,
+            loaded: true,
+            status: action.result.status,
+            message: action.result.message,
+            error:null,
+         };
+      case FORGOTPASS_FAIL:
          return {
             ...state,
             loading: false,
@@ -208,7 +236,7 @@ export function register(email, username, password) {
 
 export function sendForgotMail(email) {
    return {
-      types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],
+      types: [FORGOTPASS, FORGOTPASS_SUCCESS, FORGOTPASS_FAIL],
       promise: (client) => client.post('/users/password-reset/send/'+email)
    }
 }

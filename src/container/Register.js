@@ -26,7 +26,7 @@ class Register extends Component {
 
    componentWillReceiveProps(nextProps) {
       if (this.props.auth.loginError !== nextProps.auth.loginError) {
-         this.setState({warning: true, message:"Cannot reach destination server! ("+this.props.auth.loginError.status+")"})
+         this.setState({warning: true, message:"Cannot reach destination server!"})
       }else {
          if (this.props.auth !== nextProps.auth) {
             this.setState({

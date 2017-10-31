@@ -22,6 +22,7 @@ import PassChange from "./PassChange";
 import MailSuccess from "./MailSuccess";
 import Logout from "./Logout";
 import ModerateComments from "./ModerateComments";
+import Statics from "./Statics";
 
 class App extends Component {
    render() {
@@ -42,6 +43,7 @@ class App extends Component {
                      <PrivateRoute path="/events/:eventId/addtalk" component={AddTalk}/>
                      <PrivateRoute path="/events/:eventId/edit" component={EditEvent}/>
                      <PrivateRoute path="/events/:eventId/moderate" component={ModerateComments}/>
+                     <PrivateRoute path="/events/:eventId/statics" component={Statics}/>
                      <PrivateRoute path="/events" component={Events}/>
                      <PrivateRoute path="/addeventsuccess" component={AddEventSuccess}/>
                      <PrivateRoute path="/addevent" component={AddEvent}/>

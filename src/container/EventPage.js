@@ -15,6 +15,7 @@ class EventPage extends Component {
    }
 
    componentWillReceiveProps(nextProps) {
+      console.log(this.props.event);
       if (this.props.event.error !== nextProps.event.error) {
          this.setState({warning: true})
       }
@@ -26,7 +27,8 @@ class EventPage extends Component {
             //Yanlis girdi, mesaj bas
             this.setState({warning: true, message: nextProps.event.message})
          } else if (nextProps.event.status === true){
-            if(nextProps.event.creation.key !== this.props.event.creation.key){
+
+            if(nextProps.event.creation !== this.props.event.creation){
 
             //Dogru girildi, storela
             console.log("Event name : " + this.state.event_name)

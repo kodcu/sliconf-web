@@ -12,14 +12,14 @@ class Login extends Component {
       mailWarning:false,
       warning:false,
       message:"",
+      email:"",
    }
 
    componentWillReceiveProps(nextProps) {
-      if (this.props.auth.error !== nextProps.auth.error) {
-         this.setState({warning: true})
+      if (this.props.auth.loginError !== nextProps.auth.loginError) {
+         this.setState({warning: true, message:"Cannot reach destination server!"})
       }
       if(this.props.auth !== nextProps.auth){
-         console.log(nextProps.message)
          this.setState({warning: true, message: nextProps.auth.message})
       }
 

@@ -7,9 +7,9 @@ function formatUrl(path) {
    const adjustedPath = path[0] !== '/' ? '/' + path : path;
 
    if (process.env.NODE_ENV === "development") {
-      return 'http://sliconf.com:8090/service' + adjustedPath;
+      return 'http://sliconf.com/api' + adjustedPath;
    }
-   return '/service' + adjustedPath;
+   return '/api' + adjustedPath;
 }
 
 export default class ApiClient {
@@ -37,7 +37,6 @@ export default class ApiClient {
                request.query(params);
             }
 
-            console.log(data)
             if (data) {
                request.send(JSON.stringify(data));
             }

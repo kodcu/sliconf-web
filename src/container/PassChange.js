@@ -27,7 +27,7 @@ class PassChange extends Component {
       this.setState({warning: false})
       if (this.props.auth.error !== nextProps.auth.error) {
          console.log(this.props.auth.error);
-         this.setState({warning: true, message:"Cannot reach destination server! ("+this.props.auth.error.status+")"})
+         this.setState({warning: true, message:"Cannot reach destination server!"})
       }
       if(nextProps.auth.loaded){
          console.log(nextProps.auth)
