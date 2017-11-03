@@ -78,25 +78,26 @@ class ModerateComments extends Component {
       clearing:false,
    };
 
-   goEverywhere = (type,index,was) => {
+   //TODO state'leri arkadan al
+   //TODO Yorum satirlari ekle
+   changeState = (type,index,was) => {
       let mark = ["denied", "pending", "approved"];
-      console.log(mark, index, mark[index], was , index);
       let obj = this.state[mark[type]][index];
-      let keke = [
+      let tempState = [
          obj,
          ...this.state[mark[type+was]]
       ];
       this.setState({
-         [mark[type+was]]: keke,
+         [mark[type+was]]: tempState,
          isSaved: false
-      })
+      });
       setTimeout(() => {
          this.state[mark[type]].splice(index, 1);
       },300);
    };
 
    save = () => {
-      console.log("clearing");
+      //TODO Arka ile bagla
       this.setState({
          clearing: true
       });
@@ -129,19 +130,19 @@ class ModerateComments extends Component {
                      <div className="four columns">
                         <h2 className="mini red">DENIED</h2>
                         <div className={classNames('commentBox unapproved',{'clearing':(this.state.clearing)})}>
-                           <Comments comments={this.state.denied} goEverywhere={this.goEverywhere} type={0} {...this.props} />
+                           <Comments comments={this.state.denied} changeState={this.changeState} type={0} {...this.props} />
                         </div>
                      </div>
                      <div className="four columns">
                         <h2 className="mini gray">PENDING</h2>
                         <div className="commentBox pending">
-                           <Comments comments={this.state.pending} goEverywhere={this.goEverywhere} type={1} {...this.props} />
+                           <Comments comments={this.state.pending} changeState={this.changeState} type={1} {...this.props} />
                         </div>
                      </div>
                      <div className="four columns">
                         <h2 className="mini green">APPROVED</h2>
                         <div className={classNames('commentBox approved',{'clearing':(this.state.clearing)})}>
-                           <Comments comments={this.state.approved} goEverywhere={this.goEverywhere} type={2} {...this.props} />
+                           <Comments comments={this.state.approved} changeState={this.changeState} type={2} {...this.props} />
                         </div>
                      </div>
                   </div>

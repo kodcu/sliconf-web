@@ -773,14 +773,13 @@ select:focus {
 }
 .commentBox {
     width: 100%;
-    height:auto;
+    height:600px;
     overflow: auto;
     padding-right: 10px;
     margin-bottom:100px;
     transform: translateY(0px);
     opacity:1;
     transition: 0.4s transform, 0.3s opacity;
-    min-height:100vh;
 }
 .gray {
     color: #cedade;
@@ -1275,3 +1274,5 @@ ul.react-datepicker__time-list {
 li.menu {
     display:none;
 }
+
+
