@@ -1,6 +1,6 @@
-import events from "../../mock/events";
-import eventfetch from "../../mock/fetchevent";
-import eventCreated from "../../mock/createevent";
+//import events from "../../mock/events";
+//import eventfetch from "../../mock/fetchevent";
+//import eventCreated from "../../mock/createevent";
 
 const FETCH_EVENT = 'event/FETCH_EVENT';
 const FETCH_EVENT_SUCCESS = 'event/FETCH_EVENT_SUCCESS';
@@ -25,6 +25,17 @@ const FETCH_ROOMS_FAIL = 'event/FETCH_ROOMS_FAIL';
 const REMOVE_ROOM_FROM_LOCAL = 'event/REMOVE_ROOM_FROM_LOCAL';
 const ADD_ROOM_TO_LOCAL = 'event/ADD_ROOM_TO_LOCAL';
 
+const REMOVE_TAG_FROM_LOCAL = 'event/REMOVE_TAG_FROM_LOCAL';
+const ADD_TAG_TO_LOCAL = 'event/ADD_TAG_TO_LOCAL';
+
+const REMOVE_SPONSOR_FROM_LOCAL = 'event/REMOVE_SPONSOR_FROM_LOCAL';
+const EDIT_SPONSOR_FROM_LOCAL = 'event/EDIT_SPONSOR_FROM_LOCAL';
+const ADD_SPONSOR_TO_LOCAL = 'event/ADD_SPONSOR_TO_LOCAL';
+
+const REMOVE_FLOOR_FROM_LOCAL = 'event/REMOVE_FLOOR_FROM_LOCAL';
+const EDIT_FLOOR_FROM_LOCAL = 'event/EDIT_FLOOR_FROM_LOCAL';
+const ADD_FLOOR_TO_LOCAL = 'event/ADD_FLOOR_TO_LOCAL';
+
 const initialState = {
    loading: false,
    event: null,
@@ -40,12 +51,19 @@ export default function reducer(state = initialState, action = {}) {
             loading: true
          };
       case FETCH_EVENT_SUCCESS:
-         console.log("ye")
-         console.log(action.result)
+         //console.log(action.result)
+         const fillTheBlanks = action.result.returnObject;
+         fillTheBlanks.about = fillTheBlanks.about ? fillTheBlanks.about : {};
+         fillTheBlanks.rooms = fillTheBlanks.rooms ? fillTheBlanks.rooms : [];
+         fillTheBlanks.agenda = fillTheBlanks.agenda ? fillTheBlanks.agenda : [];
+         fillTheBlanks.speakers = fillTheBlanks.speakers ? fillTheBlanks.speakers : [];
+         fillTheBlanks.floorplan = fillTheBlanks.floorplan ? fillTheBlanks.floorplan : [];
+         fillTheBlanks.sponsortags = fillTheBlanks.sponsortags ? fillTheBlanks.sponsortags : {};
+         fillTheBlanks.sponsor = fillTheBlanks.sponsor ? fillTheBlanks.sponsor : {};
          return {
             ...state,
             loading: false,
-            event: action.result.event,
+            event: fillTheBlanks,
             error: null
          };
       case FETCH_EVENT_FAIL:
@@ -143,16 +161,87 @@ export default function reducer(state = initialState, action = {}) {
             ...state,
             event:{...state.event,rooms:[...state.event.rooms,action.room]}
          };
+      case REMOVE_TAG_FROM_LOCAL:
+         const filtereds = Object.keys(state.event.sponsor).filter(key => !action.tagId.includes(key)).reduce((obj, key) => {obj[key] = state.event.sponsor[key];return obj}, {});
+         const filtered = Object.keys(state.event.sponsortags).filter(key => !action.tagId.includes(key)).reduce((obj, key) => {obj[key] = state.event.sponsortags[key];return obj}, {});
+         return {
+            ...state,
+            event:{...state.event,sponsortags:filtered,sponsor:filtereds}
+         };
+      case ADD_TAG_TO_LOCAL:
+         const uniqueTagId = action.tag.id;
+         return {
+            ...state,
+            event:{...state.event,sponsortags:{...state.event.sponsortags,[uniqueTagId]:action.tag.label},sponsor:{...state.event.sponsor,[uniqueTagId]:[]}}
+         };
+      case REMOVE_SPONSOR_FROM_LOCAL:
+         const ses = state.event.sponsor;
+         Object.keys(ses).filter(key => ses[key].filter(key2 =>{if(action.sponsorId.includes(key2.id)){ses[key] = ses[key].filter(function(el){return el.id !== key2.id;});return false;}return false;}));
+         return {
+            ...state,
+            event:{...state.event,sponsor:ses}
+         };
+      case EDIT_SPONSOR_FROM_LOCAL:
+         const ses2 = state.event.sponsor;
+         Object.keys(ses2).filter(key => ses2[key].filter(key2 =>{if(action.sponsorId.includes(key2.id)){ses2[key] = ses2[key].filter(function(el){
+            if(el.id === key2.id){el.name = action.name;el.logo = action.logo;}
+            return true;
+         });}return false;}));
+         return {
+            ...state,
+            event:{...state.event,sponsor:ses2}
+         };
+      case ADD_SPONSOR_TO_LOCAL:
+         const ses3 = state.event.sponsor;
+         ses3[action.tagId].push({
+            id:'newid'+action.nthNew,
+            logo:action.sponsorImage,
+            name:action.sponsorName,
+         });
+         return {
+            ...state,
+            event:{...state.event,sponsor:ses3}
+         };
+      case REMOVE_FLOOR_FROM_LOCAL:
+         //console.log(action);
+         const ses4 = state.event.floorplan.filter(function(el){return el.id !== action.floorId;});;
+         return {
+            ...state,
+            event:{...state.event,floorplan:ses4}
+         };
+      case EDIT_FLOOR_FROM_LOCAL:
+         const ses5 = state.event.floorplan.filter(function(el){
+            if(el.id === action.floorId){
+               el.name = action.name;
+               el.image = action.image;
+            }
+            return true;
+         });
+         return {
+            ...state,
+            event:{...state.event,floorplan:ses5}
+         };
+      case ADD_FLOOR_TO_LOCAL:
+         const ses6 = state.event.floorplan;
+         ses6.push({
+            id:'newid'+action.nthNew,
+            image:action.floorImage,
+            name:action.floorName,
+         });
+         return {
+            ...state,
+            event:{...state.event,floorplan:ses6}
+         };
       default:
          return state;
    }
 }
 
 export function fetchEvent(eventId) {
+   //console.log(eventId);
    return {
       types: [FETCH_EVENT, FETCH_EVENT_SUCCESS, FETCH_EVENT_FAIL],
-      mock: eventfetch,
-      promise: (client) => client.post('/events/get/with-key/'+eventId)
+      promise: (client) => client.get('/events/get/with-key/'+eventId)
    }
 }
 
@@ -160,7 +249,7 @@ export function createEvent(userId, name, date) {
    return {
       types: [ADD_EVENT, ADD_EVENT_SUCCESS, ADD_EVENT_FAIL],
       promise: (client) => client.post('/events/create/'+userId,{
-         data: {userId, name, "startDate":date, "enderrorDate":date}
+         data: {userId, name, "startDate":date, "endDate":date}
       })
    }
 }
@@ -199,5 +288,63 @@ export function addRoomToLocal(room) {
    return {
       type: ADD_ROOM_TO_LOCAL,
       room
+   }
+}
+
+export function removeTagFromLocal(tagId) {
+   return {
+      type: REMOVE_TAG_FROM_LOCAL,
+      tagId
+   }
+}
+
+export function addTagToLocal(tag) {
+   return {
+      type: ADD_TAG_TO_LOCAL,
+      tag
+   }
+}
+
+
+export function removeSponsorFromLocal(sponsorId) {
+   return {
+      type: REMOVE_SPONSOR_FROM_LOCAL,
+      sponsorId
+   }
+}
+
+export function editSponsorFromLocal(sponsorId, name, logo) {
+   return {
+      type: EDIT_SPONSOR_FROM_LOCAL,
+      sponsorId,name,logo
+   }
+}
+
+export function addSponsorToLocal(sponsorName, sponsorImage, tagId,nthNew) {
+   return {
+      type: ADD_SPONSOR_TO_LOCAL,
+      sponsorName,sponsorImage,tagId,nthNew
+   }
+}
+
+
+export function removeFloorFromLocal(floorId) {
+   return {
+      type: REMOVE_FLOOR_FROM_LOCAL,
+      floorId
+   }
+}
+
+export function editFloorFromLocal(floorId, name, image) {
+   return {
+      type: EDIT_FLOOR_FROM_LOCAL,
+      floorId,name,image
+   }
+}
+
+export function addFloorToLocal(floorName, floorImage, nthNew) {
+   return {
+      type: ADD_FLOOR_TO_LOCAL,
+      floorName,floorImage,nthNew
    }
 }

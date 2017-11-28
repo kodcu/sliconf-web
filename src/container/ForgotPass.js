@@ -30,7 +30,7 @@ class Login extends Component {
       this.setState({mailWarning: false})
       if (!Validator.minMaxLen(5,50,this.state.email) || !Validator.isMail(this.state.email)){
          // uyari ver
-         console.log("email uygun değil")
+         //console.log("email uygun değil")
          this.setState({warning: true, message: "Please enter a valid email."});
          this.setState({mailWarning: true})
       }else{
@@ -57,7 +57,7 @@ class Login extends Component {
                   <div className="row">
                      <div className="twelve columns">
                         <label htmlFor="email">Email</label>
-                        <input className={classNames({'hata': this.state.mailWarning})} type="email" placeholder="i.e. altuga@kodcu.com" id="email" value={this.state.email}
+                        <input className={classNames({'hata': this.state.mailWarning})} type="email" id="email" value={this.state.email}
                                onChange={(e) => this.setState({email: e.target.value})}/>
                      </div>
                   </div>

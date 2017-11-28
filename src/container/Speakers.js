@@ -1,6 +1,7 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 import * as SpeakerActions from '../reducks/modules/speaker'
 import PageHead from "../components/PageHead";
 import Loading from "../components/Loading";
@@ -12,6 +13,7 @@ class Speakers extends React.Component {
       this.props.fetchEventSpeakers(this.props.match.params.eventId);
    }
 
+
    render() {
       return (
          <div className="container mtop">
@@ -19,7 +21,12 @@ class Speakers extends React.Component {
                <div className="twelve columns">
                   <PageHead title="All Speakers"/>
                   <Loading row="3" loading={this.props.speaker.loading}>
-                     <SpeakerList speakers={this.props.speaker.speakers}/>
+                     <SpeakerList eventId={this.props.match.params.eventId} speakers={this.props.speaker.speakers} topProps={this.props}/>
+                     <div className="row mtop25 mbottom100">
+                        <div className="twelve columns">
+                           <Link to="./addspeaker" className="button button-primary">Add Speaker</Link>
+                        </div>
+                     </div>
                   </Loading>
                </div>
             </div>

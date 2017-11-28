@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import * as AuthActions from '../reducks/modules/auth'
 import classNames from 'classnames'
 import Validator from '../helpers/Validator';
-import randomString from 'random-string';
 
 class PassReset extends Component {
 
@@ -16,7 +15,6 @@ class PassReset extends Component {
       message: "",
       passWarning:false,
       passaWarning:false,
-      iePass:randomString({length: 8}),
    }
 
 
@@ -39,17 +37,17 @@ class PassReset extends Component {
       this.setState({passWarning:false, passaWarning:false})
       if(!Validator.minLen(8,this.state.password)){
          // uyari ver
-         console.log('şifre 8 karakterden kısa')
+         //console.log('şifre 8 karakterden kısa')
          this.setState({userWarning: true, warning:true, message:"Password too short - minimum length is 8 characters."})
          this.setState({passWarning: true})
       }else if(!Validator.minLen(8,this.state.passworda)){
          // uyari ver
-         console.log('şifre (again) 8 karakterden kısa')
+         //console.log('şifre (again) 8 karakterden kısa')
          this.setState({userWarning: true, warning:true, message:"Password too short - minimum length is 8 characters."})
          this.setState({passaWarning: true})
       }else if(this.state.password!==this.state.passworda){
          // uyari ver
-         console.log('uyusmuyor')
+         //console.log('uyusmuyor')
          this.setState({userWarning: true, warning:true, message:"Passwords did not match. Please enter the same password in both fields."})
          this.setState({passWarning: true, passaWarning: true})
       }else{
@@ -76,12 +74,12 @@ class PassReset extends Component {
                      <div className="row">
                         <div className="twelve columns">
                            <label htmlFor="pass">Password</label>
-                           <input className={classNames({'hata': this.state.passWarning})} type="password" placeholder={"i.e. "+this.state.iePass} id="pass" value={this.state.password}
+                           <input className={classNames({'hata': this.state.passWarning})} type="password" id="pass" value={this.state.password}
                                   onChange={(e) => this.setState({password: e.target.value})}/>
                         </div>
                         <div className="twelve columns">
                         <label htmlFor="pass">Password (again)</label>
-                        <input className={classNames({'hata': this.state.passaWarning})} type="password" placeholder={"i.e. "+this.state.iePass} id="pass" value={this.state.passworda}
+                        <input className={classNames({'hata': this.state.passaWarning})} type="password" id="pass" value={this.state.passworda}
                                onChange={(e) => this.setState({passworda: e.target.value})}/>
                         </div>
                      </div>

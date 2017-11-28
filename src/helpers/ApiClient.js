@@ -1,5 +1,6 @@
 import superagent from 'superagent';
-import config from '../config'
+//WARNING
+//import config from '../config'
 
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
@@ -7,7 +8,7 @@ function formatUrl(path) {
    const adjustedPath = path[0] !== '/' ? '/' + path : path;
 
    if (process.env.NODE_ENV === "development") {
-      return 'http://sliconf.com/api' + adjustedPath;
+      return 'http://app.sliconf.com/api' + adjustedPath;
    }
    return '/api' + adjustedPath;
 }
@@ -27,7 +28,9 @@ export default class ApiClient {
          this[method] = (path, {params, data, file} = {}) => new Promise((resolve, reject) => {
             const request = superagent[method](formatUrl(path));
 
-            request.set("Content-Type", "application/json")
+            if(!file){
+               request.set("Content-Type", "application/json")
+            }
             /*
             if(this.token){
                request.set('token',this.token);
@@ -41,7 +44,7 @@ export default class ApiClient {
                request.send(JSON.stringify(data));
             }
             if (file) {
-               request.attach('file', file)
+               request.attach('uploaded_file', file)
             }
 
             request.end((err, {body} = {}) => err ? reject(body || err) : resolve(body));

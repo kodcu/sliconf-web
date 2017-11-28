@@ -60,12 +60,16 @@ class EventSuccess extends Component {
                      <h2>{this.state.mostLikedQuestion}</h2>
                   </div>
                </div>
-               <div className="row">
-                  <div className="twelve columns">
-                     <h4>Share</h4>
-                     <button>facebook</button> <button>twitter</button> <button>instagram</button>
+               {/*
+                  <div className="row">
+                     <div className="twelve columns">
+                        <h4>Share</h4>
+                        <button>facebook</button>
+                        <button>twitter</button>
+                        <button>instagram</button>
+                     </div>
                   </div>
-               </div>
+               */}
             </div>
       );
    }

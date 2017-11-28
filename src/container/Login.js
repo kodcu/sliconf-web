@@ -5,7 +5,6 @@ import * as AuthActions from '../reducks/modules/auth'
 import classNames from 'classnames'
 import {Link} from 'react-router-dom';
 import Validator from '../helpers/Validator';
-import randomString from 'random-string';
 
 class Login extends Component {
 
@@ -17,7 +16,6 @@ class Login extends Component {
       kullaniciId: "",
       userWarning:false,
       passWarning:false,
-      iePass:randomString({length: 8}),
    }
 
    componentWillReceiveProps(nextProps) {
@@ -43,12 +41,12 @@ class Login extends Component {
       this.setState({userWarning: false, passWarning:false})
       if (!Validator.minMaxLen(4,50,this.state.user)){
          // uyari ver
-         console.log("isim uygun değil")
+         //console.log("isim uygun değil")
          this.setState({userWarning: true})
          this.setState({warning: true, message: "Username too short - minimum length is 4 characters."})
       }else if(!Validator.minLen(8,this.state.password)){
          // uyari ver
-         console.log('şifre 8 karakterden kısa')
+         //console.log('şifre 8 karakterden kısa')
          this.setState({warning: true, message: "Password too short - minimum length is 8 characters."})
          this.setState({passWarning: true})
       }else{
@@ -75,11 +73,11 @@ class Login extends Component {
                      <div className="row">
                         <div className="twelve columns">
                            <label htmlFor="user">Username</label>
-                           <input className={classNames({'hata': this.state.userWarning})} type="text" placeholder="i.e. altuga" id="user" value={this.state.user} onChange={(e) => this.setState({user: e.target.value})}/>
+                           <input className={classNames({'hata': this.state.userWarning})} type="text" id="user" placeholder={"Username"} value={this.state.user} onChange={(e) => this.setState({user: e.target.value})}/>
                         </div>
                         <div className="twelve columns">
                            <label htmlFor="pass">Password</label>
-                           <input className={classNames({'hata': this.state.passWarning})} type="password" placeholder={"i.e. "+this.state.iePass} id="pass" value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
+                           <input className={classNames({'hata': this.state.passWarning})} type="password" id="pass" placeholder={"Password"} value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
                         </div>
                      </div>
                      <div className="row">

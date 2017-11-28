@@ -12,10 +12,11 @@ class RoomTag extends React.Component {
    }
 
    remove = () => {
-      this.props.removeRoom(this.props.eventId,this.props.room.id)
+      this.props.removeAlert(this.props.room.id);
+      //this.props.removeRoom(this.props.eventId,this.props.room.id)
    }
 
-   componentWillReceivePros(nextProps){
+   componentWillReceiveProps(nextProps){
       if(this.props.roomStore.del !== nextProps.roomStore.del){
          this.props.removeRoomFromLocal(this.props.room.id);
       }
@@ -23,14 +24,13 @@ class RoomTag extends React.Component {
 
    componentWillMount() {
       const {room} = this.props;
-      console.log(room)
       this.setState({
          color: '#' + randomColor.generate(room.label)
       })
    }
 
    render() {
-      const {room,remove} = this.props;
+      const {room} = this.props;
       return (
          <div key={room.id} className="room" style={{background: this.state.color}}>
             {room.label} <div className="remove" onClick={this.remove}/>

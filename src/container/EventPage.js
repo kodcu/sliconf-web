@@ -12,7 +12,7 @@ class EventPage extends Component {
       isFirst:"",
       warning: true,
       message: "",
-   }
+   };
 
    componentWillReceiveProps(nextProps) {
       console.log(this.props.event);
@@ -27,16 +27,12 @@ class EventPage extends Component {
             //Yanlis girdi, mesaj bas
             this.setState({warning: true, message: nextProps.event.message})
          } else if (nextProps.event.status === true){
-
             if(nextProps.event.creation !== this.props.event.creation){
-
-            //Dogru girildi, storela
-            console.log("Event name : " + this.state.event_name)
-            console.log("Event time : " + this.state.event_time)
-            console.log("Event code : " + this.props.event.key)
-
-            this.props.history.push('/addeventsuccess')
-
+               //Dogru girildi, storela
+               //console.log("Event name : " + this.state.event_name)
+               //console.log("Event time : " + this.state.event_time)
+               //console.log("Event code : " + this.props.event.key)
+               this.props.history.push('/addeventsuccess')
             }
          }
       }
@@ -46,7 +42,7 @@ class EventPage extends Component {
       super(props)
       this.state = {
          event_name: "",
-         event_time:moment().unix() * 1000
+         event_time:(Math.floor(moment().unix()/3600)+1)*3600 * 1000
       };
    }
 
@@ -54,13 +50,12 @@ class EventPage extends Component {
       return (date) => {
          this.setState({[name]:moment(date).unix() * 1000})
       }
-   }
+   };
 
    createEvent = () => {
-      var t = moment( this.state.event_time );
-      var formatted = t.format("YYYY-MM-DDTHH:mm:ss.000");
-      this.props.createEvent(this.props.user.id,this.state.event_name, formatted)
-   }
+      let t = moment( this.state.event_time ).unix()*1000;
+      this.props.createEvent(this.props.user.id,this.state.event_name, t)
+   };
 
    render() {
       return (
@@ -81,7 +76,7 @@ class EventPage extends Component {
                   <div className="row mtop50">
                      <div className="three columns">
                         <label htmlFor="name">Event Name</label>
-                        <input className={"u-full-width"} type="text" placeholder="i.e. Javaday" id="name" value={this.state.event_name}
+                        <input className={"u-full-width"} type="text" id="name" value={this.state.event_name}
                                onChange={(e) => this.setState({event_name: e.target.value})}/>
                      </div>
                   </div>
@@ -89,10 +84,13 @@ class EventPage extends Component {
                      <div className="three columns">
                         <label htmlFor="date">Event date</label>
                         <DatePicker
+                           showTimeSelect
+                           timeIntervals={60}
                            className="u-full-width"
                            minDate={moment()}
                            maxDate={moment().add(5, "years")}
-                           selected={moment(this.state.event_time)}
+                           selected={moment((Math.floor(moment().unix()/3600)+1)*3600000)}
+                           selectsStart
                            onChange={this.changeDateValue('event_time')}
                         />
                      </div>

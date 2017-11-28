@@ -603,35 +603,112 @@ h4 {
     }
 }
 @media (max-width: 820px) {
+
+    ul.navbar-list::before {
+        content: '';
+        width: 100vw;
+        height: 100%;
+        background: white;
+        position: absolute;
+        left: -10vw;
+        top: 0;
+        z-index: -1;
+    }
+
+    .events, .events thead, .events tbody, .events th, .events td, .events tr {
+        display: block;
+    }
+
+    .events .eventimage{
+        float:none;
+        margin: 0 auto;
+        width: 120px;
+        height: 120px;
+    }
+
+    .events thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .events tr{
+        border-radius:7px;
+        border:1px solid #eee;
+        margin-bottom:30px;
+    }
+
+    .events td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+        text-align:center;
+        width:auto !important;
+    }
+
+    .events td:before {
+        position: absolute;
+        top: 13px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+
+    .events td:last-child{border:none;padding-bottom:2px;}
+
+    .events td:nth-of-type(1):before { width:none; }
+    .events td:nth-of-type(2):before { content: "Title"; }
+    .events td:nth-of-type(3):before { content: "Key"; }
+    .events td:nth-of-type(4):before { content: "Date"; }
+    .events td:nth-of-type(5):before { content: "Status"; }
+    .events td:nth-of-type(6):before { width:none;}
+    .events td:nth-of-type(1), .events td:nth-of-type(6){padding-left:0px;}
+
+    .speakers .topics {width: 100%;max-width: inherit;}
+    .speakers .topics .ongoing {margin-bottom: 10px;}
+    .speakers .topics::before {margin-top: 10px;}
+    .speakers td:nth-of-type(2):before{content:'Full Name'}
+    .speakers td:nth-of-type(3):before{content:'Working At'}
+    .speakers td:nth-of-type(4):before{content:'Topics'}
+
     .mtop {
         margin-top: 0;
     }
+
+
+
     .navbar li.navbar-item {
-        display: none;
-    }
-
-    .navbar.open .navbar-list {
-        display: none;
-    }
-
-    .navbar.open li.navbar-item {
         display: block;
         width: 100%;
         background: white;
         text-align:center;
+        left:-999px;
+        position:absolute !important;
     }
 
-    .navbar.open ul.navbar-list {
+    .navbar ul.navbar-list {
         display: block;
         position: absolute;
         z-index: 4;
         background: white;
         height: calc(100vh - 65px);
         width: 100%;
-        left: 0;
         top: 65px;
-        left: 0;
+        left: -99999px;
         padding-top:30px;
+        opacity:0;
+        transition:0.3s opacity;
+    }
+
+    .navbar.open li.navbar-item {
+        position:static !important;
+    }
+
+    .navbar.open ul.navbar-list {
+        opacity: 1;
+        left: 0;
     }
 
     li.menu {
@@ -842,7 +919,7 @@ input.hata {
 
 /* RESIM YUKLEME ILE ILGILI */
 .resim {
-    background-size: cover;
+    background-size: contain;
     background-position: 50%;
     width: 250px;
     height: 250px;
@@ -938,15 +1015,6 @@ input.hata {
     border-right: 0;
 }
 
-.tab{
-    clear:both;
-    display:none;
-}
-
-.tab.active{
-    display:block;
-}
-
 .clickable{
     cursor:pointer;
 }
@@ -961,8 +1029,6 @@ input.hata {
     color: #29b573;
 }
 
-
-
 .eventimage {
     width: 48px;
     height: 48px;
@@ -970,6 +1036,7 @@ input.hata {
     background-repeat: no-repeat;
     background-position: 50%;
     box-shadow: 0 0 1px gainsboro;
+    border-radius: 50%;
 }
 
 .button-red, .button-red:hover{
@@ -1155,7 +1222,7 @@ ul.react-datepicker__time-list {
     width: 100%;
     height: 100%;
     display: block;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
 }
@@ -1275,4 +1342,75 @@ li.menu {
     display:none;
 }
 
+.events button {
+    padding: 5px 10px;
+    margin-right: 3px;
+}
 
+.navbar-list li:last-child a {
+    margin-right: 0;
+}
+
+ul.navbar-list:not(.clickable) {
+    float: right;
+}
+
+.tab {
+    clear: both;
+    position: absolute;
+    transform: translateX(-100vw);
+    transition: 1s transform, 0.9s opacity;
+    width: 100%;
+    background:white;
+    opacity:0;
+    padding-bottom: 100px;
+}
+
+.tab.active {
+    display: block;
+    transform: translateX(0vw);
+    opacity:1;
+}
+
+.tab.active ~ .tab{
+    transform: translateX(100vw);
+}
+
+.topics{
+    width: 350px;
+    max-width: 350px;
+    overflow: hidden;
+    position: relative;
+}
+
+.topics::after {
+    content: '';
+    background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+    background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 );
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 25px;
+    height: 100%;
+    z-index: 3;
+}
+
+.ongoing{
+    width: 30000px;
+    overflow: hidden;
+}
+
+.ongoing .room{
+    background: gainsboro;
+    margin: 0;
+    margin-right: 10px;
+}
+
+input.button-primary:disabled, input.button-primary:disabled:hover {
+    background: gray !important;
+    border-color: gray !important;
+    box-shadow: none !important;
+    cursor:default !important;
+}

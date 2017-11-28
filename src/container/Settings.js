@@ -9,10 +9,10 @@ import Validator from '../helpers/Validator';
 class Settings extends Component {
 
    state = {
-      userId:this.props.auth.user.id,
-      username: this.props.auth.user.username,
-      email: this.props.auth.user.email,
-      fullname: this.props.auth.user.fullname,
+      userId:this.props.auth.user.id ? this.props.auth.user.id : '',
+      username: this.props.auth.user.username ? this.props.auth.user.username : '',
+      email: this.props.auth.user.email ? this.props.auth.user.email : '',
+      fullname: this.props.auth.user.fullname ? this.props.auth.user.fullname : '',
       userWarning:false,
       warning:true,
       message:""
@@ -23,7 +23,7 @@ class Settings extends Component {
          this.setState({warning: true})
       }
       if(this.props.auth !== nextProps.auth){
-         console.log(nextProps.message)
+         console.log(this.props)
          this.setState({warning: true, message: nextProps.auth.message})
       }
 
@@ -58,21 +58,21 @@ class Settings extends Component {
                <div className="row mtop50">
                   <div className="six columns">
                      <label htmlFor="name">full name</label>
-                     <input type="text" placeholder="i.e. Altuğ Bilgin Altıntaş" id="name" value={this.state.fullname}
+                     <input type="text" id="name" value={this.state.fullname}
                             onChange={(e) => this.setState({fullname: e.target.value})}/>
                   </div>
                </div>
                <div className="row">
                   <div className="six columns">
                      <label htmlFor="name">username</label>
-                     <input className={classNames({'hata': this.state.userWarning})} type="text" placeholder="i.e. altuga" id="name" value={this.state.username}
+                     <input className={classNames({'hata': this.state.userWarning})} type="text" id="name" value={this.state.username}
                             onChange={(e) => this.setState({username: e.target.value})}/>
                   </div>
                </div>
                <div className="row">
                   <div className="six columns">
                      <label htmlFor="mail">e-mail</label>
-                     <input disabled={true} className={classNames({'hata': this.state.mailWarning})} type="email" placeholder="i.e. altuga@kodcu.com" id="mail" value={this.state.email}
+                     <input disabled={true} className={classNames({'hata': this.state.mailWarning})} type="email" id="mail" value={this.state.email}
                             onChange={(e) => this.setState({email: e.target.value})}/>
                   </div>
                </div>

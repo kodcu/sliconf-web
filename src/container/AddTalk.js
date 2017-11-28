@@ -5,7 +5,9 @@ import * as TalkActions from '../reducks/modules/speaker'
 import PageHead from "../components/PageHead";
 import moment from 'moment';
 import classNames from 'classnames';
+import * as EventActions from '../reducks/modules/event';
 import DatePicker from 'react-datepicker';
+import Loading from "../components/Loading";
 
 class AddTalk extends React.Component {
 
@@ -18,6 +20,9 @@ class AddTalk extends React.Component {
       room:'',
       startDate:moment.now(),
       duration:'',
+      speakers:[],
+      rooms:[],
+      loading:true,
    }
 
    getTalkData = () => {
@@ -30,31 +35,43 @@ class AddTalk extends React.Component {
       }
    }
 
-   componentWillReceiveProps(nextProps) {
+   componentWillMount(){
+      this.props.fetchEvent("K123");
+   }
 
+
+   componentWillReceiveProps(nextProps) {
+      if (nextProps.event && this.props.event !== nextProps.event) {
+         this.setState({
+            speakers:nextProps.event.speakers,
+            rooms:nextProps.event.rooms,
+            loading:false,
+         });
+      }
    }
 
    addTalk = () => {
       this.props.addTalk(this.props.match.params.eventId, {...this.getTalkData()})
-   }
+   };
 
    changeValue = (name) => {
       return (e) => {
          this.setState({[name]: e.target.value})
       }
-   }
+   };
 
    changeDateValue = (name) => {
       return (date) => {
          this.setState({[name]: moment(date).unix() * 1000})
       }
-   }
+   };
 
    render() {
       return (
          <div className="container mtop">
             <div className="row">
                <div className="twelve columns">
+                  <Loading row="3" loading={this.state.loading}>
                   <PageHead title="Add Talk"/>
                   <div className="row">
                      <div className="six columns">
@@ -62,15 +79,14 @@ class AddTalk extends React.Component {
                            <div className="twelve columns">
                               <label>Speaker</label>
                               <select className="u-full-width" value={this.state.speaker} onChange={this.changeValue('speaker')}>
-                                 <option value="spe1">Martin Fowler</option>
-                                 <option value="spe2">John Smith</option>
+                                 {this.state.speakers.map((sponsor)=><option key={sponsor.id} value={sponsor.id}>{sponsor.name}</option>)}
                               </select>
                            </div>
                         </div>
                         <div className="row">
                            <div className="twelve columns">
                               <label htmlFor="topic">Topic</label>
-                              <input className="u-full-width" type="text" placeholder="i.e. microservices"
+                              <input className="u-full-width" type="text"
                                      value={this.state.topic} onChange={this.changeValue('topic')}/>
                            </div>
                         </div>
@@ -98,9 +114,7 @@ class AddTalk extends React.Component {
                            <div className="six columns">
                               <label htmlFor="exampleRecipientInput">Room</label>
                               <select className="u-full-width" value={this.state.room} onChange={this.changeValue('room')}>
-                                 <option value="0">Room 1</option>
-                                 <option value="1">Room 2</option>
-                                 <option value="2">Room 3</option>
+                                 {this.state.rooms.map((room)=><option key={room.id} value={room.id}>{room.label}</option>)}
                               </select>
                            </div>
                         </div>
@@ -121,16 +135,17 @@ class AddTalk extends React.Component {
                         <div className="row">
                            <div className="six columns">
                               <label>Duration(<small>minutes</small>)</label>
-                              <input type="number" className="u-full-width" value={this.state.duration} onChange={this.changeValue('duration')} placeholder="i.e. 50"/>
+                              <input type="number" className="u-full-width" value={this.state.duration} onChange={this.changeValue('duration')}/>
                            </div>
                         </div>
                      </div>
                   </div>
                   <div className="row mtop50 mbottom100">
                      <div className="six columns">
-                        <input className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue="next"/>
+                        <input className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue="ADD SPEAKER"/>
                      </div>
                   </div>
+                  </Loading>
                </div>
             </div>
          </div>
@@ -140,6 +155,7 @@ class AddTalk extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
    return {
+      event: state.event.event,
       talk: state.talk,
       auth: state.auth,
    }
@@ -147,7 +163,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return bindActionCreators({...TalkActions}, dispatch)
+   return bindActionCreators({...EventActions,...TalkActions}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTalk)

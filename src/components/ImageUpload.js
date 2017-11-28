@@ -6,28 +6,28 @@ import classNames from 'classnames'
 class ImageUpload extends React.Component {
 
    state = {
-      imageId:null
+      imageId:this.props.logo
+   };
+
+   componentWillReceiveProps(nextProps){
+      if(nextProps.logo){
+         this.setState({
+            imageId:nextProps.logo,
+         })
+      }
    }
 
    onDropFiles = (acceptedFiles, rejectedFiles) => {
       if (acceptedFiles.length) {
-         new ApiClient().post('/image',{
-            file: acceptedFiles[0]
+         new ApiClient().post('/image/upload',{
+            file: acceptedFiles[0],
          }).then((res)=>{
-            this.setState({imageId:res.id},()=>{
+            this.setState({imageId:res.returnObject},()=>{
                if(this.props.onLoad) {
-                  this.props.onLoad(res.id)
+                  this.props.onLoad(res.returnObject)
                }
             })
          },(err)=>{
-            // bu kısmı sil
-            let id = (Math.ceil(Math.random() * (70 - 1) + 1))
-            this.setState({imageId:id},()=>{
-               if(this.props.onLoad) {
-                  this.props.onLoad(id)
-               }
-            })
-            // buraya kadar
             if(this.props.onError) {
                this.props.onError(err)
             }
@@ -45,7 +45,7 @@ class ImageUpload extends React.Component {
             accept="image/jpeg, image/png"
             onDrop={this.onDropFiles}
             style={{}}
-            className={classNames('resimHolder', {'active':!!this.state.imageId})}
+            className={classNames('resimHolder', {'active':(this.state.imageId!=='' && this.state.imageId!=="http://app.sliconf.com:8090/service/image/get/")})}
          >
             {this.props.children}
          </Dropzone>

@@ -1,4 +1,4 @@
-import speakers from "../../mock/speakers";
+//import speakers from "../../mock/speakers";
 import talks from "../../mock/talks";
 
 const FETCH_SPEAKER = 'speaker/FETCH_SPEAKER';
@@ -61,14 +61,14 @@ export default function reducer(state = initialState, action = {}) {
          return {
             ...state,
             loading: false,
-            speaker: action.result,
+            speakers: action.result.returnObject,
             error: null
          };
       case ADD_SPEAKER_FAIL:
          return {
             ...state,
             loading: false,
-            speaker: null,
+            speakers: null,
             error: action.error
          };
       // -----
@@ -81,7 +81,7 @@ export default function reducer(state = initialState, action = {}) {
          return {
             ...state,
             loading: false,
-            speakers: action.result
+            speakers: action.result.returnObject.speakers
          };
       case FETCH_SPEAKERS_FAIL:
          return {
@@ -136,8 +136,8 @@ export default function reducer(state = initialState, action = {}) {
 export function addSpeaker(eventId, speaker) {
    return {
       types: [ADD_SPEAKER, ADD_SPEAKER_SUCCESS, ADD_SPEAKER_FAIL],
-      promise: (client) => client.post('/speakers', {
-         data: {eventId, speaker}
+      promise: (client) => client.post('/events/speaker/create/'+eventId, {
+         data: speaker
       })
    }
 }
@@ -159,7 +159,8 @@ export function fetchTalk(speakerId) {
 export function fetchEventSpeakers(eventId) {
    return {
       types: [FETCH_SPEAKERS, FETCH_SPEAKERS_SUCCESS, FETCH_SPEAKERS_FAIL],
-      mock: speakers
+      promise: (client) => client.get('/events/get/with-key/'+eventId)
+      //mock: speakers
       //promise: (client) => client.post('/events/'+eventId+'/speakers')
    }
 }

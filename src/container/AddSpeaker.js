@@ -3,65 +3,79 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as SpeakerActions from '../reducks/modules/speaker'
 import PageHead from "../components/PageHead";
-import moment from 'moment';
-import classNames from 'classnames';
 import ImageUpload from '../components/ImageUpload'
 
 class AddSpeaker extends React.Component {
 
    state = {
       fullName: '',
+      image:'',
       detail: '',
       workingAt: '',
-      imageId: null,
       linkedin: '',
       twitter: '',
-   }
+      topicsRaw:'',
+      topics:[],
+   };
 
    getSpeakerData = () => {
       return {
-         imageId: this.state.imageId,
-         fullName: this.state.fullName,
+         name: this.state.fullName,
+         profilePicture: this.state.image,
          detail: this.state.detail,
          workingAt: this.state.workingAt,
          linkedin: this.state.linkedin,
-         twitter: this.state.twitter
+         twitter: this.state.twitter,
+         topics:  this.state.topics,
       }
-   }
+   };
 
    componentWillReceiveProps(nextProps) {
-      if (nextProps.image.id && this.props.image.id !== nextProps.image.id) {
-         this.setState({imageId: nextProps.image.id})
-      }
-      if (nextProps.speaker && this.props.speaker !== nextProps.speaker) {
-         setTimeout(()=>{
-            // yüklendi bildirimi çıkarılabilir
-            //this.props.history.push('/events/'+this.props.match.params.eventId+'/speakers')
-         },2000)
+      if (nextProps.speakers && this.props.speakers !== nextProps.speakers) {
+         if(!nextProps.speakers.loading){
+            this.props.history.push("/events/"+this.props.match.params.eventId+"/speakers");
+         }
       }
    }
-
+   //sasasasasasasasasasasasasasasasasasas
    addSpeaker = () => {
-      if(this.state.imageId){
-         this.props.addSpeaker(this.props.match.params.eventId, {...this.getSpeakerData()})
+      if(this.state.fullName){
+         console.log(this.props);
+         let keke = this.props.speakers.speakers.slice(0);
+         keke.push({...this.getSpeakerData()});
+         this.props.addSpeaker(this.props.match.params.eventId, keke)
       }
-   }
+   };
+
+   cleanArray = (actual) => {
+      let newArray = [];
+      for (let i = 0; i < actual.length; i++) {
+         if (actual[i] && actual[i].trim()) {
+            newArray.push(actual[i]);
+         }
+      }
+      let uniqueArray = [];
+      uniqueArray = newArray.filter(function(item, pos, self) {
+         return self.indexOf(item) === pos;
+      })
+
+      return uniqueArray;
+   };
 
    changeValue = (name) => {
       return (e) => {
+         if(name==="topicsRaw"){
+            this.setState({
+               topics:this.cleanArray(e.target.value.split(","))
+            });
+         }
          this.setState({[name]: e.target.value})
       }
-   }
+   };
 
-   changeDateValue = (name) => {
-      return (date) => {
-         this.setState({[name]: moment(date).unix() * 1000})
-      }
-   }
-
-   onImageLoaded = (imageId) => {
-      this.setState({imageId})
-   }
+   onImageLoaded = (image) => {
+      this.setState({image})
+   };
 
    render() {
       return (
@@ -74,14 +88,14 @@ class AddSpeaker extends React.Component {
                         <div className="row">
                            <div className="twelve columns">
                               <label htmlFor="email">Full Name</label>
-                              <input className="u-full-width" type="email" placeholder="i.e. martin fowler"
+                              <input className="u-full-width" type="email"
                                      value={this.state.fullName} onChange={this.changeValue('fullName')}/>
                            </div>
                         </div>
                         <div className="row">
                            <div className="twelve columns">
                               <label htmlFor="username">Works At</label>
-                              <input className="u-full-width" type="text" placeholder="i.e. microservices"
+                              <input className="u-full-width" type="text"
                                      value={this.state.workingAt} onChange={this.changeValue('workingAt')}/>
                            </div>
                         </div>
@@ -104,67 +118,42 @@ class AddSpeaker extends React.Component {
                                      onChange={this.changeValue('twitter')}/>
                            </div>
                         </div>
+                        <div className="row">
+                           <div className="twelve columns">
+                              <label htmlFor="username">Topics</label>
+                              <input className="u-full-width" type="text"
+                                     value={this.state.topicsRaw} onChange={this.changeValue('topicsRaw')}/>
+                           </div>
+                        </div>
+                        <div className="row">
+                           <div className="twelve columns">
+                              {this.state.topics.map((value,index)=>{
+                                 return <div className={"room"} key={index} style={{background:"gainsboro"}}>{value}</div>
+                              })}
+                           </div>
+                        </div>
                      </div>
                      <div className="six columns">
                         <div className="row">
                            <div className="twelve columns">
-                              <ImageUpload onLoad={this.onImageLoaded}>
-                                 {this.state.imageId ? <div className="row">
-                                    <div className="twelve columns">
-                                       {/* img url mocktur */}
-                                       <div className="resim" style={{backgroundImage: 'url("http://i.pravatar.cc/150?img=' + this.state.imageId + '")'}} width="100%" alt=""></div>
-                                    </div>
-                                 </div>: ''}
+                              <ImageUpload onLoad={this.onImageLoaded} logo={"http://app.sliconf.com:8090/service/image/get/"+this.state.image}>
+                                 {this.state.image ?
+                                    <div className="row">
+                                       <div className="twelve columns">
+                                          <div className="resim" style={{backgroundImage: 'url("http://app.sliconf.com:8090/service/image/get/' + this.state.image + '")'}} width="100%" alt=""/>
+                                       </div>
+                                    </div>: ''}
+                                 }
                               </ImageUpload>
-                           </div>
-                        </div>
-                        {/*
-                        <div className="row">
-                           <div className="six columns">
-                              <label htmlFor="exampleRecipientInput">Level</label>
-                              <select className="u-full-width" value={this.state.level} onChange={this.changeValue('level')}>
-                                 <option value="beginner">Beginner</option>
-                                 <option value="intermediate">Intermediate</option>
-                                 <option value="advanced">Advanced</option>
-                              </select>
-                           </div>
-                        </div>
-                        <div className="row">
-                           <div className="six columns">
-                              <label htmlFor="exampleRecipientInput">Room</label>
-                              <select className="u-full-width" value={this.state.room} onChange={this.changeValue('room')}>
-                                 <option value="0">Room 1</option>
-                                 <option value="1">Room 2</option>
-                                 <option value="2">Room 3</option>
-                              </select>
-                           </div>
-                        </div>
-                        <div className="row">
-                           <div className="six columns">
-                              <label htmlFor="date">Event date</label>
-                              <DatePicker
-                                 showTimeSelect
-                                 timeIntervals={5}
-                                 className="u-full-width"
-                                 dateFormat="LLL"
-                                 selected={moment(this.state.startDate)}
-                                 onChange={this.changeDateValue('startDate')}
-                              />
+
                            </div>
                         </div>
 
-                        <div className="row">
-                           <div className="six columns">
-                              <label>Duration(<small>minutes</small>)</label>
-                              <input type="number" className="u-full-width" value={this.state.duration} onChange={this.changeValue('duration')} placeholder="i.e. 50"/>
-                           </div>
-                        </div>
-                        */}
                      </div>
                   </div>
                   <div className="row mtop50">
                      <div className="six columns">
-                        <input className={classNames('button-primary',{disabled:!this.state.imageId})} type="submit" onClick={this.addSpeaker} defaultValue="next"/>
+                        <input className={'button-primary'} disabled={!this.state.fullName} type="submit" onClick={this.addSpeaker} defaultValue="Save"/>
                      </div>
                   </div>
                </div>
@@ -177,7 +166,7 @@ class AddSpeaker extends React.Component {
 const mapStateToProps = (state, ownProps) => {
    return {
       image: state.image,
-      speaker: state.speaker,
+      speakers: state.speaker,
       auth: state.auth,
    }
 }

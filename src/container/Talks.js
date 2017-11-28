@@ -1,5 +1,6 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as talkActions from '../reducks/modules/speaker'
 import PageHead from "../components/PageHead";
@@ -20,6 +21,11 @@ class Talks extends React.Component {
                   <PageHead title="All Talks"/>
                   <Loading row="3" loading={this.props.speaker.loading}>
                      <TalkList talks={this.props.speaker.talks}/>
+                     <div className="row mtop25 mbottom100">
+                        <div className="twelve columns">
+                           <Link to="./addtalk" className="button button-primary">Add Talk</Link>
+                        </div>
+                     </div>
                   </Loading>
                </div>
             </div>

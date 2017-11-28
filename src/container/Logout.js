@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import {Component} from 'react';
 
 class Logout extends Component {
 
@@ -13,6 +13,5 @@ class Logout extends Component {
       return "";
    }
 }
-
 
 export default Logout

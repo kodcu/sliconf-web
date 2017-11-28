@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import * as AuthActions from '../reducks/modules/auth'
 import classNames from 'classnames'
 import Validator from '../helpers/Validator';
-import randomString from 'random-string';
 
 class PassChange extends Component {
 
@@ -18,8 +17,6 @@ class PassChange extends Component {
       opassWarning:false,
       passWarning:false,
       passaWarning:false,
-      iePasso:randomString({length: 8}),
-      iePass:randomString({length: 8}),
    }
 
 
@@ -33,7 +30,7 @@ class PassChange extends Component {
          console.log(nextProps.auth)
          if (this.props.auth !== nextProps.auth) {
             console.log(nextProps.message)
-            if(nextProps.auth.message!=""){
+            if(nextProps.auth.message!==""){
                this.setState({warning: true, message: nextProps.auth.message})
             }
          }
@@ -48,22 +45,22 @@ class PassChange extends Component {
       this.setState({passWarning:false, passaWarning:false, opassWarning:false})
       if(!Validator.minLen(8,this.state.oldpassword)){
          // uyari ver
-         console.log('şifre (again) 8 karakterden kısa')
+         //console.log('şifre (again) 8 karakterden kısa')
          this.setState({warning:true, message:"Password too short - minimum length is 8 characters."})
          this.setState({opassWarning: true})
       }else if(!Validator.minLen(8,this.state.password)){
          // uyari ver
-         console.log('şifre 8 karakterden kısa')
+         //console.log('şifre 8 karakterden kısa')
          this.setState({warning:true, message:"Password too short - minimum length is 8 characters."})
          this.setState({passWarning: true})
       }else if(!Validator.minLen(8,this.state.passworda)){
          // uyari ver
-         console.log('şifre (again) 8 karakterden kısa')
+         //console.log('şifre (again) 8 karakterden kısa')
          this.setState({warning:true, message:"Password too short - minimum length is 8 characters."})
          this.setState({passaWarning: true})
       }else if(this.state.password!==this.state.passworda){
          // uyari ver
-         console.log('uyusmuyor')
+         //console.log('uyusmuyor')
          this.setState({warning:true, message:"Passwords did not match. Please enter the same password in both fields."})
          this.setState({passWarning: true, passaWarning: true})
       }else{
@@ -90,17 +87,17 @@ class PassChange extends Component {
                      <div className="row">
                         <div className="twelve columns mtop50">
                            <label htmlFor="pass">CURRENT Password</label>
-                           <input className={classNames({'hata': this.state.opassWarning})} type="password" placeholder={"i.e. "+this.state.iePasso} id="pass" value={this.state.oldpassword}
+                           <input className={classNames({'hata': this.state.opassWarning})} type="password" id="pass" value={this.state.oldpassword}
                                   onChange={(e) => this.setState({oldpassword: e.target.value})}/>
                         </div>
                         <div className="twelve columns">
                            <label htmlFor="pass">NEW Password</label>
-                           <input className={classNames({'hata': this.state.passWarning})} type="password" placeholder={"i.e. "+this.state.iePass} id="pass" value={this.state.password}
+                           <input className={classNames({'hata': this.state.passWarning})} type="password" id="pass" value={this.state.password}
                                   onChange={(e) => this.setState({password: e.target.value})}/>
                         </div>
                         <div className="twelve columns">
                         <label htmlFor="pass">NEW Password (again)</label>
-                        <input className={classNames({'hata': this.state.passaWarning})} type="password" placeholder={"i.e. "+this.state.iePass} id="pass" value={this.state.passworda}
+                        <input className={classNames({'hata': this.state.passaWarning})} type="password" id="pass" value={this.state.passworda}
                                onChange={(e) => this.setState({passworda: e.target.value})}/>
                         </div>
                      </div>

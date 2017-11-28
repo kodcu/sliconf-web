@@ -23,6 +23,7 @@ import MailSuccess from "./MailSuccess";
 import Logout from "./Logout";
 import ModerateComments from "./ModerateComments";
 import Statics from "./Statics";
+import Speaker from "./Speaker";
 
 class App extends Component {
    render() {
@@ -37,6 +38,7 @@ class App extends Component {
                      <Route path="/resetpass/:token" component={PassReset}/>
                      <Route path="/mailsuccess" component={MailSuccess}/>
                      <Route path="/logout" component={Logout}/>
+                     <PrivateRoute path="/events/:eventId/speaker/:speakerId" component={Speaker}/>
                      <PrivateRoute path="/events/:eventId/speakers" component={Speakers}/>
                      <PrivateRoute path="/events/:eventId/talks" component={Talks}/>
                      <PrivateRoute path="/events/:eventId/addspeaker" component={AddSpeaker}/>
@@ -55,7 +57,8 @@ class App extends Component {
             </Router>
          );
       }
-      return <h5></h5>
+      //WARNING <h5></h5>
+      return <div/>
    }
 }
 

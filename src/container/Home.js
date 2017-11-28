@@ -11,7 +11,7 @@ class Home extends Component {
                   <div className="row">
                      <div className="twelve columns">
                         <h2 style={{color: '#29b573'}}>
-                           Welcome{this.props.user !== null && this.props.user !== undefined ? (this.props.user.fullname!=="") ? ", " +(this.props.user.username) : ", " +(this.props.user.username) : "!"}</h2>
+                           Welcome{this.props.user !== null && this.props.user !== undefined ? (this.props.user.fullname!=="") && (this.props.user.fullname!==undefined) && (this.props.user.fullname!==null) ? ", " +(this.props.user.fullname) : ", " +(this.props.user.username) : "!"}</h2>
                         <h4 style={{fontSize: '2rem', color: 'gray'}}>You can download the app on</h4>
                      </div>
                   </div>
