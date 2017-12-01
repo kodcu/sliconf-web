@@ -13,32 +13,44 @@ class AddTalk extends React.Component {
 
    state = {
       speaker:'',
+      speakerId:'',
       topic:'',
       detail:'',
       startsAt:'',
       level:'',
       room:'',
       startDate:moment.now(),
-      duration:'',
+      duration:'0',
       speakers:[],
       rooms:[],
+      topicsRaw:'',
+      topics:[],
       loading:true,
    }
 
    getTalkData = () => {
       return {
-         speaker: this.state.speaker,
+         speaker: this.state.speaker ? this.state.speaker : this.state.speakers[0].name,
          detail: this.state.detail,
-         workingAt: this.state.workingAt,
-         linkedin: this.state.linkedin,
-         twitter: this.state.twitter
+         topic: this.state.topic,
+         date: Math.floor(this.state.startDate/1000),
+         duration: this.state.duration,
+         room: this.state.room ? this.state.room : this.state.rooms[0].id,
+         level: this.state.level ? this.state.level : 0,
+         tags: this.state.topics,
       }
-   }
+   };
+
+
+
 
    componentWillMount(){
-      this.props.fetchEvent("K123");
+      this.props.fetchEvent(this.props.match.params.eventId);
    }
 
+   componentDidMount(){
+      console.log(this.props.event)
+   }
 
    componentWillReceiveProps(nextProps) {
       if (nextProps.event && this.props.event !== nextProps.event) {
@@ -48,103 +60,157 @@ class AddTalk extends React.Component {
             loading:false,
          });
       }
+
+      if(nextProps.speaker && this.props.speaker !== nextProps.speaker){
+         console.log(nextProps);
+         if(!nextProps.speaker.loading){
+            this.props.history.push("/events/"+this.props.match.params.eventId+"/talks");
+         }
+      }
    }
 
    addTalk = () => {
-      this.props.addTalk(this.props.match.params.eventId, {...this.getTalkData()})
+      if(this.state.topic){
+         if(this.state.duration!=='0') {
+            let cloneAgenda = this.props.event.agenda ? this.props.event.agenda.slice(0) : [];
+            cloneAgenda.push({...this.getTalkData()});
+            this.props.addTalk(this.props.match.params.eventId, cloneAgenda)
+         }else{
+            alert("Please enter a valid duration for this talk.")
+         }
+      }else{
+         alert("Please enter a topic for this talk.")
+      }
+   };
+
+   cleanArray = (actual) => {
+      let newArray = [];
+      for (let i = 0; i < actual.length; i++) {
+         if (actual[i] && actual[i].trim()) {
+            newArray.push(actual[i]);
+         }
+      }
+      let uniqueArray = [];
+      uniqueArray = newArray.filter(function(item, pos, self) {
+         return self.indexOf(item) === pos;
+      })
+
+      return uniqueArray;
    };
 
    changeValue = (name) => {
       return (e) => {
+         if(name==="topicsRaw"){
+            this.setState({
+               topics:this.cleanArray(e.target.value.split(","))
+            });
+         }
          this.setState({[name]: e.target.value})
       }
    };
 
    changeDateValue = (name) => {
       return (date) => {
-         this.setState({[name]: moment(date).unix() * 1000})
+         this.setState({[name]: moment(date).unix()})
       }
    };
 
-   render() {
+   render(){
       return (
          <div className="container mtop">
             <div className="row">
                <div className="twelve columns">
                   <Loading row="3" loading={this.state.loading}>
-                  <PageHead title="Add Talk"/>
-                  <div className="row">
-                     <div className="six columns">
-                        <div className="row">
-                           <div className="twelve columns">
-                              <label>Speaker</label>
-                              <select className="u-full-width" value={this.state.speaker} onChange={this.changeValue('speaker')}>
-                                 {this.state.speakers.map((sponsor)=><option key={sponsor.id} value={sponsor.id}>{sponsor.name}</option>)}
-                              </select>
-                           </div>
-                        </div>
-                        <div className="row">
-                           <div className="twelve columns">
-                              <label htmlFor="topic">Topic</label>
-                              <input className="u-full-width" type="text"
-                                     value={this.state.topic} onChange={this.changeValue('topic')}/>
-                           </div>
-                        </div>
-                        <div className="row">
-                           <div className="twelve columns">
-                              <label htmlFor="pass">Detail</label>
-                              <textarea style={{minHeight: 110}} className="u-full-width" value={this.state.detail}
-                                        onChange={this.changeValue('detail')}/>
-                           </div>
-                        </div>
+                     {this.state.speakers ? this.state.rooms ? <div className="yea">
+                        <PageHead title="Add Talk"/>
+                           <div className="row">
+                              <div className="eight columns">
+                                 <div className="row">
+                                    <div className="twelve columns">
+                                       <label>Speaker</label>
+                                       <select className="u-full-width" value={this.state.speaker} onChange={this.changeValue('speaker')}>
+                                          {this.state.speakers.map((speaker)=><option key={speaker.name} value={speaker.name}>{speaker.name}</option>)}
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div className="row">
+                                    <div className="twelve columns">
+                                       <label htmlFor="topic">Topic</label>
+                                       <input className="u-full-width" type="text"
+                                              value={this.state.topic} onChange={this.changeValue('topic')}/>
+                                    </div>
+                                 </div>
+                                 <div className="row">
+                                    <div className="twelve columns">
+                                       <label htmlFor="pass">Detail</label>
+                                       <textarea style={{minHeight: 110}} className="u-full-width" value={this.state.detail}
+                                                 onChange={this.changeValue('detail')}/>
+                                    </div>
+                                 </div>
 
-                     </div>
-                     <div className="six columns">
-                        <div className="row">
-                           <div className="six columns">
-                              <label htmlFor="exampleRecipientInput">Level</label>
-                              <select className="u-full-width" value={this.state.level} onChange={this.changeValue('level')}>
-                                 <option value="beginner">Beginner</option>
-                                 <option value="intermediate">Intermediate</option>
-                                 <option value="advanced">Advanced</option>
-                              </select>
-                           </div>
-                        </div>
-                        <div className="row">
-                           <div className="six columns">
-                              <label htmlFor="exampleRecipientInput">Room</label>
-                              <select className="u-full-width" value={this.state.room} onChange={this.changeValue('room')}>
-                                 {this.state.rooms.map((room)=><option key={room.id} value={room.id}>{room.label}</option>)}
-                              </select>
-                           </div>
-                        </div>
-                        <div className="row">
-                           <div className="six columns">
-                              <label htmlFor="date">talk date</label>
-                              <DatePicker
-                                 showTimeSelect
-                                 timeIntervals={5}
-                                 className="u-full-width"
-                                 dateFormat="LLL"
-                                 selected={moment(this.state.startDate)}
-                                 onChange={this.changeDateValue('startDate')}
-                              />
-                           </div>
-                        </div>
+                              </div>
+                              <div className="four columns">
+                                 <div className="row">
+                                    <div className="twelve columns">
+                                       <label htmlFor="exampleRecipientInput">Level</label>
+                                       <select className="u-full-width" value={this.state.level} onChange={this.changeValue('level')}>
+                                          <option value="0">Beginner</option>
+                                          <option value="1">Intermediate</option>
+                                          <option value="2">Advanced</option>
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div className="row">
+                                    <div className="twelve columns">
+                                       <label htmlFor="exampleRecipientInput">Room</label>
+                                       <select className="u-full-width" value={this.state.room} onChange={this.changeValue('room')}>
+                                          {this.state.rooms.map((room)=><option key={room.id} value={room.id}>{room.label}</option>)}
+                                       </select>
+                                    </div>
+                                 </div>
+                                 <div className="row">
+                                    <div className="twelve columns">
+                                       <label htmlFor="date">talk date</label>
+                                       <DatePicker
+                                          showTimeSelect
+                                          timeIntervals={5}
+                                          className="u-full-width"
+                                          dateFormat="LLL"
+                                          selected={moment(this.state.startDate)}
+                                          onChange={this.changeDateValue('startDate')}
+                                       />
+                                    </div>
+                                 </div>
 
-                        <div className="row">
-                           <div className="six columns">
-                              <label>Duration(<small>minutes</small>)</label>
-                              <input type="number" className="u-full-width" value={this.state.duration} onChange={this.changeValue('duration')}/>
+                                 <div className="row">
+                                    <div className="twelve columns">
+                                       <label>Duration(<small>minutes</small>)</label>
+                                       <input type="number" className="u-full-width" value={this.state.duration} onChange={this.changeValue('duration')}/>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div className="row">
+                                 <div className="twelve columns">
+                                    <label htmlFor="username">Tags (seperate with comma)</label>
+                                    <input className="u-full-width" type="text"
+                                           value={this.state.topicsRaw} onChange={this.changeValue('topicsRaw')}/>
+                                 </div>
+                              </div>
+                              <div className="row">
+                                 <div className="twelve columns">
+                                    {this.state.topics.map((value,index)=>{
+                                       return <div className={"room"} key={index} style={{background:"gainsboro"}}>{value}</div>
+                                    })}
+                                 </div>
+                              </div>
                            </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div className="row mtop50 mbottom100">
-                     <div className="six columns">
-                        <input className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue="ADD SPEAKER"/>
-                     </div>
-                  </div>
+                           <div className="row mtop50 mbottom100">
+                              <div className="six columns">
+                                 <input className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue="ADD TALK"/>
+                              </div>
+                           </div>
+                     </div> : <div><h1>Sorry!</h1><p>You can't add talk before you add a room.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit")}}>GO TO EVENT SETTINGS</button></div>
+                        : <div><h1>Sorry!</h1><p>You can't add talk before you add a speaker.</p><button onClick={()=>{}}>GO TO SPEAKERS</button></div>}
                   </Loading>
                </div>
             </div>
@@ -156,7 +222,7 @@ class AddTalk extends React.Component {
 const mapStateToProps = (state, ownProps) => {
    return {
       event: state.event.event,
-      talk: state.talk,
+      speaker : state.speaker,
       auth: state.auth,
    }
 }

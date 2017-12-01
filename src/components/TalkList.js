@@ -3,22 +3,23 @@ import React from 'react';
 const ListItem = ({talk}) => {
    return (
       <tr>
-         <td><div className="image rounded mini" style={{backgroundImage: 'url(http://www.maxfm.com.tr/files/artists/rick-astley/images/ricast1006.jpg)'}}/></td>
-         <td>{talk.speaker}</td>
          <td>{talk.topic}</td>
-         <td><a href="" className="button">Linkedin</a> <a href="" className="button">Twitter</a> <a href="" className="button">About</a></td>
+         <td>{talk.level}</td>
+         <td>{talk.speaker}</td>
+         <td>{talk.date}</td>
+         <td>{talk.duration}</td>
+         <td className="topics"><div className="ongoing">{talk.tags.map((topic)=>{return <div key={topic} className="room">{topic}</div>})}</div></td>
       </tr>
    )
-}
+};
 
-const talksNotAvailable = () => {
+const TalksNotAvailable = () => {
    return (
       <tr>
-         <td colSpan="2">No talks to be listed!</td>
+         <td colSpan="6">No talks to be listed!</td>
       </tr>
    )
-}
-
+};
 
 class TalkList extends React.Component {
 
@@ -30,15 +31,17 @@ class TalkList extends React.Component {
                   <table className="u-full-width">
                      <thead>
                      <tr>
-                        <th style={{width: 40}}>Photo</th>
-                        <th>Full Name</th>
-                        <th>Topic</th>
-                        <th>Actions</th>
+                        <th style={{width: 40}}>Topic</th>
+                        <th>Level</th>
+                        <th>Speaker</th>
+                        <th>Date</th>
+                        <th>Duration</th>
+                        <th>Tags</th>
                      </tr>
                      </thead>
                      <tbody>
-                     {(this.props.talks && this.props.talks.length) ? null : <talksNotAvailable/> }
-                     {this.props.talks ? this.props.talks.map((talk)=>{
+                     {(this.props.agenda && this.props.agenda.length) ? null : <TalksNotAvailable/> }
+                     {this.props.agenda ? this.props.agenda.map((talk)=>{
                         return <ListItem key={talk.id} talk={talk}/>
                      }) : null}
                      </tbody>

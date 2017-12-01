@@ -49,14 +49,14 @@ class EventList extends React.Component {
 
                               <td style={{textAlign: "center", width:"250px"}}>
                                  <button data-tip="Edit Event" onClick={() => this.props.history.push('/events/'+event.key+'/edit')}><Ionicon icon="ios-build-outline" fontSize="20px" color="black"/></button>
-
-                                 <button data-tip="Moderate Comments" onClick={() => this.props.history.push('/events/'+event.key+'/moderate')}><Ionicon icon="ios-chatbubbles-outline" fontSize="20px" color="black"/></button>
+                                 {
+                                 /*<button data-tip="Moderate Comments" onClick={() => this.props.history.push('/events/'+event.key+'/moderate')}><Ionicon icon="ios-chatbubbles-outline" fontSize="20px" color="black"/></button>
 
                                  <button data-tip="Show Statics" onClick={() => this.props.history.push('/events/'+event.key+'/statics')}><Ionicon icon="ios-stats-outline" fontSize="20px" color="black"/></button>
-
+                                 */}
                                  <button data-tip="List Speakers" onClick={() => this.props.history.push('/events/'+event.key+'/speakers')}><Ionicon icon="ios-people-outline" fontSize="20px" color="black"/></button>
 
-                                 <button data-tip="List Talks" onClick={() => this.props.history.push('/events/'+event.key+'/talks')}><Ionicon icon="ios-microphone-outline" fontSize="20px" color="black"/></button>
+                                 <button data-tip="Show Agenda" onClick={() => this.props.history.push('/events/'+event.key+'/talks')}><Ionicon icon="ios-microphone-outline" fontSize="20px" color="black"/></button>
                                  <ReactTooltip place="bottom" type="dark" effect="solid"/>
                               </td>
                            </tr>

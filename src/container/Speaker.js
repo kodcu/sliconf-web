@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import * as EventActions from '../reducks/modules/event'
+import * as SpeakerActions from '../reducks/modules/speaker'
 import {connect} from 'react-redux';
 import Ionicon from 'react-ionicons'
 
@@ -20,8 +21,8 @@ class Speaker extends Component {
 
    componentDidMount(){
       if(this.props.speaker.speakers[this.props.match.params.speakerId]) {
-         console.log(this.props.match.params.eventId, this.props.match.params.speakerId)
-         console.log(this.props.speaker.speakers[this.props.match.params.speakerId]);
+         //console.log(this.props.match.params.eventId, this.props.match.params.speakerId)
+         //console.log(this.props.speaker.speakers[this.props.match.params.speakerId]);
          this.setState({
             eventId: this.props.match.params.eventId,
             id: this.props.match.params.speakerId,
@@ -38,13 +39,33 @@ class Speaker extends Component {
          this.props.history.push("/events/"+this.props.match.params.eventId+"/speakers");
       }
    }
+   //sasasasasa
+   deleteSpeaker = () => {
+      let cloneSpeakers = this.props.speaker.speakers ? this.props.speaker.speakers.slice(0) : [];
+
+      cloneSpeakers.splice(Number(this.props.match.params.speakerId), 1);
+
+      this.props.addSpeaker(this.props.match.params.eventId, cloneSpeakers)
+   };
+
+   componentWillReceiveProps(nextProps){
+      console.log("bisi olduuuuu");
+      console.log(nextProps);
+      if(nextProps.speaker !== this.props.speaker){
+         if(!nextProps.speaker.loading){
+            this.props.history.push("/events/"+this.props.match.params.eventId+"/speakers");
+         }
+      }
+
+   }
 
    render() {
       return (
             <div className="container mtop">
                <div className="row">
                   <div className="four columns">
-                     <div className="resim noTouch" width="100%" style={{backgroundImage: "url('http://app.sliconf.com:8090/service/image/get/"+this.state.image+"')", float:"left"}}/>
+                     {this.state.image ? <div className="resim noTouch" width="100%" style={{backgroundImage: "url('http://app.sliconf.com:8090/service/image/get/"+this.state.image+"')", float:"left"}}/>:''}
+
                   </div>
                   <div className="six columns">
                      <div className="row">
@@ -94,6 +115,13 @@ class Speaker extends Component {
                            </div>
                         </div> : ''
                      }
+                     <div className="row">
+                        <div className="twelve columns">
+                           <h4>Advanced</h4>
+                           <button className="button-green" onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/editspeaker/"+this.props.match.params.speakerId);}}>EDIT SPEAKER</button>{' '}
+                           <button className="button-red" onClick={()=>{this.deleteSpeaker()}}>DELETE SPEAKER</button>
+                        </div>
+                     </div>
                   </div>
                </div>
             </div>
@@ -109,7 +137,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return {...bindActionCreators(EventActions, dispatch)}
+   return {...bindActionCreators({...EventActions,...SpeakerActions}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Speaker)

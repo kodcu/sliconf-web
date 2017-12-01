@@ -16,19 +16,37 @@ class AddSpeaker extends React.Component {
       twitter: '',
       topicsRaw:'',
       topics:[],
+      edit:false,
    };
 
    getSpeakerData = () => {
       return {
          name: this.state.fullName,
          profilePicture: this.state.image,
-         detail: this.state.detail,
+         about: this.state.detail,
          workingAt: this.state.workingAt,
          linkedin: this.state.linkedin,
          twitter: this.state.twitter,
          topics:  this.state.topics,
       }
    };
+
+   componentDidMount(){
+      if(this.props.match.params.speakerId){
+         //console.log(this.props.speakers.speakers);
+         this.setState({
+            edit:true,
+            fullName:this.props.speakers.speakers[this.props.match.params.speakerId].name,
+            image:this.props.speakers.speakers[this.props.match.params.speakerId].profilePicture,
+            detail:this.props.speakers.speakers[this.props.match.params.speakerId].about,
+            workingAt:this.props.speakers.speakers[this.props.match.params.speakerId].workingAt,
+            linkedin:this.props.speakers.speakers[this.props.match.params.speakerId].linkedin,
+            twitter:this.props.speakers.speakers[this.props.match.params.speakerId].twitter,
+            topics:this.props.speakers.speakers[this.props.match.params.speakerId].topics,
+            topicsRaw:this.props.speakers.speakers[this.props.match.params.speakerId].topics.join(", "),
+         })
+      }
+   }
 
    componentWillReceiveProps(nextProps) {
       if (nextProps.speakers && this.props.speakers !== nextProps.speakers) {
@@ -37,13 +55,23 @@ class AddSpeaker extends React.Component {
          }
       }
    }
-   //sasasasasasasasasasasasasasasasasasas
+
    addSpeaker = () => {
       if(this.state.fullName){
-         console.log(this.props);
-         let keke = this.props.speakers.speakers.slice(0);
-         keke.push({...this.getSpeakerData()});
-         this.props.addSpeaker(this.props.match.params.eventId, keke)
+         //console.log(this.props);
+         let cloneSpeakers = this.props.speakers.speakers ? this.props.speakers.speakers.slice(0) : [];
+         let hasAnother = false;
+         cloneSpeakers.map((key,index) => {
+            //console.log(key.name);
+            if(key.name===this.state.fullName){
+               hasAnother = true;
+               cloneSpeakers[index] = this.getSpeakerData();
+            }
+         });
+         if(!hasAnother){
+            cloneSpeakers.push({...this.getSpeakerData()});
+         }
+         this.props.addSpeaker(this.props.match.params.eventId, cloneSpeakers)
       }
    };
 
@@ -82,14 +110,14 @@ class AddSpeaker extends React.Component {
          <div className="container mtop">
             <div className="row">
                <div className="twelve columns">
-                  <PageHead title="Add Speaker"/>
+                  <PageHead title={this.state.edit ? "Edit Speaker" : "Add Speaker"}/>
                   <div className="row">
                      <div className="six columns">
                         <div className="row">
                            <div className="twelve columns">
                               <label htmlFor="email">Full Name</label>
                               <input className="u-full-width" type="email"
-                                     value={this.state.fullName} onChange={this.changeValue('fullName')}/>
+                                     value={this.state.fullName} disabled={this.state.edit} onChange={this.changeValue('fullName')}/>
                            </div>
                         </div>
                         <div className="row">
@@ -120,7 +148,7 @@ class AddSpeaker extends React.Component {
                         </div>
                         <div className="row">
                            <div className="twelve columns">
-                              <label htmlFor="username">Topics</label>
+                              <label htmlFor="username">Topics (seperate with comma)</label>
                               <input className="u-full-width" type="text"
                                      value={this.state.topicsRaw} onChange={this.changeValue('topicsRaw')}/>
                            </div>

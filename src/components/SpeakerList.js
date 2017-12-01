@@ -36,7 +36,6 @@ class SpeakerList extends React.Component {
                      </tr>
                      </thead>
                      <tbody>
-                     {console.log(this.props)}
                      {(this.props.speakers && this.props.speakers.length) ? null : <SpeakersNotAvailable/> }
                      {this.props.speakers ? this.props.speakers.map((speaker, index)=>{
                         return <ListItem key={speaker.name} speaker={speaker} index={index} eventId={this.props.eventId} props={this.props}/>

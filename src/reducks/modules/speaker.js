@@ -9,6 +9,10 @@ const ADD_SPEAKER = 'speaker/ADD_SPEAKER';
 const ADD_SPEAKER_SUCCESS = 'speaker/ADD_SPEAKER_SUCCESS';
 const ADD_SPEAKER_FAIL = 'speaker/ADD_SPEAKER_FAIL';
 
+const ADD_TALK = 'speaker/ADD_TALK';
+const ADD_TALK_SUCCESS = 'speaker/ADD_TALK_SUCCESS';
+const ADD_TALK_FAIL = 'speaker/ADD_TALK_FAIL';
+
 const FETCH_SPEAKERS = 'speaker/FETCH_SPEAKERS';
 const FETCH_SPEAKERS_SUCCESS = 'speaker/FETCH_SPEAKERS_SUCCESS';
 const FETCH_SPEAKERS_FAIL = 'speaker/FETCH_SPEAKERS_FAIL';
@@ -72,6 +76,28 @@ export default function reducer(state = initialState, action = {}) {
             error: action.error
          };
       // -----
+      case ADD_TALK:
+         return {
+            ...state,
+            loading: true
+         };
+      case ADD_TALK_SUCCESS:
+         console.log("ye");
+         console.log(action);
+         return {
+            ...state,
+            loading: false,
+            agenda: action.result.returnObject,
+            error: null
+         };
+      case ADD_TALK_FAIL:
+         return {
+            ...state,
+            loading: false,
+            agenda: null,
+            error: action.error
+         };
+      // -----
       case FETCH_SPEAKERS:
          return {
             ...state,
@@ -100,7 +126,7 @@ export default function reducer(state = initialState, action = {}) {
          return {
             ...state,
             loading: false,
-            talk: action.result
+            agenda: action.result.returnObject.agenda
          };
       case FETCH_TALK_FAIL:
          return {
@@ -116,16 +142,17 @@ export default function reducer(state = initialState, action = {}) {
             loading: true
          };
       case FETCH_TALKS_SUCCESS:
+         //console.log(action.result.returnObject.agenda)
          return {
             ...state,
             loading: false,
-            talks: action.result
+            agenda: action.result.returnObject.agenda
          };
       case FETCH_TALKS_FAIL:
          return {
             ...state,
             loading: false,
-            talks: [],
+            agenda: [],
             error: action.error
          };
       default:
@@ -134,10 +161,21 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function addSpeaker(eventId, speaker) {
+   console.log("yueasasa");
    return {
       types: [ADD_SPEAKER, ADD_SPEAKER_SUCCESS, ADD_SPEAKER_FAIL],
       promise: (client) => client.post('/events/speaker/create/'+eventId, {
          data: speaker
+      })
+   }
+}
+
+export function addTalk(eventId, talk) {
+   console.log(JSON.stringify(talk));
+   return {
+      types: [ADD_TALK, ADD_TALK_SUCCESS, ADD_TALK_FAIL],
+      promise: (client) => client.post('/events/agenda/create/'+eventId, {
+         data: talk
       })
    }
 }
@@ -168,7 +206,7 @@ export function fetchEventSpeakers(eventId) {
 export function fetchEventTalks(eventId) {
    return {
       types: [FETCH_TALKS, FETCH_TALKS_SUCCESS, FETCH_TALKS_FAIL],
-      mock: talks
+      promise: (client) => client.get('/events/get/with-key/'+eventId)
       //promise: (client) => client.post('/events/'+eventId+'/speakers')
    }
 }

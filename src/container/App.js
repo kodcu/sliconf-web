@@ -42,7 +42,9 @@ class App extends Component {
                      <PrivateRoute path="/events/:eventId/speakers" component={Speakers}/>
                      <PrivateRoute path="/events/:eventId/talks" component={Talks}/>
                      <PrivateRoute path="/events/:eventId/addspeaker" component={AddSpeaker}/>
+                     <PrivateRoute path="/events/:eventId/editspeaker/:speakerId" component={AddSpeaker}/>
                      <PrivateRoute path="/events/:eventId/addtalk" component={AddTalk}/>
+                     <PrivateRoute path="/events/:eventId/edit/:new" component={EditEvent}/>
                      <PrivateRoute path="/events/:eventId/edit" component={EditEvent}/>
                      <PrivateRoute path="/events/:eventId/moderate" component={ModerateComments}/>
                      <PrivateRoute path="/events/:eventId/statics" component={Statics}/>

@@ -22,8 +22,6 @@ const _ = require("lodash");
 const { compose, withProps, lifecycle } = require("recompose");
 const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
 
-
-
 const MapWithASearchBox = compose(
    withProps({
       googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyD2r6MrjloKbW0cgCJuZC5Taj5DJJfFIiY&v=3.exp&libraries=geometry,places",
@@ -34,11 +32,11 @@ const MapWithASearchBox = compose(
    lifecycle({
       componentWillMount() {
          const refs = {};
-
          this.setState({
             bounds: null,
             center: {
-               lat: this.props.lat ? this.props.lat : 0, lng: this.props.lng ? this.props.lng : 0
+               lat: this.props.lat ? Number(this.props.lat) : 0,
+               lng: this.props.lng ? Number(this.props.lng) : 0
             },
             zoom:this.props.mapdescription ? 17 : 1,
             place:"",
@@ -100,7 +98,7 @@ const MapWithASearchBox = compose(
       onBoundsChanged={props.onBoundsChanged}
       gestureHandling={'greedy'}
    >
-      {props.lat ? <Marker position={{lat: props.lat, lng: props.lng}} /> : ''}
+      {props.lat ? <Marker position={{lat: Number(props.lat), lng: Number(props.lng)}} /> : ''}
       <SearchBox
          ref={props.onSearchBoxMounted}
          bounds={props.bounds}
@@ -134,36 +132,6 @@ const MapWithASearchBox = compose(
 
 class EditEvent extends React.Component {
 
-   constructor(props){
-      super(props);
-      this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
-   };
-
-   forceUpdateHandler(){
-      this.forceUpdate();
-   };
-
-   setNewPlace = (place,lat,lng) => {
-      this.setState({
-         mapdescription : place,
-         lat: lat,
-         lng: lng,
-         changed:true,
-      });
-   };
-
-   componentDidMount(){
-      this.props.fetchEvent(this.props.match.params.eventId);
-   }
-
-   resetAll = () => {
-      this.closeReset();
-      this.setState({
-         loading:true,
-      });
-      this.props.fetchEvent(this.props.match.params.eventId);
-   };
-
    state = {
       loading:true,
       id: this.props.match.eventId,
@@ -185,7 +153,7 @@ class EditEvent extends React.Component {
       rooms:"",
       sponsors: "",
       tags: "",
-      floorplan : "",
+      floorPlan : "",
       modalImage: null,
       activeTab: "general",
       isLoading:false,
@@ -200,19 +168,55 @@ class EditEvent extends React.Component {
       sureIsOpen:false,
       roomAlertIsOpen:false,
       modalIsNew:false,
-      nthNewSponsor:1,
+      nthNewSponsor:2,
       nthNewFloor:1,
       nthChange:0,
       resetIsOpen:false,
       floorIsOpen:false,
       sponsorIsOpen:false,
       sponsorTagIsOpen:false,
+      newAlertIsOpen:false,
+   };
+
+   constructor(props){
+      super(props);
+      this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
+   };
+
+   forceUpdateHandler(){
+      this.forceUpdate();
+   };
+
+   setNewPlace = (place,lat,lng) => {
+      this.setState({
+         mapdescription : place,
+         lat: lat,
+         lng: lng,
+         changed:true,
+      });
+   };
+
+   componentDidMount(){
+      if(this.props.match.params.new==="new-event"){
+         this.openNewAlert();
+      }
+      this.props.fetchEvent(this.props.match.params.eventId);
+   }
+
+   resetAll = () => {
+      this.closeReset();
+      this.setState({
+         loading:true,
+         changed:false,
+      });
+      this.props.fetchEvent(this.props.match.params.eventId);
    };
 
    componentWillReceiveProps(nextProps) {
-      //console.log("bisiler oldu");
-      if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && this.props.event.id !== nextProps.event.id)) {
-         //console.log("event degismis");
+      console.log("bisiler oldu");
+      if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) {
+         console.log("event degismis");
+         console.log(this.props.event)
          this.setState({
             id: nextProps.event.id ? nextProps.event.id : '',
             name: nextProps.event.name ? nextProps.event.name : '',
@@ -231,21 +235,21 @@ class EditEvent extends React.Component {
             lng: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.lng ? nextProps.event.about.location.lng : '' : '' : '',
             mapdescription: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.description ? nextProps.event.about.location.description : '' : '' : '',
             rooms:nextProps.event.rooms ? nextProps.event.rooms : [],
-            sponsors: nextProps.event.sponsor ? nextProps.event.sponsor : {},
-            tags: nextProps.event.sponsortags ? nextProps.event.sponsortags : {},
-            floorplan : nextProps.event.floorplan ? nextProps.event.floorplan : [],
+            sponsors: nextProps.event.sponsors ? nextProps.event.sponsors : {},
+            tags: nextProps.event.sponsorTags ? nextProps.event.sponsorTags : {},
+            floorPlan : nextProps.event.floorPlan ? nextProps.event.floorPlan : [],
             loading:false,
             nthChange:this.state.nthChange+1,
          });
       }
    }
-
+   /*
    addSpeaker = () => {
       if(this.state.logo){
          this.props.addSpeaker(this.props.match.params.eventId, {...this.getSpeakerData()})
       }
    };
-
+   */
    changeDateValue = (name) => {
       return (date) => {
          this.setState({[name]: moment(moment(date).unix() * 1000), changed: true})
@@ -279,10 +283,10 @@ class EditEvent extends React.Component {
    prepareReturn = (type) => {
       if (type === "general" || type === "social" || type === "contact") {
          return {
-            "id": this.state.id,
+            "key": this.props.match.params.eventId,
             "name": this.state.name,
-            "startdate": moment(this.state.startdate).unix(),
-            "enddate": moment(this.state.enddate).unix(),
+            "startDate": moment(this.state.startdate).unix(),
+            "endDate": moment(this.state.enddate).unix(),
             "logo": this.state.logo,
             "description":  this.state.description,
             "about": {
@@ -307,17 +311,26 @@ class EditEvent extends React.Component {
       }else if (type === "rooms"){
          return this.props.event.rooms;
       }else if (type === "sponsors"){
-         return {"sponsortags":this.props.event.sponsortags,"sponsor":this.props.event.sponsor};
+         return {
+            "sponsorTags":this.props.event.sponsorTags,
+            "sponsors":this.props.event.sponsors
+         };
       }else if (type === "floorplan"){
-         return this.props.event.floorplan;
+         return this.props.event.floorPlan;
       }
    };
+
 
    save = () => {
       this.setState({
          changed:false,
       },()=>{
-         console.log(JSON.stringify(this.prepareReturn(this.state.activeTab)));
+         console.log(this.props);
+         if (this.state.activeTab === "general" || this.state.activeTab === "social" || this.state.activeTab === "contact") {
+            this.props.editEvent(this.props.auth.user.id, this.prepareReturn(this.state.activeTab));
+         }else{
+            this.props.editTab(this.state.activeTab,this.props.match.params.eventId,this.prepareReturn(this.state.activeTab));
+         }
          this.closeSure();
          this.changeTab(this.state.nextTab);
       });
@@ -327,10 +340,6 @@ class EditEvent extends React.Component {
    floorRemove = (floorId) => {
       this.openFloor(floorId)
    };
-
-
-
-
 
    openSure = () => {
       this.setState({sureIsOpen: true});
@@ -356,6 +365,14 @@ class EditEvent extends React.Component {
       this.setState({floorIsOpen: false});
    };
 
+   openNewAlert = () => {
+      this.setState({newAlertIsOpen: true});
+   };
+
+   closeNew = () => {
+      this.setState({newAlertIsOpen: false});
+   };
+
    openSponsor = (sponsorId) => {
       this.setState({sponsorIsOpen: true,removeSponsorId:sponsorId});
    };
@@ -365,7 +382,7 @@ class EditEvent extends React.Component {
    };
 
    openSponsorTag = (tagId) => {
-      if(this.props.event.sponsor ? this.props.event.sponsor ? this.props.event.sponsor[tagId].length>0 : false : false){
+      if(this.props.event.sponsors ? this.props.event.sponsors ? this.props.event.sponsors[tagId].length>0 : false : false){
          this.setState({sponsorTagIsOpen: true, removeSponsorTagId:tagId});
       }else{
          this.props.removeTagFromLocal(tagId);
@@ -415,7 +432,6 @@ class EditEvent extends React.Component {
          if(this.state.activeTab==="sponsors"){
             this.props.editSponsorFromLocal(this.state.modalId, this.state.modalName, this.state.modalImage);
          }else if(this.state.activeTab==="floorplan"){
-            //sasa
             this.props.editFloorFromLocal(this.state.modalId, this.state.modalName, this.state.modalImage);
             this.setState({
                nthChange:this.state.nthChange+1,
@@ -423,7 +439,7 @@ class EditEvent extends React.Component {
          }
       }else{
          if(this.state.activeTab==="sponsors"){
-            this.props.addSponsorToLocal(this.state.modalName, this.state.modalImage ,this.state.activeSponsorTag,this.state.nthNewSponsor);
+            this.props.addSponsorToLocal(this.state.modalName, this.state.modalImage ,this.state.activeSponsorTag,Math.floor(Math.random()*100000000000000));
             this.setState({
                nthNewSponsor:this.state.nthNewSponsor+1,
                modalIsNew:false,
@@ -442,10 +458,11 @@ class EditEvent extends React.Component {
          changed:true,
       })
    };
-   //sasasasasasasasasa
-   afterOpenModal = () => {
-      // references are now sync'd and can be accessed.
-   };
+
+   /*
+   afterOpenModal = () => {};
+   Bu sekilde cagiriliyor (modal domu icinde) onAfterOpen={this.afterOpenModal}
+   */
 
    closeModal = () => {
       this.setState({modalIsOpen: false});
@@ -459,7 +476,7 @@ class EditEvent extends React.Component {
       if(which==="rooms"){
          return this.props.event && this.props.event.rooms ? this.props.event.rooms.filter(function (el) { return el.label === tag; }).length===0 && tag!=="" : false;
       }if(which==="sponsors"){
-         return this.props.event && this.props.event.sponsortags ? Object.values(this.props.event.sponsortags).filter(function (el) { return el === tag; }).length===0 && tag!=="" : false;
+         return this.props.event && this.props.event.sponsorTags ? Object.values(this.props.event.sponsorTags).filter(function (el) { return el === tag; }).length===0 && tag!=="" : false;
       }else {
          return false;
       }
@@ -477,6 +494,31 @@ class EditEvent extends React.Component {
       return (
 
          <div className="container mtop">
+
+            <Modal
+               className="Modal"
+               overlayClassName="Overlay"
+               isOpen={this.state.newAlertIsOpen}
+               contentLabel="Wait!"
+               style={{content : {width:500,textAlign:"center",overflow: "hidden"}}}
+            >
+               <div className="row">
+                  <div className="twelve columns">
+                     <h2>Wait!</h2>
+                     <p>Your event <b>will not be shown</b> on mobile phones, until you give enough information about your event.</p>
+                     <p>You must enter at least <b>one floor</b>, <b>one room</b> and <b>one speaker</b>.</p>
+                     <p>Also, you should enter <b>description</b>, <b>logo</b> and <b>date</b> for your event.</p>
+                  </div>
+               </div>
+               <div className="row">
+                  <div className="twelve columns">
+                     <div className="span">
+                        <button onClick={this.closeNew} className={"button-primary"}>ALL RIGHT</button>
+                     </div>
+                  </div>
+               </div>
+            </Modal>
+
             <Modal
                className="Modal"
                overlayClassName="Overlay"
@@ -649,7 +691,6 @@ class EditEvent extends React.Component {
                className="Modal"
                overlayClassName="Overlay"
                isOpen={this.state.modalIsOpen}
-               onAfterOpen={this.afterOpenModal}
                onRequestClose={this.closeModal}
                contentLabel="Add Image"
             >
@@ -809,7 +850,7 @@ class EditEvent extends React.Component {
                               <div className="twelve columns" style={{marginLeft:0}}>
                                  <div className="twelve columns">
                                     <label htmlFor="website">Website</label>
-                                    <input className="u-full-width" type="text"id="website" value={this.state.web} onChange={(e) => this.setState({web:e.currentTarget.value, changed:true})}/>
+                                    <input className="u-full-width" type="text" id="website" value={this.state.web} onChange={(e) => this.setState({web:e.currentTarget.value, changed:true})}/>
                                  </div>
                               </div>
                               <div className="twelve columns" style={{marginLeft:0}}>
@@ -836,8 +877,8 @@ class EditEvent extends React.Component {
                         <div className="row mtop50">
                            <div className="twelve columns">
                               <h3>Rooms</h3>
-                              {this.state.floorplan.length===0 ? <div><h4>To add room for this event, please add floor first.</h4><button onClick={this.goToFloor}>Go To Floor Tab</button></div> : <div>
-                                 <RoomCreate floorPlan={this.state.floorplan} canCreateTag={this.canCreateTag} callback={this.somethingChanged.bind(this)} eventId={this.state.eventId}/>
+                              {this.state.floorPlan.length===0 ? <div><h4>To add room for this event, please add floor first.</h4><button onClick={this.goToFloor}>Go To Floor Tab</button></div> : <div>
+                                 <RoomCreate floorPlan={this.state.floorPlan} canCreateTag={this.canCreateTag} callback={this.somethingChanged.bind(this)} eventId={this.state.eventId}/>
                                  <div className="row">
                                     <div className="twelve columns rooms" style={{marginLeft:0}}>
                                        {this.props.event ? this.props.event.rooms.map((room)=><RoomTag removeAlert={this.openRoomAlert} key={room.id} room={room} eventId={this.props.event.id}/>) : ''}
@@ -855,13 +896,13 @@ class EditEvent extends React.Component {
                               <SponsorTagCreate eventId={this.state.eventId} canCreateTag={this.canCreateTag} callback={this.somethingChanged.bind(this)}/>
                               <div className="row">
                                  <div className="twelve columns tags" style={{marginLeft:0}}>
-                                    {this.props.event && this.props.event.sponsortags ? Object.keys(this.props.event.sponsortags).map((tag)=><SponsorTag remove={(tagId)=>{this.openSponsorTag(tagId)}} key={tag} tag={{"id":tag, "label":this.props.event.sponsortags[tag]}} eventId={this.props.event.id}/>) : ''}
+                                    {this.props.event && this.props.event.sponsorTags ? Object.keys(this.props.event.sponsorTags).map((tag)=><SponsorTag remove={(tagId)=>{this.openSponsorTag(tagId)}} key={tag} tag={{"id":tag, "label":this.props.event.sponsorTags[tag]}} eventId={this.props.event.id}/>) : ''}
                                  </div>
                               </div>
 
                               <div className="row">
                                  <div className="twelve columns sponsors" style={{marginLeft:0}}>
-                                    {this.props.event && this.props.event.sponsor ? Object.keys(this.props.event.sponsor).map((sponsors)=><SponsorList remove={(sponsorId)=>{this.openSponsor(sponsorId)}} nthChange={this.state.nthChange} modalCallback={this.openModal} key={sponsors} tagId={sponsors} tagName={this.props.event.sponsortags[sponsors]} sponsors={this.props.event.sponsor[sponsors]} eventId={this.props.event.id}/>) : ''}
+                                    {this.props.event && this.props.event.sponsors ? Object.keys(this.props.event.sponsors).map((sponsors)=><SponsorList remove={(sponsorId)=>{this.openSponsor(sponsorId)}} nthChange={this.state.nthChange} modalCallback={this.openModal} key={sponsors} tagId={sponsors} tagName={this.props.event.sponsorTags[sponsors]} sponsors={this.props.event.sponsors[sponsors]} eventId={this.props.event.id}/>) : ''}
                                  </div>
                               </div>
 
@@ -876,7 +917,7 @@ class EditEvent extends React.Component {
                               <h3>Floor Plan</h3>
                               <div className="row">
                                  <div className="twelve columns floors">
-                                    {this.state.floorplan ? this.state.floorplan.map((floor)=>
+                                    {this.state.floorPlan ? this.state.floorPlan.map((floor)=>
                                        <Floor remove={this.floorRemove} nthChange={this.state.nthChange} callback={this.somethingChanged} modalCallback={this.openModal} key={floor.id} floor={floor} eventId={this.state.id}/>) : ''}
                                     <div className="addSponsor" onClick={this.addFloor}>+</div>
                                  </div>
@@ -891,7 +932,7 @@ class EditEvent extends React.Component {
                               <h3>Advanced</h3>
                               <div className="row">
                                  <div className="twelve columns">
-                                    <button className="button-red">Delete Event</button>
+                                    <button className="button-red" onClick={()=>{alert("Sorry, but you can't delete your event right now.")}}>Delete Event</button>
                                  </div>
                               </div>
                            </div>

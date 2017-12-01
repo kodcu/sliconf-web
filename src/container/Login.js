@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as AuthActions from '../reducks/modules/auth'
@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import {Link} from 'react-router-dom';
 import Validator from '../helpers/Validator';
 
-class Login extends Component {
+class Login extends React.Component {
 
    state = {
       user: "",
@@ -16,7 +16,7 @@ class Login extends Component {
       kullaniciId: "",
       userWarning:false,
       passWarning:false,
-   }
+   };
 
    componentWillReceiveProps(nextProps) {
       if (this.props.auth.loginError !== nextProps.auth.loginError) {
@@ -34,7 +34,7 @@ class Login extends Component {
             this.props.history.push('/')
          }
       }
-   }
+   };
 
    login = () => {
       //reset
@@ -102,10 +102,10 @@ const mapStateToProps = (state, ownProps) => {
    return {
       auth: state.auth
    }
-}
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => {
    return {...bindActionCreators(AuthActions, dispatch)}
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

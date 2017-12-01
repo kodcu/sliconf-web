@@ -18,9 +18,10 @@ class Talks extends React.Component {
          <div className="container mtop">
             <div className="row">
                <div className="twelve columns">
-                  <PageHead title="All Talks"/>
+                  <PageHead title="Agenda"/>
                   <Loading row="3" loading={this.props.speaker.loading}>
-                     <TalkList talks={this.props.speaker.talks}/>
+                     {console.log(this.props.speaker)}
+                     <TalkList agenda={this.props.speaker.agenda}/>
                      <div className="row mtop25 mbottom100">
                         <div className="twelve columns">
                            <Link to="./addtalk" className="button button-primary">Add Talk</Link>

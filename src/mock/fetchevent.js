@@ -33,8 +33,8 @@ export default {
             ]
          }
       ],
-      "floorplan": [],
-      "sponsortags": {},
-      "sponsor": {}
+      "floorPlan": [],
+      "sponsorTags": {},
+      "sponsors": {}
    }
 }
