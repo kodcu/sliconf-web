@@ -287,7 +287,7 @@ class EditEvent extends React.Component {
             "name": this.state.name,
             "startDate": moment(this.state.startdate).unix(),
             "endDate": moment(this.state.enddate).unix(),
-            "logo": this.state.logo,
+            "logoPath": this.state.logo,
             "description":  this.state.description,
             "about": {
                "social": {
