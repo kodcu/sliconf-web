@@ -49,10 +49,10 @@ const mapStateToProps = (state, ownProps) => {
       event: state.event,
       user: state.auth.user,
    }
-}
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => {
    return {...bindActionCreators(EventActions, dispatch)}
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventSuccess)
