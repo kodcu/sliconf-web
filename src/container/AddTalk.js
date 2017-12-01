@@ -121,7 +121,7 @@ class AddTalk extends React.Component {
             <div className="row">
                <div className="twelve columns">
                   <Loading row="3" loading={this.state.loading}>
-                     {this.state.speakers ? this.state.rooms ? <div className="yea">
+                     {this.state.speakers && this.state.speakers.length>0 ? this.state.rooms ? <div className="yea">
                         <PageHead title="Add Talk"/>
                            <div className="row">
                               <div className="eight columns">
@@ -209,8 +209,8 @@ class AddTalk extends React.Component {
                                  <input className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue="ADD TALK"/>
                               </div>
                            </div>
-                     </div> : <div><h1>Sorry!</h1><p>You can't add talk before you add a room.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit")}}>GO TO EVENT SETTINGS</button></div>
-                        : <div><h1>Sorry!</h1><p>You can't add talk before you add a speaker.</p><button onClick={()=>{}}>GO TO SPEAKERS</button></div>}
+                        </div> : <div><h1>Sorry!</h1><p>You can't add talk before you add a room.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit")}}>GO TO EVENT SETTINGS</button></div>
+                        : <div><h1>Sorry!</h1><p>You can't add talk before you add a speaker.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/addspeaker")}}>GO TO ADD SPEAKER</button></div>}
                   </Loading>
                </div>
             </div>
