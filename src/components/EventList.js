@@ -36,13 +36,14 @@ class EventList extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
+                        {console.log(this.props.events)}
                         {(this.props.events && this.props.events.length) ? null : <EventsNotAvailable/> }
                         {this.props.events ? this.props.events.map((event)=>{
                            return <tr key={event.id}>
-                              <td><div className='eventimage' style={{backgroundImage:'url('+event.logo+')'}}/></td>
+                              <td><div className='eventimage' style={{backgroundImage:'url(http://app.sliconf.com:8090/service/image/get/'+event.logoPath+')'}}/></td>
                               <td>{event.name}</td>
                               <td style={{textAlign: "center"}}>{event.key}</td>
-                              <td style={{textAlign: "center"}}>{new Date(event.startDate).getDate()+"."+(new Date(event.startDate).getMonth()+1)+"."+new Date(event.startDate).getFullYear()}</td>
+                              <td style={{textAlign: "center"}}>{new Date(event.startDate*1000).getDate()+"."+(new Date(event.startDate*1000).getMonth()+1)+"."+new Date(event.startDate*1000).getFullYear()}</td>
                               <td style={{textAlign: "center"}}>{(event.status===true) ?
                                  <Ionicon icon="ios-checkmark-circle-outline" fontSize="20px" color="black"/> :
                                  <div data-for='global' data-tip><Ionicon icon="ios-warning-outline" fontSize="20px" color="black"/></div> }</td>

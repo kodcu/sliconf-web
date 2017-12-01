@@ -138,7 +138,7 @@ class EditEvent extends React.Component {
       name: "",
       startdate: moment(),
       enddate: moment(),
-      logo: "",
+      logoPath: "",
       description: "",
       youtube: "",
       twitter: "",
@@ -196,6 +196,10 @@ class EditEvent extends React.Component {
       });
    };
 
+   componentWillMount(){
+      Modal.setAppElement('body');
+   }
+
    componentDidMount(){
       if(this.props.match.params.new==="new-event"){
          this.openNewAlert();
@@ -222,7 +226,7 @@ class EditEvent extends React.Component {
             name: nextProps.event.name ? nextProps.event.name : '',
             startdate: nextProps.event.startdate ? moment(nextProps.event.startdate*1000) : moment(),
             enddate: nextProps.event.enddate ? moment(nextProps.event.enddate*1000) : moment(),
-            logo: nextProps.event.logo ? nextProps.event.logo : '',
+            logoPath: nextProps.event.logoPath ? nextProps.event.logoPath : '',
             description: nextProps.event.description ? nextProps.event.description : '',
             youtube: nextProps.event.about ? nextProps.event.about.social ? nextProps.event.about.social.youtube ? nextProps.event.about.social.youtube : '' : '' : '',
             twitter: nextProps.event.about ? nextProps.event.about.social ? nextProps.event.about.social.twitter ? nextProps.event.about.social.twitter : '' : '' : '',
@@ -257,7 +261,7 @@ class EditEvent extends React.Component {
    };
 
    onEventImageLoaded = (logo) => {
-      this.setState({logo:logo, isLoading:false, changed:true})
+      this.setState({logoPath:logo, isLoading:false, changed:true})
    };
 
    onFloorImageLoaded = (logo) => {
@@ -287,7 +291,7 @@ class EditEvent extends React.Component {
             "name": this.state.name,
             "startDate": moment(this.state.startdate).unix(),
             "endDate": moment(this.state.enddate).unix(),
-            "logoPath": this.state.logo,
+            "logoPath": this.state.logoPath,
             "description":  this.state.description,
             "about": {
                "social": {
@@ -800,11 +804,11 @@ class EditEvent extends React.Component {
                            <div className="six columns mtop50">
                               <div className="row">
                                  <div className="twelve columns">
-                                    {this.state.logo ?
-                                          <ImageUpload onLoad={this.onEventImageLoaded} logo={"http://app.sliconf.com:8090/service/image/get/"+this.state.logo}>
+                                    {this.state.logoPath ?
+                                          <ImageUpload onLoad={this.onEventImageLoaded} logo={"http://app.sliconf.com:8090/service/image/get/"+this.state.logoPath}>
                                           <div className="row">
                                                 <div className="twelve columns">
-                                                   <div className="resim" style={{backgroundImage: 'url("http://app.sliconf.com:8090/service/image/get/' + this.state.logo + '")'}} width="100%" alt="" />
+                                                   <div className="resim" style={{backgroundImage: 'url("http://app.sliconf.com:8090/service/image/get/' + this.state.logoPath + '")'}} width="100%" alt="" />
                                                 </div>
                                              </div>
                                           </ImageUpload>: <ImageUpload onLoad={this.onEventImageLoaded} logo={""}/>

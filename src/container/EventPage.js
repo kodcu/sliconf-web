@@ -89,7 +89,7 @@ class EventPage extends Component {
                            className="u-full-width"
                            minDate={moment()}
                            maxDate={moment().add(5, "years")}
-                           selected={moment((Math.floor(moment().unix()/3600)+1)*3600000)}
+                           selected={moment(this.state.event_time)}
                            selectsStart
                            onChange={this.changeDateValue('event_time')}
                         />

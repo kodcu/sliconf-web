@@ -121,7 +121,7 @@ class AddTalk extends React.Component {
             <div className="row">
                <div className="twelve columns">
                   <Loading row="3" loading={this.state.loading}>
-                     {this.state.speakers && this.state.speakers.length>0 ? this.state.rooms ? <div className="yea">
+                     {this.state.speakers && this.state.speakers.length>0 ? this.state.rooms && this.state.rooms.length>0 ? <div className="yea">
                         <PageHead title="Add Talk"/>
                            <div className="row">
                               <div className="eight columns">
