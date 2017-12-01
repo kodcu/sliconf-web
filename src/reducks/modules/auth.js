@@ -264,7 +264,7 @@ export function update(id, username, fullname) {
 export function changePassword(id, oldpassword, password) {
    return {
       types: [CHANGEPASS, CHANGEPASS_SUCCESS, CHANGEPASS_FAIL],
-      promise: (client) => client.post('/users/changePassword', {
+      promise: (client) => client.post('/users/update', {
          data: {id, oldpassword, password}
       })
    }
