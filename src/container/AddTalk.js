@@ -209,7 +209,7 @@ class AddTalk extends React.Component {
                                  <input className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue="ADD TALK"/>
                               </div>
                            </div>
-                        </div> : <div><h1>Sorry!</h1><p>You can't add talk before you add a room.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit")}}>GO TO EVENT SETTINGS</button></div>
+                        </div> : <div><h1>Sorry!</h1><p>You can't add talk before you add a room.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit/rooms")}}>GO TO EVENT SETTINGS</button></div>
                         : <div><h1>Sorry!</h1><p>You can't add talk before you add a speaker.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/addspeaker")}}>GO TO ADD SPEAKER</button></div>}
                   </Loading>
                </div>

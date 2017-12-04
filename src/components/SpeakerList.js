@@ -6,7 +6,7 @@ const ListItem = ({speaker,index,eventId,props}) => {
          <td><div className="eventimage" style={{backgroundImage: 'url("http://app.sliconf.com:8090/service/image/get/'+speaker.profilePicture+'")'}}/></td>
          <td>{speaker.name}</td>
          <td>{speaker.workingAt}</td>
-         <td className="topics"><div className="ongoing">{speaker.topics.map((topic)=>{return <div key={topic} className="room">{topic}</div>})}</div></td>
+         <td className="topics"><div className="ongoing">{speaker.topics ? speaker.topics.map((topic)=>{return <div key={topic} className="room">{topic}</div>}):''}</div></td>
       </tr>
    )
 };

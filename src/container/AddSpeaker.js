@@ -14,8 +14,6 @@ class AddSpeaker extends React.Component {
       workingAt: '',
       linkedin: '',
       twitter: '',
-      topicsRaw:'',
-      topics:[],
       edit:false,
    };
 
@@ -27,7 +25,6 @@ class AddSpeaker extends React.Component {
          workingAt: this.state.workingAt,
          linkedin: this.state.linkedin,
          twitter: this.state.twitter,
-         topics:  this.state.topics,
       }
    };
 
@@ -42,8 +39,6 @@ class AddSpeaker extends React.Component {
             workingAt:this.props.speakers.speakers[this.props.match.params.speakerId].workingAt,
             linkedin:this.props.speakers.speakers[this.props.match.params.speakerId].linkedin,
             twitter:this.props.speakers.speakers[this.props.match.params.speakerId].twitter,
-            topics:this.props.speakers.speakers[this.props.match.params.speakerId].topics,
-            topicsRaw:this.props.speakers.speakers[this.props.match.params.speakerId].topics.join(", "),
          })
       }
    }
@@ -75,28 +70,8 @@ class AddSpeaker extends React.Component {
       }
    };
 
-   cleanArray = (actual) => {
-      let newArray = [];
-      for (let i = 0; i < actual.length; i++) {
-         if (actual[i] && actual[i].trim()) {
-            newArray.push(actual[i]);
-         }
-      }
-      let uniqueArray = [];
-      uniqueArray = newArray.filter(function(item, pos, self) {
-         return self.indexOf(item) === pos;
-      })
-
-      return uniqueArray;
-   };
-
    changeValue = (name) => {
       return (e) => {
-         if(name==="topicsRaw"){
-            this.setState({
-               topics:this.cleanArray(e.target.value.split(","))
-            });
-         }
          this.setState({[name]: e.target.value})
       }
    };
@@ -144,20 +119,6 @@ class AddSpeaker extends React.Component {
                               <label htmlFor="pass">twitter</label>
                               <input type="text" className="u-full-width" value={this.state.twitter}
                                      onChange={this.changeValue('twitter')}/>
-                           </div>
-                        </div>
-                        <div className="row">
-                           <div className="twelve columns">
-                              <label htmlFor="username">Topics (seperate with comma)</label>
-                              <input className="u-full-width" type="text"
-                                     value={this.state.topicsRaw} onChange={this.changeValue('topicsRaw')}/>
-                           </div>
-                        </div>
-                        <div className="row">
-                           <div className="twelve columns">
-                              {this.state.topics.map((value,index)=>{
-                                 return <div className={"room"} key={index} style={{background:"gainsboro"}}>{value}</div>
-                              })}
                            </div>
                         </div>
                      </div>

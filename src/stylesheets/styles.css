@@ -482,10 +482,11 @@ form {
 /* Utilities
  */
 
-.u-full-width {
+.u-full-width, .react-tel-input > input {
     width: 100%;
     box-sizing: border-box;
 }
+
 .u-max-full-width {
     max-width: 100%;
     box-sizing: border-box;
@@ -603,6 +604,79 @@ h4 {
     }
 }
 @media (max-width: 820px) {
+    .navbar.open{
+        position:fixed !important;
+    }
+
+    .agenda .noBefore td:nth-of-type(1){
+        padding-left:0px !important;
+    }
+    .agenda td:nth-of-type(1):before {
+        content: "Remove Event?";
+    }
+
+    .agenda td:nth-of-type(1) {
+        text-align:center;
+        padding-left:50% !important;
+        height:60px;
+        margin-top:20px;
+    }
+
+    .agenda td:nth-of-type(1) svg {
+        transform:scale(2);
+        margin-top:2px;
+    }
+
+    .agenda td:nth-of-type(3):before {
+        content: "Level";
+    }
+
+    .agenda td:nth-of-type(3) {
+        content: "Level";
+        margin-top:6px
+    }
+
+    .agenda td:nth-of-type(4):before {
+        content: "Speaker";
+    }
+
+    .agenda td:nth-of-type(5):before {
+        content: "Date";
+    }
+
+    .agenda td:nth-of-type(6) {
+        padding-left:50% !important;
+    }
+
+    .agenda td:nth-of-type(6):before {
+        content: "Duration";
+    }
+
+    .agenda td:nth-of-type(7) {
+        width:100% !important;
+        max-width:100% !important;
+        margin-bottom:9px;
+    }
+
+    .agenda td:nth-of-type(7):before {
+        content: "Topics";
+        padding-top:8px;
+    }
+
+
+
+
+
+    .Modal {
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        top: 0 !important;
+        margin: 0 !important;
+        padding-top: 30vh !important;
+        max-width: 100% !important;
+    }
+
 
     ul.navbar-list::before {
         content: '';
@@ -723,6 +797,9 @@ h4 {
         background-repeat:no-repeat;
         list-style: none;
     }
+
+
+
 }
 
 a {
@@ -945,6 +1022,7 @@ input.hata {
     box-shadow: 0 3px 13px -5px rgba(0,0,0,0.3);
     position:relative;
     border-radius:50%;
+    text-align: center;
 }
 
 .resimHolder.active::before, .resimHolder.active::after{
@@ -1203,12 +1281,12 @@ ul.react-datepicker__time-list {
 
 .Modal{
     max-width: 600px;
-    max-height: 400px;
+    max-height: 455px;
     background: white;
     border: 1px solid darkgray;
     border-radius: 5px;
     margin:0 auto;
-    margin-top: calc(50vh - 200px);
+    margin-top: calc(50vh - 230px);
     z-index: 6;
     padding: 30px;
     outline:none;
@@ -1413,4 +1491,85 @@ input.button-primary:disabled, input.button-primary:disabled:hover {
     border-color: gray !important;
     box-shadow: none !important;
     cursor:default !important;
+}
+
+
+/*tab kayması fix*/
+
+::-webkit-scrollbar-track
+{
+    background:#fafafa;
+}
+
+::-webkit-scrollbar
+{
+    width: 4px;
+    height:4px;
+}
+
+::-webkit-scrollbar-thumb
+{
+    background-color: #29b573;
+    border: 2px solid #29b573;
+}
+
+ul.navbar-list.clickable.noselect {
+    width: 750px;
+    height: 65px;
+}
+
+.container.u-full-width.tabs {
+    overflow: auto;
+}
+
+.tabContainer{
+    position: relative;
+    height:100vh;
+    overflow:auto;
+}
+
+.tabContainer::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    height:0px;
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+.tabContainer::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+.noBefore td{
+    padding-left:0 !important;
+}
+
+.noBefore td::before{
+    content:'' !important;
+}
+
+.noImage{
+    background:#fafafa;
+}
+
+.noImage::before {
+    content: attr(data-name);
+    color: black;
+    text-align: center;
+    width: 100%;
+    display: block;
+    height: 100%;
+    line-height: 210px;
+    font-size: 18px;
+}
+
+
+a{
+    cursor:pointer;
+}
+
+.toRight {
+    width: auto;
+    float: right;
+    line-height: 60px;
+    font-size: 32px;
+    color: #29b573;
 }

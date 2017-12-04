@@ -39,7 +39,7 @@ class Speaker extends Component {
          this.props.history.push("/events/"+this.props.match.params.eventId+"/speakers");
       }
    }
-   //sasasasasa
+
    deleteSpeaker = () => {
       let cloneSpeakers = this.props.speaker.speakers ? this.props.speaker.speakers.slice(0) : [];
 

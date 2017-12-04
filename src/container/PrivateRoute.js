@@ -7,7 +7,7 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => (
    render={props =>
     auth.user
         ? <Component {...props} />
-        : <Redirect to={{ pathname: "/login" }} />}
+        : <Redirect to={{ pathname: "/401" }} />}
   />
 );
 

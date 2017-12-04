@@ -24,6 +24,8 @@ import Logout from "./Logout";
 import ModerateComments from "./ModerateComments";
 import Statics from "./Statics";
 import Speaker from "./Speaker";
+import NotFound from "./NotFound";
+import Unauthorized from "./Unauthorized";
 
 class App extends Component {
    render() {
@@ -53,7 +55,10 @@ class App extends Component {
                      <PrivateRoute path="/addevent" component={AddEvent}/>
                      <PrivateRoute path="/settings" component={Settings}/>
                      <PrivateRoute path="/changepassword" component={PassChange}/>
-                     <Route path="/" component={Home}/>
+                     <PrivateRoute path="/" component={Events}/>
+                     <Route path="/401" component={Unauthorized}/>
+                     <Route exact path="/" component={Home}/>
+                     <Route component={NotFound}/>
                   </Switch>
                </MasterPage>
             </Router>

@@ -31,7 +31,8 @@ class Talks extends React.Component {
                      <TalkList agenda={this.props.speaker.agenda} removeTalk={this.removeTalk}/>
                      <div className="row mtop25 mbottom100">
                         <div className="twelve columns">
-                           <Link to="./addtalk" className="button button-primary">Add Talk</Link>
+                           <Link to="./addtalk" className="button button-primary">Add Talk</Link>{' '}
+                           <Link to="./addbreak" className="button button-primary" disabled={true}>Add Break</Link>
                         </div>
                      </div>
                   </Loading>

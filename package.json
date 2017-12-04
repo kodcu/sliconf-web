@@ -21,6 +21,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^4.0.8",
+    "react-telephone-input": "^4.3.4",
     "react-tooltip": "^3.4.0",
     "recompose": "^0.26.0",
     "redux": "^3.7.1",

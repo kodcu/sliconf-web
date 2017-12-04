@@ -72,7 +72,7 @@ class Login extends React.Component {
                      </div>
                      <div className="row">
                         <div className="twelve columns">
-                           <label htmlFor="user">Username</label>
+                           <label htmlFor="user">Username or E-mail</label>
                            <input className={classNames({'hata': this.state.userWarning})} type="text" id="user" placeholder={"Username"} value={this.state.user} onChange={(e) => this.setState({user: e.target.value})}/>
                         </div>
                         <div className="twelve columns">

@@ -16,6 +16,7 @@ import SponsorTagCreate from "../components/SponsorTagCreate";
 import SponsorList from "../components/SponsorList";
 import Floor from "../components/Floor";
 import Loading from "../components/Loading";
+import ReactTelInput from 'react-telephone-input';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 
 const _ = require("lodash");
@@ -73,7 +74,7 @@ const MapWithASearchBox = compose(
                   center: nextCenter,
                   markers: nextMarkers,
                   zoom:17,
-                  place:places[0].formatted_address,
+                  place:places[0] ? places[0].formatted_address : '',
                });
                this.props.callback(this.state.place, nextCenter.lat(), nextCenter.lng());
             },
@@ -145,6 +146,7 @@ class EditEvent extends React.Component {
       facebook: "",
       instagram: "",
       web: "",
+      email: "",
       phone: "",
       phonea: "",
       lat: "",
@@ -176,8 +178,10 @@ class EditEvent extends React.Component {
       sponsorIsOpen:false,
       sponsorTagIsOpen:false,
       newAlertIsOpen:false,
+      saveText:"SAVE",
+      initalize:true,
    };
-
+   //sasasasasasaa
    constructor(props){
       super(props);
       this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
@@ -201,8 +205,11 @@ class EditEvent extends React.Component {
    }
 
    componentDidMount(){
-      if(this.props.match.params.new==="new-event"){
+      let par = this.props.match.params.new;
+      if(par==="new-event"){
          this.openNewAlert();
+      }else if(par==="general" || par==="social" || par==="contact" || par==="floorplan" || par==="rooms" || par==="sponsors" || par==="advanced"){
+         this.changeTab(this.props.match.params.new);
       }
       this.props.fetchEvent(this.props.match.params.eventId);
    }
@@ -215,12 +222,38 @@ class EditEvent extends React.Component {
       });
       this.props.fetchEvent(this.props.match.params.eventId);
    };
-
+   //sasaasasasasasa
    componentWillReceiveProps(nextProps) {
       console.log("bisiler oldu");
+      console.log(nextProps.fetch)
+      if((nextProps.fetch && this.props.fetch !== nextProps.fetch) && nextProps.fetch.loading){
+         if(this.state.initalize){
+            this.setState({
+               initalize:false,
+               changed:false,
+            });
+         }else{
+            this.setState({
+               saveText:"SAVING..."
+            });
+         }
+      }
+      console.log("bu",nextProps)
+      if(nextProps.fetch && this.props.fetch !== nextProps.fetch && (!nextProps.fetch.loading)){
+            if(this.state.saveText==="SAVING..."){
+               this.setState({
+                  saveText:"SAVED!"
+               });
+               setTimeout(function(){
+                  this.setState({
+                     saveText:"SAVE",
+                  })
+               }.bind(this),1000)
+            }
+      }
+
       if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) {
          console.log("event degismis");
-         console.log(this.props.event)
          this.setState({
             id: nextProps.event.id ? nextProps.event.id : '',
             name: nextProps.event.name ? nextProps.event.name : '',
@@ -233,6 +266,7 @@ class EditEvent extends React.Component {
             facebook: nextProps.event.about ? nextProps.event.about.social ? nextProps.event.about.social.facebook ? nextProps.event.about.social.facebook : '' : '' : '',
             instagram: nextProps.event.about ? nextProps.event.about.social ? nextProps.event.about.social.instagram ? nextProps.event.about.social.instagram : '' : '' : '',
             web: nextProps.event.about ? nextProps.event.about.web ? nextProps.event.about.web : '' : '',
+            email: nextProps.event.about ? nextProps.event.about.email ? nextProps.event.about.email : '' : '',
             phone: nextProps.event.about ? nextProps.event.about.phone ? nextProps.event.about.phone[0] ? nextProps.event.about.phone[0] : '' : '' : '',
             phonea: nextProps.event.about ? nextProps.event.about.phone ? nextProps.event.about.phone[1] ? nextProps.event.about.phone[1] : '' : '' : '',
             lat: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.lat ? nextProps.event.about.location.lat : '' : '' : '',
@@ -340,6 +374,11 @@ class EditEvent extends React.Component {
       });
    };
 
+   discardChanges = () => {
+      this.resetAll();
+      this.setState({sureIsOpen: false, nextTab:this.state.activeTab});
+   };
+   //sa
 
    floorRemove = (floorId) => {
       this.openFloor(floorId)
@@ -410,6 +449,8 @@ class EditEvent extends React.Component {
       this.closeRoomAlert();
    };
 
+
+
    openModal = (id,logo,name,tag) => {
       if(!id) {
          this.setState({
@@ -432,35 +473,41 @@ class EditEvent extends React.Component {
    };
 
    modalSave = () => {
-      if(this.state.modalIsNew===false){
-         if(this.state.activeTab==="sponsors"){
-            this.props.editSponsorFromLocal(this.state.modalId, this.state.modalName, this.state.modalImage);
-         }else if(this.state.activeTab==="floorplan"){
-            this.props.editFloorFromLocal(this.state.modalId, this.state.modalName, this.state.modalImage);
-            this.setState({
-               nthChange:this.state.nthChange+1,
-            })
+      if(this.state.modalName!==""){
+         if(this.state.modalIsNew===false){
+            if(this.state.activeTab==="sponsors"){
+               this.props.editSponsorFromLocal(this.state.modalId, this.state.modalName, this.state.modalImage);
+            }else if(this.state.activeTab==="floorplan"){
+               this.props.editFloorFromLocal(this.state.modalId, this.state.modalName, this.state.modalImage);
+               this.setState({
+                  nthChange:this.state.nthChange+1,
+               })
+            }
+         }else{
+            if(this.state.activeTab==="sponsors"){
+               this.props.addSponsorToLocal(this.state.modalName, this.state.modalImage ,this.state.activeSponsorTag,Math.floor(Math.random()*100000000000000));
+               this.setState({
+                  nthNewSponsor:this.state.nthNewSponsor+1,
+                  modalIsNew:false,
+               })
+            }else if(this.state.activeTab==="floorplan") {
+               this.props.addFloorToLocal(this.state.modalName, this.state.modalImage,this.state.nthNewFloor);
+               this.setState({
+                  nthNewFloor:this.state.nthNewFloor+1,
+                  modalIsNew:false,
+               })
+            }
          }
+         this.closeModal();
+         this.forceUpdateHandler();
+         this.setState({
+            changed:true,
+         })
       }else{
-         if(this.state.activeTab==="sponsors"){
-            this.props.addSponsorToLocal(this.state.modalName, this.state.modalImage ,this.state.activeSponsorTag,Math.floor(Math.random()*100000000000000));
-            this.setState({
-               nthNewSponsor:this.state.nthNewSponsor+1,
-               modalIsNew:false,
-            })
-         }else if(this.state.activeTab==="floorplan") {
-            this.props.addFloorToLocal(this.state.modalName, this.state.modalImage,this.state.nthNewFloor);
-            this.setState({
-               nthNewFloor:this.state.nthNewFloor+1,
-               modalIsNew:false,
-            })
-         }
+         this.setState({
+            modalAlert:"Please fill the 'name' input.",
+         })
       }
-      this.closeModal();
-      this.forceUpdateHandler();
-      this.setState({
-         changed:true,
-      })
    };
 
    /*
@@ -510,7 +557,7 @@ class EditEvent extends React.Component {
                   <div className="twelve columns">
                      <h2>Wait!</h2>
                      <p>Your event <b>will not be shown</b> on mobile phones, until you give enough information about your event.</p>
-                     <p>You must enter at least <b>one floor</b>, <b>one room</b> and <b>one speaker</b>.</p>
+                     <p>You must enter at least <b>one floor</b>, <b>one room</b>, <b>one speaker</b> and <b>one talk</b>.</p>
                      <p>Also, you should enter <b>description</b>, <b>logo</b> and <b>date</b> for your event.</p>
                   </div>
                </div>
@@ -529,7 +576,7 @@ class EditEvent extends React.Component {
                isOpen={this.state.sureIsOpen}
                onRequestClose={this.closeSure}
                contentLabel="Are you sure?"
-               style={{content : {width:400,textAlign:"center"}}}
+               style={{content : {width:500,textAlign:"center"}}}
             >
                <div className="row">
                   <div className="twelve columns">
@@ -538,12 +585,17 @@ class EditEvent extends React.Component {
                   </div>
                </div>
                <div className="row">
-                  <div className="six columns">
+                  <div className="four columns">
                      <div className="span">
                         <button onClick={this.closeSure}>CANCEL</button>
                      </div>
                   </div>
-                  <div className="six columns">
+                  <div className="four columns">
+                     <div className="span">
+                        <button onClick={this.discardChanges}>DISCARD</button>
+                     </div>
+                  </div>
+                  <div className="four columns">
                      <div className="span">
                         <button onClick={this.save} className={"button-primary"}>SAVE</button>
                      </div>
@@ -722,7 +774,7 @@ class EditEvent extends React.Component {
                      <label htmlFor="modalName">Name</label>
                      <input className="u-full-width" type="text" id="modalName" value={this.state.modalName} onChange={(e) => this.setState({modalName:e.currentTarget.value})}/>
                      <div className="span" style={{float:"right"}}>
-                        <button onClick={this.modalSave} className={"button-primary"}>SAVE</button>
+                        <button onClick={this.modalSave} className={"button-primary"}>save</button>
                      </div>
                   </div>
                </div>
@@ -735,8 +787,9 @@ class EditEvent extends React.Component {
                            <div className="row">
                               <div className="twelve columns">
                                  <h2 style={{verticalAlign:"top",display: "inline-block"}}>Edit Event</h2>
-                                 <input style={{margin:"10px 30px"}} className={classNames('button-primary',{disabled:this.state.isLoading})} type="submit" onClick={this.save} defaultValue="SAVE"/>
+                                 <input style={{margin:"10px 30px"}} className={classNames('button-primary',{disabled:this.state.isLoading})} type="submit" onClick={this.save} defaultValue={this.state.saveText}/>
                                  <a onClick={this.openReset}>Reset</a>
+                                 <div className="toRight code">{this.props.match.params.eventId}</div>
                               </div>
                            </div>
                         </div>
@@ -759,7 +812,7 @@ class EditEvent extends React.Component {
                             onClick={(e) => this.changeTab('advanced')}><a className="navbar-link">Advanced</a></li>
                      </ul>
                   </div>
-                  <div className="tabContainer" style={{height: "800px",position: "relative"}}>
+                  <div className="tabContainer">
                      <div className={classNames('tab',{'active':this.state.activeTab==="general"})}>
                         <div className="row mtop50">
                            <div className="six columns">
@@ -846,25 +899,36 @@ class EditEvent extends React.Component {
                            </div>
                         </div>
                      </div>
-
                      <div className={classNames('tab',{'active':this.state.activeTab==="contact"})}>
                         <div className="row mtop50">
                            <div className="twelve columns">
                               <h3>Contact</h3>
                               <div className="twelve columns" style={{marginLeft:0}}>
-                                 <div className="twelve columns">
+                                 <div className="six columns">
                                     <label htmlFor="website">Website</label>
                                     <input className="u-full-width" type="text" id="website" value={this.state.web} onChange={(e) => this.setState({web:e.currentTarget.value, changed:true})}/>
+                                 </div>
+                                 <div className="six columns">
+                                    <label htmlFor="email">E-MAIL</label>
+                                    <input className="u-full-width" type="text" id="email" value={this.state.email} onChange={(e) => this.setState({email:e.currentTarget.value, changed:true})}/>
                                  </div>
                               </div>
                               <div className="twelve columns" style={{marginLeft:0}}>
                                  <div className="six columns">
                                     <label htmlFor="phone">Phone</label>
-                                    <input className="u-full-width" type="text" id="phone" value={this.state.phone} onChange={(e) => this.setState({phone:e.currentTarget.value, changed:true})}/>
+                                    <ReactTelInput defaultCountry="tr" className="u-full-width" type="text" id="phone" value={this.state.phone} onBlur={(telNumber)=>{
+                                       this.setState({
+                                          phone:telNumber,
+                                          changed:true,
+                                       })}}/>
                                  </div>
                                  <div className="six columns">
                                     <label htmlFor="phonea">Alternative Phone</label>
-                                    <input className="u-full-width" type="text" id="phonea" value={this.state.phonea} onChange={(e) => this.setState({phonea:e.currentTarget.value, changed:true})}/>
+                                    <ReactTelInput defaultCountry="tr" className="u-full-width" type="text" id="phone" value={this.state.phonea} onBlur={(telNumber)=>{
+                                       this.setState({
+                                          phonea:telNumber,
+                                          changed:true,
+                                       })}}/>
                                  </div>
                               </div>
                               <div className="twelve columns" style={{marginLeft:0}}>
