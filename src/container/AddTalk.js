@@ -12,11 +12,11 @@ import Loading from "../components/Loading";
 class AddTalk extends React.Component {
 
    state = {
+      id:'',
       speaker:'',
       speakerId:'',
       topic:'',
       detail:'',
-      startsAt:'',
       level:'',
       room:'',
       startDate:moment.now(),
@@ -26,10 +26,13 @@ class AddTalk extends React.Component {
       topicsRaw:'',
       topics:[],
       loading:true,
+      edit:false,
+      agenda:[],
    }
 
    getTalkData = () => {
       return {
+         id: this.state.id,
          speaker: this.state.speaker ? this.state.speaker : this.state.speakers[0].name,
          detail: this.state.detail,
          topic: this.state.topic,
@@ -41,23 +44,43 @@ class AddTalk extends React.Component {
       }
    };
 
-
-
-
    componentWillMount(){
       this.props.fetchEvent(this.props.match.params.eventId);
    }
 
    componentDidMount(){
-      console.log(this.props.event)
+      console.log(this.props.event.agenda);
    }
 
    componentWillReceiveProps(nextProps) {
       if (nextProps.event && this.props.event !== nextProps.event) {
          this.setState({
-            speakers:nextProps.event.speakers,
-            rooms:nextProps.event.rooms,
-            loading:false,
+            speakers: nextProps.event.speakers,
+            rooms: nextProps.event.rooms,
+            agenda: nextProps.event.agenda,
+            loading: false,
+         },()=>{
+            if(this.props.match.params.talkId){
+               let getter = this.state.agenda.filter(agendaItem => agendaItem.id === this.props.match.params.talkId)[0];
+               console.log(getter);
+               if(getter){
+                  this.setState({
+                     edit:true,
+                     id:getter.id,
+                     speaker:getter.speaker,
+                     speakerId:'',
+                     topic:getter.topic,
+                     detail:getter.detail,
+                     level:getter.level,
+                     room:getter.room,
+                     startDate:moment(getter.date*1000),
+                     duration:getter.duration,
+                     topicsRaw:getter.tags.join(", "),
+                     topics:getter.tags,
+                  })
+               }
+            }
+
          });
       }
 
@@ -72,9 +95,26 @@ class AddTalk extends React.Component {
    addTalk = () => {
       if(this.state.topic){
          if(this.state.duration!=='0') {
-            let cloneAgenda = this.props.event.agenda ? this.props.event.agenda.slice(0) : [];
-            cloneAgenda.push({...this.getTalkData()});
-            this.props.addTalk(this.props.match.params.eventId, cloneAgenda)
+
+            if(this.props.match.params.talkId){
+               console.log("sa",this.props.event.agenda);
+               let cloneTalks = this.props.event ? this.props.event.agenda.slice(0) : [];
+               let hasAnother = false;
+
+               cloneTalks.map((key,index) => {
+                  //console.log(key.name);
+                  if(key.id===this.state.id){
+                     hasAnother = true;
+                     cloneTalks[index] = this.getTalkData();
+                  }
+               });
+               this.props.addTalk(this.props.match.params.eventId, cloneTalks)
+
+            }else{
+               let cloneAgenda = this.props.event.agenda ? this.props.event.agenda.slice(0) : [];
+               cloneAgenda.push({...this.getTalkData()});
+               this.props.addTalk(this.props.match.params.eventId, cloneAgenda)
+            }
          }else{
             alert("Please enter a valid duration for this talk.")
          }
@@ -111,7 +151,7 @@ class AddTalk extends React.Component {
 
    changeDateValue = (name) => {
       return (date) => {
-         this.setState({[name]: moment(date).unix()})
+         this.setState({[name]: moment(date).unix()*1000})
       }
    };
 
@@ -122,7 +162,7 @@ class AddTalk extends React.Component {
                <div className="twelve columns">
                   <Loading row="3" loading={this.state.loading}>
                      {this.state.speakers && this.state.speakers.length>0 ? this.state.rooms && this.state.rooms.length>0 ? <div className="yea">
-                        <PageHead title="Add Talk"/>
+                        <PageHead title={this.props.match.params.talkId ? "Edit Talk" : "Add Talk"}/>
                            <div className="row">
                               <div className="eight columns">
                                  <div className="row">
@@ -170,7 +210,7 @@ class AddTalk extends React.Component {
                                  </div>
                                  <div className="row">
                                     <div className="twelve columns">
-                                       <label htmlFor="date">talk date</label>
+                                       <label htmlFor="date">TALK DATE and TIME</label>
                                        <DatePicker
                                           showTimeSelect
                                           timeIntervals={5}
@@ -206,11 +246,11 @@ class AddTalk extends React.Component {
                            </div>
                            <div className="row mtop50 mbottom100">
                               <div className="six columns">
-                                 <input className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue="ADD TALK"/>
+                                 <input className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue={this.props.match.params.talkId ? "Save" : "Add Talk"}/>
                               </div>
                            </div>
-                        </div> : <div><h1>Sorry!</h1><p>You can't add talk before you add a room.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit/rooms")}}>GO TO EVENT SETTINGS</button></div>
-                        : <div><h1>Sorry!</h1><p>You can't add talk before you add a speaker.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/addspeaker")}}>GO TO ADD SPEAKER</button></div>}
+                        </div> : <div><h1>Sorry!</h1><p>You can't {this.props.match.params.talkId ? "edit Talk" : "add talk"} before you add a room.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit/rooms")}}>GO TO EVENT SETTINGS</button></div>
+                        : <div><h1>Sorry!</h1><p>You can't {this.props.match.params.talkId ? "edit Talk" : "add talk"} before you add a speaker.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/addspeaker")}}>GO TO ADD SPEAKER</button></div>}
                   </Loading>
                </div>
             </div>

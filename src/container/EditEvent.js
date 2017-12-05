@@ -137,8 +137,8 @@ class EditEvent extends React.Component {
       loading:true,
       id: this.props.match.eventId,
       name: "",
-      startdate: moment(),
-      enddate: moment(),
+      startDate: moment(),
+      endDate: moment(),
       logoPath: "",
       description: "",
       youtube: "",
@@ -257,8 +257,8 @@ class EditEvent extends React.Component {
          this.setState({
             id: nextProps.event.id ? nextProps.event.id : '',
             name: nextProps.event.name ? nextProps.event.name : '',
-            startdate: nextProps.event.startdate ? moment(nextProps.event.startdate*1000) : moment(),
-            enddate: nextProps.event.enddate ? moment(nextProps.event.enddate*1000) : moment(),
+            startDate: nextProps.event.startDate ? moment(nextProps.event.startDate) : moment(),
+            endDate: nextProps.event.endDate ? moment(nextProps.event.endDate) : moment(),
             logoPath: nextProps.event.logoPath ? nextProps.event.logoPath : '',
             description: nextProps.event.description ? nextProps.event.description : '',
             youtube: nextProps.event.about ? nextProps.event.about.social ? nextProps.event.about.social.youtube ? nextProps.event.about.social.youtube : '' : '' : '',
@@ -323,8 +323,8 @@ class EditEvent extends React.Component {
          return {
             "key": this.props.match.params.eventId,
             "name": this.state.name,
-            "startDate": moment(this.state.startdate).unix(),
-            "endDate": moment(this.state.enddate).unix(),
+            "startDate": moment(this.state.startDate*1000).unix(),
+            "endDate": moment(this.state.endDate*1000).unix(),
             "logoPath": this.state.logoPath,
             "description":  this.state.description,
             "about": {
@@ -825,27 +825,31 @@ class EditEvent extends React.Component {
                                  <div className="six columns">
                                     <label htmlFor="startdate">Event Starts</label>
                                     <DatePicker
+                                       showTimeSelect
+                                       timeIntervals={60}
                                        className="u-full-width"
                                        minDate={moment()}
                                        maxDate={moment().add(5, "years")}
-                                       selected={moment(this.state.startdate)}
+                                       selected={moment(this.state.startDate)}
                                        selectsStart
-                                       startDate={this.state.startdate}
-                                       endDate={this.state.enddate}
-                                       onChange={this.changeDateValue('startdate')}
+                                       startDate={this.state.startDate}
+                                       endDate={this.state.endDate}
+                                       onChange={this.changeDateValue('startDate')}
                                     />
                                  </div>
                                  <div className="six columns">
                                     <label htmlFor="enddate">Event Ends</label>
                                     <DatePicker
+                                       showTimeSelect
+                                       timeIntervals={60}
                                        className="u-full-width"
                                        minDate={moment()}
                                        maxDate={moment().add(5, "years")}
-                                       selected={moment(this.state.enddate)}
+                                       selected={moment(this.state.endDate)}
                                        selectsEnd
-                                       startDate={this.state.startdate}
-                                       endDate={this.state.enddate}
-                                       onChange={this.changeDateValue('enddate')}
+                                       startDate={this.state.startDate}
+                                       endDate={this.state.endDate}
+                                       onChange={this.changeDateValue('endDate')}
                                     />
                                  </div>
                               </div>

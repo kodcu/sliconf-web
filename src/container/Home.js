@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom'
 
 class Home extends Component {
 
@@ -12,7 +13,7 @@ class Home extends Component {
                      <div className="twelve columns">
                         <h2 style={{color: '#29b573'}}>
                            Welcome{this.props.user !== null && this.props.user !== undefined ? (this.props.user.fullname!=="") && (this.props.user.fullname!==undefined) && (this.props.user.fullname!==null) ? ", " +(this.props.user.fullname) : ", " +(this.props.user.username) : "!"}</h2>
-
+                           {this.props.user !== null && this.props.user !== undefined ? <Redirect to={{ pathname: "/events" }} /> : ''}
                      </div>
                   </div>
                   {!(this.props.user !== null && this.props.user !== undefined) ? <div className="row">

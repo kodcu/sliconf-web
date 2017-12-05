@@ -46,6 +46,7 @@ class App extends Component {
                      <PrivateRoute path="/events/:eventId/addspeaker" component={AddSpeaker}/>
                      <PrivateRoute path="/events/:eventId/editspeaker/:speakerId" component={AddSpeaker}/>
                      <PrivateRoute path="/events/:eventId/addtalk" component={AddTalk}/>
+                     <PrivateRoute path="/events/:eventId/edittalk/:talkId" component={AddTalk}/>
                      <PrivateRoute path="/events/:eventId/edit/:new" component={EditEvent}/>
                      <PrivateRoute path="/events/:eventId/edit" component={EditEvent}/>
                      <PrivateRoute path="/events/:eventId/moderate" component={ModerateComments}/>
@@ -55,7 +56,6 @@ class App extends Component {
                      <PrivateRoute path="/addevent" component={AddEvent}/>
                      <PrivateRoute path="/settings" component={Settings}/>
                      <PrivateRoute path="/changepassword" component={PassChange}/>
-                     <PrivateRoute path="/" component={Events}/>
                      <Route path="/401" component={Unauthorized}/>
                      <Route exact path="/" component={Home}/>
                      <Route component={NotFound}/>
