@@ -8,6 +8,7 @@ import ImageUpload from '../components/ImageUpload'
 class AddSpeaker extends React.Component {
 
    state = {
+      id:null,
       fullName: '',
       image:'',
       detail: '',
@@ -17,8 +18,18 @@ class AddSpeaker extends React.Component {
       edit:false,
    };
 
+
+   search = (nameKey, myArray) => {
+      for (let i = 0; i < myArray.length; i++) {
+         if (myArray[i].id === nameKey) {
+            return myArray[i];
+         }
+      }
+   };
+
    getSpeakerData = () => {
       return {
+         id:this.state.id ? this.state.id : null,
          name: this.state.fullName,
          profilePicture: this.state.image,
          about: this.state.detail,
@@ -33,12 +44,13 @@ class AddSpeaker extends React.Component {
          //console.log(this.props.speakers.speakers);
          this.setState({
             edit:true,
-            fullName:this.props.speakers.speakers[this.props.match.params.speakerId].name,
-            image:this.props.speakers.speakers[this.props.match.params.speakerId].profilePicture,
-            detail:this.props.speakers.speakers[this.props.match.params.speakerId].about,
-            workingAt:this.props.speakers.speakers[this.props.match.params.speakerId].workingAt,
-            linkedin:this.props.speakers.speakers[this.props.match.params.speakerId].linkedin,
-            twitter:this.props.speakers.speakers[this.props.match.params.speakerId].twitter,
+            id:this.search(this.props.match.params.speakerId,this.props.speakers.speakers).id,
+            fullName:this.search(this.props.match.params.speakerId,this.props.speakers.speakers).name,
+            image:this.search(this.props.match.params.speakerId,this.props.speakers.speakers).profilePicture,
+            detail:this.search(this.props.match.params.speakerId,this.props.speakers.speakers).about,
+            workingAt:this.search(this.props.match.params.speakerId,this.props.speakers.speakers).workingAt,
+            linkedin:this.search(this.props.match.params.speakerId,this.props.speakers.speakers).linkedin,
+            twitter:this.search(this.props.match.params.speakerId,this.props.speakers.speakers).twitter,
          })
       }
    }
@@ -52,18 +64,17 @@ class AddSpeaker extends React.Component {
    }
 
    addSpeaker = () => {
-      if(this.state.fullName){
-         //console.log(this.props);
+      if(this.state.fullName) {
          let cloneSpeakers = this.props.speakers.speakers ? this.props.speakers.speakers.slice(0) : [];
-         let hasAnother = false;
-         cloneSpeakers.map((key,index) => {
-            //console.log(key.name);
-            if(key.name===this.state.fullName){
-               hasAnother = true;
-               cloneSpeakers[index] = this.getSpeakerData();
-            }
-         });
-         if(!hasAnother){
+         if(this.state.edit){
+            //console.log(this.props);
+            cloneSpeakers.map((key, index) => {
+               //console.log(key.name);
+               if (key.id === this.props.match.params.speakerId) {
+                  cloneSpeakers[index] = this.getSpeakerData();
+               }
+            });
+         }else{
             cloneSpeakers.push({...this.getSpeakerData()});
          }
          this.props.addSpeaker(this.props.match.params.eventId, cloneSpeakers)
@@ -92,7 +103,7 @@ class AddSpeaker extends React.Component {
                            <div className="twelve columns">
                               <label htmlFor="email">Full Name</label>
                               <input className="u-full-width" type="email"
-                                     value={this.state.fullName} disabled={this.state.edit} onChange={this.changeValue('fullName')}/>
+                                     value={this.state.fullName} onChange={this.changeValue('fullName')}/>
                            </div>
                         </div>
                         <div className="row">

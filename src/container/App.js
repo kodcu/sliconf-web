@@ -17,6 +17,7 @@ import Speakers from "./Speakers";
 import Talks from "./Talks";
 import AddSpeaker from "./AddSpeaker";
 import AddTalk from "./AddTalk";
+import AddBreak from "./AddBreak";
 import PassReset from "./PassReset";
 import PassChange from "./PassChange";
 import MailSuccess from "./MailSuccess";
@@ -47,6 +48,8 @@ class App extends Component {
                      <PrivateRoute path="/events/:eventId/editspeaker/:speakerId" component={AddSpeaker}/>
                      <PrivateRoute path="/events/:eventId/addtalk" component={AddTalk}/>
                      <PrivateRoute path="/events/:eventId/edittalk/:talkId" component={AddTalk}/>
+                     <PrivateRoute path="/events/:eventId/addbreak" component={AddBreak}/>
+                     <PrivateRoute path="/events/:eventId/editbreak/:breakId" component={AddBreak}/>
                      <PrivateRoute path="/events/:eventId/edit/:new" component={EditEvent}/>
                      <PrivateRoute path="/events/:eventId/edit" component={EditEvent}/>
                      <PrivateRoute path="/events/:eventId/moderate" component={ModerateComments}/>

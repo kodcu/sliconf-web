@@ -146,7 +146,8 @@ export default function reducer(state = initialState, action = {}) {
          return {
             ...state,
             loading: false,
-            agenda: action.result.returnObject.agenda
+            agenda: action.result.returnObject.agenda,
+            speakers: action.result.returnObject.speakers
          };
       case FETCH_TALKS_FAIL:
          return {

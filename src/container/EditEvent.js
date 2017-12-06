@@ -181,7 +181,7 @@ class EditEvent extends React.Component {
       saveText:"SAVE",
       initalize:true,
    };
-   //sasasasasasaa
+
    constructor(props){
       super(props);
       this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
@@ -222,7 +222,7 @@ class EditEvent extends React.Component {
       });
       this.props.fetchEvent(this.props.match.params.eventId);
    };
-   //sasaasasasasasa
+
    componentWillReceiveProps(nextProps) {
       console.log("bisiler oldu");
       console.log(nextProps.fetch)
@@ -233,9 +233,7 @@ class EditEvent extends React.Component {
                changed:false,
             });
          }else{
-            this.setState({
-               saveText:"SAVING..."
-            });
+
          }
       }
       console.log("bu",nextProps)
@@ -248,7 +246,7 @@ class EditEvent extends React.Component {
                   this.setState({
                      saveText:"SAVE",
                   })
-               }.bind(this),1000)
+               }.bind(this),2000)
             }
       }
 
@@ -278,6 +276,14 @@ class EditEvent extends React.Component {
             floorPlan : nextProps.event.floorPlan ? nextProps.event.floorPlan : [],
             loading:false,
             nthChange:this.state.nthChange+1,
+         },()=>{
+            if(this.state.changeTabAfterReset){
+               this.changeTab(this.state.nextTab);
+               this.setState({
+                  changeTabAfterReset:false,
+                  nextTab:this.state.activeTab,
+               })
+            }
          });
       }
    }
@@ -335,6 +341,7 @@ class EditEvent extends React.Component {
                   "instagram": this.state.instagram
                },
                "web": this.state.web,
+               "email": this.state.email,
                "phone": [
                   this.state.phone,
                   this.state.phonea
@@ -362,9 +369,11 @@ class EditEvent extends React.Component {
    save = () => {
       this.setState({
          changed:false,
+         saveText:"SAVING...",
       },()=>{
          console.log(this.props);
          if (this.state.activeTab === "general" || this.state.activeTab === "social" || this.state.activeTab === "contact") {
+            console.log("veriliyor")
             this.props.editEvent(this.props.auth.user.id, this.prepareReturn(this.state.activeTab));
          }else{
             this.props.editTab(this.state.activeTab,this.props.match.params.eventId,this.prepareReturn(this.state.activeTab));
@@ -376,9 +385,9 @@ class EditEvent extends React.Component {
 
    discardChanges = () => {
       this.resetAll();
-      this.setState({sureIsOpen: false, nextTab:this.state.activeTab});
+      this.setState({sureIsOpen: false,changeTabAfterReset:true});
+
    };
-   //sa
 
    floorRemove = (floorId) => {
       this.openFloor(floorId)
@@ -787,8 +796,9 @@ class EditEvent extends React.Component {
                            <div className="row">
                               <div className="twelve columns">
                                  <h2 style={{verticalAlign:"top",display: "inline-block"}}>Edit Event</h2>
-                                 <input style={{margin:"10px 30px"}} className={classNames('button-primary',{disabled:this.state.isLoading})} type="submit" onClick={this.save} defaultValue={this.state.saveText}/>
-                                 <a onClick={this.openReset}>Reset</a>
+                                 <input style={{margin:"10px 30px"}} className={classNames('button-primary',{disabled:!this.state.changed})} type="submit" onClick={()=>{this.state.changed ? this.save() : null}} defaultValue={this.state.saveText}/>
+                                 <a className={classNames({hidden:!this.state.changed})} onClick={this.openReset}>Reset</a>
+                                 <span className={classNames("text italic",{hidden:this.state.changed || (this.state.saveText!=="SAVED!" && this.state.saveText!=="SAVE")})}>All changes are saved!</span>
                                  <div className="toRight code">{this.props.match.params.eventId}</div>
                               </div>
                            </div>

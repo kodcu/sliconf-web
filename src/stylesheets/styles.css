@@ -608,61 +608,6 @@ h4 {
         position:fixed !important;
     }
 
-    .agenda .noBefore td:nth-of-type(1){
-        padding-left:0px !important;
-    }
-    .agenda td:nth-of-type(1):before {
-        content: "Remove Event?";
-    }
-
-    .agenda td:nth-of-type(1) {
-        text-align:center;
-        padding-left:50% !important;
-        height:60px;
-        margin-top:20px;
-    }
-
-    .agenda td:nth-of-type(1) svg {
-        transform:scale(2);
-        margin-top:2px;
-    }
-
-    .agenda td:nth-of-type(3):before {
-        content: "Level";
-    }
-
-    .agenda td:nth-of-type(3) {
-        content: "Level";
-        margin-top:6px
-    }
-
-    .agenda td:nth-of-type(4):before {
-        content: "Speaker";
-    }
-
-    .agenda td:nth-of-type(5):before {
-        content: "Date";
-    }
-
-    .agenda td:nth-of-type(6) {
-        padding-left:50% !important;
-    }
-
-    .agenda td:nth-of-type(6):before {
-        content: "Duration";
-    }
-
-    .agenda td:nth-of-type(7) {
-        width:100% !important;
-        max-width:100% !important;
-        margin-bottom:9px;
-    }
-
-    .agenda td:nth-of-type(7):before {
-        content: "Topics";
-        padding-top:8px;
-    }
-
 
 
 
@@ -749,6 +694,61 @@ h4 {
 
     .mtop {
         margin-top: 0;
+    }
+
+    .agenda .noBefore td:nth-of-type(1){
+        padding-left:0px !important;
+    }
+    .agenda td:nth-of-type(1):before {
+        content: "Remove Event?";
+    }
+
+    .agenda td:nth-of-type(1) {
+        text-align:center;
+        padding-left:50% !important;
+        height:60px;
+        margin-top:20px;
+    }
+
+    .agenda td:nth-of-type(1) svg {
+        transform:scale(2);
+        margin-top:2px;
+    }
+
+    .agenda td:nth-of-type(3):before {
+        content: "Level";
+    }
+
+    .agenda td:nth-of-type(3) {
+        content: "Level";
+        margin-top:6px
+    }
+
+    .agenda td:nth-of-type(4):before {
+        content: "Speaker";
+    }
+
+    .agenda td:nth-of-type(5):before {
+        content: "Date";
+    }
+
+    .agenda td:nth-of-type(6) {
+        padding-left:50% !important;
+    }
+
+    .agenda td:nth-of-type(6):before {
+        content: "Duration";
+    }
+
+    .agenda td:nth-of-type(7) {
+        width:100% !important;
+        max-width:100% !important;
+        margin-bottom:9px;
+    }
+
+    .agenda td:nth-of-type(7):before {
+        content: "Topics";
+        padding-top:8px;
     }
 
 
@@ -1576,4 +1576,45 @@ a{
 
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
     background-color: #29b573 !important;
+}
+
+.agenda td:nth-child(3) svg {
+    width: 26px;
+    margin-top: 5px;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.italic{
+    font-style: italic;
+    font-size:12px;
+    color:#999;
+    display: inline-block;
+    min-width: 140px;
+}
+
+h1, h2, h3, h4, h5, p, span, .code,td,tr,.room{
+    cursor: default;
+}
+
+.agenda tbody tr td, .speakers tbody tr td{
+    cursor: pointer;
+}
+
+table{
+    border-spacing: 0;
+}
+
+.agenda th:first-child, td:first-child, .speakers th:first-child, td:first-child{
+    padding-left:4px;
+}
+
+.agenda tbody tr:hover, .speakers tbody tr:hover{
+    background: #fbfbfb;
+}
+
+.resimHolder.active:hover {
+    cursor: pointer;
 }

@@ -19,20 +19,29 @@ class Speaker extends Component {
       linkedin: "",
    };
 
+   search = (nameKey, myArray) => {
+      for (let i = 0; i < myArray.length; i++) {
+         if (myArray[i].id === nameKey) {
+            return myArray[i];
+         }
+      }
+   };
+
    componentDidMount(){
-      if(this.props.speaker.speakers[this.props.match.params.speakerId]) {
+      if(this.search(this.props.match.params.speakerId,this.props.speaker.speakers)) {
          //console.log(this.props.match.params.eventId, this.props.match.params.speakerId)
-         //console.log(this.props.speaker.speakers[this.props.match.params.speakerId]);
+         //console.log(this.search(this.props.match.params.speakerId,this.props.speaker.speakers));
+         console.log(this.search(this.props.match.params.speakerId,this.props.speaker.speakers).topics);
          this.setState({
             eventId: this.props.match.params.eventId,
             id: this.props.match.params.speakerId,
-            image: this.props.speaker.speakers[this.props.match.params.speakerId].profilePicture,
-            name: this.props.speaker.speakers[this.props.match.params.speakerId].name,
-            workingat: this.props.speaker.speakers[this.props.match.params.speakerId].workingAt,
-            about: this.props.speaker.speakers[this.props.match.params.speakerId].about,
-            topic: this.props.speaker.speakers[this.props.match.params.speakerId].topics,
-            twitter: this.props.speaker.speakers[this.props.match.params.speakerId].twitter,
-            linkedin: this.props.speaker.speakers[this.props.match.params.speakerId].linkedin,
+            image: this.search(this.props.match.params.speakerId,this.props.speaker.speakers).profilePicture,
+            name: this.search(this.props.match.params.speakerId,this.props.speaker.speakers).name,
+            workingat: this.search(this.props.match.params.speakerId,this.props.speaker.speakers).workingAt,
+            about: this.search(this.props.match.params.speakerId,this.props.speaker.speakers).about,
+            topic: this.search(this.props.match.params.speakerId,this.props.speaker.speakers).topics,
+            twitter: this.search(this.props.match.params.speakerId,this.props.speaker.speakers).twitter,
+            linkedin: this.search(this.props.match.params.speakerId,this.props.speaker.speakers).linkedin,
          })
       }else{
          //konusmacilar serverdan cekilmediyse onceki sayfaya at ki ceksin
@@ -49,14 +58,12 @@ class Speaker extends Component {
    };
 
    componentWillReceiveProps(nextProps){
-      console.log("bisi olduuuuu");
       console.log(nextProps);
       if(nextProps.speaker !== this.props.speaker){
          if(!nextProps.speaker.loading){
             this.props.history.push("/events/"+this.props.match.params.eventId+"/speakers");
          }
       }
-
    }
 
    render() {
@@ -94,7 +101,7 @@ class Speaker extends Component {
                            <div className="twelve columns">
                               <h4>Topics</h4>
                               {this.state.topic.map((topic) =>
-                                 <div key={topic} className="room" style={{background: "gainsboro",margin:'0 5px 5px 0'}}>{topic}</div>
+                                 <div key={topic} onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/talks")}} className="room" style={{background: "gainsboro",margin:'0 5px 5px 0'}}>{topic}</div>
                               )}
                            </div>
                         </div> : ''

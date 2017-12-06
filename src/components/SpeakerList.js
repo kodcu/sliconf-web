@@ -1,8 +1,9 @@
 import React from 'react';
+import ReactTooltip from 'react-tooltip'
 
 const ListItem = ({speaker,index,eventId,props}) => {
    return (
-      <tr onClick={()=>{props.topProps.history.push('/events/'+eventId+'/speaker/'+index)}}>
+      <tr data-tip={"Click to View"} data-for="editTooltip" onClick={()=>{props.topProps.history.push('/events/'+eventId+'/speaker/'+index)}}>
          <td><div className="eventimage" style={{backgroundImage: 'url("http://app.sliconf.com:8090/service/image/get/'+speaker.profilePicture+'")'}}/></td>
          <td>{speaker.name}</td>
          <td>{speaker.workingAt}</td>
@@ -38,10 +39,11 @@ class SpeakerList extends React.Component {
                      <tbody>
                      {(this.props.speakers && this.props.speakers.length) ? null : <SpeakersNotAvailable/> }
                      {this.props.speakers ? this.props.speakers.map((speaker, index)=>{
-                        return <ListItem key={speaker.name} speaker={speaker} index={index} eventId={this.props.eventId} props={this.props}/>
+                        return <ListItem key={speaker.name} speaker={speaker} index={speaker.id} eventId={this.props.eventId} props={this.props}/>
                      }) : null}
                      </tbody>
                   </table>
+                  <ReactTooltip id="editTooltip" place="right" type="dark"  effect="solid"/>
                </div>
             </div>
          </div>

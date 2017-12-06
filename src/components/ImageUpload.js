@@ -42,7 +42,7 @@ class ImageUpload extends React.Component {
          })
       }
    };
-//sasasasasaqsa
+
    render() {
       return (
          <div style={{textAlign:"center"}}>

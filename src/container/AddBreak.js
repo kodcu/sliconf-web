@@ -13,33 +13,25 @@ class AddTalk extends React.Component {
 
    state = {
       id:'',
-      speaker:'',
       topic:'',
-      detail:'',
-      level:'',
       room:'',
       startDate:moment.now(),
       duration:'0',
-      speakers:[],
-      rooms:[],
-      topicsRaw:'',
-      topics:[],
       loading:true,
       edit:false,
-      agenda:[],
-   }
+   };
 
    getTalkData = () => {
       return {
          id: this.state.id,
-         speaker: this.state.speaker ? this.state.speaker : this.state.speakers[0].id,
-         detail: this.state.detail,
+         speaker: '',
+         detail: '',
          topic: this.state.topic,
          date: Math.floor(this.state.startDate/1000),
          duration: this.state.duration,
          room: this.state.room ? this.state.room : this.state.rooms[0].id,
-         level: this.state.level ? this.state.level : 0,
-         tags: this.state.topics,
+         level: -1,
+         tags: [],
       }
    };
 
@@ -59,22 +51,18 @@ class AddTalk extends React.Component {
             agenda: nextProps.event.agenda,
             loading: false,
          },()=>{
-            if(this.props.match.params.talkId){
-               let getter = this.state.agenda.filter(agendaItem => agendaItem.id === this.props.match.params.talkId)[0];
+            if(this.props.match.params.breakId){
+               let getter = this.state.agenda.filter(agendaItem => agendaItem.id === this.props.match.params.breakId)[0];
                console.log(getter);
                if(getter){
                   this.setState({
                      edit:true,
                      id:getter.id,
-                     speaker:getter.speaker,
                      topic:getter.topic,
-                     detail:getter.detail,
                      level:getter.level,
                      room:getter.room,
                      startDate:moment(getter.date*1000),
                      duration:getter.duration,
-                     topicsRaw:getter.tags.join(", "),
-                     topics:getter.tags,
                   })
                }
             }
@@ -92,8 +80,7 @@ class AddTalk extends React.Component {
    addTalk = () => {
       if(this.state.topic){
          if(this.state.duration!=='0') {
-
-            if(this.props.match.params.talkId){
+            if(this.props.match.params.breakId){
                let cloneTalks = this.props.event ? this.props.event.agenda.slice(0) : [];
                cloneTalks.map((key,index) => {
                   //console.log(key.name);
@@ -110,35 +97,15 @@ class AddTalk extends React.Component {
                this.props.addTalk(this.props.match.params.eventId, cloneAgenda)
             }
          }else{
-            alert("Please enter a valid duration for this talk.")
+            alert("Please enter a valid duration for this break.")
          }
       }else{
-         alert("Please enter a topic for this talk.")
+         alert("Please enter a name for this break (Example: Coffee Break).")
       }
-   };
-
-   cleanArray = (actual) => {
-      let newArray = [];
-      for (let i = 0; i < actual.length; i++) {
-         if (actual[i] && actual[i].trim()) {
-            newArray.push(actual[i]);
-         }
-      }
-      let uniqueArray = [];
-      uniqueArray = newArray.filter(function(item, pos, self) {
-         return self.indexOf(item) === pos;
-      })
-
-      return uniqueArray;
    };
 
    changeValue = (name) => {
       return (e) => {
-         if(name==="topicsRaw"){
-            this.setState({
-               topics:this.cleanArray(e.target.value.split(","))
-            });
-         }
          this.setState({[name]: e.target.value})
       }
    };
@@ -155,18 +122,10 @@ class AddTalk extends React.Component {
             <div className="row">
                <div className="twelve columns">
                   <Loading row="3" loading={this.state.loading}>
-                     {this.state.speakers && this.state.speakers.length>0 ? this.state.rooms && this.state.rooms.length>0 ? <div className="yea">
-                        <PageHead title={this.props.match.params.talkId ? "Edit Talk" : "Add Talk"}/>
+                     {this.state.rooms && this.state.rooms.length>0 ? <div className="yea">
+                        <PageHead title={this.props.match.params.breakId ? "Edit Break" : "Add Break"}/>
                            <div className="row">
                               <div className="eight columns">
-                                 <div className="row">
-                                    <div className="twelve columns">
-                                       <label>Speaker</label>
-                                       <select className="u-full-width" value={this.state.speaker} onChange={this.changeValue('speaker')}>
-                                          {this.state.speakers.map((speaker)=><option key={speaker.id} value={speaker.id}>{speaker.name}</option>)}
-                                       </select>
-                                    </div>
-                                 </div>
                                  <div className="row">
                                     <div className="twelve columns">
                                        <label htmlFor="topic">Topic</label>
@@ -176,35 +135,7 @@ class AddTalk extends React.Component {
                                  </div>
                                  <div className="row">
                                     <div className="twelve columns">
-                                       <label htmlFor="pass">Detail</label>
-                                       <textarea style={{minHeight: 110}} className="u-full-width" value={this.state.detail}
-                                                 onChange={this.changeValue('detail')}/>
-                                    </div>
-                                 </div>
-
-                              </div>
-                              <div className="four columns">
-                                 <div className="row">
-                                    <div className="twelve columns">
-                                       <label htmlFor="exampleRecipientInput">Level</label>
-                                       <select className="u-full-width" value={this.state.level} onChange={this.changeValue('level')}>
-                                          <option value="0">Beginner</option>
-                                          <option value="1">Intermediate</option>
-                                          <option value="2">Advanced</option>
-                                       </select>
-                                    </div>
-                                 </div>
-                                 <div className="row">
-                                    <div className="twelve columns">
-                                       <label htmlFor="exampleRecipientInput">Room</label>
-                                       <select className="u-full-width" value={this.state.room} onChange={this.changeValue('room')}>
-                                          {this.state.rooms.map((room)=><option key={room.id} value={room.id}>{room.label}</option>)}
-                                       </select>
-                                    </div>
-                                 </div>
-                                 <div className="row">
-                                    <div className="twelve columns">
-                                       <label htmlFor="date">TALK DATE and TIME</label>
+                                       <label htmlFor="date">BREAK DATE and TIME</label>
                                        <DatePicker
                                           showTimeSelect
                                           timeIntervals={5}
@@ -215,7 +146,16 @@ class AddTalk extends React.Component {
                                        />
                                     </div>
                                  </div>
-
+                              </div>
+                              <div className="four columns">
+                                 <div className="row">
+                                    <div className="twelve columns">
+                                       <label htmlFor="exampleRecipientInput">Room</label>
+                                       <select className="u-full-width" value={this.state.room} onChange={this.changeValue('room')}>
+                                          {this.state.rooms.map((room)=><option key={room.id} value={room.id}>{room.label}</option>)}
+                                       </select>
+                                    </div>
+                                 </div>
                                  <div className="row">
                                     <div className="twelve columns">
                                        <label>Duration(<small>minutes</small>)</label>
@@ -223,28 +163,14 @@ class AddTalk extends React.Component {
                                     </div>
                                  </div>
                               </div>
-                              <div className="row">
-                                 <div className="twelve columns">
-                                    <label htmlFor="username">Tags (seperate with comma)</label>
-                                    <input className="u-full-width" type="text"
-                                           value={this.state.topicsRaw} onChange={this.changeValue('topicsRaw')}/>
-                                 </div>
-                              </div>
-                              <div className="row">
-                                 <div className="twelve columns">
-                                    {this.state.topics.map((value,index)=>{
-                                       return <div className={"room"} key={index} style={{background:"gainsboro"}}>{value}</div>
-                                    })}
-                                 </div>
-                              </div>
                            </div>
                            <div className="row mtop50 mbottom100">
                               <div className="six columns">
-                                 <input className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue={this.props.match.params.talkId ? "Save" : "Add Talk"}/>
+                                 <input className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue={this.props.match.params.breakId ? "Save" : "Add Break"}/>
                               </div>
                            </div>
-                        </div> : <div><h1>Sorry!</h1><p>You can't {this.props.match.params.talkId ? "edit Talk" : "add talk"} before you add a room.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit/rooms")}}>GO TO EVENT SETTINGS</button></div>
-                        : <div><h1>Sorry!</h1><p>You can't {this.props.match.params.talkId ? "edit Talk" : "add talk"} before you add a speaker.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/addspeaker")}}>GO TO ADD SPEAKER</button></div>}
+                        </div> : <div><h1>Sorry!</h1><p>You can't {this.props.match.params.breakId ? "edit Talk" : "add break"} before you add a room.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit/rooms")}}>GO TO EVENT SETTINGS</button></div>
+                        }
                   </Loading>
                </div>
             </div>
