@@ -39,6 +39,12 @@ class AddSpeaker extends React.Component {
       }
    };
 
+   componentWillMount(){
+      if(this.props.match.params.redirected === "redirected"){
+         this.props.fetchEventSpeakers(this.props.match.params.eventId);
+      }
+   }
+
    componentDidMount(){
       if(this.props.match.params.speakerId){
          //console.log(this.props.speakers.speakers);
@@ -56,9 +62,12 @@ class AddSpeaker extends React.Component {
    }
 
    componentWillReceiveProps(nextProps) {
+      console.log("new", nextProps);
       if (nextProps.speakers && this.props.speakers !== nextProps.speakers) {
          if(!nextProps.speakers.loading){
-            this.props.history.push("/events/"+this.props.match.params.eventId+"/speakers");
+            if(nextProps.speakers.added){
+               this.props.history.push("/events/"+this.props.match.params.eventId+"/speakers");
+            }
          }
       }
    }

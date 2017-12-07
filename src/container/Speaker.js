@@ -52,7 +52,7 @@ class Speaker extends Component {
    deleteSpeaker = () => {
       let cloneSpeakers = this.props.speaker.speakers ? this.props.speaker.speakers.slice(0) : [];
 
-      cloneSpeakers.splice(Number(this.props.match.params.speakerId), 1);
+      cloneSpeakers.splice(Number(this.props.speaker.speakers.findIndex((el)=>{return el.id === this.props.match.params.speakerId})), 1);
 
       this.props.addSpeaker(this.props.match.params.eventId, cloneSpeakers)
    };

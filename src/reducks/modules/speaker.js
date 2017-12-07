@@ -59,6 +59,7 @@ export default function reducer(state = initialState, action = {}) {
       case ADD_SPEAKER:
          return {
             ...state,
+            added:false,
             loading: true
          };
       case ADD_SPEAKER_SUCCESS:
@@ -66,6 +67,7 @@ export default function reducer(state = initialState, action = {}) {
             ...state,
             loading: false,
             speakers: action.result.returnObject,
+            added:true,
             error: null
          };
       case ADD_SPEAKER_FAIL:
@@ -73,6 +75,7 @@ export default function reducer(state = initialState, action = {}) {
             ...state,
             loading: false,
             speakers: null,
+            added:false,
             error: action.error
          };
       // -----
@@ -101,12 +104,14 @@ export default function reducer(state = initialState, action = {}) {
       case FETCH_SPEAKERS:
          return {
             ...state,
+            added:false,
             loading: true
          };
       case FETCH_SPEAKERS_SUCCESS:
          return {
             ...state,
             loading: false,
+            added:false,
             speakers: action.result.returnObject.speakers
          };
       case FETCH_SPEAKERS_FAIL:
@@ -114,6 +119,7 @@ export default function reducer(state = initialState, action = {}) {
             ...state,
             loading: false,
             speakers: [],
+            added:false,
             error: action.error
          };
       // -----

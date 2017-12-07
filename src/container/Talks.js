@@ -49,7 +49,7 @@ class Talks extends React.Component {
                <div className="twelve columns">
                   <PageHead title="Agenda"/>
                   <Loading row="3" loading={this.props.speaker.loading}>
-                     {this.state.speakers.length>0 ? <TalkList editTalk={this.editTalk} agenda={this.state.agenda} removeTalk={this.removeTalk} speakers={this.state.speakers}/> : ''}
+                     <TalkList editTalk={this.editTalk} agenda={this.state.agenda} removeTalk={this.removeTalk} speakers={this.state.speakers}/>
                      <div className="row mtop25 mbottom100">
                         <div className="twelve columns">
                            <Link to="./addtalk" className="button button-primary">Add Talk</Link>{' '}

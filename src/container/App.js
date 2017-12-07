@@ -44,6 +44,7 @@ class App extends Component {
                      <PrivateRoute path="/events/:eventId/speaker/:speakerId" component={Speaker}/>
                      <PrivateRoute path="/events/:eventId/speakers" component={Speakers}/>
                      <PrivateRoute path="/events/:eventId/talks" component={Talks}/>
+                     <PrivateRoute path="/events/:eventId/addspeaker/:redirected" component={AddSpeaker}/>
                      <PrivateRoute path="/events/:eventId/addspeaker" component={AddSpeaker}/>
                      <PrivateRoute path="/events/:eventId/editspeaker/:speakerId" component={AddSpeaker}/>
                      <PrivateRoute path="/events/:eventId/addtalk" component={AddTalk}/>
