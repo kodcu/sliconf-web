@@ -24,8 +24,8 @@ class PassReset extends Component {
       }
 
       if (this.props.auth !== nextProps.auth) {
-         console.log(nextProps.message)
-         this.setState({warning: true, message: nextProps.auth.message})
+         //console.log(nextProps.message)
+            this.setState({warning: true, message: nextProps.auth.message});
       }
    }
 

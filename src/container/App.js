@@ -12,6 +12,7 @@ import AddEventSuccess from "./EventSuccess";
 import ForgotPass from "./ForgotPass";
 import {history} from '../reducks'
 import PrivateRoute from "./PrivateRoute";
+import PublicRoute from "./PublicRoute";
 import MasterPage from "./MasterPage";
 import Speakers from "./Speakers";
 import Talks from "./Talks";
@@ -35,12 +36,11 @@ class App extends Component {
             <Router history={history}>
                <MasterPage>
                   <Switch>
-                     <Route path="/login" component={Login}/>
-                     <Route path="/register" component={Register}/>
-                     <Route path="/forgotpass" component={ForgotPass}/>
-                     <Route path="/resetpass/:token" component={PassReset}/>
-                     <Route path="/mailsuccess" component={MailSuccess}/>
-                     <Route path="/logout" component={Logout}/>
+                     <PublicRoute path="/login" component={Login}/>
+                     <PublicRoute path="/register" component={Register}/>
+                     <PublicRoute path="/forgotpass" component={ForgotPass}/>
+                     <PublicRoute path="/resetpass/:token" component={PassReset}/>
+                     <PublicRoute path="/mailsuccess" component={MailSuccess}/>
                      <PrivateRoute path="/events/:eventId/speaker/:speakerId" component={Speaker}/>
                      <PrivateRoute path="/events/:eventId/speakers" component={Speakers}/>
                      <PrivateRoute path="/events/:eventId/talks" component={Talks}/>
@@ -60,6 +60,7 @@ class App extends Component {
                      <PrivateRoute path="/addevent" component={AddEvent}/>
                      <PrivateRoute path="/settings" component={Settings}/>
                      <PrivateRoute path="/changepassword" component={PassChange}/>
+                     <Route path="/logout" component={Logout}/>
                      <Route path="/401" component={Unauthorized}/>
                      <Route exact path="/" component={Home}/>
                      <Route component={NotFound}/>

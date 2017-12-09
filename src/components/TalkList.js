@@ -3,7 +3,7 @@ import Ionicon from 'react-ionicons'
 import Modal from 'react-modal';
 import ReactTooltip from 'react-tooltip'
 
-const ListItem = ({talk, removeTalk, editTalk, speaker}) => {
+const ListItem = ({talk, removeTalk, editTalk, speaker, room}) => {
    return (
       <tr data-tip={"Click to Edit"} data-for="editTooltip">
          <td onClick={()=>{removeTalk(talk.id)}} style={{width:"10px", textAlign:"center",padding: "5px", lineHeight: "10px"}}><Ionicon icon="ios-remove-circle" fontSize="25px" color="#F44336" /></td>
@@ -25,9 +25,10 @@ const ListItem = ({talk, removeTalk, editTalk, speaker}) => {
             </svg>
                      : talk.level===-1 ? <Ionicon data-tip="Break" icon="ios-cafe-outline" fontSize="32px" color="#1da1f2"/> : ''}
          </td>
+         <td onClick={()=>{editTalk(talk.id)}} style={{width:"200px"}}>{room ? room.label : ''}</td>
          <td onClick={()=>{editTalk(talk.id)}} style={{width:"200px"}}>{speaker ? speaker.name : ''}</td>
          <td onClick={()=>{editTalk(talk.id)}} style={{textAlign:"center"}}>{("0" + new Date(talk.date*1000).getDate()).slice(-2)+"."+("0" + (new Date(talk.date*1000).getMonth()+1)).slice(-2)+"."+new Date(talk.date*1000).getFullYear()+" "+("0" + new Date(talk.date*1000).getHours()).slice(-2)+":"+("0" + new Date(talk.date*1000).getMinutes()).slice(-2)}</td>
-         <td onClick={()=>{editTalk(talk.id)}}>{talk.duration}</td>
+         <td onClick={()=>{editTalk(talk.id)}}><div class="circle">{talk.duration} Min</div></td>
          <td onClick={()=>{editTalk(talk.id)}} className="topics" style={{width:"200px",maxWidth:"200px"}}><div className="ongoing">{talk.tags.length>0 ? talk.tags.map((topic)=>{return <div key={topic} className="room">{topic}</div>}) : talk.level===-1 ? 'Break' : "No tags to be listed"}</div></td>
 
       </tr>
@@ -47,6 +48,9 @@ class TalkList extends React.Component {
    state = {
       isModalOpen:false,
       whatIndex:-1,
+      agenda:this.props.agenda,
+      active:"",
+      mode:0,
    };
 
    componentWillMount(){
@@ -70,6 +74,53 @@ class TalkList extends React.Component {
 
    editTalk = (talkId) => {
       this.props.editTalk(talkId);
+   };
+
+   sortTable = (what,type) => {
+      let cloneTable = this.props.agenda ? this.props.agenda.slice(0) : [];
+      if(type){
+         return cloneTable.sort(function(a, b) {
+            if(type===1){
+               return a[what].toString().localeCompare(b[what].toString())
+            }else if(type===2){
+               return b[what].toString().localeCompare(a[what].toString())
+            }else{
+               return 0
+            }
+         })
+      }else{
+         return this.props.agenda;
+      }
+   };
+
+   changeOrder = (which) => {
+      if(which===this.state.active){
+         if(this.state.mode===1){
+            this.setState({
+               mode:2,
+               agenda:this.sortTable(which, 2),
+            });
+         }else if(this.state.mode===2){
+            this.setState({
+               mode:0,
+               active:"",
+               agenda:this.sortTable(which, 0),
+            });
+         }
+      }else{
+         this.setState({
+            mode:1,
+            active:which,
+            agenda:this.sortTable(which, 1),
+         });
+      }
+   };
+
+   returnIcons = (what) => {
+      return this.state.active===what ? this.state.mode===1
+         ? <Ionicon icon={"ios-arrow-up"} style={{verticalAlign:"top"}} />
+         : <Ionicon icon={"ios-arrow-down"} style={{verticalAlign:"top"}} />
+         : <Ionicon icon={"ios-remove"} style={{verticalAlign:"top"}} />
    };
 
    render() {
@@ -108,18 +159,19 @@ class TalkList extends React.Component {
                      <thead>
                      <tr>
                         <th/>
-                        <th style={{width: 40}}>Topic</th>
-                        <th>Level</th>
-                        <th>Speaker</th>
-                        <th>Date</th>
-                        <th>Duration</th>
+                        <th onClick={()=>{this.changeOrder("topic")}} style={{width: 40}}>Topic {this.returnIcons("topic")}</th>
+                        <th onClick={()=>{this.changeOrder("level")}} style={{width: 195}}>Level {this.returnIcons("level")}</th>
+                        <th onClick={()=>{this.changeOrder("room")}}>Room {this.returnIcons("room")}</th>
+                        <th onClick={()=>{this.changeOrder("speaker")}} style={{width: 220}}>Speaker {this.returnIcons("speaker")}</th>
+                        <th onClick={()=>{this.changeOrder("date")}}>Date {this.returnIcons("date")}</th>
+                        <th onClick={()=>{this.changeOrder("duration")}} style={{width: 180}}>Time {this.returnIcons("duration")}</th>
                         <th>Tags</th>
                      </tr>
                      </thead>
                      <tbody>
-                     {(this.props.agenda && this.props.agenda.length) ? null : <TalksNotAvailable/> }
-                     {this.props.agenda ? this.props.agenda.map((talk, index)=>{
-                        return <ListItem key={talk.id} talk={talk} speaker={this.search(talk.speaker,this.props.speakers)} removeTalk={this.removeTalk} editTalk={this.editTalk}/>
+                     {(this.state.agenda && this.state.agenda.length) ? null : <TalksNotAvailable/> }
+                     {this.state.agenda ? this.state.agenda.map((talk, index)=>{
+                        return <ListItem key={talk.id} talk={talk} room={this.search(talk.room,this.props.rooms)} speaker={this.search(talk.speaker,this.props.speakers)} removeTalk={this.removeTalk} editTalk={this.editTalk}/>
                      }) : null}
                      </tbody>
                   </table>

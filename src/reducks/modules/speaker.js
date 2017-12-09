@@ -1,5 +1,5 @@
 //import speakers from "../../mock/speakers";
-import talks from "../../mock/talks";
+//import talks from "../../mock/talks";
 
 const FETCH_SPEAKER = 'speaker/FETCH_SPEAKER';
 const FETCH_SPEAKER_SUCCESS = 'speaker/FETCH_SPEAKER_SUCCESS';
@@ -30,7 +30,6 @@ const initialState = {
    speaker: null,
    speakers: [],
    talk: null,
-   talks: [],
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -85,8 +84,8 @@ export default function reducer(state = initialState, action = {}) {
             loading: true
          };
       case ADD_TALK_SUCCESS:
-         console.log("ye");
-         console.log(action);
+         //console.log("ye");
+         //console.log(action);
          return {
             ...state,
             loading: false,
@@ -153,7 +152,8 @@ export default function reducer(state = initialState, action = {}) {
             ...state,
             loading: false,
             agenda: action.result.returnObject.agenda,
-            speakers: action.result.returnObject.speakers
+            speakers: action.result.returnObject.speakers,
+            rooms: action.result.returnObject.rooms
          };
       case FETCH_TALKS_FAIL:
          return {
@@ -168,7 +168,7 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function addSpeaker(eventId, speaker) {
-   console.log("yueasasa");
+   //console.log("yueasasa");
    return {
       types: [ADD_SPEAKER, ADD_SPEAKER_SUCCESS, ADD_SPEAKER_FAIL],
       promise: (client) => client.post('/events/speaker/create/'+eventId, {
@@ -178,7 +178,7 @@ export function addSpeaker(eventId, speaker) {
 }
 
 export function addTalk(eventId, talk) {
-   console.log(JSON.stringify(talk));
+   //console.log(JSON.stringify(talk));
    return {
       types: [ADD_TALK, ADD_TALK_SUCCESS, ADD_TALK_FAIL],
       promise: (client) => client.post('/events/agenda/create/'+eventId, {

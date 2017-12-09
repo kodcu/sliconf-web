@@ -5,7 +5,7 @@ class MailSuccess extends Component {
    state = {
       event_name: "",
       event_time: ""
-   }
+   };
 
    render() {
       return (

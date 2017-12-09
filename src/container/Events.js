@@ -19,10 +19,14 @@ class Events extends Component {
          <div className="container mtop">
             <div className="row">
                <div className="twelve columns">
-                  <PageHead title="Events"/>
+                  <PageHead title="Events" {...this.props} />
                   <Loading row="3" loading={this.props.event.loading}>
-                        <EventList title="Upcoming Events" events={this.props.event.active} {...this.props}/>
-                        <EventList title="Finished Events" events={this.props.event.passive} {...this.props}/>
+                     {(this.props.event && this.props.event.active && this.props.event.passive) && (this.props.event.active.length > 0 || this.props.event.passive.length > 0) ?
+                        <div>
+                           {this.props.event.active.length > 0 ? <EventList title="Upcoming Events" events={this.props.event.active} {...this.props}/> : ''}
+                           {this.props.event.passive.length > 0 ? <EventList title="Finished Events" events={this.props.event.passive} {...this.props}/> : ''}
+                        </div>
+                     :<div className="twelve columns"><div><h4>Let's create your first event!</h4></div></div>}
                   </Loading>
                   <div className="row mtop25 mbottom100">
                      <div className="twelve columns">

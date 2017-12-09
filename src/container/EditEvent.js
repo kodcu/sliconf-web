@@ -174,12 +174,14 @@ class EditEvent extends React.Component {
       nthNewFloor:1,
       nthChange:0,
       resetIsOpen:false,
+      deleteIsOpen:false,
       floorIsOpen:false,
       sponsorIsOpen:false,
       sponsorTagIsOpen:false,
       newAlertIsOpen:false,
       saveText:"SAVE",
       initalize:true,
+      deleteInput:'',
    };
 
    constructor(props){
@@ -223,9 +225,30 @@ class EditEvent extends React.Component {
       this.props.fetchEvent(this.props.match.params.eventId);
    };
 
+   deleteEvent = () => {
+      if(this.state.deleteInput==="I WANT TO DELETE THIS EVENT") {
+         this.closeDelete();
+         this.setState({
+
+            changed: false,
+         });
+         //console.log("Deleting...")
+         this.props.deleteEvent(this.props.match.params.eventId,this.props.auth.user.id);
+      }
+   };
+
    componentWillReceiveProps(nextProps) {
-      console.log("bisiler oldu");
-      console.log(nextProps.fetch)
+      //console.log("bisiler oldu");
+      //console.log(nextProps.fetch);
+
+      if((nextProps.fetch && this.props.fetch !== nextProps.fetch) && nextProps.fetch.loading===false && nextProps.fetch.status===false){
+         this.props.history.push("/");
+      }
+
+      if(nextProps.fetch.removed){
+         this.props.history.push("/");
+      }
+
       if((nextProps.fetch && this.props.fetch !== nextProps.fetch) && nextProps.fetch.loading){
          if(this.state.initalize){
             this.setState({
@@ -236,7 +259,7 @@ class EditEvent extends React.Component {
 
          }
       }
-      console.log("bu",nextProps)
+      //console.log("bu",nextProps)
       if(nextProps.fetch && this.props.fetch !== nextProps.fetch && (!nextProps.fetch.loading)){
             if(this.state.saveText==="SAVING..."){
                this.setState({
@@ -251,7 +274,7 @@ class EditEvent extends React.Component {
       }
 
       if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) {
-         console.log("event degismis");
+         //console.log("event degismis");
          this.setState({
             id: nextProps.event.id ? nextProps.event.id : '',
             name: nextProps.event.name ? nextProps.event.name : '',
@@ -371,9 +394,9 @@ class EditEvent extends React.Component {
          changed:false,
          saveText:"SAVING...",
       },()=>{
-         console.log(this.props);
+         //console.log(this.props);
          if (this.state.activeTab === "general" || this.state.activeTab === "social" || this.state.activeTab === "contact") {
-            console.log("veriliyor")
+            //console.log("veriliyor")
             this.props.editEvent(this.props.auth.user.id, this.prepareReturn(this.state.activeTab));
          }else{
             this.props.editTab(this.state.activeTab,this.props.match.params.eventId,this.prepareReturn(this.state.activeTab));
@@ -408,6 +431,15 @@ class EditEvent extends React.Component {
    closeReset = () => {
       this.setState({resetIsOpen: false});
    };
+
+   openDelete = () => {
+      this.setState({deleteIsOpen: true});
+   };
+
+   closeDelete = () => {
+      this.setState({deleteIsOpen: false});
+   };
+
 
    openFloor = (floorId) => {
       this.setState({floorIsOpen: true,removeFloorId:floorId});
@@ -668,6 +700,37 @@ class EditEvent extends React.Component {
                </div>
             </Modal>
 
+
+            <Modal
+               className="Modal"
+               overlayClassName="Overlay"
+               isOpen={this.state.deleteIsOpen}
+               onRequestClose={this.closeDelete}
+               contentLabel="Are you sure?"
+               style={{content : {width:400,textAlign:"center"}}}
+            >
+               <div className="row">
+                  <div className="twelve columns">
+                     <h2>Delete Event?</h2>
+                     <p>Your event will be DELETED PERMANENTLY!<br />(THIS ACTION CANNOT BE UNDONE)</p>
+                     <small>For delete this event will all its contents, please enter "I WANT TO DELETE THIS EVENT" to below.</small>
+                     <input className="u-full-width" type="text" id="name" value={this.state.deleteInput} onChange={(e) => this.setState({deleteInput: e.currentTarget.value})} />
+                  </div>
+               </div>
+               <div className="row">
+                  <div className="six columns">
+                     <div className="span">
+                        <button onClick={this.closeDelete}>CANCEL</button>
+                     </div>
+                  </div>
+                  <div className="six columns">
+                     <div className="span">
+                        <a style={{fontSize: "12px", marginTop: "9px", display: "inline-block"}} onClick={this.deleteEvent}>DELETE</a>
+                     </div>
+                  </div>
+               </div>
+            </Modal>
+
             <Modal
                className="Modal"
                overlayClassName="Overlay"
@@ -795,11 +858,14 @@ class EditEvent extends React.Component {
                         <div className="twelve columns">
                            <div className="row">
                               <div className="twelve columns">
+                                 {this.props.history.length > 1 ? <button className="backButton" onClick={this.props.history.goBack} /> : ''}
                                  <h2 style={{verticalAlign:"top",display: "inline-block"}}>Edit Event</h2>
-                                 <input style={{margin:"10px 30px"}} className={classNames('button-primary',{disabled:!this.state.changed})} type="submit" onClick={()=>{this.state.changed ? this.save() : null}} defaultValue={this.state.saveText}/>
+                                 <input style={{margin:"10px 30px"}} className={classNames('button-primary',{disabled:!this.state.changed})} type="submit" onClick={()=>{if(this.state.changed){this.save()}}} defaultValue={this.state.saveText}/>
                                  <a className={classNames({hidden:!this.state.changed})} onClick={this.openReset}>Reset</a>
                                  <span className={classNames("text italic",{hidden:this.state.changed || (this.state.saveText!=="SAVED!" && this.state.saveText!=="SAVE")})}>All changes are saved!</span>
-                                 <div className="toRight code">{this.props.match.params.eventId}</div>
+                                 <div className="toRight code">
+                                    <small className={"eCodeIndicator"}>event code:</small>
+                                    {this.props.match.params.eventId}</div>
                               </div>
                            </div>
                         </div>
@@ -1014,7 +1080,7 @@ class EditEvent extends React.Component {
                               <h3>Advanced</h3>
                               <div className="row">
                                  <div className="twelve columns">
-                                    <button className="button-red" onClick={()=>{alert("Sorry, but you can't delete your event right now.")}}>Delete Event</button>
+                                    <button className="button-red" onClick={()=>{this.openDelete()}}>Delete Event</button>
                                  </div>
                               </div>
                            </div>

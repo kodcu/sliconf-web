@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip'
+import Ionicon from 'react-ionicons'
 
 const ListItem = ({speaker,index,eventId,props}) => {
    return (
@@ -22,6 +23,59 @@ const SpeakersNotAvailable = () => {
 
 class SpeakerList extends React.Component {
 
+   state = {
+      speakers: this.props.speakers,
+      active:"",
+      mode:0,
+   }
+
+   sortTable = (what,type) => {
+      let cloneTable = this.props.speakers ? this.props.speakers.slice(0) : [];
+      if(type){
+         return cloneTable.sort(function(a, b) {
+            if(type===1){
+               return a[what].toString().localeCompare(b[what].toString())
+            }else if(type===2){
+               return b[what].toString().localeCompare(a[what].toString())
+            }else{
+               return 0
+            }
+         })
+      }else{
+         return this.props.speakers;
+      }
+   };
+
+   changeOrder = (which) => {
+      if(which===this.state.active){
+         if(this.state.mode===1){
+            this.setState({
+               mode:2,
+               speakers:this.sortTable(which, 2),
+            });
+         }else if(this.state.mode===2){
+            this.setState({
+               mode:0,
+               active:"",
+               speakers:this.sortTable(which, 0),
+            });
+         }
+      }else{
+         this.setState({
+            mode:1,
+            active:which,
+            speakers:this.sortTable(which, 1),
+         });
+      }
+   };
+
+   returnIcons = (what) => {
+      return this.state.active===what ? this.state.mode===1
+         ? <Ionicon icon={"ios-arrow-up"} style={{verticalAlign:"top"}} />
+         : <Ionicon icon={"ios-arrow-down"} style={{verticalAlign:"top"}} />
+         : <Ionicon icon={"ios-remove"} style={{verticalAlign:"top"}} />
+   };
+
    render() {
       return (
          <div className="row">
@@ -31,14 +85,14 @@ class SpeakerList extends React.Component {
                      <thead>
                      <tr>
                         <th style={{width: 40}}>Photo</th>
-                        <th>Full Name</th>
-                        <th>Working At</th>
+                        <th onClick={()=>{this.changeOrder("name")}}>Full Name {this.returnIcons("name")}</th>
+                        <th onClick={()=>{this.changeOrder("workingAt")}}>Working At {this.returnIcons("workingAt")}</th>
                         <th>Topics</th>
                      </tr>
                      </thead>
                      <tbody>
-                     {(this.props.speakers && this.props.speakers.length) ? null : <SpeakersNotAvailable/> }
-                     {this.props.speakers ? this.props.speakers.map((speaker, index)=>{
+                     {(this.state.speakers && this.state.speakers.length) ? null : <SpeakersNotAvailable/> }
+                     {this.state.speakers ? this.state.speakers.map((speaker, index)=>{
                         return <ListItem key={speaker.name} speaker={speaker} index={speaker.id} eventId={this.props.eventId} props={this.props}/>
                      }) : null}
                      </tbody>

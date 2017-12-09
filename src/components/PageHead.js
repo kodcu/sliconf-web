@@ -8,7 +8,8 @@ class PageHead extends React.Component {
             <div className="twelve columns">
                <div className="row">
                   <div className="twelve columns">
-                     <h2>{this.props.title || 'Page Name'}</h2>
+                     {this.props.history.length > 1 ? <button className="backButton" onClick={this.props.history.goBack} /> : ''}
+                     <h2 style={{verticalAlign:"top", display: "inline-block"}}>{this.props.title || 'Page Name'}</h2>
                   </div>
                </div>
             </div>

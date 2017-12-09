@@ -31,7 +31,7 @@ class Speaker extends Component {
       if(this.search(this.props.match.params.speakerId,this.props.speaker.speakers)) {
          //console.log(this.props.match.params.eventId, this.props.match.params.speakerId)
          //console.log(this.search(this.props.match.params.speakerId,this.props.speaker.speakers));
-         console.log(this.search(this.props.match.params.speakerId,this.props.speaker.speakers).topics);
+         //console.log(this.search(this.props.match.params.speakerId,this.props.speaker.speakers).topics);
          this.setState({
             eventId: this.props.match.params.eventId,
             id: this.props.match.params.speakerId,
@@ -58,7 +58,7 @@ class Speaker extends Component {
    };
 
    componentWillReceiveProps(nextProps){
-      console.log(nextProps);
+      //console.log(nextProps);
       if(nextProps.speaker !== this.props.speaker){
          if(!nextProps.speaker.loading){
             this.props.history.push("/events/"+this.props.match.params.eventId+"/speakers");
@@ -70,10 +70,12 @@ class Speaker extends Component {
       return (
             <div className="container mtop">
                <div className="row">
-                  <div className="four columns">
-                     {this.state.image ? <div className="resim noTouch" width="100%" style={{backgroundImage: "url('http://app.sliconf.com:8090/service/image/get/"+this.state.image+"')", float:"left"}}/>:''}
-
-                  </div>
+                  {this.props.history.length > 1 ? <button className="backButton" onClick={this.props.history.goBack} /> : ''}
+               </div>
+               <div className="row">
+                  {this.state.image ?<div className="four columns">
+                      <div className="resim noTouch" width="100%" style={{backgroundImage: "url('http://app.sliconf.com:8090/service/image/get/"+this.state.image+"')", float:"left"}}/>
+                  </div>:''}
                   <div className="six columns">
                      <div className="row">
                         <div className="twelve columns">

@@ -109,7 +109,7 @@ export default function reducer(state = initialState, action = {}) {
             error:null,
          };
       case RESETPASS_FAIL:
-         console.log(action.error)
+         //console.log(action.error)
          return {
             ...state,
             loading: false,
@@ -161,15 +161,27 @@ export default function reducer(state = initialState, action = {}) {
             loading: true
          };
       case UPDATE_SUCCESS:
-         return {
-            ...state,
-            loading: false,
-            loaded: true,
-            user: action.result.returnObject,
-            error:null,
-            status: action.result.status,
-            message: action.result.message
-         };
+         if(action.result.returnObject){
+            return {
+               ...state,
+               loading: false,
+               loaded: true,
+               user: action.result.returnObject,
+               error:null,
+               status: action.result.status,
+               message: action.result.message
+            };
+         }else{
+            return {
+               ...state,
+               message:action.result.message,
+               status:action.result.status,
+               loading: false,
+               loaded: true,
+               error:true,
+            }
+         }
+
       case UPDATE_FAIL:
          return {
             ...state,
@@ -242,7 +254,7 @@ export function sendForgotMail(email) {
 }
 
 export function resetPassword(token, pass) {
-   console.log(token, pass)
+   //console.log(token, pass)
    return {
       types: [RESETPASS, RESETPASS_SUCCESS, RESETPASS_FAIL],
       promise: (client) => client.post('/users/password-reset/reset/'+token, {

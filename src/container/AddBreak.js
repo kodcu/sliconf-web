@@ -53,7 +53,7 @@ class AddTalk extends React.Component {
          },()=>{
             if(this.props.match.params.breakId){
                let getter = this.state.agenda.filter(agendaItem => agendaItem.id === this.props.match.params.breakId)[0];
-               console.log(getter);
+               //console.log(getter);
                if(getter){
                   this.setState({
                      edit:true,
@@ -123,7 +123,7 @@ class AddTalk extends React.Component {
                <div className="twelve columns">
                   <Loading row="3" loading={this.state.loading}>
                      {this.state.rooms && this.state.rooms.length>0 ? <div className="yea">
-                        <PageHead title={this.props.match.params.breakId ? "Edit Break" : "Add Break"}/>
+                        <PageHead title={this.props.match.params.breakId ? "Edit Break" : "Add Break"} {...this.props} />
                            <div className="row">
                               <div className="eight columns">
                                  <div className="row">

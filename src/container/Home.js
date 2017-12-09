@@ -12,11 +12,11 @@ class Home extends Component {
                   <div className="row">
                      <div className="twelve columns">
                         <h2 style={{color: '#29b573'}}>
-                           Welcome{this.props.user !== null && this.props.user !== undefined ? (this.props.user.fullname!=="") && (this.props.user.fullname!==undefined) && (this.props.user.fullname!==null) ? ", " +(this.props.user.fullname) : ", " +(this.props.user.username) : "!"}</h2>
-                           {this.props.user !== null && this.props.user !== undefined ? <Redirect to={{ pathname: "/events" }} /> : ''}
+                           Welcome{this.props.user !== null && this.props.user !== undefined &&  this.props.user !== "" && Object.keys(this.props.user).length > 0  ? (this.props.user.fullname!=="") && (this.props.user.fullname!==undefined) && (this.props.user.fullname!==null) ? ", " +(this.props.user.fullname) : ", " +(this.props.user.username) : "!"}</h2>
+                           {this.props.user !== null && this.props.user !== undefined && this.props.user !== "" && Object.keys(this.props.user).length > 0  ? <Redirect to={{ pathname: "/events" }} /> : ''}
                      </div>
                   </div>
-                  {!(this.props.user !== null && this.props.user !== undefined) ? <div className="row">
+                  {!(this.props.user !== null && this.props.user !== undefined && this.props.user !== "" &&  Object.keys(this.props.user).length > 0  ) ? <div className="row">
                      <div className="six columns">
                         <h4 style={{fontSize: '2rem', color: 'gray'}}>You can download the app on</h4>
                         <a className="button button-primary" style={{marginRight: '10px'}}>Google Play</a>

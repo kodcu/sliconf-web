@@ -15,6 +15,7 @@ class NavBar extends Component {
 
    render() {
       return (
+         <div>
          <nav className={classNames('navbar', {'open': this.state.isOpen})}>
             <div className="container">
                <div className="row">
@@ -34,6 +35,8 @@ class NavBar extends Component {
                </div>
             </div>
          </nav>
+         <div className={classNames('hiddennav', {'open': this.state.isOpen})}>sa</div>
+         </div>
       );
    }
 }

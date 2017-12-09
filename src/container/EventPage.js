@@ -15,14 +15,14 @@ class EventPage extends Component {
    };
 
    componentWillReceiveProps(nextProps) {
-      console.log(this.props.event);
+      //console.log(this.props.event);
       if (this.props.event.error !== nextProps.event.error) {
          this.setState({warning: true})
       }
 
       //Birden fazla componentWillReceiveProps cagirilmasin diye bu sekilde sarmalaniyor
       if ((this.props.event !== nextProps.event)) {
-         console.log(nextProps.event.status)
+         //console.log(nextProps.event.status)
          if (nextProps.event.status === false) {
             //Yanlis girdi, mesaj bas
             this.setState({warning: true, message: nextProps.event.message})

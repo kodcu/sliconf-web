@@ -12,6 +12,59 @@ const EventsNotAvailable = () => {
 
 class EventList extends React.Component {
 
+   state = {
+      active:"",
+      mode:0,
+      events:this.props.events,
+   };
+
+   sortTable = (what,type) => {
+      let cloneEvents = this.props.events ? this.props.events.slice(0) : [];
+      if(type){
+         return cloneEvents.sort(function(a, b) {
+            if(type===1){
+               return a[what].toString().localeCompare(b[what].toString())
+            }else if(type===2){
+               return b[what].toString().localeCompare(a[what].toString())
+            }else{
+               return 0
+            }
+         })
+      }else{
+         return this.props.events
+      }
+   };
+
+   changeOrder = (which) => {
+      if(which===this.state.active){
+         if(this.state.mode===1){
+            this.setState({
+               mode:2,
+               events:this.sortTable(which, 2),
+            });
+         }else if(this.state.mode===2){
+            this.setState({
+               mode:0,
+               active:"",
+               events:this.sortTable(which, 0),
+            });
+         }
+      }else{
+         this.setState({
+            mode:1,
+            active:which,
+            events:this.sortTable(which, 1),
+         });
+      }
+   };
+
+   returnIcons = (what) => {
+      return this.state.active===what ? this.state.mode===1
+         ? <Ionicon icon={"ios-arrow-up"} style={{verticalAlign:"top"}} />
+         : <Ionicon icon={"ios-arrow-down"} style={{verticalAlign:"top"}} />
+         : <Ionicon icon={"ios-remove"} style={{verticalAlign:"top"}} />
+   };
+
    render() {
       return (
          <div>
@@ -28,16 +81,16 @@ class EventList extends React.Component {
                         <thead>
                         <tr>
                            <th>Logo</th>
-                           <th>Title</th>
-                           <th style={{textAlign: "center"}}>Key</th>
-                           <th style={{textAlign: "center"}}>Date</th>
+                           <th onClick={()=>{this.changeOrder("name")}}>Title {this.returnIcons("name")}</th>
+                           <th onClick={()=>{this.changeOrder("key")}} style={{textAlign: "center"}}>Key {this.returnIcons("key")}</th>
+                           <th onClick={()=>{this.changeOrder("startDate")}} style={{textAlign: "center"}}>Date {this.returnIcons("startDate")}</th>
                            <th style={{textAlign: "center"}}>Status</th>
                            <th style={{textAlign: "center"}}>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {(this.props.events && this.props.events.length) ? null : <EventsNotAvailable/> }
-                        {this.props.events ? this.props.events.map((event)=>{
+                        {(this.state.events && this.state.events.length) ? null : <EventsNotAvailable/> }
+                        {this.state.events ? this.state.events.map((event)=>{
                            return <tr key={event.id}>
                               <td><div className='eventimage' style={{backgroundImage:'url(http://app.sliconf.com:8090/service/image/get/'+event.logoPath+')'}}/></td>
                               <td>{event.name}</td>

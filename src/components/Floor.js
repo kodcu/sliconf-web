@@ -16,7 +16,7 @@ class Floor extends React.Component {
 
    edit = () => {
       this.props.modalCallback(this.props.floor.id, this.props.floor.image, this.props.floor.name);
-      console.log(this.props.floor);
+      //console.log(this.props.floor);
    };
 
    componentWillReceiveProps(nextProps){
@@ -35,7 +35,7 @@ class Floor extends React.Component {
          name:floor.name,
          reRenderer:nthChange,
       });
-      console.log(this.props);
+      //console.log(this.props);
       this.setState({
          color: '#' + randomColor.generate(floor.name)
       })

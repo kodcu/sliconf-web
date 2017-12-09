@@ -10,7 +10,7 @@ class Comments extends Component {
    swapper = (id) => {
       this.setState({ commentId: id })
       setTimeout(() => {
-         console.log(id);
+         //console.log(id);
          this.setState({ commentId: 0 })
       }, 300)
    };

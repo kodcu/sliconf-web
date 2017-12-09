@@ -66,7 +66,6 @@ export default function reducer(state = initialState, action = {}) {
 export function addSponsor(eventId,sponsor) {
    return {
       types: [ADD_SPONSOR, ADD_SPONSOR_SUCCESS, ADD_SPONSOR_FAIL],
-      //mock: {},
       promise: (client) => client.post('events/'+eventId+'/sponsors')
    }
 }

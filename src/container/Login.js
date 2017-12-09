@@ -58,7 +58,7 @@ class Login extends React.Component {
    render() {
       return (
          <div className="container mtop">
-               <div className={classNames('row warning', {'show': this.state.warning})}>
+               <div className={classNames('row warning', {'hide': !this.state.warning})}>
                   <div className="twelve columns">
                      <h4>{this.state.message}</h4>
                   </div>

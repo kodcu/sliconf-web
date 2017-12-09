@@ -40,6 +40,10 @@ const EDIT_EVENT = 'event/EDIT_EVENT';
 const EDIT_EVENT_SUCCESS = 'event/EDIT_EVENT_SUCCESS';
 const EDIT_EVENT_FAIL = 'event/EDIT_EVENT_FAIL';
 
+const DELETE_EVENT = 'event/DELETE_EVENT';
+const DELETE_EVENT_SUCCESS = 'event/DELETE_EVENT_SUCCESS';
+const DELETE_EVENT_FAIL = 'event/DELETE_EVENT_FAIL';
+
 const EDIT_TAB = 'event/EDIT_TAB';
 const EDIT_TAB_SUCCESS = 'event/EDIT_TAB_SUCCESS';
 const EDIT_TAB_FAIL = 'event/EDIT_TAB_FAIL';
@@ -56,6 +60,7 @@ export default function reducer(state = initialState, action = {}) {
       case FETCH_EVENT:
          return {
             ...state,
+            removed:false,
             loading: true
          };
       case FETCH_EVENT_SUCCESS:
@@ -71,7 +76,9 @@ export default function reducer(state = initialState, action = {}) {
          return {
             ...state,
             loading: false,
+            removed:false,
             event: fillTheBlanks,
+            status: action.result.status,
             error: null
          };
       case FETCH_EVENT_FAIL:
@@ -109,15 +116,34 @@ export default function reducer(state = initialState, action = {}) {
             event: null,
             error: action.error
          };
+      case DELETE_EVENT:
+         return {
+            ...state,
+            loading: true
+         };
+      case DELETE_EVENT_SUCCESS:
+         return {
+            ...state,
+            event: null,
+            removed:true,
+            error: null
+         };
+      case DELETE_EVENT_FAIL:
+         return {
+            ...state,
+            loading: false,
+            event: null,
+            error: action.error
+         };
       case EDIT_TAB:
          return {
             ...state,
             loading: true
          };
       case EDIT_TAB_SUCCESS:
-         console.log(state);
+         //console.log(state);
          const fillTheBlanks3 = action.result.returnObject;
-         console.log(state.event);
+         //console.log(state.event);
          return {
             ...state,
             loading: false,
@@ -414,6 +440,13 @@ export function editEvent(userId,eventData) {
       promise: (client) => client.post('/events/create/'+userId,{
          data: eventData
       })
+   }
+}
+
+export function deleteEvent(eventId,userId) {
+   return {
+      types: [DELETE_EVENT, DELETE_EVENT_SUCCESS, DELETE_EVENT_FAIL],
+      promise: (client) => client.del('/events/delete/'+eventId+"/"+userId)
    }
 }
 

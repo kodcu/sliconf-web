@@ -20,7 +20,12 @@ class Login extends Component {
          this.setState({warning: true, message:"Cannot reach destination server!"})
       }
       if(this.props.auth !== nextProps.auth){
-         this.setState({warning: true, message: nextProps.auth.message})
+         if(nextProps.auth && nextProps.auth.message==="Mail sent!"){
+
+            this.props.history.push("/mailsuccess");
+         }else{
+            this.setState({warning: true, message: nextProps.auth.message})
+         }
       }
 
    }

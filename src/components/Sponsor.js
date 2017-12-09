@@ -15,7 +15,7 @@ class Sponsor extends React.Component {
 
    edit = () => {
       this.props.modalCallback(this.props.sponsor.id, this.props.sponsor.logo, this.props.sponsor.name);
-      console.log(this.props.sponsor);
+      //console.log(this.props.sponsor);
    };
 
    componentWillReceiveProps(nextProps){
@@ -32,7 +32,7 @@ class Sponsor extends React.Component {
          logo:sponsor.logo,
          name:sponsor.name,
       });
-      console.log(this.props);
+      //console.log(this.props);
       this.setState({
          color: '#' + randomColor.generate(sponsor.name)
       })

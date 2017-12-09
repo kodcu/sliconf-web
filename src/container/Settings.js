@@ -14,22 +14,23 @@ class Settings extends Component {
       email: this.props.auth.user.email ? this.props.auth.user.email : '',
       fullname: this.props.auth.user.fullname ? this.props.auth.user.fullname : '',
       userWarning:false,
-      warning:true,
+      warning:false,
       message:""
    }
 
    componentWillReceiveProps(nextProps) {
-      if (this.props.auth.error !== nextProps.auth.error) {
-         this.setState({warning: true})
+      if (this.props.auth.error !== nextProps.auth.error && !nextProps.loading) {
+         //console.log(this.props.auth.error);
+         this.setState({warning: true, message:"Cannot reach destination server!"})
       }
       if(this.props.auth !== nextProps.auth){
-         console.log(this.props)
+         //console.log(this.props)
          this.setState({warning: true, message: nextProps.auth.message})
       }
 
    }
 
-   update = (userId, username, fullname) => {
+   update = () => {
       this.setState({userWarning: false})
       if(!Validator.minLen(4,this.state.username)){
          this.setState({userWarning: true, warning:true, message:"Please enter a name that is at least 4 characters long."})
@@ -43,14 +44,17 @@ class Settings extends Component {
          <div className="container mtop">
             <div className="row">
             <div className="twelve columns">
-               <div className={classNames('row warning', {'show': this.state.warning})}>
+               <div className={classNames('row warning', {'hide': !this.state.warning})}>
                   <div className="twelve columns">
                      <h4>{this.state.message}</h4>
                   </div>
                </div>
                <div className="row">
                   <div className="twelve columns">
-                     <h2>Settings</h2>
+                     {this.props.history.length > 1 ? <button className="backButton" onClick={this.props.history.goBack} /> : ''}
+                     <h2 style={{verticalAlign:"top",display: "inline-block"}}>Settings</h2>
+                  </div>
+                  <div className="twelve columns">
                      <Link to="/changepassword">To change your password, click here.</Link>
                   </div>
                </div>

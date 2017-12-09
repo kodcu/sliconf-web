@@ -20,7 +20,7 @@ class RoomCreate extends React.Component {
    }
 
    create = () => {
-      console.log(this.state.floorId);
+      //console.log(this.state.floorId);
       if(this.state.floorId){
          if(this.props.canCreateTag(this.getRoomData().label, "rooms")){
             this.props.addRoomToLocal({...this.getRoomData(),id:"newid"+this.state.dynamicKeys});

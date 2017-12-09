@@ -23,13 +23,13 @@ class PassChange extends Component {
    componentWillReceiveProps(nextProps) {
       this.setState({warning: false})
       if (this.props.auth.error !== nextProps.auth.error) {
-         console.log(this.props.auth.error);
+         //console.log(this.props.auth.error);
          this.setState({warning: true, message:"Cannot reach destination server!"})
       }
       if(nextProps.auth.loaded){
-         console.log(nextProps.auth)
+         //console.log(nextProps.auth)
          if (this.props.auth !== nextProps.auth) {
-            console.log(nextProps.message)
+            //console.log(nextProps.message)
             if(nextProps.auth.message!==""){
                this.setState({warning: true, message: nextProps.auth.message})
             }
@@ -72,7 +72,7 @@ class PassChange extends Component {
    render() {
       return (
          <div className="container mtop">
-               <div className={classNames('row warning', {'show': this.state.warning})}>
+               <div className={classNames('row warning', {'hide': !this.state.warning})}>
                   <div className="twelve columns">
                      <h4>{this.state.message}</h4>
                   </div>
@@ -81,7 +81,8 @@ class PassChange extends Component {
                   <div className="six columns">
                      <div className="row">
                         <div className="twelve columns">
-                           <h2 style={{color: '#29b573'}}>Change Password</h2>
+                           {this.props.history.length > 1 ? <button className="backButton" onClick={this.props.history.goBack} /> : ''}
+                           <h2 style={{verticalAlign:"top",display: "inline-block"}}>Change Password</h2>
                         </div>
                      </div>
                      <div className="row">

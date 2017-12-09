@@ -12,14 +12,17 @@ class Talks extends React.Component {
 
    state={
       agenda:this.props.speaker.agenda,
-      speakers:this.props.speaker
+      speakers:this.props.speaker,
+      rooms:this.props.speaker.rooms
    };
 
    componentWillReceiveProps(nextProps){
+      //console.log(nextProps.speaker.rooms)
       if(this.props.speaker !== nextProps.speaker){
          this.setState({
             agenda:nextProps.speaker.agenda,
-            speakers:nextProps.speaker.speakers
+            speakers:nextProps.speaker.speakers,
+            rooms:nextProps.speaker.rooms,
          });
       }
    }
@@ -47,9 +50,9 @@ class Talks extends React.Component {
          <div className="container mtop">
             <div className="row">
                <div className="twelve columns">
-                  <PageHead title="Agenda"/>
+                  <PageHead title="Agenda" {...this.props} />
                   <Loading row="3" loading={this.props.speaker.loading}>
-                     <TalkList editTalk={this.editTalk} agenda={this.state.agenda} removeTalk={this.removeTalk} speakers={this.state.speakers}/>
+                     <TalkList editTalk={this.editTalk} agenda={this.state.agenda} removeTalk={this.removeTalk} speakers={this.state.speakers} rooms={this.state.rooms}/>
                      <div className="row mtop25 mbottom100">
                         <div className="twelve columns">
                            <Link to="./addtalk" className="button button-primary">Add Talk</Link>{' '}

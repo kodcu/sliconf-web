@@ -18,7 +18,6 @@ class AddSpeaker extends React.Component {
       edit:false,
    };
 
-
    search = (nameKey, myArray) => {
       for (let i = 0; i < myArray.length; i++) {
          if (myArray[i].id === nameKey) {
@@ -62,7 +61,7 @@ class AddSpeaker extends React.Component {
    }
 
    componentWillReceiveProps(nextProps) {
-      console.log("new", nextProps);
+      //console.log("new", nextProps);
       if (nextProps.speakers && this.props.speakers !== nextProps.speakers) {
          if(!nextProps.speakers.loading){
             if(nextProps.speakers.added){
@@ -82,6 +81,7 @@ class AddSpeaker extends React.Component {
                if (key.id === this.props.match.params.speakerId) {
                   cloneSpeakers[index] = this.getSpeakerData();
                }
+               return true;
             });
          }else{
             cloneSpeakers.push({...this.getSpeakerData()});
@@ -105,7 +105,7 @@ class AddSpeaker extends React.Component {
          <div className="container mtop">
             <div className="row">
                <div className="twelve columns">
-                  <PageHead title={this.state.edit ? "Edit Speaker" : "Add Speaker"}/>
+                  <PageHead title={this.state.edit ? "Edit Speaker" : "Add Speaker"} {...this.props} />
                   <div className="row">
                      <div className="six columns">
                         <div className="row">
@@ -131,12 +131,12 @@ class AddSpeaker extends React.Component {
                         </div>
                         <div className="row">
                            <div className="six columns">
-                              <label htmlFor="pass">linkedin</label>
+                              <label>linkedin</label>
                               <input type="text" className="u-full-width" value={this.state.linkedin}
                                      onChange={this.changeValue('linkedin')}/>
                            </div>
                            <div className="six columns">
-                              <label htmlFor="pass">twitter</label>
+                              <label>twitter</label>
                               <input type="text" className="u-full-width" value={this.state.twitter}
                                      onChange={this.changeValue('twitter')}/>
                            </div>

@@ -66,7 +66,6 @@ export default function reducer(state = initialState, action = {}) {
 export function addTag(eventId,tag) {
    return {
       types: [ADD_TAG, ADD_TAG_SUCCESS, ADD_TAG_FAIL],
-      //mock: {},
       promise: (client) => client.post('events/'+eventId+'/tags')
    }
 }
@@ -74,7 +73,6 @@ export function addTag(eventId,tag) {
 export function removeTag(eventId,tagId) {
    return {
       types: [REMOVE_TAG, REMOVE_TAG_SUCCESS, REMOVE_TAG_FAIL],
-      //mock: {},
       promise: (client) => client.del('events/'+eventId+'/tags/'+tagId)
    }
 }

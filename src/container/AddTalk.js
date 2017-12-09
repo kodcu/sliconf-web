@@ -61,7 +61,7 @@ class AddTalk extends React.Component {
          },()=>{
             if(this.props.match.params.talkId){
                let getter = this.state.agenda.filter(agendaItem => agendaItem.id === this.props.match.params.talkId)[0];
-               console.log(getter);
+               //console.log(getter);
                if(getter){
                   this.setState({
                      edit:true,
@@ -156,7 +156,7 @@ class AddTalk extends React.Component {
                <div className="twelve columns">
                   <Loading row="3" loading={this.state.loading}>
                      {this.state.speakers && this.state.speakers.length>0 ? this.state.rooms && this.state.rooms.length>0 ? <div className="yea">
-                        <PageHead title={this.props.match.params.talkId ? "Edit Talk" : "Add Talk"}/>
+                        <PageHead title={this.props.match.params.talkId ? "Edit Talk" : "Add Talk"} {...this.props} />
                            <div className="row">
                               <div className="eight columns">
                                  <div className="row">
