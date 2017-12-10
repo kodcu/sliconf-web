@@ -137,7 +137,7 @@ class TalkList extends React.Component {
                <div className="row">
                   <div className="twelve columns">
                      <h2>Remove {
-                        this.state.agenda.find((el)=>{return el.id===this.state.whatIndex}) && this.state.agenda.find((el)=>{return el.id===this.state.whatIndex}).level===-1 ? "Break" : "Talk"
+                        this.state.agenda && this.state.agenda.find((el)=>{return el.id===this.state.whatIndex}) && this.state.agenda.find((el)=>{return el.id===this.state.whatIndex}).level===-1 ? "Break" : "Talk"
                      }?</h2>
                      <p>You CANNOT undo this action.</p>
                   </div>
