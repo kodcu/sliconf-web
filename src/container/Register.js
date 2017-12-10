@@ -11,7 +11,7 @@ class Register extends Component {
       email: "",
       password: "",
       passworda: "",
-      warning: true,
+      warning: false,
       message: "",
       userWarning:false,
       mailWarning:false,
@@ -19,7 +19,6 @@ class Register extends Component {
       passaWarning:false,
       kullaniciId:'',
    }
-
 
    componentWillReceiveProps(nextProps) {
       if (this.props.auth.loginError !== nextProps.auth.loginError) {
@@ -81,7 +80,7 @@ class Register extends Component {
    render() {
       return (
          <div className="container mtop">
-               <div className={classNames('row warning', {'show': this.state.warning})}>
+               <div className={classNames('row warning', {'hide': !this.state.warning})}>
                   <div className="twelve columns">
                      <h4>{this.state.message}</h4>
                   </div>

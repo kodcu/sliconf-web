@@ -25,6 +25,7 @@ class RoomCreate extends React.Component {
          if(this.props.canCreateTag(this.getRoomData().label, "rooms")){
             this.props.addRoomToLocal({...this.getRoomData(),id:"newid"+this.state.dynamicKeys});
             this.setState({
+               label:'',
                dynamicKeys:this.state.dynamicKeys+1,
             })
             //this.props.addRoom(this.props.eventId,this.getRoomData())

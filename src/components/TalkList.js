@@ -28,7 +28,7 @@ const ListItem = ({talk, removeTalk, editTalk, speaker, room}) => {
          <td onClick={()=>{editTalk(talk.id)}} style={{width:"200px"}}>{room ? room.label : ''}</td>
          <td onClick={()=>{editTalk(talk.id)}} style={{width:"200px"}}>{speaker ? speaker.name : ''}</td>
          <td onClick={()=>{editTalk(talk.id)}} style={{textAlign:"center"}}>{("0" + new Date(talk.date*1000).getDate()).slice(-2)+"."+("0" + (new Date(talk.date*1000).getMonth()+1)).slice(-2)+"."+new Date(talk.date*1000).getFullYear()+" "+("0" + new Date(talk.date*1000).getHours()).slice(-2)+":"+("0" + new Date(talk.date*1000).getMinutes()).slice(-2)}</td>
-         <td onClick={()=>{editTalk(talk.id)}}><div class="circle">{talk.duration} Min</div></td>
+         <td onClick={()=>{editTalk(talk.id)}}><div className="circle">{talk.duration} Min</div></td>
          <td onClick={()=>{editTalk(talk.id)}} className="topics" style={{width:"200px",maxWidth:"200px"}}><div className="ongoing">{talk.tags.length>0 ? talk.tags.map((topic)=>{return <div key={topic} className="room">{topic}</div>}) : talk.level===-1 ? 'Break' : "No tags to be listed"}</div></td>
 
       </tr>
@@ -136,7 +136,9 @@ class TalkList extends React.Component {
             >
                <div className="row">
                   <div className="twelve columns">
-                     <h2>Remove Talk?</h2>
+                     <h2>Remove {
+                        this.state.agenda.find((el)=>{return el.id===this.state.whatIndex}) && this.state.agenda.find((el)=>{return el.id===this.state.whatIndex}).level===-1 ? "Break" : "Talk"
+                     }?</h2>
                      <p>You CANNOT undo this action.</p>
                   </div>
                </div>

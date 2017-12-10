@@ -92,6 +92,8 @@ class EventPage extends Component {
                            selected={moment(this.state.event_time)}
                            selectsStart
                            onChange={this.changeDateValue('event_time')}
+                           popperPlacement="bottom-end"
+                           readOnly={true}
                         />
                      </div>
                   </div>

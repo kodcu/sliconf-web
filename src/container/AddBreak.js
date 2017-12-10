@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import * as EventActions from '../reducks/modules/event';
 import DatePicker from 'react-datepicker';
 import Loading from "../components/Loading";
+import ReactTooltip from 'react-tooltip'
 
 class AddTalk extends React.Component {
 
@@ -19,6 +20,8 @@ class AddTalk extends React.Component {
       duration:'0',
       loading:true,
       edit:false,
+      collided:true,
+      noAlert:'Please fill the fields.',
    };
 
    getTalkData = () => {
@@ -29,7 +32,7 @@ class AddTalk extends React.Component {
          topic: this.state.topic,
          date: Math.floor(this.state.startDate/1000),
          duration: this.state.duration,
-         room: this.state.room ? this.state.room : this.state.rooms[0].id,
+         room: "",
          level: -1,
          tags: [],
       }
@@ -57,6 +60,8 @@ class AddTalk extends React.Component {
                if(getter){
                   this.setState({
                      edit:true,
+                     collided:false,
+                     noAlert:'',
                      id:getter.id,
                      topic:getter.topic,
                      level:getter.level,
@@ -77,9 +82,9 @@ class AddTalk extends React.Component {
       }
    }
 
-   addTalk = () => {
+   newVersion = () => {
       if(this.state.topic){
-         if(this.state.duration!=='0') {
+         if(this.state.duration>0 && this.state.duration!=='') {
             if(this.props.match.params.breakId){
                let cloneTalks = this.props.event ? this.props.event.agenda.slice(0) : [];
                cloneTalks.map((key,index) => {
@@ -89,30 +94,84 @@ class AddTalk extends React.Component {
                   }
                   return true;
                });
-               this.props.addTalk(this.props.match.params.eventId, cloneTalks)
-
+               this.setState({noAlert:""});
+               return cloneTalks;
             }else{
                let cloneAgenda = this.props.event.agenda ? this.props.event.agenda.slice(0) : [];
                cloneAgenda.push({...this.getTalkData()});
-               this.props.addTalk(this.props.match.params.eventId, cloneAgenda)
+               this.setState({noAlert:""});
+               return cloneAgenda;
             }
          }else{
-            alert("Please enter a valid duration for this break.")
+            this.setState({
+               noAlert:"Please enter a valid duration for this break",
+            });
          }
       }else{
-         alert("Please enter a name for this break (Example: Coffee Break).")
+         this.setState({
+            noAlert:"Please enter a name for this break (Example: Coffee Break)",
+         });
+      }
+      return null;
+   };
+
+   addTalk = () => {
+      let nV = this.newVersion();
+      if(nV!==null){
+         this.props.addTalk(this.props.match.params.eventId, nV);
+      }else{
+         alert(this.state.noAlert);
       }
    };
 
    changeValue = (name) => {
       return (e) => {
-         this.setState({[name]: e.target.value})
+         if(name==="topicsRaw"){
+            this.setState({
+               topics:this.cleanArray(e.target.value.split(","))
+            });
+         }
+         this.setState({
+            [name]: e.target.value,
+         },()=>{this.setState({
+            collided: this.isCollided()
+         })})
       }
    };
 
    changeDateValue = (name) => {
       return (date) => {
-         this.setState({[name]: moment(date).unix()*1000})
+         this.setState({
+            [name]: Math.floor(moment(date).unix()/60)*60*1000,
+         },()=>{this.setState({
+            collided: this.isCollided()
+         })})
+      }
+   };
+
+   isCollided = () => {
+      let i,j,d=false;
+      let ts = this.newVersion();
+      if(ts){
+         //dogru islem yapabilmemiz icin siralamamiz gerekiyor
+         ts.sort(function(a, b) {
+            return a.date.toString().localeCompare(b.date.toString())
+         });
+         console.log("yeni versiyon", ts);
+         for(i=0;i<ts.length;i++){
+            for(j=0;j<i;j++){
+               if(ts[i].room===ts[j].room || ts[i].room===""){
+                  //console.log("Gercek Kontrol");
+                  //console.log("start>=end", ts[i].date>=ts[j].date+ts[j].duration);
+                  //console.log("start>start", ts[i].date>ts[j].date);
+                  d = !(ts[i].date>=ts[j].date+(ts[j].duration*60) && ts[i].date>ts[j].date) ? true : d;
+               }
+            }
+         }
+         if(d){this.setState({noAlert:"There is a collusion!"})}
+         return d;
+      }else{
+         return true;
       }
    };
 
@@ -125,7 +184,7 @@ class AddTalk extends React.Component {
                      {this.state.rooms && this.state.rooms.length>0 ? <div className="yea">
                         <PageHead title={this.props.match.params.breakId ? "Edit Break" : "Add Break"} {...this.props} />
                            <div className="row">
-                              <div className="eight columns">
+                              <div className="six columns">
                                  <div className="row">
                                     <div className="twelve columns">
                                        <label htmlFor="topic">Topic</label>
@@ -143,17 +202,9 @@ class AddTalk extends React.Component {
                                           dateFormat="LLL"
                                           selected={moment(this.state.startDate)}
                                           onChange={this.changeDateValue('startDate')}
+                                          popperPlacement="bottom-end"
+                                          readOnly={true}
                                        />
-                                    </div>
-                                 </div>
-                              </div>
-                              <div className="four columns">
-                                 <div className="row">
-                                    <div className="twelve columns">
-                                       <label htmlFor="exampleRecipientInput">Room</label>
-                                       <select className="u-full-width" value={this.state.room} onChange={this.changeValue('room')}>
-                                          {this.state.rooms.map((room)=><option key={room.id} value={room.id}>{room.label}</option>)}
-                                       </select>
                                     </div>
                                  </div>
                                  <div className="row">
@@ -163,10 +214,25 @@ class AddTalk extends React.Component {
                                     </div>
                                  </div>
                               </div>
+                              <div className="four columns">
+                                 {/*
+                                 <div className="row">
+                                    <div className="twelve columns">
+                                       <label htmlFor="exampleRecipientInput">Room</label>
+                                       <select className="u-full-width" value={this.state.room} onChange={this.changeValue('room')}>
+                                          {this.state.rooms.map((room)=><option key={room.id} value={room.id}>{room.label}</option>)}
+                                       </select>
+                                    </div>
+                                 </div>
+                                 */}
+                              </div>
                            </div>
                            <div className="row mtop50 mbottom100">
                               <div className="six columns">
-                                 <input className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue={this.props.match.params.breakId ? "Save" : "Add Break"}/>
+                                 <div data-for='global' data-tip style={{display:"inline-block",height:38}}>
+                                    <input disabled={this.state.collided} className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue={this.props.match.params.talkId ? "Save" : "Add Break"}/>
+                                 </div>
+                                 {this.state.noAlert!=="" ? <ReactTooltip id="global" place="right" type="dark" effect="solid">{this.state.noAlert}</ReactTooltip>:''}
                               </div>
                            </div>
                         </div> : <div><h1>Sorry!</h1><p>You can't {this.props.match.params.breakId ? "edit Talk" : "add break"} before you add a room.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit/rooms")}}>GO TO EVENT SETTINGS</button></div>

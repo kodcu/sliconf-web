@@ -911,6 +911,8 @@ class EditEvent extends React.Component {
                                        startDate={this.state.startDate}
                                        endDate={this.state.endDate}
                                        onChange={this.changeDateValue('startDate')}
+                                       popperPlacement="bottom-end"
+                                       readOnly={true}
                                     />
                                  </div>
                                  <div className="six columns">
@@ -926,6 +928,8 @@ class EditEvent extends React.Component {
                                        startDate={this.state.startDate}
                                        endDate={this.state.endDate}
                                        onChange={this.changeDateValue('endDate')}
+                                       popperPlacement="bottom-end"
+                                       readOnly={true}
                                     />
                                  </div>
                               </div>
