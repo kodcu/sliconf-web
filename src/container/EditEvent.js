@@ -901,6 +901,8 @@ class EditEvent extends React.Component {
                                  <div className="six columns">
                                     <label htmlFor="startdate">Event Starts</label>
                                     <DatePicker
+                                       dateFormat="DD MMM YYYY, ddd, HH:mm"
+                                       locale={"en"}
                                        showTimeSelect
                                        timeIntervals={60}
                                        className="u-full-width"
@@ -911,13 +913,15 @@ class EditEvent extends React.Component {
                                        startDate={this.state.startDate}
                                        endDate={this.state.endDate}
                                        onChange={this.changeDateValue('startDate')}
-                                       popperPlacement="bottom-end"
+                                       popperPlacement="bottom-start"
                                        readOnly={true}
                                     />
                                  </div>
                                  <div className="six columns">
                                     <label htmlFor="enddate">Event Ends</label>
                                     <DatePicker
+                                       dateFormat="DD MMM YYYY, ddd, HH:mm"
+                                       locale={"en"}
                                        showTimeSelect
                                        timeIntervals={60}
                                        className="u-full-width"
@@ -928,7 +932,7 @@ class EditEvent extends React.Component {
                                        startDate={this.state.startDate}
                                        endDate={this.state.endDate}
                                        onChange={this.changeDateValue('endDate')}
-                                       popperPlacement="bottom-end"
+                                       popperPlacement="bottom-start"
                                        readOnly={true}
                                     />
                                  </div>

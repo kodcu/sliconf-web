@@ -1216,16 +1216,23 @@ input.hata {
 }
 
 li.react-datepicker__time-list-item {
-    width: 100px;
+    width: 80px;
+    font-size:0.9em;
+    text-align:left;
     margin: 0;
 }
 
 ul.react-datepicker__time-list {
     overflow-x: hidden;
+    height:152px !important;
 }
 
 .react-datepicker-wrapper, .react-datepicker__input-container{
     width:100%;
+}
+
+.react-datepicker-popper[data-placement^="bottom"]{
+    margin-top:-10px;
 }
 
 .sponsorsWithTags {
@@ -1681,4 +1688,44 @@ input[type=submit], li a , button, .button {
 
 .hiddennav{
     display:none;
+}
+
+
+
+
+
+
+.react-datepicker {
+    font-size: 0.8em;
+}
+.react-datepicker__header {
+    padding-top: 0.6em;
+}
+.react-datepicker__month {
+    margin: 0.3em 0.7em;
+}
+.react-datepicker__day-name, .react-datepicker__day {
+    width: 1.5em;
+    line-height: 1.5em;
+    margin: 0.136em;
+}
+.react-datepicker__current-month {
+    font-size: 1em;
+}
+.react-datepicker__navigation {
+    top: 1em;
+    line-height: 1.7em;
+    border: 0.45em solid transparent;
+}
+.react-datepicker__navigation--previous {
+    border-right-color: #ccc;
+    left: 1em;
+}
+.react-datepicker__navigation--next {
+    border-left-color: #ccc;
+    right: 1em;
+}
+
+.react-datepicker__input-container input {
+    letter-spacing: 1px;
 }

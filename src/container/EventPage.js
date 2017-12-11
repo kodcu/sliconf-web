@@ -74,16 +74,18 @@ class EventPage extends Component {
                      </div>
                   </div>
                   <div className="row mtop50">
-                     <div className="three columns">
+                     <div className="six columns">
                         <label htmlFor="name">Event Name</label>
                         <input className={"u-full-width"} type="text" id="name" value={this.state.event_name}
                                onChange={(e) => this.setState({event_name: e.target.value})}/>
                      </div>
                   </div>
                   <div className="row mtop25">
-                     <div className="three columns">
+                     <div className="six columns">
                         <label htmlFor="date">Event date</label>
                         <DatePicker
+                           dateFormat="DD MMMM YYYY, dddd, HH:mm"
+                           locale={"en"}
                            showTimeSelect
                            timeIntervals={60}
                            className="u-full-width"

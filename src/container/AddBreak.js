@@ -151,24 +151,33 @@ class AddTalk extends React.Component {
 
    isCollided = () => {
       let i,j,d=false;
+      let collItem = null;
       let ts = this.newVersion();
       if(ts){
          //dogru islem yapabilmemiz icin siralamamiz gerekiyor
          ts.sort(function(a, b) {
             return a.date.toString().localeCompare(b.date.toString())
          });
-         console.log("yeni versiyon", ts);
+         //console.log("yeni versiyon", ts);
          for(i=0;i<ts.length;i++){
             for(j=0;j<i;j++){
+               //new bugfix - tam ust uste gelirse
+               if(ts[i].date===ts[j].date){
+                  collItem = ts[i].id===this.state.id ? ts[j] : ts[i];
+                  return true;
+               }
                if(ts[i].room===ts[j].room || ts[i].room===""){
-                  //console.log("Gercek Kontrol");
                   //console.log("start>=end", ts[i].date>=ts[j].date+ts[j].duration);
                   //console.log("start>start", ts[i].date>ts[j].date);
-                  d = !(ts[i].date>=ts[j].date+(ts[j].duration*60) && ts[i].date>ts[j].date) ? true : d;
+                  if(!(ts[i].date>=ts[j].date+(ts[j].duration*60) && ts[i].date>ts[j].date)){
+                     d = true;
+                     //end-begin collusion bug fix
+                     collItem = ts[i].id===this.state.id ? ts[j] : ts[i];
+                  }
                }
             }
          }
-         if(d){this.setState({noAlert:"There is a collusion!"})}
+         if(d){this.setState({noAlert:"There is a collusion! (With "+collItem.topic+" at "+moment(collItem.date*1000).format('HH:mm')+")"})}
          return d;
       }else{
          return true;
@@ -199,7 +208,8 @@ class AddTalk extends React.Component {
                                           showTimeSelect
                                           timeIntervals={5}
                                           className="u-full-width"
-                                          dateFormat="LLL"
+                                          dateFormat="DD MMMM YYYY, dddd, HH:mm"
+                                          locale={"en"}
                                           selected={moment(this.state.startDate)}
                                           onChange={this.changeDateValue('startDate')}
                                           popperPlacement="bottom-end"
@@ -230,12 +240,12 @@ class AddTalk extends React.Component {
                            <div className="row mtop50 mbottom100">
                               <div className="six columns">
                                  <div data-for='global' data-tip style={{display:"inline-block",height:38}}>
-                                    <input disabled={this.state.collided} className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue={this.props.match.params.talkId ? "Save" : "Add Break"}/>
+                                    <input disabled={this.state.collided} className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue={this.props.match.params.breakId ? "Save" : "Add Break"}/>
                                  </div>
                                  {this.state.noAlert!=="" ? <ReactTooltip id="global" place="right" type="dark" effect="solid">{this.state.noAlert}</ReactTooltip>:''}
                               </div>
                            </div>
-                        </div> : <div><h1>Sorry!</h1><p>You can't {this.props.match.params.breakId ? "edit Talk" : "add break"} before you add a room.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit/rooms")}}>GO TO EVENT SETTINGS</button></div>
+                        </div> : <div><h1>Sorry!</h1><p>You can't {this.props.match.params.breakId ? "edit break" : "add break"} before you add a room.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit/rooms")}}>GO TO EVENT SETTINGS</button></div>
                         }
                   </Loading>
                </div>

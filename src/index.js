@@ -5,9 +5,9 @@ import {Provider} from 'react-redux'
 import App from './container/App'
 import store from './reducks'
 
-import './stylesheets/skeleton.css'
-import './stylesheets/styles.css'
 import 'react-datepicker/dist/react-datepicker.css';
+import './stylesheets/styles.css'
+
 
 ReactDOM.render(
    <Provider store={store}>

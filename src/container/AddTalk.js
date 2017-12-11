@@ -178,6 +178,7 @@ class AddTalk extends React.Component {
    };
    isCollided = () => {
       let i,j,d=false;
+      let collItem = null;
       let ts = this.newVersion();
       if(ts){
          //dogru islem yapabilmemiz icin siralamamiz gerekiyor
@@ -187,15 +188,23 @@ class AddTalk extends React.Component {
          //console.log("yeni versiyon", ts);
          for(i=0;i<ts.length;i++){
             for(j=0;j<i;j++){
+               //new bugfix - tam ust uste gelirse
+               if(ts[i].date===ts[j].date){
+                  collItem = ts[i].id===this.state.id ? ts[j] : ts[i];
+                  return true;
+               }
                if(ts[i].room===ts[j].room || ts[i].room===""){
-                  //console.log("Gercek Kontrol");
                   //console.log("start>=end", ts[i].date>=ts[j].date+ts[j].duration);
                   //console.log("start>start", ts[i].date>ts[j].date);
-                  d = !(ts[i].date>=ts[j].date+(ts[j].duration*60) && ts[i].date>ts[j].date) ? true : d;
+                  if(!(ts[i].date>=ts[j].date+(ts[j].duration*60) && ts[i].date>ts[j].date)){
+                     d = true;
+                     //end-begin collusion bug fix
+                     collItem = ts[i].id===this.state.id ? ts[j] : ts[i];
+                  }
                }
             }
          }
-         if(d){this.setState({noAlert:"There is a collusion!"})}
+         if(d){this.setState({noAlert:"There is a collusion! (With "+collItem.topic+" at "+moment(collItem.date*1000).format('HH:mm')+")"})}
          return d;
       }else{
          return true;
@@ -262,7 +271,8 @@ class AddTalk extends React.Component {
                                           showTimeSelect
                                           timeIntervals={5}
                                           className="u-full-width"
-                                          dateFormat="LLL"
+                                          dateFormat="DD MMMM YYYY, dddd, HH:mm"
+                                          locale={"en"}
                                           selected={moment(this.state.startDate)}
                                           onChange={this.changeDateValue('startDate')}
                                           popperPlacement="bottom-end"
