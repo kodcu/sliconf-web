@@ -18,6 +18,7 @@ import Floor from "../components/Floor";
 import Loading from "../components/Loading";
 import ReactTelInput from 'react-telephone-input';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import ReactTooltip from 'react-tooltip'
 
 const _ = require("lodash");
 const { compose, withProps, lifecycle } = require("recompose");
@@ -182,6 +183,7 @@ class EditEvent extends React.Component {
       saveText:"SAVE",
       initalize:true,
       deleteInput:'',
+      notCorrectEventName:'You must enter your event name to the field!',
    };
 
    constructor(props){
@@ -226,10 +228,9 @@ class EditEvent extends React.Component {
    };
 
    deleteEvent = () => {
-      if(this.state.deleteInput==="I WANT TO DELETE THIS EVENT") {
+      if(this.state.deleteInput===this.state.name) {
          this.closeDelete();
          this.setState({
-
             changed: false,
          });
          //console.log("Deleting...")
@@ -275,6 +276,12 @@ class EditEvent extends React.Component {
 
       if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) {
          //console.log("event degismis");
+
+         console.log(nextProps.event);
+         if(nextProps.event.deleted===true){
+            this.props.history.push("/");
+         }
+
          this.setState({
             id: nextProps.event.id ? nextProps.event.id : '',
             name: nextProps.event.name ? nextProps.event.name : '',
@@ -582,6 +589,12 @@ class EditEvent extends React.Component {
       this.changeTab('floorplan');
    };
 
+   handleKeyPress = (event) => {
+      if(event.key === 'Enter'){
+         this.modalSave();
+      }
+   };
+
    render() {
       return (
 
@@ -713,8 +726,13 @@ class EditEvent extends React.Component {
                   <div className="twelve columns">
                      <h2>Delete Event?</h2>
                      <p>Your event will be DELETED PERMANENTLY!<br />(THIS ACTION CANNOT BE UNDONE)</p>
-                     <small>For delete this event will all its contents, please enter "I WANT TO DELETE THIS EVENT" to below.</small>
-                     <input className="u-full-width" type="text" id="name" value={this.state.deleteInput} onChange={(e) => this.setState({deleteInput: e.currentTarget.value})} />
+                     <small>For delete this event will all its contents, please enter your event name below.</small>
+                     <input className="u-full-width" type="text" id="name" value={this.state.deleteInput} onChange={(e) => {
+                        this.setState({
+                           deleteInput: e.currentTarget.value,
+                           notCorrectEventName: e.currentTarget.value!==this.state.name ? 'You must enter your event name to the field!' : '',
+                        });
+                     }} />
                   </div>
                </div>
                <div className="row">
@@ -725,7 +743,8 @@ class EditEvent extends React.Component {
                   </div>
                   <div className="six columns">
                      <div className="span">
-                        <a style={{fontSize: "12px", marginTop: "9px", display: "inline-block"}} onClick={this.deleteEvent}>DELETE</a>
+                        <a data-tip style={{fontSize: "12px", marginTop: "9px", display: "inline-block"}} onClick={this.deleteEvent}>DELETE</a>
+                        <ReactTooltip getContent={() => this.state.notCorrectEventName} place="bottom" type="error" effect="solid"/>
                      </div>
                   </div>
                </div>
@@ -844,7 +863,7 @@ class EditEvent extends React.Component {
                   </div>
                   <div className="six columns">
                      <label htmlFor="modalName">Name</label>
-                     <input className="u-full-width" type="text" id="modalName" value={this.state.modalName} onChange={(e) => this.setState({modalName:e.currentTarget.value})}/>
+                     <input autoFocus className="u-full-width" type="text" id="modalName" value={this.state.modalName} onKeyPress={this.handleKeyPress} onChange={(e) => this.setState({modalName:e.currentTarget.value})}/>
                      <div className="span" style={{float:"right"}}>
                         <button onClick={this.modalSave} className={"button-primary"}>save</button>
                      </div>

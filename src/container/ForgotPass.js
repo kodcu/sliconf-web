@@ -13,6 +13,7 @@ class Login extends Component {
       warning:false,
       message:"",
       email:"",
+      type:'',
    }
 
    componentWillReceiveProps(nextProps) {
@@ -24,7 +25,7 @@ class Login extends Component {
 
             this.props.history.push("/mailsuccess");
          }else{
-            this.setState({warning: true, message: nextProps.auth.message})
+            this.setState({warning: true, message: nextProps.auth.message, type:nextProps.auth.status ? "info" : "error"})
          }
       }
 
@@ -36,7 +37,7 @@ class Login extends Component {
       if (!Validator.minMaxLen(5,50,this.state.email) || !Validator.isMail(this.state.email)){
          // uyari ver
          //console.log("email uygun değil")
-         this.setState({warning: true, message: "Please enter a valid email."});
+         this.setState({warning: true, message: "Please enter a valid email.", type:"error"});
          this.setState({mailWarning: true})
       }else{
          // hersey okey
@@ -49,7 +50,7 @@ class Login extends Component {
          <div className="container mtop">
             <div className={classNames('row warning', {'show': this.state.warning})}>
                <div className="twelve columns">
-                  <h4>{this.state.message}</h4>
+                  <h4 className={this.state.type}>{this.state.message}</h4>
                </div>
             </div>
             <div className="row">

@@ -17,7 +17,7 @@ class Register extends Component {
       mailWarning:false,
       passWarning:false,
       passaWarning:false,
-      kullaniciId:'',
+      type:'',
    }
 
    componentWillReceiveProps(nextProps) {
@@ -30,14 +30,11 @@ class Register extends Component {
             });
          }
          //Birden fazla componentWillReceiveProps cagirilmasin diye bu sekilde sarmalaniyor
-         if ((this.props.auth.status !== nextProps.auth.status)) {
+         console.log(nextProps);
+         if ((this.props.auth !== nextProps.auth && !nextProps.auth.loggingIn)) {
             if (nextProps.auth.status === false) {
                //Yanlis girdi, mesaj bas
-               this.setState({warning: true, message: nextProps.auth.message})
-            } else {
-               //Dogru girildi, storela
-               this.setState({kullaniciId: nextProps.auth.user.id})
-               this.props.history.push("/addevent/first")
+               this.setState({warning: true, message: nextProps.auth.message, type:"error"});
             }
          }
       }
@@ -45,30 +42,30 @@ class Register extends Component {
 
 
    register = (email, username, password) => {
-      this.setState({userWarning: false, mailWarning:false, passWarning:false, passaWarning:false})
+      this.setState({userWarning: false, mailWarning:false, passWarning:false, passaWarning:false, type:''});
       if(!Validator.minLen(4,this.state.username)){
          // uyari ver
          //console.log('username uygun degil')
-         this.setState({warning: true, message: "Username too short - minimum length is 4 characters."})
+         this.setState({warning: true, message: "Username too short - minimum length is 4 characters.", type:"error"});
          this.setState({userWarning: true})
       }else if (!Validator.minMaxLen(5,50,this.state.email) || !Validator.isMail(this.state.email)){
          // uyari ver
          //console.log("email uygun değil")
          this.setState({mailWarning: true})
-         this.setState({warning: true, message: "Please enter a valid email."})
+         this.setState({warning: true, message: "Please enter a valid email.", type:"error"})
       }else if(!Validator.minLen(8,this.state.password)){
          // uyari ver
          //console.log('şifre 8 karakterden kısa')
-         this.setState({warning: true, message: "Password too short - minimum length is 8 characters."})
+         this.setState({warning: true, message: "Password too short - minimum length is 8 characters.", type:"error"});
          this.setState({passWarning: true})
       }else if(!Validator.minLen(8,this.state.passworda)){
          // uyari ver
          //console.log('şifre (again) 8 karakterden kısa')
-         this.setState({warning: true, message: "Password too short - minimum length is 8 characters."})
+         this.setState({warning: true, message: "Password too short - minimum length is 8 characters.", type:"error"});
          this.setState({passaWarning: true})
       }else if(this.state.password!==this.state.passworda){
          // uyari ver
-         this.setState({warning: true, message: "Passwords did not match. Please enter the same password in both fields."})
+         this.setState({warning: true, message: "Passwords did not match. Please enter the same password in both fields.", type:"error"});
          //console.log('uyusmuyor')
          this.setState({passWarning: true, passaWarning: true})
       }else{
@@ -82,7 +79,7 @@ class Register extends Component {
          <div className="container mtop">
                <div className={classNames('row warning', {'hide': !this.state.warning})}>
                   <div className="twelve columns">
-                     <h4>{this.state.message}</h4>
+                     <h4 className={this.state.type}>{this.state.message}</h4>
                   </div>
                </div>
                <div className="row">

@@ -22,12 +22,7 @@ class Home extends Component {
                         <a className="button button-primary" style={{marginRight: '10px'}}>Google Play</a>
                         <a className="button button-primary">Apple Store</a>
                      </div>
-                  </div> :<div className="row">
-                     <div className="six columns">
-                        <h4 style={{fontSize: '2rem', color: 'gray'}}>Do you need any help?</h4>
-
-                     </div>
-                  </div>}
+                  </div> :<div className="row" />}
                </div>
             </div>
          </div>

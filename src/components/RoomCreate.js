@@ -3,21 +3,24 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as RoomActions from '../reducks/modules/room';
 import * as EventActions from '../reducks/modules/event';
+import {findDOMNode} from 'react-dom'
+import ReactTooltip from 'react-tooltip'
 
 class RoomCreate extends React.Component {
 
    state = {
+      warning:'',
       label:'',
       floorId:this.props.floorPlan[0] ? this.props.floorPlan[0].id : '',
       dynamicKeys:1,
-   }
+   };
 
    getRoomData = () => {
       return {
          label:this.state.label,
          floorId:this.state.floorId
       }
-   }
+   };
 
    create = () => {
       //console.log(this.state.floorId);
@@ -25,11 +28,29 @@ class RoomCreate extends React.Component {
          if(this.props.canCreateTag(this.getRoomData().label, "rooms")){
             this.props.addRoomToLocal({...this.getRoomData(),id:"newid"+this.state.dynamicKeys});
             this.setState({
+               warning:'',
                label:'',
                dynamicKeys:this.state.dynamicKeys+1,
-            })
+            });
+            this.refs.focusAfterCreate.focus();
             //this.props.addRoom(this.props.eventId,this.getRoomData())
             this.props.callback();
+         }else if(this.state.label === ''){
+            this.setState({
+               label:'',
+               warning:'Room name cannot be empty!'
+            },()=>{
+               ReactTooltip.show(findDOMNode(this.refs.focusAfterCreate))
+               this.refs.focusAfterCreate.focus();
+            });
+         }else{
+            this.setState({
+               label:'',
+               warning:'This room already exists!'
+            },()=>{
+               ReactTooltip.show(findDOMNode(this.refs.focusAfterCreate))
+               this.refs.focusAfterCreate.focus();
+            });
          }
       }
    };
@@ -49,7 +70,7 @@ class RoomCreate extends React.Component {
             <div className="twelve columns" style={{marginLeft:0}}>
                <div className="five columns">
                   <label htmlFor="roomname">Room Name</label>
-                  <input className="u-full-width" type="text" id="roomname" value={this.state.label} onChange={(e) => this.setState({label: e.currentTarget.value})}/>
+                  <input data-tip data-event='click' data-event-off='dblclick' className="u-full-width" ref={"focusAfterCreate"} type="text" id="roomname" value={this.state.label} onChange={(e) => {this.setState({warning:'',label: e.currentTarget.value});ReactTooltip.hide(findDOMNode(this.refs.focusAfterCreate))}}/>
                </div>
                <div className="four columns">
                   <label htmlFor="floorname">Floor</label>
@@ -59,6 +80,7 @@ class RoomCreate extends React.Component {
                </div>
                <div className="three columns">
                   <button className='u-full-width' style={{marginTop:21}} onClick={this.create}>Create Room</button>
+                  <ReactTooltip getContent={() => this.state.warning} place="top" type="error" effect="solid"/>
                </div>
             </div>
          </div>

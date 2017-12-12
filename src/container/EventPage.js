@@ -12,6 +12,7 @@ class EventPage extends Component {
       isFirst:"",
       warning: true,
       message: "",
+      type:'',
    };
 
    componentWillReceiveProps(nextProps) {
@@ -25,7 +26,7 @@ class EventPage extends Component {
          //console.log(nextProps.event.status)
          if (nextProps.event.status === false) {
             //Yanlis girdi, mesaj bas
-            this.setState({warning: true, message: nextProps.event.message})
+            this.setState({warning: true, message: nextProps.event.message, type:nextProps.event.status ? "info" : "error"})
          } else if (nextProps.event.status === true){
             if(nextProps.event.creation !== this.props.event.creation){
                //Dogru girildi, storela
@@ -65,12 +66,12 @@ class EventPage extends Component {
                   <div className="row">
                      <div className="twelve columns">
                         <h2 style={{color: '#29b573'}}>Add Event</h2>
-                        <h4>Let's create your{this.state.isFirst} Event.</h4>
+                        <h4>Let's create {this.props.match.params.isFirst==="first" ? 'your first' : 'an'} event.</h4>
                      </div>
                   </div>
                   <div className={classNames('row warning', {'show': this.state.warning})}>
                      <div className="twelve columns">
-                        <h4>{this.state.message}</h4>
+                        <h4 className={this.state.type}>{this.state.message}</h4>
                      </div>
                   </div>
                   <div className="row mtop50">

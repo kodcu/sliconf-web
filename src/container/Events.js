@@ -30,7 +30,8 @@ class Events extends Component {
                   </Loading>
                   <div className="row mtop25 mbottom100">
                      <div className="twelve columns">
-                        <Link to="/addevent" className="button button-primary">Create An Event</Link>
+                        <Link to={(this.props.event && this.props.event.active && this.props.event.passive) && (this.props.event.active.length > 0 || this.props.event.passive.length > 0)
+                           ? "/addevent" : "/addevent/first"} className="button button-primary">Create An Event</Link>
                      </div>
                   </div>
                </div>

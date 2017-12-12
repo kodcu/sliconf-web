@@ -15,7 +15,8 @@ class Settings extends Component {
       fullname: this.props.auth.user.fullname ? this.props.auth.user.fullname : '',
       userWarning:false,
       warning:false,
-      message:""
+      message:"",
+      type:"info"
    }
 
    componentWillReceiveProps(nextProps) {
@@ -25,7 +26,7 @@ class Settings extends Component {
       }
       if(this.props.auth !== nextProps.auth){
          //console.log(this.props)
-         this.setState({warning: true, message: nextProps.auth.message})
+         this.setState({warning: true, message: nextProps.auth.message, type:nextProps.auth.status ? "info" : "error"})
       }
 
    }
@@ -33,7 +34,7 @@ class Settings extends Component {
    update = () => {
       this.setState({userWarning: false})
       if(!Validator.minLen(4,this.state.username)){
-         this.setState({userWarning: true, warning:true, message:"Please enter a name that is at least 4 characters long."})
+         this.setState({userWarning: true, warning:true, message:"Please enter a name that is at least 4 characters long.", type:"error"})
       }else{
          this.props.update(this.state.userId, this.state.username, this.state.fullname);
       }
@@ -46,7 +47,7 @@ class Settings extends Component {
             <div className="twelve columns">
                <div className={classNames('row warning', {'hide': !this.state.warning})}>
                   <div className="twelve columns">
-                     <h4>{this.state.message}</h4>
+                     <h4 className={this.state.type}>{this.state.message}</h4>
                   </div>
                </div>
                <div className="row">

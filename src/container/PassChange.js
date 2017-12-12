@@ -31,7 +31,7 @@ class PassChange extends Component {
          if (this.props.auth !== nextProps.auth) {
             //console.log(nextProps.message)
             if(nextProps.auth.message!==""){
-               this.setState({warning: true, message: nextProps.auth.message})
+               this.setState({warning: true, message: nextProps.auth.message, type:nextProps.auth.status ? "info" : "error"})
             }
          }
       }
@@ -42,26 +42,26 @@ class PassChange extends Component {
    }
 
    changePassword = (token, password) => {
-      this.setState({passWarning:false, passaWarning:false, opassWarning:false})
+      this.setState({passWarning:false, passaWarning:false, opassWarning:false, type:""})
       if(!Validator.minLen(8,this.state.oldpassword)){
          // uyari ver
          //console.log('şifre (again) 8 karakterden kısa')
-         this.setState({warning:true, message:"Password too short - minimum length is 8 characters."})
+         this.setState({warning:true, message:"Password too short - minimum length is 8 characters.", type:"error"})
          this.setState({opassWarning: true})
       }else if(!Validator.minLen(8,this.state.password)){
          // uyari ver
          //console.log('şifre 8 karakterden kısa')
-         this.setState({warning:true, message:"Password too short - minimum length is 8 characters."})
+         this.setState({warning:true, message:"Password too short - minimum length is 8 characters.", type:"error"})
          this.setState({passWarning: true})
       }else if(!Validator.minLen(8,this.state.passworda)){
          // uyari ver
          //console.log('şifre (again) 8 karakterden kısa')
-         this.setState({warning:true, message:"Password too short - minimum length is 8 characters."})
+         this.setState({warning:true, message:"Password too short - minimum length is 8 characters.", type:"error"})
          this.setState({passaWarning: true})
       }else if(this.state.password!==this.state.passworda){
          // uyari ver
          //console.log('uyusmuyor')
-         this.setState({warning:true, message:"Passwords did not match. Please enter the same password in both fields."})
+         this.setState({warning:true, message:"Passwords did not match. Please enter the same password in both fields.", type:"error"})
          this.setState({passWarning: true, passaWarning: true})
       }else{
          // hersey okey
@@ -74,7 +74,7 @@ class PassChange extends Component {
          <div className="container mtop">
                <div className={classNames('row warning', {'hide': !this.state.warning})}>
                   <div className="twelve columns">
-                     <h4>{this.state.message}</h4>
+                     <h4 className={this.state.type}>{this.state.message}</h4>
                   </div>
                </div>
                <div className="row">

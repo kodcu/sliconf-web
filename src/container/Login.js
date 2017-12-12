@@ -28,7 +28,7 @@ class Login extends React.Component {
 
          if (nextProps.auth.status === false) {
             //Yanlis girdi, mesaj bas
-            this.setState({warning: true, message: nextProps.auth.message})
+            this.setState({warning: true, message: nextProps.auth.message, type:nextProps.auth.status ? "info" : "error"})
          } else {
             //Dogru girildi, storela
             this.props.history.push('/')
@@ -43,11 +43,11 @@ class Login extends React.Component {
          // uyari ver
          //console.log("isim uygun değil")
          this.setState({userWarning: true})
-         this.setState({warning: true, message: "Username too short - minimum length is 4 characters."})
+         this.setState({warning: true, message: "Username too short - minimum length is 4 characters.", type:"error"})
       }else if(!Validator.minLen(8,this.state.password)){
          // uyari ver
          //console.log('şifre 8 karakterden kısa')
-         this.setState({warning: true, message: "Password too short - minimum length is 8 characters."})
+         this.setState({warning: true, message: "Password too short - minimum length is 8 characters.", type:"error"})
          this.setState({passWarning: true})
       }else{
          // hersey okey
@@ -60,7 +60,7 @@ class Login extends React.Component {
          <div className="container mtop">
                <div className={classNames('row warning', {'hide': !this.state.warning})}>
                   <div className="twelve columns">
-                     <h4>{this.state.message}</h4>
+                     <h4 className={this.state.type}>{this.state.message}</h4>
                   </div>
                </div>
                <div className="row">

@@ -1729,3 +1729,22 @@ input[type=submit], li a , button, .button {
 .react-datepicker__input-container input {
     letter-spacing: 1px;
 }
+
+
+.error::before {
+    content: 'Error: ';
+}
+
+.error, .info {
+    color: #F44336;
+    font-weight: 400;
+    border: 1px solid #F44336;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+
+.info{
+    color: #29b573;
+    border: 1px solid #29b573;
+}
