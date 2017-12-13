@@ -476,6 +476,7 @@ class EditEvent extends React.Component {
       if(this.props.event.sponsors ? this.props.event.sponsors ? this.props.event.sponsors[tagId].length>0 : false : false){
          this.setState({sponsorTagIsOpen: true, removeSponsorTagId:tagId});
       }else{
+         this.setState({changed:true});
          this.props.removeTagFromLocal(tagId);
       }
    };
@@ -493,6 +494,7 @@ class EditEvent extends React.Component {
    };
 
    removeRoom = () => {
+      this.setState({changed:true});
       this.props.removeRoomFromLocal(this.state.alertRoomId);
       this.closeRoomAlert();
    };
@@ -772,7 +774,7 @@ class EditEvent extends React.Component {
                   </div>
                   <div className="six columns">
                      <div className="span">
-                        <button onClick={()=>{this.props.removeFloorFromLocal(this.state.removeFloorId);this.closeFloor();}} className={"button-primary"}>REMOVE</button>
+                        <button onClick={()=>{this.setState({changed:true});this.props.removeFloorFromLocal(this.state.removeFloorId);this.closeFloor();}} className={"button-primary"}>REMOVE</button>
                      </div>
                   </div>
                </div>
@@ -800,7 +802,7 @@ class EditEvent extends React.Component {
                   </div>
                   <div className="six columns">
                      <div className="span">
-                        <button onClick={()=>{this.props.removeSponsorFromLocal(this.state.removeSponsorId);this.closeSponsor();}} className={"button-primary"}>REMOVE</button>
+                        <button onClick={()=>{this.setState({changed:true});this.props.removeSponsorFromLocal(this.state.removeSponsorId);this.closeSponsor();}} className={"button-primary"}>REMOVE</button>
                      </div>
                   </div>
                </div>
@@ -828,7 +830,7 @@ class EditEvent extends React.Component {
                   </div>
                   <div className="six columns">
                      <div className="span">
-                        <button onClick={()=>{this.props.removeTagFromLocal(this.state.removeSponsorTagId);this.closeSponsorTag();}} className={"button-primary"}>REMOVE</button>
+                        <button onClick={()=>{this.setState({changed:true});this.props.removeTagFromLocal(this.state.removeSponsorTagId);this.closeSponsorTag();}} className={"button-primary"}>REMOVE</button>
                      </div>
                   </div>
                </div>
@@ -913,8 +915,8 @@ class EditEvent extends React.Component {
                            <div className="six columns">
                               <h3>General</h3>
                               <div className="twelve columns">
+                                 <input autoFocus className="moving u-full-width" type="text" id="name" value={this.state.name} onChange={(e) => this.setState({name: e.currentTarget.value, changed:true})} />
                                  <label htmlFor="name">Event Name</label>
-                                 <input className="u-full-width" type="text" id="name" value={this.state.name} onChange={(e) => this.setState({name: e.currentTarget.value, changed:true})} />
                               </div>
                               <div className="twelve columns">
                                  <div className="six columns">
@@ -985,22 +987,22 @@ class EditEvent extends React.Component {
                               <h3>Social</h3>
                               <div className="twelve columns">
                                  <div className="six columns">
+                                    <input className="moving u-full-width" type="text" id="facebook" value={this.state.facebook} onChange={(e) => this.setState({facebook:e.currentTarget.value, changed:true})}/>
                                     <label htmlFor="facebook">facebook</label>
-                                    <input className="u-full-width" type="text" id="facebook" value={this.state.facebook} onChange={(e) => this.setState({facebook:e.currentTarget.value, changed:true})}/>
                                  </div>
                                  <div className="six columns">
+                                    <input className="moving u-full-width" type="text" id="instagram" value={this.state.instagram} onChange={(e) => this.setState({instagram:e.currentTarget.value, changed:true})}/>
                                     <label htmlFor="instagram">instagram</label>
-                                    <input className="u-full-width" type="text" id="instagram" value={this.state.instagram} onChange={(e) => this.setState({instagram:e.currentTarget.value, changed:true})}/>
                                  </div>
                               </div>
                               <div className="twelve columns">
                                  <div className="six columns">
+                                    <input className="moving u-full-width" type="text" id="youtube" value={this.state.youtube} onChange={(e) => this.setState({youtube:e.currentTarget.value, changed:true})}/>
                                     <label htmlFor="youtube">Youtube</label>
-                                    <input className="u-full-width" type="text" id="youtube" value={this.state.youtube} onChange={(e) => this.setState({youtube:e.currentTarget.value, changed:true})}/>
                                  </div>
                                  <div className="six columns">
+                                    <input className="moving u-full-width" type="text" id="twitter" value={this.state.twitter} onChange={(e) => this.setState({twitter:e.currentTarget.value, changed:true})}/>
                                     <label htmlFor="twitter">twitter</label>
-                                    <input className="u-full-width" type="text" id="twitter" value={this.state.twitter} onChange={(e) => this.setState({twitter:e.currentTarget.value, changed:true})}/>
                                  </div>
                               </div>
                            </div>
@@ -1012,12 +1014,12 @@ class EditEvent extends React.Component {
                               <h3>Contact</h3>
                               <div className="twelve columns" style={{marginLeft:0}}>
                                  <div className="six columns">
+                                    <input className="moving u-full-width" type="text" id="website" value={this.state.web} onChange={(e) => this.setState({web:e.currentTarget.value, changed:true})}/>
                                     <label htmlFor="website">Website</label>
-                                    <input className="u-full-width" type="text" id="website" value={this.state.web} onChange={(e) => this.setState({web:e.currentTarget.value, changed:true})}/>
                                  </div>
                                  <div className="six columns">
+                                    <input className="moving u-full-width" type="text" id="email" value={this.state.email} onChange={(e) => this.setState({email:e.currentTarget.value, changed:true})}/>
                                     <label htmlFor="email">E-MAIL</label>
-                                    <input className="u-full-width" type="text" id="email" value={this.state.email} onChange={(e) => this.setState({email:e.currentTarget.value, changed:true})}/>
                                  </div>
                               </div>
                               <div className="twelve columns" style={{marginLeft:0}}>
@@ -1105,6 +1107,16 @@ class EditEvent extends React.Component {
                         <div className="row mtop50">
                            <div className="twelve columns">
                               <h3>Advanced</h3>
+                              <div className="row">
+                                 <div className="twelve columns">
+                                    <button className="" onClick={()=>{this.props.history.push("./speakers")}}>List Speakers</button>
+                                 </div>
+                              </div>
+                              <div className="row">
+                                 <div className="twelve columns">
+                                    <button className="" onClick={()=>{this.props.history.push("./talks")}}>View Agenda</button>
+                                 </div>
+                              </div>
                               <div className="row">
                                  <div className="twelve columns">
                                     <button className="button-red" onClick={()=>{this.openDelete()}}>Delete Event</button>

@@ -84,34 +84,34 @@ class Register extends Component {
                </div>
                <div className="row">
                   <div className="six columns">
-                     <div className="row">
+                     <div className="row mbottom10">
                         <div className="twelve columns">
                            <h2 style={{color: '#29b573'}}>Register</h2>
                         </div>
                      </div>
                      <div className="row">
                        <div className="twelve columns">
-                        <label htmlFor="username">Username</label>
-                        <input className={classNames({'hata': this.state.userWarning})} type="text" id="username" placeholder={"Pick a username"} value={this.state.username}
+                        <input autoFocus className={classNames("moving",{'hata': this.state.userWarning})} type="text" id="username" placeholder={"Pick a username"} value={this.state.username}
                                onChange={(e) => this.setState({username: e.target.value})}/>
+                          <label htmlFor="username">Username</label>
                         </div>
                         <div className="twelve columns">
-                           <label htmlFor="email">Mail</label>
-                           <input className={classNames({'hata': this.state.mailWarning})} type="email"id="email" placeholder={"you@example.com"} value={this.state.email}
+                           <input className={classNames("moving",{'hata': this.state.mailWarning})} type="email"id="email" placeholder={"you@example.com"} value={this.state.email}
                                   onChange={(e) => this.setState({email: e.target.value})}/>
+                           <label htmlFor="email">Mail</label>
                         </div>
                         <div className="twelve columns">
-                           <label htmlFor="pass">Password</label>
-                           <input className={classNames({'hata': this.state.passWarning})} type="password" id="pass" placeholder={"Create a password"} value={this.state.password}
+                           <input className={classNames("moving",{'hata': this.state.passWarning})} type="password" id="pass" placeholder={"Create a password"} value={this.state.password}
                                   onChange={(e) => this.setState({password: e.target.value})}/>
+                           <label htmlFor="pass">Password</label>
                         </div>
                         <div className="twelve columns">
-                        <label htmlFor="pass">Password (again)</label>
-                        <input className={classNames({'hata': this.state.passaWarning})} type="password" id="pass" placeholder={"Confirm your password"} value={this.state.passworda}
+                        <input className={classNames("moving",{'hata': this.state.passaWarning})} type="password" id="passc" placeholder={"Confirm your password"} value={this.state.passworda}
                                onChange={(e) => this.setState({passworda: e.target.value})}/>
+                           <label htmlFor="passc">Password (again)</label>
                         </div>
                      </div>
-                     <div className="row mbottom100">
+                     <div className="row mbottom100 mtop50">
                         <div className="six columns">
                            <button className="button-primary" onClick={this.register}>Register</button>
                         </div>

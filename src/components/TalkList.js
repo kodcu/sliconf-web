@@ -38,7 +38,7 @@ const ListItem = ({talk, removeTalk, editTalk, speaker, room}) => {
 const TalksNotAvailable = () => {
    return (
       <tr className="noBefore">
-         <td colSpan="7">No talks to be listed!</td>
+         <td colSpan="8">No talks to be listed!</td>
       </tr>
    )
 };

@@ -76,9 +76,9 @@ class EventPage extends Component {
                   </div>
                   <div className="row mtop50">
                      <div className="six columns">
-                        <label htmlFor="name">Event Name</label>
-                        <input className={"u-full-width"} type="text" id="name" value={this.state.event_name}
+                        <input autoFocus className={"moving u-full-width"} type="text" id="name" value={this.state.event_name}
                                onChange={(e) => this.setState({event_name: e.target.value})}/>
+                        <label htmlFor="name">Event Name</label>
                      </div>
                   </div>
                   <div className="row mtop25">
@@ -97,6 +97,7 @@ class EventPage extends Component {
                            onChange={this.changeDateValue('event_time')}
                            popperPlacement="bottom-end"
                            readOnly={true}
+                           withPortal
                         />
                      </div>
                   </div>

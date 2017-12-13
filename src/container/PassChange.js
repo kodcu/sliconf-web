@@ -79,7 +79,7 @@ class PassChange extends Component {
                </div>
                <div className="row">
                   <div className="six columns">
-                     <div className="row">
+                     <div className="row mbottom10">
                         <div className="twelve columns">
                            {this.props.history.length > 1 ? <button className="backButton" onClick={this.props.history.goBack} /> : ''}
                            <h2 style={{verticalAlign:"top",display: "inline-block"}}>Change Password</h2>
@@ -87,19 +87,22 @@ class PassChange extends Component {
                      </div>
                      <div className="row">
                         <div className="twelve columns mtop50">
-                           <label htmlFor="pass">CURRENT Password</label>
-                           <input className={classNames({'hata': this.state.opassWarning})} type="password" id="pass" value={this.state.oldpassword}
+
+                           <input autoFocus className={classNames("moving",{'hata': this.state.opassWarning})} type="password" id="cpass" value={this.state.oldpassword}
                                   onChange={(e) => this.setState({oldpassword: e.target.value})}/>
+                           <label htmlFor="cpass">CURRENT Password</label>
                         </div>
                         <div className="twelve columns">
-                           <label htmlFor="pass">NEW Password</label>
-                           <input className={classNames({'hata': this.state.passWarning})} type="password" id="pass" value={this.state.password}
+
+                           <input className={classNames("moving",{'hata': this.state.passWarning})} type="password" id="pass" value={this.state.password}
                                   onChange={(e) => this.setState({password: e.target.value})}/>
+                           <label htmlFor="pass">NEW Password</label>
                         </div>
                         <div className="twelve columns">
-                        <label htmlFor="pass">NEW Password (again)</label>
-                        <input className={classNames({'hata': this.state.passaWarning})} type="password" id="pass" value={this.state.passworda}
+
+                        <input className={classNames("moving",{'hata': this.state.passaWarning})} type="password" id="passa" value={this.state.passworda}
                                onChange={(e) => this.setState({passworda: e.target.value})}/>
+                           <label htmlFor="passa">NEW Password (again)</label>
                         </div>
                      </div>
                      <div className="row mtop50">

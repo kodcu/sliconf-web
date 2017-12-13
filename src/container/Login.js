@@ -53,7 +53,14 @@ class Login extends React.Component {
          // hersey okey
          this.props.login(this.state.user, this.state.password)
       }
-   }
+   };
+
+
+   handleKeyPress = (event) => {
+      if(event.key === 'Enter'){
+         this.login();
+      }
+   };
 
    render() {
       return (
@@ -65,29 +72,24 @@ class Login extends React.Component {
                </div>
                <div className="row">
                   <div className="six columns">
-                     <div className="row">
+                     <div className="row mbottom10">
                         <div className="twelve columns">
                            <h2 style={{color: '#29b573'}}>Sign In</h2>
                         </div>
                      </div>
                      <div className="row">
                         <div className="twelve columns">
+                           <input autoFocus className={classNames("moving",{'hata': this.state.userWarning})} type="text" id="user" placeholder={"Username"} value={this.state.user} onChange={(e) => this.setState({user: e.target.value})}/>
                            <label htmlFor="user">Username or E-mail</label>
-                           <input className={classNames({'hata': this.state.userWarning})} type="text" id="user" placeholder={"Username"} value={this.state.user} onChange={(e) => this.setState({user: e.target.value})}/>
                         </div>
                         <div className="twelve columns">
+                           <input onKeyPress={this.handleKeyPress} className={classNames("moving",{'hata': this.state.passWarning})} type="password" id="pass" placeholder={"Password"} value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
                            <label htmlFor="pass">Password</label>
-                           <input className={classNames({'hata': this.state.passWarning})} type="password" id="pass" placeholder={"Password"} value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
                         </div>
                      </div>
-                     <div className="row">
+                     <div className="row mtop25">
                         <div className="six columns">
-                           <button className="button-primary" onClick={this.login}>Sign In</button>
-                        </div>
-                     </div>
-                     <div className="row">
-                        <div className="six columns">
-                           <Link className="forgotpass" to="/forgotpass">Forgot your password?</Link>
+                           <button className="button-primary" onClick={this.login}>Sign In</button><Link style={{fontSize:"12px",display:"inline-block",marginLeft:10}} className="forgotpass" to="/forgotpass">Lost password?</Link>
                         </div>
                      </div>
                   </div>

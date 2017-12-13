@@ -81,31 +81,31 @@ class PassReset extends Component {
    render() {
       return (
          <div className="container mtop">
-               <div className={classNames('row warning', {'show': this.state.warning})}>
+               <div className={classNames('row warning', {'hide': !this.state.warning})}>
                   <div className="twelve columns">
                      <h4 className={this.state.type}>{this.state.message}</h4>
                   </div>
                </div>
                <div className="row">
                   <div className="six columns">
-                     <div className="row">
+                     <div className="row mbottom10">
                         <div className="twelve columns">
                            <h2 style={{color: '#29b573'}}>Reset Password</h2>
                         </div>
                      </div>
                      <div className="row">
                         <div className="twelve columns">
-                           <label htmlFor="pass">Password</label>
-                           <input className={classNames({'hata': this.state.passWarning})} type="password" id="pass" value={this.state.password}
+                           <input autoFocus className={classNames("moving",{'hata': this.state.passWarning})} type="password" id="pass" value={this.state.password}
                                   onChange={(e) => this.setState({password: e.target.value})}/>
+                           <label htmlFor="pass">Password</label>
                         </div>
                         <div className="twelve columns">
-                        <label htmlFor="pass">Password (again)</label>
-                        <input className={classNames({'hata': this.state.passaWarning})} type="password" id="pass" value={this.state.passworda}
+                        <input className={classNames("moving",{'hata': this.state.passaWarning})} type="password" id="pass" value={this.state.passworda}
                                onChange={(e) => this.setState({passworda: e.target.value})}/>
+                           <label htmlFor="pass">Password (again)</label>
                         </div>
                      </div>
-                     <div className="row">
+                     <div className="row mtop50">
                         <div className="six columns">
                            <button className="button-primary" onClick={this.resetPassword}>Reset</button>
                         </div>

@@ -94,7 +94,7 @@ class EventList extends React.Component {
                            return <tr key={event.id}>
                               <td><div className='eventimage' style={{backgroundImage:'url(http://app.sliconf.com:8090/service/image/get/'+event.logoPath+')'}}/></td>
                               <td>{event.name}</td>
-                              <td style={{textAlign: "center"}}>{event.key}</td>
+                              <td style={{textAlign: "center"}} className="miniCode">{event.key}</td>
                               <td style={{textAlign: "center"}}>{("0" + new Date(event.startDate).getDate()).slice(-2)+"."+("0" + (new Date(event.startDate).getMonth()+1)).slice(-2)+"."+new Date(event.startDate).getFullYear()}</td>
                               <td style={{textAlign: "center"}}>{(event.status===true) ?
                                  <Ionicon icon="ios-checkmark-circle-outline" fontSize="20px" color="black"/> :

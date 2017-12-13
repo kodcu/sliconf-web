@@ -110,16 +110,16 @@ class AddSpeaker extends React.Component {
                      <div className="six columns">
                         <div className="row">
                            <div className="twelve columns">
-                              <label htmlFor="email">Full Name</label>
-                              <input className="u-full-width" type="email"
+                              <input autoFocus className="moving u-full-width" type="text" id="fullname"
                                      value={this.state.fullName} onChange={this.changeValue('fullName')}/>
+                              <label htmlFor="fullname">Full Name</label>
                            </div>
                         </div>
                         <div className="row">
                            <div className="twelve columns">
-                              <label htmlFor="username">Works At</label>
-                              <input className="u-full-width" type="text"
+                              <input className="moving u-full-width" type="text" id="worksat"
                                      value={this.state.workingAt} onChange={this.changeValue('workingAt')}/>
+                              <label htmlFor="worksat">Works At</label>
                            </div>
                         </div>
                         <div className="row">
@@ -131,14 +131,14 @@ class AddSpeaker extends React.Component {
                         </div>
                         <div className="row">
                            <div className="six columns">
-                              <label>linkedin</label>
-                              <input type="text" className="u-full-width" value={this.state.linkedin}
+                              <input type="text" className="moving u-full-width" value={this.state.linkedin} id="linkedin"
                                      onChange={this.changeValue('linkedin')}/>
+                              <label htmlFor="linkedin">linkedin</label>
                            </div>
                            <div className="six columns">
-                              <label>twitter</label>
-                              <input type="text" className="u-full-width" value={this.state.twitter}
+                              <input type="text" className="moving u-full-width" value={this.state.twitter} id="twitter"
                                      onChange={this.changeValue('twitter')}/>
+                              <label htmlFor="twitter">twitter</label>
                            </div>
                         </div>
                      </div>
@@ -152,7 +152,6 @@ class AddSpeaker extends React.Component {
                                           <div className="resim" style={{backgroundImage: 'url("http://app.sliconf.com:8090/service/image/get/' + this.state.image + '")'}} width="100%" alt=""/>
                                        </div>
                                     </div>: ''}
-                                 }
                               </ImageUpload>
 
                            </div>

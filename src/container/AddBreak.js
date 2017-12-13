@@ -164,6 +164,7 @@ class AddTalk extends React.Component {
                //new bugfix - tam ust uste gelirse
                if(ts[i].date===ts[j].date){
                   collItem = ts[i].id===this.state.id ? ts[j] : ts[i];
+                  this.setState({noAlert:"There is a collusion! (With "+collItem.topic+" at "+moment(collItem.date*1000).format('HH:mm')+")"});
                   return true;
                }
                if(ts[i].room===ts[j].room || ts[i].room===""){
@@ -196,9 +197,9 @@ class AddTalk extends React.Component {
                               <div className="six columns">
                                  <div className="row">
                                     <div className="twelve columns">
-                                       <label htmlFor="topic">Topic</label>
-                                       <input className="u-full-width" type="text"
+                                       <input autoFocus className="moving u-full-width" type="text" id={"topic"}
                                               value={this.state.topic} onChange={this.changeValue('topic')}/>
+                                       <label htmlFor="topic">Topic</label>
                                     </div>
                                  </div>
                                  <div className="row">

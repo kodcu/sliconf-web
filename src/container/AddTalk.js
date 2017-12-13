@@ -191,6 +191,7 @@ class AddTalk extends React.Component {
                //new bugfix - tam ust uste gelirse
                if(ts[i].date===ts[j].date){
                   collItem = ts[i].id===this.state.id ? ts[j] : ts[i];
+                  this.setState({noAlert:"There is a collusion! (With "+collItem.topic+" at "+moment(collItem.date*1000).format('HH:mm')+")"});
                   return true;
                }
                if(ts[i].room===ts[j].room || ts[i].room===""){
@@ -220,7 +221,7 @@ class AddTalk extends React.Component {
                      {this.state.speakers && this.state.speakers.length>0 ? this.state.rooms && this.state.rooms.length>0 ? <div className="yea">
                         <PageHead title={this.props.match.params.talkId ? "Edit Talk" : "Add Talk"} {...this.props} />
                            <div className="row">
-                              <div className="eight columns">
+                              <div className="seven columns">
                                  <div className="row">
                                     <div className="twelve columns">
                                        <label>Speaker</label>
@@ -231,9 +232,9 @@ class AddTalk extends React.Component {
                                  </div>
                                  <div className="row">
                                     <div className="twelve columns">
-                                       <label htmlFor="topic">Topic</label>
-                                       <input className="u-full-width" type="text"
+                                       <input autoFocus className="moving u-full-width" type="text" id={"topic"}
                                               value={this.state.topic} onChange={this.changeValue('topic')}/>
+                                       <label htmlFor="topic">Topic</label>
                                     </div>
                                  </div>
                                  <div className="row">
@@ -245,7 +246,7 @@ class AddTalk extends React.Component {
                                  </div>
 
                               </div>
-                              <div className="four columns">
+                              <div className="five columns">
                                  <div className="row">
                                     <div className="twelve columns">
                                        <label htmlFor="exampleRecipientInput">Level</label>
@@ -290,9 +291,9 @@ class AddTalk extends React.Component {
                               </div>
                               <div className="row">
                                  <div className="twelve columns">
-                                    <label htmlFor="username">Tags (seperate with comma)</label>
-                                    <input className="u-full-width" type="text"
+                                    <input className="moving u-full-width" type="text" id={"tags"}
                                            value={this.state.topicsRaw} onChange={this.changeValue('topicsRaw')}/>
+                                    <label htmlFor="tags">Tags (seperate with comma)</label>
                                  </div>
                               </div>
                               <div className="row">

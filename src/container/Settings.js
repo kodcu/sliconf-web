@@ -50,7 +50,7 @@ class Settings extends Component {
                      <h4 className={this.state.type}>{this.state.message}</h4>
                   </div>
                </div>
-               <div className="row">
+               <div className="row mbottom10">
                   <div className="twelve columns">
                      {this.props.history.length > 1 ? <button className="backButton" onClick={this.props.history.goBack} /> : ''}
                      <h2 style={{verticalAlign:"top",display: "inline-block"}}>Settings</h2>
@@ -62,23 +62,23 @@ class Settings extends Component {
 
                <div className="row mtop50">
                   <div className="six columns">
-                     <label htmlFor="name">full name</label>
-                     <input type="text" id="name" value={this.state.fullname}
+                     <input autoFocus className={"moving"} type="text" id="fname" value={this.state.fullname}
                             onChange={(e) => this.setState({fullname: e.target.value})}/>
+                     <label htmlFor="fname">full name</label>
                   </div>
                </div>
                <div className="row">
                   <div className="six columns">
-                     <label htmlFor="name">username</label>
-                     <input className={classNames({'hata': this.state.userWarning})} type="text" id="name" value={this.state.username}
+                     <input className={classNames("moving",{'hata': this.state.userWarning})} type="text" id="name" value={this.state.username}
                             onChange={(e) => this.setState({username: e.target.value})}/>
+                     <label htmlFor="name">username</label>
                   </div>
                </div>
                <div className="row">
                   <div className="six columns">
-                     <label htmlFor="mail">e-mail</label>
-                     <input disabled={true} className={classNames({'hata': this.state.mailWarning})} type="email" id="mail" value={this.state.email}
+                     <input disabled={true} className={classNames("moving",{'hata': this.state.mailWarning})} type="email" id="mail" value={this.state.email}
                             onChange={(e) => this.setState({email: e.target.value})}/>
+                     <label htmlFor="mail">e-mail</label>
                   </div>
                </div>
 
