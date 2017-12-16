@@ -5,6 +5,8 @@ import * as AuthActions from '../reducks/modules/auth'
 import classNames from 'classnames'
 import {Link} from 'react-router-dom';
 import Validator from '../helpers/Validator';
+import ReCaptcha from 'react-google-recaptcha';
+
 
 class Login extends React.Component {
 
@@ -16,7 +18,15 @@ class Login extends React.Component {
       kullaniciId: "",
       userWarning:false,
       passWarning:false,
+      captcha:null,
    };
+
+   onCaptchaChange = (value) => {
+      this.setState({
+         captcha:value,
+      });
+      console.log("Captcha value:", value);
+   }
 
    componentWillReceiveProps(nextProps) {
       if (this.props.auth.loginError !== nextProps.auth.loginError) {
@@ -38,21 +48,26 @@ class Login extends React.Component {
 
    login = () => {
       //reset
-      this.setState({userWarning: false, passWarning:false})
-      if (!Validator.minMaxLen(4,50,this.state.user)){
-         // uyari ver
-         //console.log("isim uygun değil")
-         this.setState({userWarning: true})
-         this.setState({warning: true, message: "Username too short - minimum length is 4 characters.", type:"error"})
-      }else if(!Validator.minLen(8,this.state.password)){
-         // uyari ver
-         //console.log('şifre 8 karakterden kısa')
-         this.setState({warning: true, message: "Password too short - minimum length is 8 characters.", type:"error"})
-         this.setState({passWarning: true})
+      this.setState({userWarning: false, passWarning:false});
+      if(this.state.captcha){
+         if (!Validator.minMaxLen(4,50,this.state.user)){
+            // uyari ver
+            //console.log("isim uygun değil")
+            this.setState({userWarning: true})
+            this.setState({warning: true, message: "Username too short - minimum length is 4 characters.", type:"error"})
+         }else if(!Validator.minLen(8,this.state.password)){
+            // uyari ver
+            //console.log('şifre 8 karakterden kısa')
+            this.setState({warning: true, message: "Password too short - minimum length is 8 characters.", type:"error"})
+            this.setState({passWarning: true})
+         }else{
+            // hersey okey
+            this.props.login(this.state.user, this.state.password, this.state.captcha);
+         }
       }else{
-         // hersey okey
-         this.props.login(this.state.user, this.state.password)
+         this.setState({warning: true, message: "Please confirm you are human.", type:"error"})
       }
+
    };
 
 
@@ -87,6 +102,16 @@ class Login extends React.Component {
                            <label htmlFor="pass">Password</label>
                         </div>
                      </div>
+                     <div className="row">
+                        <div className="twelve columns">
+                           <ReCaptcha
+                              ref="recaptcha"
+                              sitekey="6Le6PD0UAAAAAP3JH2yxy18pEbGU8h5KwdY7yjXp"
+                              onChange={this.onCaptchaChange}
+                           />
+                        </div>
+                     </div>
+
                      <div className="row mtop25">
                         <div className="six columns">
                            <button className="button-primary" onClick={this.login}>Sign In</button><Link style={{fontSize:"12px",display:"inline-block",marginLeft:10}} className="forgotpass" to="/forgotpass">Lost password?</Link>

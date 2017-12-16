@@ -22,6 +22,7 @@ class AddTalk extends React.Component {
       edit:false,
       collided:true,
       noAlert:'Please fill the fields.',
+      firstStartDate:moment.now(),
    };
 
    getTalkData = () => {
@@ -43,7 +44,7 @@ class AddTalk extends React.Component {
    }
 
    componentDidMount(){
-      //console.log(this.props.event.agenda);
+      //console.log(thiass.props.event.agenda);
    }
 
    componentWillReceiveProps(nextProps) {
@@ -52,6 +53,8 @@ class AddTalk extends React.Component {
             speakers: nextProps.event.speakers,
             rooms: nextProps.event.rooms,
             agenda: nextProps.event.agenda,
+            startDate:nextProps.event.startDate,
+            firstStartDate:nextProps.event.startDate,
             loading: false,
          },()=>{
             if(this.props.match.params.breakId){
@@ -67,6 +70,7 @@ class AddTalk extends React.Component {
                      level:getter.level,
                      room:getter.room,
                      startDate:moment(getter.date*1000),
+                     firstStartDate:moment(getter.date*1000),
                      duration:getter.duration,
                   })
                }
@@ -208,6 +212,8 @@ class AddTalk extends React.Component {
                                        <DatePicker
                                           showTimeSelect
                                           timeIntervals={5}
+                                          minDate={moment(this.state.firstStartDate)}
+                                          maxDate={moment(this.state.firstStartDate).add(5, "years")}
                                           className="u-full-width"
                                           dateFormat="DD MMMM YYYY, dddd, HH:mm"
                                           locale={"en"}

@@ -143,11 +143,12 @@ export default function reducer(state = initialState, action = {}) {
       case EDIT_TAB_SUCCESS:
          //console.log(state);
          const fillTheBlanks3 = action.result.returnObject;
+         console.log("yeni",fillTheBlanks3)
          //console.log(state.event);
          return {
             ...state,
             loading: false,
-            event: {...state.event,fillTheBlanks3},
+            event: Object.assign({}, state.event, fillTheBlanks3),
             error: null
          };
       case EDIT_TAB_FAIL:
@@ -390,7 +391,7 @@ export function addTagToLocal(tag) {
    }
 }
 
-
+/*
 export function removeSponsorFromLocal(sponsorId) {
    return {
       type: REMOVE_SPONSOR_FROM_LOCAL,
@@ -405,14 +406,14 @@ export function editSponsorFromLocal(sponsorId, name, logo) {
    }
 }
 
-export function addSponsorToLocal(sponsorName, sponsorImage, tagId,nthNew) {
+export function addSponsorToLocal(sponsorName, sponsorImage, tagId, nthNew) {
    return {
       type: ADD_SPONSOR_TO_LOCAL,
       sponsorName,sponsorImage,tagId,nthNew
    }
 }
 
-
+*/
 export function removeFloorFromLocal(floorId) {
    return {
       type: REMOVE_FLOOR_FROM_LOCAL,

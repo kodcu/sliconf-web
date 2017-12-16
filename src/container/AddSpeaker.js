@@ -153,7 +153,6 @@ class AddSpeaker extends React.Component {
                                        </div>
                                     </div>: ''}
                               </ImageUpload>
-
                            </div>
                         </div>
 

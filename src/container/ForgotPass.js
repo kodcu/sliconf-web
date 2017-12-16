@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import * as AuthActions from '../reducks/modules/auth'
 import classNames from 'classnames'
 import Validator from '../helpers/Validator';
+import ReCaptcha from 'react-google-recaptcha';
 
 class Login extends Component {
 
@@ -14,6 +15,7 @@ class Login extends Component {
       message:"",
       email:"",
       type:'',
+      captcha:null,
    }
 
    componentWillReceiveProps(nextProps) {
@@ -22,26 +24,38 @@ class Login extends Component {
       }
       if(this.props.auth !== nextProps.auth){
          if(nextProps.auth && nextProps.auth.message==="Mail sent!"){
-
             this.props.history.push("/mailsuccess");
          }else{
-            this.setState({warning: true, message: nextProps.auth.message, type:nextProps.auth.status ? "info" : "error"})
+            if(!nextProps.auth.loggingIn){
+               this.setState({warning: true, message: nextProps.auth.message, type:nextProps.auth.status ? "info" : "error"})
+            }
          }
       }
 
    }
 
-   sendForgotMail = (email) => {
+   onCaptchaChange = (value) => {
+      this.setState({
+         captcha:value,
+      });
+      console.log("Captcha value:", value);
+   }
+   //sa
+   sendForgotMail = () => {
       //reset
-      this.setState({mailWarning: false})
-      if (!Validator.minMaxLen(5,50,this.state.email) || !Validator.isMail(this.state.email)){
-         // uyari ver
-         //console.log("email uygun değil")
-         this.setState({warning: true, message: "Please enter a valid email.", type:"error"});
-         this.setState({mailWarning: true})
+      this.setState({mailWarning: false,warning: false});
+      if(this.state.captcha){
+         if (!Validator.minMaxLen(5,50,this.state.email) || !Validator.isMail(this.state.email)){
+            // uyari ver
+            //console.log("email uygun değil")
+            this.setState({warning: true, message: "Please enter a valid email.", type:"error"});
+            this.setState({mailWarning: true})
+         }else{
+            // hersey okey
+            this.props.sendForgotMail(this.state.email, this.state.captcha)
+         }
       }else{
-         // hersey okey
-         this.props.sendForgotMail(this.state.email)
+         this.setState({warning: true, message: "Please confirm you are human.", type:"error"});
       }
    }
 
@@ -65,6 +79,15 @@ class Login extends Component {
                         <input autoFocus className={classNames("moving",{'hata': this.state.mailWarning})} type="email" id="email" value={this.state.email}
                                onChange={(e) => this.setState({email: e.target.value})}/>
                         <label htmlFor="email">Email</label>
+                     </div>
+                  </div>
+                  <div className="row">
+                     <div className="twelve columns">
+                        <ReCaptcha
+                           ref="recaptcha"
+                           sitekey="6Le6PD0UAAAAAP3JH2yxy18pEbGU8h5KwdY7yjXp"
+                           onChange={this.onCaptchaChange}
+                        />
                      </div>
                   </div>
                   <div className="row mtop50">

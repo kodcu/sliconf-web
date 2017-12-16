@@ -155,7 +155,7 @@ class EditEvent extends React.Component {
       mapdescription: "",
       rooms:"",
       sponsors: "",
-      tags: "",
+      sponsorTags: "",
       floorPlan : "",
       modalImage: null,
       activeTab: "general",
@@ -184,6 +184,7 @@ class EditEvent extends React.Component {
       initalize:true,
       deleteInput:'',
       notCorrectEventName:'You must enter your event name to the field!',
+      noAsking:false,
    };
 
    constructor(props){
@@ -256,10 +257,9 @@ class EditEvent extends React.Component {
                initalize:false,
                changed:false,
             });
-         }else{
-
          }
       }
+
       //console.log("bu",nextProps)
       if(nextProps.fetch && this.props.fetch !== nextProps.fetch && (!nextProps.fetch.loading)){
             if(this.state.saveText==="SAVING..."){
@@ -302,7 +302,7 @@ class EditEvent extends React.Component {
             mapdescription: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.description ? nextProps.event.about.location.description : '' : '' : '',
             rooms:nextProps.event.rooms ? nextProps.event.rooms : [],
             sponsors: nextProps.event.sponsors ? nextProps.event.sponsors : {},
-            tags: nextProps.event.sponsorTags ? nextProps.event.sponsorTags : {},
+            sponsorTags: nextProps.event.sponsorTags ? nextProps.event.sponsorTags : {},
             floorPlan : nextProps.event.floorPlan ? nextProps.event.floorPlan : [],
             loading:false,
             nthChange:this.state.nthChange+1,
@@ -387,8 +387,8 @@ class EditEvent extends React.Component {
          return this.props.event.rooms;
       }else if (type === "sponsors"){
          return {
-            "sponsorTags":this.props.event.sponsorTags,
-            "sponsors":this.props.event.sponsors
+            "sponsorTags":this.state.sponsorTags,
+            "sponsors":this.state.sponsors
          };
       }else if (type === "floorplan"){
          return this.props.event.floorPlan;
@@ -424,7 +424,11 @@ class EditEvent extends React.Component {
    };
 
    openSure = () => {
-      this.setState({sureIsOpen: true});
+      if(this.state.noAsking){
+         this.save();
+      }else{
+         this.setState({sureIsOpen: true});
+      }
    };
 
    closeSure = () => {
@@ -472,14 +476,24 @@ class EditEvent extends React.Component {
       this.setState({sponsorIsOpen: false});
    };
 
+   removeTagFromLocal = (tagId) => {
+      let filtereds = Object.keys(this.state.sponsors).filter(key => !tagId.includes(key)).reduce((obj, key) => {obj[key] = this.state.sponsors[key];return obj}, {});
+      let filtered = Object.keys(this.state.sponsorTags).filter(key => !tagId.includes(key)).reduce((obj, key) => {obj[key] = this.state.sponsorTags[key];return obj}, {});
+      this.setState({
+         sponsorTags:filtered,
+         sponsors:filtereds,
+         changed:true
+      });
+   }
+
    openSponsorTag = (tagId) => {
-      if(this.props.event.sponsors ? this.props.event.sponsors ? this.props.event.sponsors[tagId].length>0 : false : false){
+      if(this.state.sponsors ? this.state.sponsors ? this.state.sponsors[tagId].length>0 : false : false){
          this.setState({sponsorTagIsOpen: true, removeSponsorTagId:tagId});
       }else{
-         this.setState({changed:true});
-         this.props.removeTagFromLocal(tagId);
+         this.removeTagFromLocal(tagId);
       }
    };
+   //sa
 
    closeSponsorTag = () => {
       this.setState({sponsorTagIsOpen: false});
@@ -526,7 +540,20 @@ class EditEvent extends React.Component {
       if(this.state.modalName!==""){
          if(this.state.modalIsNew===false){
             if(this.state.activeTab==="sponsors"){
-               this.props.editSponsorFromLocal(this.state.modalId, this.state.modalName, this.state.modalImage);
+
+               const ses2 = this.state.sponsors;
+               let mState = this.state;
+               Object.keys(ses2).filter(key => ses2[key].filter(key2 =>{if(this.state.modalId.includes(key2.id)){ses2[key] = ses2[key].filter(function(el){
+                  if(el.id === key2.id){el.name = mState.modalName;el.logo = mState.modalImage;}
+                  return true;
+               });}return false;}));
+               this.setState({
+                  sponsors:ses2
+               },()=> {
+                  console.log("ye",this.state);
+               });
+
+
             }else if(this.state.activeTab==="floorplan"){
                this.props.editFloorFromLocal(this.state.modalId, this.state.modalName, this.state.modalImage);
                this.setState({
@@ -535,7 +562,7 @@ class EditEvent extends React.Component {
             }
          }else{
             if(this.state.activeTab==="sponsors"){
-               this.props.addSponsorToLocal(this.state.modalName, this.state.modalImage ,this.state.activeSponsorTag,Math.floor(Math.random()*100000000000000));
+               this.addSponsorToLocal(this.state.modalName, this.state.modalImage ,this.state.activeSponsorTag,Math.floor(Math.random()*100000000000000));
                this.setState({
                   nthNewSponsor:this.state.nthNewSponsor+1,
                   modalIsNew:false,
@@ -563,6 +590,7 @@ class EditEvent extends React.Component {
    /*
    afterOpenModal = () => {};
    Bu sekilde cagiriliyor (modal domu icinde) onAfterOpen={this.afterOpenModal}
+   a
    */
 
    closeModal = () => {
@@ -577,7 +605,7 @@ class EditEvent extends React.Component {
       if(which==="rooms"){
          return this.props.event && this.props.event.rooms ? this.props.event.rooms.filter(function (el) { return el.label === tag; }).length===0 && tag!=="" : false;
       }if(which==="sponsors"){
-         return this.props.event && this.props.event.sponsorTags ? Object.values(this.props.event.sponsorTags).filter(function (el) { return el === tag; }).length===0 && tag!=="" : false;
+         return this.props.event && this.state.sponsorTags ? Object.values(this.state.sponsorTags).filter(function (el) { return el === tag; }).length===0 && tag!=="" : false;
       }else {
          return false;
       }
@@ -595,6 +623,59 @@ class EditEvent extends React.Component {
       if(event.key === 'Enter'){
          this.modalSave();
       }
+   };
+
+   tagNameEdit = (id,name) => {
+      let cloneTags = JSON.parse(JSON.stringify(this.state.sponsorTags));
+      if(cloneTags[id]!==name){
+         if(!Object.values(cloneTags).find((el)=>{return el===name})){
+            cloneTags[id]=name;
+            this.setState({
+               changed:true,
+               sponsorTags:cloneTags
+            });
+            //console.log(id,name);
+            return 0;
+         }else{
+            //console.log("zaten var");
+            return 1;
+         }
+      }else{
+         return 0;
+      }
+   }
+
+   createNewTag = (id, newTagData) =>{
+      this.setState({
+         sponsorTags:{...this.state.sponsorTags, [id]:newTagData.label},
+         sponsors:{...this.state.sponsors,[id]:[]}
+      });
+   }
+
+   tagNameMove = (id,axis) => {
+      this.setState({
+         changed:true,
+      });
+   }
+
+   removeSponsorFromLocal = (sponsorId) => {
+      const ses = this.state.sponsors;
+      Object.keys(ses).filter(key => ses[key].filter(key2 =>{if(sponsorId.includes(key2.id)){ses[key] = ses[key].filter(function(el){return el.id !== key2.id;});return false;}return false;}));
+      this.setState({
+         sponsors:ses
+      });
+   }
+
+   addSponsorToLocal = (sponsorName, sponsorImage, tagId, nthNew) => {
+      const ses3 = this.state.sponsors;
+      ses3[tagId].push({
+         id:'newid'+nthNew,
+         logo:sponsorImage,
+         name:sponsorName,
+      });
+      this.setState({
+         sponsors:ses3
+      });
    };
 
    render() {
@@ -638,6 +719,14 @@ class EditEvent extends React.Component {
                   <div className="twelve columns">
                      <h2>Save changes?</h2>
                      <p>You have unsaved changes. Please save them before changing tabs.</p>
+                  </div>
+               </div>
+               <div className="row">
+                  <div className="twelve columns">
+                     <input type="checkbox" className="customInput" id={"askCheck"} onChange={(e)=>{
+                        this.setState({noAsking:e.currentTarget.checked});
+                     }}/><label htmlFor="askCheck" id={"askCheckLabel"} style={{letterSpacing:"0px"}}>SAVE WHILE CHANGING TABS &<br />DON'T ASK ME AGAIN FOR THIS SESSION</label>
+                     <p></p>
                   </div>
                </div>
                <div className="row">
@@ -802,7 +891,7 @@ class EditEvent extends React.Component {
                   </div>
                   <div className="six columns">
                      <div className="span">
-                        <button onClick={()=>{this.setState({changed:true});this.props.removeSponsorFromLocal(this.state.removeSponsorId);this.closeSponsor();}} className={"button-primary"}>REMOVE</button>
+                        <button onClick={()=>{this.setState({changed:true});this.removeSponsorFromLocal(this.state.removeSponsorId);this.closeSponsor();}} className={"button-primary"}>REMOVE</button>
                      </div>
                   </div>
                </div>
@@ -830,7 +919,7 @@ class EditEvent extends React.Component {
                   </div>
                   <div className="six columns">
                      <div className="span">
-                        <button onClick={()=>{this.setState({changed:true});this.props.removeTagFromLocal(this.state.removeSponsorTagId);this.closeSponsorTag();}} className={"button-primary"}>REMOVE</button>
+                        <button onClick={()=>{this.setState({changed:true});this.removeTagFromLocal(this.state.removeSponsorTagId);this.closeSponsorTag();}} className={"button-primary"}>REMOVE</button>
                      </div>
                   </div>
                </div>
@@ -860,7 +949,7 @@ class EditEvent extends React.Component {
                                  <div className="resim" style={{backgroundImage: 'url("http://app.sliconf.com:8090/service/image/get/' + this.state.modalImage + '")'}} width="100%" alt=""/>
                               </div>
                            </div>: ''}
-                        }
+
                      </ImageUpload>
                   </div>
                   <div className="six columns">
@@ -1070,16 +1159,16 @@ class EditEvent extends React.Component {
                         <div className="row mtop50">
                            <div className="twelve columns">
                               <h3>Sponsors</h3>
-                              <SponsorTagCreate eventId={this.state.eventId} canCreateTag={this.canCreateTag} callback={this.somethingChanged.bind(this)}/>
+                              <SponsorTagCreate createNewTag={this.createNewTag} eventId={this.state.eventId} canCreateTag={this.canCreateTag} callback={this.somethingChanged.bind(this)}/>
                               <div className="row">
                                  <div className="twelve columns tags" style={{marginLeft:0}}>
-                                    {this.props.event && this.props.event.sponsorTags ? Object.keys(this.props.event.sponsorTags).map((tag)=><SponsorTag remove={(tagId)=>{this.openSponsorTag(tagId)}} key={tag} tag={{"id":tag, "label":this.props.event.sponsorTags[tag]}} eventId={this.props.event.id}/>) : ''}
+                                    {this.state && this.state.sponsorTags ? Object.keys(this.state.sponsorTags).map((tag)=><SponsorTag remove={(tagId)=>{this.openSponsorTag(tagId)}} key={tag} tag={{"id":tag, "label":this.state.sponsorTags[tag]}} eventId={this.props.event.id}/>) : ''}
                                  </div>
                               </div>
 
                               <div className="row">
                                  <div className="twelve columns sponsors" style={{marginLeft:0}}>
-                                    {this.props.event && this.props.event.sponsors ? Object.keys(this.props.event.sponsors).map((sponsors)=><SponsorList remove={(sponsorId)=>{this.openSponsor(sponsorId)}} nthChange={this.state.nthChange} modalCallback={this.openModal} key={sponsors} tagId={sponsors} tagName={this.props.event.sponsorTags[sponsors]} sponsors={this.props.event.sponsors[sponsors]} eventId={this.props.event.id}/>) : ''}
+                                    {this.props.event && this.state.sponsors ? Object.keys(this.state.sponsors).map((sponsors)=><SponsorList editCallback={this.tagNameEdit} remove={(sponsorId)=>{this.openSponsor(sponsorId)}} nthChange={this.state.nthChange} modalCallback={this.openModal} key={sponsors} tagId={sponsors} tagName={this.state.sponsorTags[sponsors]} sponsors={this.state.sponsors[sponsors]} eventId={this.props.event.id}/>) : ''}
                                  </div>
                               </div>
 
@@ -1109,12 +1198,12 @@ class EditEvent extends React.Component {
                               <h3>Advanced</h3>
                               <div className="row">
                                  <div className="twelve columns">
-                                    <button className="" onClick={()=>{this.props.history.push("./speakers")}}>List Speakers</button>
+                                    <button className="" onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/speakers")}}>List Speakers</button>
                                  </div>
                               </div>
                               <div className="row">
                                  <div className="twelve columns">
-                                    <button className="" onClick={()=>{this.props.history.push("./talks")}}>View Agenda</button>
+                                    <button className="" onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/talks")}}>View Agenda</button>
                                  </div>
                               </div>
                               <div className="row">

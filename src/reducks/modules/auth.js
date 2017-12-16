@@ -228,11 +228,11 @@ export function load() {
    };
 }
 
-export function login(username, password) {
+export function login(username, password, captcha) {
    return {
       types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
       promise: (client) => client.post('/users/login', {
-         data: {username, password}
+         data: {username, password, captcha}
       })
    }
 }
@@ -246,10 +246,12 @@ export function register(email, username, password) {
    }
 }
 
-export function sendForgotMail(email) {
+export function sendForgotMail(email, captcha) {
    return {
       types: [FORGOTPASS, FORGOTPASS_SUCCESS, FORGOTPASS_FAIL],
-      promise: (client) => client.post('/users/password-reset/send/'+email)
+      promise: (client) => client.post('/users/password-reset/send/'+email, {
+         data: {captcha}
+      })
    }
 }
 

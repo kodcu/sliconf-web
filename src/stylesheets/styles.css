@@ -816,8 +816,8 @@ h4 {
         width: 50px;
         height: 50px;
         margin: 7.5px 0;
-        background:url("../img/menu.png");
-        background-size:contain;
+        background:url("../img/menu.svg");
+        background-size: 50%;
         background-position: 50%;
         background-repeat:no-repeat;
         list-style: none;
@@ -1170,17 +1170,6 @@ ul.navbar-list.clickable.noselect {
 }
 
 
-.noproblem, .problem{
-    width:32px;
-    height:32px;
-    display:inline-block;
-    background:url("../img/check.png");
-}
-
-.problem{
-    background:url("../img/warning.png");
-}
-
 .remove {
     display: inline-block;
     width: 16px;
@@ -1314,7 +1303,27 @@ ul.react-datepicker__time-list {
 .sponsors h1{
     margin-top: 25px;
     margin-bottom:0;
+    display: inline-block;
+    vertical-align: middle;
 }
+
+.sponsors input {
+    margin-top: 25px;
+    margin-bottom: 0;
+    display: inline-block;
+    vertical-align: middle;
+    border-bottom: 2px solid white !important;
+    font-size: 5.0rem !important;
+    font-weight: 300;
+    max-width: 45vw;
+    height: 60px;
+}
+
+
+.sponsors input:not([readOnly]){
+    border-bottom: 2px solid #2ab573 !important;
+}
+
 
 .plan {
     width: 214px;
@@ -2076,4 +2085,86 @@ ul.react-datepicker__time-list {
 
 input[type="email"], input[type="number"], input[type="search"], input[type="text"], input[type="tel"], input[type="url"], input[type="password"], textarea, select {
     border-bottom-color:#d2d2d2;
+}
+
+.react-datepicker__day.react-datepicker__day--disabled {
+    color: lightgray;
+}
+
+.tagEdit{
+    width: 36px;
+    height: 36px;
+    margin-top: 8px;
+    background-color: black;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: text-top;
+    -webkit-mask: url("../img/ebw.svg") no-repeat 50% 50%;
+}
+
+.tagEdit.check {
+    -webkit-mask: url("../img/check.svg") no-repeat 50% 50%;
+}
+
+.priorityChanger{
+    width: 42px;
+    height: 42px;
+    margin-top: 2px;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: text-top;
+}
+
+.priorityChanger .top, .priorityChanger .bottom{
+    width:42px;
+    height:21px;
+    background-color: black;
+}
+
+.priorityChanger .top{
+    -webkit-mask: url("../img/up.svg") no-repeat 50% 50%;
+}
+
+.priorityChanger .bottom{
+    -webkit-mask: url("../img/down.svg") no-repeat 50% 50%;
+}
+
+#askCheckLabel{
+    letter-spacing: 0px;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 14px;
+    text-align: left;
+    width:256px;
+}
+
+#askCheck{
+    background: black;
+    margin-right: 5px;
+    width:20px;
+    height: 28px;
+}
+
+#askCheckLabel:before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    float: left;
+    margin: 2px;
+    border-radius: 3px;
+    border: 1px solid #29b573;
+    margin-right: 9px;
+}
+
+.customInput{
+    display:none !important;
+}
+
+.customInput[type=checkbox]:checked + label::before {
+    background-color: #fefefe !important;
+    background-image: url("../img/check.svg");
+    background-size:80%;
+    background-position:50%;
+    background-repeat:no-repeat;
 }

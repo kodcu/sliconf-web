@@ -20,8 +20,10 @@ class Sponsor extends React.Component {
 
    componentWillReceiveProps(nextProps){
       if(this.props.reRenderer !== nextProps.reRenderer){
+         console.log("bana da iletildi !");
          this.setState({
             logo:this.props.sponsor.logo,
+            name:this.props.sponsor.name,
          })
       }
    }

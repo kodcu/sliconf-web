@@ -23,7 +23,9 @@ class SponsorTagCreate extends React.Component {
    create = () => {
       if(this.props.canCreateTag(this.getTagData().label, "sponsors")){
 
-         this.props.addTagToLocal({...this.getTagData(),id:"newid"+this.state.dynamicKeys});
+         let uniqueTagId = "newid"+this.state.dynamicKeys;
+         this.props.createNewTag(uniqueTagId,this.getTagData());
+
          this.setState({
             label:'',
             dynamicKeys:this.state.dynamicKeys+1,
