@@ -10,6 +10,22 @@ const EventsNotAvailable = () => {
    )
 };
 
+const PercentageCircle = (props) => {
+   return (
+      <div className="percentage">
+         {props.failed ?
+            <div id="percentageActiveBorder" style={{backgroundColor:"#F44336",backgroundImage:(props.percentage*3.6>180 ? 'linear-gradient(' + (props.percentage*3.6-90) + 'deg, transparent 50%, #F44336 50%),linear-gradient(90deg, #ff8b83 50%, transparent 50%)' : 'linear-gradient(' + (90+(props.percentage*3.6)) + 'deg, transparent 50%, #ff8b83 50%),linear-gradient(90deg, #ff8b83 50%, transparent 50%)')}} className="percentage-active-border">
+               <div className="percentageCircle" />
+            </div>
+            :
+            <div id="percentageActiveBorder" style={{backgroundImage:(props.percentage*3.6>180 ? 'linear-gradient(' + (props.percentage*3.6-90) + 'deg, transparent 50%, #29b573 50%),linear-gradient(90deg, #8ddeb8 50%, transparent 50%)' : 'linear-gradient(' + (90+(props.percentage*3.6)) + 'deg, transparent 50%, #8ddeb8 50%),linear-gradient(90deg, #8ddeb8 50%, transparent 50%)')}} className="percentage-active-border">
+               <Ionicon icon="ios-checkmark" fontSize="20px" color="white"/>
+            </div>
+         }
+      </div>
+   )
+};
+
 class EventList extends React.Component {
 
    state = {
@@ -65,6 +81,7 @@ class EventList extends React.Component {
          : <Ionicon icon={"ios-remove"} style={{verticalAlign:"top"}} />
    };
 
+
    render() {
       return (
          <div>
@@ -85,38 +102,58 @@ class EventList extends React.Component {
                            <th onClick={()=>{this.changeOrder("key")}} style={{textAlign: "center"}}>Key {this.returnIcons("key")}</th>
                            <th onClick={()=>{this.changeOrder("startDate")}} style={{textAlign: "center"}}>Date {this.returnIcons("startDate")}</th>
                            <th style={{textAlign: "center"}}>Status</th>
-                           <th style={{textAlign: "center"}}>Actions</th>
+                           {/*<th style={{textAlign: "center"}}>Actions</th>*/}
                         </tr>
                         </thead>
                         <tbody>
                         {(this.state.events && this.state.events.length) ? null : <EventsNotAvailable/> }
                         {this.state.events ? this.state.events.map((event)=>{
-                           return <tr key={event.id}>
+                           return <tr data-tip="Click to Edit" key={event.id} onClick={() => this.props.history.push('/events/'+event.key+'/edit')}>
                               <td><div className='eventimage' style={{backgroundImage:'url(http://app.sliconf.com:8090/service/image/get/'+event.logoPath+')'}}/></td>
                               <td>{event.name}</td>
                               <td style={{textAlign: "center"}} className="miniCode">{event.key}</td>
                               <td style={{textAlign: "center"}}>{("0" + new Date(event.startDate).getDate()).slice(-2)+"."+("0" + (new Date(event.startDate).getMonth()+1)).slice(-2)+"."+new Date(event.startDate).getFullYear()}</td>
-                              <td style={{textAlign: "center"}}>{(event.status===true) ?
-                                 <Ionicon icon="ios-checkmark-circle-outline" fontSize="20px" color="black"/> :
-                                 <div data-for='global' data-tip><Ionicon icon="ios-warning-outline" fontSize="20px" color="black"/></div> }</td>
+                              <td style={{textAlign: "center"}}>
+                                 {(event.status===true) ?
 
-                              <td style={{textAlign: "center", width:"250px"}}>
+                                    <div data-for={event.statusDetails.optionalFailed.length > 0 ? 'maybe'+event.key : ''} data-tip>
+                                       <PercentageCircle percentage={event.statusDetails.percentage} failed={event.statusDetails.failed.length > 0} />
+                                    </div>
+                                    :
+                                    <div data-for={'global'+event.key} data-tip>
+                                       <PercentageCircle percentage={event.statusDetails.percentage} failed={event.statusDetails.failed.length > 0} />
+                                    </div>
+                                 }</td>
+                              {/*<td style={{textAlign: "center", width:"250px"}}>
                                  <button data-tip="Edit Event" onClick={() => this.props.history.push('/events/'+event.key+'/edit')}><Ionicon icon="ios-build-outline" fontSize="20px" color="black"/></button>
-                                 {
-                                 /*<button data-tip="Moderate Comments" onClick={() => this.props.history.push('/events/'+event.key+'/moderate')}><Ionicon icon="ios-chatbubbles-outline" fontSize="20px" color="black"/></button>
-
+                                 <button data-tip="Moderate Comments" onClick={() => this.props.history.push('/events/'+event.key+'/moderate')}><Ionicon icon="ios-chatbubbles-outline" fontSize="20px" color="black"/></button>
                                  <button data-tip="Show Statics" onClick={() => this.props.history.push('/events/'+event.key+'/statics')}><Ionicon icon="ios-stats-outline" fontSize="20px" color="black"/></button>
-                                 */}
                                  <button data-tip="List Speakers" onClick={() => this.props.history.push('/events/'+event.key+'/speakers')}><Ionicon icon="ios-people-outline" fontSize="20px" color="black"/></button>
-
                                  <button data-tip="Show Agenda" onClick={() => this.props.history.push('/events/'+event.key+'/talks')}><Ionicon icon="ios-microphone-outline" fontSize="20px" color="black"/></button>
                                  <ReactTooltip place="bottom" type="dark" effect="solid"/>
-                              </td>
+                              </td>*/}
+                              <ReactTooltip id={'global'+event.key} place="left" type="dark" effect="solid">
+                                 This event will NOT show up on Mobile Devices.<br />Please add more info about your Event<br />
+                                 <div style={{whiteSpace:"pre"}}>
+                                 {event.statusDetails.failed.join("\n")}
+                                 </div>
+                                 <div style={{whiteSpace:"pre"}}>
+                                    {event.statusDetails.optionalFailed.join("\n")}
+                                 </div>
+                              </ReactTooltip>
+
+                              <ReactTooltip id={'maybe'+event.key} place="left" type="dark" effect="solid">
+                                 This event will show up on Mobile Devices<br /> but participants can always use more info.<br />
+                                 <div style={{whiteSpace:"pre"}}>
+                                    {event.statusDetails.optionalFailed.join("\n")}
+                                 </div>
+                              </ReactTooltip>
+
                            </tr>
                         }) : null}
                         </tbody>
                      </table>
-                     <ReactTooltip id='global' place="bottom" type="dark" effect="solid">This event will not show up on Mobile Devices.<br /> Please add more info about your Event</ReactTooltip>
+                     <ReactTooltip place="bottom" type="dark" effect="solid"/>
                   </div>
                </div>
 

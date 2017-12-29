@@ -338,19 +338,46 @@ class EditEvent extends React.Component {
       this.setState({modalImage:logo, isLoading:false})
    };
 
+   instantGratification = (fn,delay) => {
+      if(fn()){
+         return setInterval(fn,delay);
+      }
+   }
+
    changeTab = (tab) => {
       this.setState({
          nextTab:tab,
       });
-      if((this.state.activeTab==="general" || this.state.activeTab==="social" || this.state.activeTab==="contact") &&
-         (tab==="general" || tab==="social" || tab==="contact")){
-         this.setState({activeTab:tab})
+      if(((this.state.activeTab==="general" || this.state.activeTab==="social" || this.state.activeTab==="contact") &&
+         (tab==="general" || tab==="social" || tab==="contact")) || (!this.state.changed===true)){
+         let waitingToSave;
+         waitingToSave = this.instantGratification(()=>{
+            if(this.state.saveText==="SAVED!" || this.state.saveText==="SAVE"){
+               clearInterval(waitingToSave);
+               if(tab==="speakers"){
+                  this.props.history.push("/events/"+this.props.match.params.eventId+"/speakers/")
+                  return false;
+               }else if(tab==="agenda"){
+                  this.props.history.push("/events/"+this.props.match.params.eventId+"/talks/")
+                  return false;
+               }else if(tab==="statics"){
+                  this.props.history.push("/events/"+this.props.match.params.eventId+"/statics/")
+                  return false;
+               }else if(tab==="comments"){
+                  this.props.history.push("/events/"+this.props.match.params.eventId+"/moderate/")
+                  return false;
+               }else if(tab==="presentation"){
+                  this.props.history.push("/events/"+this.props.match.params.eventId+"/presentation/")
+                  return false;
+               }else{
+                  this.setState({activeTab:tab});
+                  this.props.history.push("/events/"+this.props.match.params.eventId+"/edit/"+tab);
+               }
+            }
+            return true;
+         },100);
       }else{
-         if(this.state.changed===true) {
-            this.openSure();
-         }else{
-            this.setState({activeTab:tab})
-         }
+         this.openSure();
       }
    };
 
@@ -477,13 +504,78 @@ class EditEvent extends React.Component {
    };
 
    removeTagFromLocal = (tagId) => {
+      let nth = tagId.split("|")[0];
       let filtereds = Object.keys(this.state.sponsors).filter(key => !tagId.includes(key)).reduce((obj, key) => {obj[key] = this.state.sponsors[key];return obj}, {});
       let filtered = Object.keys(this.state.sponsorTags).filter(key => !tagId.includes(key)).reduce((obj, key) => {obj[key] = this.state.sponsorTags[key];return obj}, {});
+      let f2 = {};
+      let f3 = {};
+      Object.keys(filtereds).forEach(function(key) {
+         let chk = key.split("|")[0] > nth ? key.split("|")[0]-1 : key.split("|")[0];
+         f2[chk+"|"+key.split("|")[1]] = filtereds[key];
+      });
+      Object.keys(filtered).forEach(function(key) {
+         let chk = key.split("|")[0] > nth ? key.split("|")[0]-1 : key.split("|")[0];
+         f3[chk+"|"+key.split("|")[1]] = filtered[key];
+      });
       this.setState({
-         sponsorTags:filtered,
-         sponsors:filtereds,
+         sponsorTags:f3,
+         sponsors:f2,
          changed:true
       });
+   };
+
+   keyChanger = (o, old_key,new_key) => {
+      if (old_key !== new_key) {
+         Object.defineProperty(o, new_key,
+            Object.getOwnPropertyDescriptor(o, old_key));
+         delete o[old_key];
+      }
+   }
+
+   tagSwapper = (tagId, direction) => {
+      console.log(tagId);
+      let tags = this.state.sponsorTags;
+      let sponsors = this.state.sponsors;
+      if(direction==="up"){
+         let nth = tagId.split("|")[0];
+         if(nth!==0){
+            let kyc = this.keyChanger;
+            Object.keys(this.state.sponsorTags).forEach(function(key) {
+               //yukari gidecek, tiklanan indexin ustundeki id'yi sakla. (temp)
+               console.log(nth-1, key.split("|")[0]);
+               let chk = Number(key.split("|")[0]) === nth-1 ? key.split("|")[1] : '';
+               if(chk){
+                  let swapped = nth+"|"+chk;
+                  kyc(tags, key, swapped);
+                  kyc(tags, tagId, (nth-1)+"|"+tagId.split("|")[1]);
+                  kyc(sponsors, key, swapped);
+                  kyc(sponsors, tagId, (nth-1)+"|"+tagId.split("|")[1]);
+               }
+            });
+         }
+      }else if(direction==="down"){
+         let nth = tagId.split("|")[0];
+         if(nth!==0){
+            let kyc = this.keyChanger;
+            Object.keys(this.state.sponsorTags).forEach(function(key) {
+               //yukari gidecek, tiklanan indexin ustundeki id'yi sakla. (temp)
+               console.log(nth- -1, key.split("|")[0]);
+               let chk = Number(key.split("|")[0]) === nth- -1 ? key.split("|")[1] : '';
+               if(chk){
+                  let swapped = nth+"|"+chk;
+                  kyc(tags, key, swapped);
+                  kyc(tags, tagId, (nth- -1)+"|"+tagId.split("|")[1]);
+                  kyc(sponsors, key, swapped);
+                  kyc(sponsors, tagId, (nth- -1)+"|"+tagId.split("|")[1]);
+               }
+            });
+         }
+      }
+      this.setState({
+         sponsorTags:tags,
+         sponsors:sponsors,
+         changed:true,
+      })
    }
 
    openSponsorTag = (tagId) => {
@@ -493,7 +585,7 @@ class EditEvent extends React.Component {
          this.removeTagFromLocal(tagId);
       }
    };
-   //sa
+
 
    closeSponsorTag = () => {
       this.setState({sponsorTagIsOpen: false});
@@ -996,6 +1088,16 @@ class EditEvent extends React.Component {
                             onClick={(e) => this.changeTab('floorplan')}><a className="navbar-link">Floor Plan</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="advanced"})}
                             onClick={(e) => this.changeTab('advanced')}><a className="navbar-link">Advanced</a></li>
+                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="speakers"})}
+                            onClick={(e) => this.changeTab('speakers')}><a className="navbar-link">Speakers</a></li>
+                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="agenda"})}
+                            onClick={(e) => this.changeTab('agenda')}><a className="navbar-link">Agenda</a></li>
+                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="statics"})}
+                            onClick={(e) => this.changeTab('statics')}><a className="navbar-link">Statics</a></li>
+                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="comments"})}
+                            onClick={(e) => this.changeTab('comments')}><a className="navbar-link">Comments</a></li>
+                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="presentation"})}
+                            onClick={(e) => this.changeTab('presentation')}><a className="navbar-link">Presentation</a></li>
                      </ul>
                   </div>
                   <div className="tabContainer">
@@ -1159,16 +1261,16 @@ class EditEvent extends React.Component {
                         <div className="row mtop50">
                            <div className="twelve columns">
                               <h3>Sponsors</h3>
-                              <SponsorTagCreate createNewTag={this.createNewTag} eventId={this.state.eventId} canCreateTag={this.canCreateTag} callback={this.somethingChanged.bind(this)}/>
+                              <SponsorTagCreate sponsorTagLength={this.state.sponsorTags ? Object.keys(this.state.sponsorTags).length : 0} createNewTag={this.createNewTag} eventId={this.state.eventId} canCreateTag={this.canCreateTag} callback={this.somethingChanged.bind(this)}/>
                               <div className="row">
                                  <div className="twelve columns tags" style={{marginLeft:0}}>
-                                    {this.state && this.state.sponsorTags ? Object.keys(this.state.sponsorTags).map((tag)=><SponsorTag remove={(tagId)=>{this.openSponsorTag(tagId)}} key={tag} tag={{"id":tag, "label":this.state.sponsorTags[tag]}} eventId={this.props.event.id}/>) : ''}
+                                    {this.state && Object.keys(this.state.sponsorTags).length>0 ? Object.keys(this.state.sponsorTags).sort((a,b)=>{return a.split("|")[0]-b.split("|")[0]}).map((tag)=><SponsorTag remove={(tagId)=>{this.openSponsorTag(tagId)}} key={tag} tag={{"id":tag, "label":this.state.sponsorTags[tag]}} eventId={this.props.event.id}/>) : ''}
                                  </div>
                               </div>
 
                               <div className="row">
                                  <div className="twelve columns sponsors" style={{marginLeft:0}}>
-                                    {this.props.event && this.state.sponsors ? Object.keys(this.state.sponsors).map((sponsors)=><SponsorList editCallback={this.tagNameEdit} remove={(sponsorId)=>{this.openSponsor(sponsorId)}} nthChange={this.state.nthChange} modalCallback={this.openModal} key={sponsors} tagId={sponsors} tagName={this.state.sponsorTags[sponsors]} sponsors={this.state.sponsors[sponsors]} eventId={this.props.event.id}/>) : ''}
+                                    {this.props.event && Object.keys(this.state.sponsors).length>0  ? Object.keys(this.state.sponsors).sort((a,b)=>{return a.split("|")[0]-b.split("|")[0]}).map((sponsors)=><SponsorList tagSwapper={this.tagSwapper} editCallback={this.tagNameEdit} remove={(sponsorId)=>{this.openSponsor(sponsorId)}} nthChange={this.state.nthChange} modalCallback={this.openModal} key={sponsors} tagId={sponsors} tagName={this.state.sponsorTags[sponsors]} sponsors={this.state.sponsors[sponsors]} eventId={this.props.event.id}/>) : ''}
                                  </div>
                               </div>
 
@@ -1196,16 +1298,6 @@ class EditEvent extends React.Component {
                         <div className="row mtop50">
                            <div className="twelve columns">
                               <h3>Advanced</h3>
-                              <div className="row">
-                                 <div className="twelve columns">
-                                    <button className="" onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/speakers")}}>List Speakers</button>
-                                 </div>
-                              </div>
-                              <div className="row">
-                                 <div className="twelve columns">
-                                    <button className="" onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/talks")}}>View Agenda</button>
-                                 </div>
-                              </div>
                               <div className="row">
                                  <div className="twelve columns">
                                     <button className="button-red" onClick={()=>{this.openDelete()}}>Delete Event</button>

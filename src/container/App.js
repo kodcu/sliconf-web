@@ -27,6 +27,7 @@ import ModerateComments from "./ModerateComments";
 import Statics from "./Statics";
 import Speaker from "./Speaker";
 import Error from "./Error";
+import Presentation from "./Presentation";
 
 class App extends Component {
    render() {
@@ -60,6 +61,7 @@ class App extends Component {
                      <PrivateRoute path="/addevent" component={AddEvent}/>
                      <PrivateRoute path="/settings" component={Settings}/>
                      <PrivateRoute path="/changepassword" component={PassChange}/>
+                     <Route path="/p/:eventId" component={Presentation}/>
                      <Route path="/logout" component={Logout}/>
                      <Route path="/410" render={routeProps => <Error {...routeProps} error={"410"}/>} />
                      <Route path="/401" render={routeProps => <Error {...routeProps} error={"401"}/>} />

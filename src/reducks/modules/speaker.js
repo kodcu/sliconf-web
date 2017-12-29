@@ -151,6 +151,8 @@ export default function reducer(state = initialState, action = {}) {
          return {
             ...state,
             loading: false,
+            startDate: action.result.returnObject.startDate,
+            endDate: action.result.returnObject.endDate,
             agenda: action.result.returnObject.agenda,
             speakers: action.result.returnObject.speakers,
             rooms: action.result.returnObject.rooms

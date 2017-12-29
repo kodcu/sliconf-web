@@ -13,6 +13,7 @@ class EventPage extends Component {
       warning: true,
       message: "",
       type:'',
+      checkBox:false,
    };
 
    componentWillReceiveProps(nextProps) {
@@ -43,7 +44,9 @@ class EventPage extends Component {
       super(props)
       this.state = {
          event_name: "",
-         event_time:(Math.floor(moment().unix()/3600)+1)*3600 * 1000
+         event_time:(Math.floor(moment().unix()/3600)+1)*3600 * 1000,
+         event_duration:0,
+         event_duration_days:1,
       };
    }
 
@@ -52,10 +55,17 @@ class EventPage extends Component {
          this.setState({[name]:moment(date).unix() * 1000})
       }
    };
-
+   //sasasasasasas
    createEvent = () => {
-      let t = moment( this.state.event_time ).unix()*1000;
-      this.props.createEvent(this.props.user.id,this.state.event_name, t)
+      if(this.state.event_duration<=0 && this.state.event_duration>24) {
+         this.setState({warning: true, message: "You must enter a valid duration.", type:"error"})
+      }else if(this.state.event_duration_days<1) {
+         this.setState({warning: true, message: "You must enter a valid day.", type:"error"})
+      }else{
+         let t = moment( this.state.event_time ).unix()*1000;
+         let et = moment(  this.state.event_time + (24*60*60*(this.state.event_duration_days-1)*1000) + (this.state.event_duration*60*60*1000)).unix()*1000;
+         this.props.createEvent(this.props.user.id,this.state.event_name, t, et)
+      }
    };
 
    render() {
@@ -97,8 +107,28 @@ class EventPage extends Component {
                            onChange={this.changeDateValue('event_time')}
                            popperPlacement="bottom-end"
                            readOnly={true}
-                           withPortal
                         />
+                     </div>
+                  </div>
+                  <div className="row mtop25">
+                     <div className="six columns">
+                        <input className={"moving u-full-width"} type="text" id="duration" value={this.state.event_duration}
+                               onChange={(e) => this.setState({event_duration: e.target.value})}/>
+                        <label htmlFor="duration">Event Duration (Hours)</label>
+                     </div>
+                  </div>
+                  <div className="row mtop25">
+                     <div className="six columns">
+                        <input type="checkbox" className="customInput" id={"askCheck"} onChange={(e)=>{
+                           this.setState({checkBox:e.currentTarget.checked});
+                        }}/><label htmlFor="askCheck" id={"askCheckLabel"} className="betterCheck">This event will take more than one day. </label>
+                     </div>
+                  </div>
+                  <div className={classNames('row mtop25', {'hidden': !this.state.checkBox})}>
+                     <div className="six columns">
+                        <input className={"moving u-full-width"} type="text" id="duration" value={this.state.event_duration_days}
+                               onChange={(e) => this.setState({event_duration_days: e.target.value})}/>
+                        <label htmlFor="duration">Event Duration (Days)</label>
                      </div>
                   </div>
                   <div className="row mtop50 mbottom100">

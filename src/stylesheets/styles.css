@@ -617,6 +617,11 @@ h4 {
         overflow-x: hidden;
     }
 
+    ul.navbar-list.clickable.noselect {
+        width: 1365px !important;
+        height: 65px !important;
+    }
+
     .ReactModal__Content.ReactModal__Content--after-open.Modal {
         padding-top: 20px !important;
     }
@@ -852,7 +857,7 @@ a:hover {
 }
 .navbar-item {
     position: relative;
-    float: left;
+    display: inline-block;
     margin-bottom: 0;
 }
 .navbar-link {
@@ -1135,7 +1140,8 @@ input.hata {
 
 ul.navbar-list.clickable.noselect {
     width: 800px;
-    height: 65px;
+    height: 130px;
+    text-align: center;
 }
 
 .clickable{
@@ -1536,7 +1542,7 @@ li.menu {
     padding: 8px 20px;
 }
 
-.navbar-list li:last-child a {
+.navbar .navbar-list li:last-child a {
     margin-right: 0;
 }
 
@@ -1705,7 +1711,7 @@ h1, h2, h3, h4, h5, p, span, .code,td,tr,.room{
     cursor: default;
 }
 
-.agenda tbody tr td, .speakers tbody tr td{
+.agenda tbody tr td, .speakers tbody tr td, .events tbody tr td{
     cursor: pointer;
 }
 
@@ -1717,11 +1723,11 @@ table{
     padding-left:4px;
 }
 
-.agenda tbody tr:hover, .speakers tbody tr:hover{
+.agenda tbody tr:hover, .speakers tbody tr:hover, .events tbody tr:hover{
     background: #fbfbfb;
 }
 
-.resimHolder.active:hover {
+.resimHolder.active:hover{
     cursor: pointer;
 }
 
@@ -2167,4 +2173,40 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
     background-size:80%;
     background-position:50%;
     background-repeat:no-repeat;
+}
+
+.betterCheck{
+    line-height: 26px !important;
+    width: 100% !important;
+    font-size: 15px;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing:0px !important;
+}
+
+.percentageCircle{
+    position: relative;
+    top: 5px;
+    left: 5px;
+    text-align: center;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background-color: #fff;
+}
+
+.percentage-active-border{
+    position: relative;
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+
+    background-color:#29b573;
+    background-image:
+            linear-gradient(91deg, transparent 50%, #8ddeb8 50%),
+            linear-gradient(90deg, #8ddeb8 50%, transparent 50%);
+    display: inline-block;
+    vertical-align: middle;
+
 }

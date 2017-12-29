@@ -79,9 +79,9 @@ class SponsorList extends React.Component {
    render() {
       return (
          <div>
-            <div className="priorityChanger" onClick={()=>{alert("Priority changer is not working for now.")}}>
-               <div className="top"/>
-               <div className="bottom"/>
+            <div className="priorityChanger">
+               <div className="top" onClick={()=>{this.props.tagSwapper(this.state.tagId, "up")}} />
+               <div className="bottom" onClick={()=>{this.props.tagSwapper(this.state.tagId, "down")}} />
             </div>
             <div data-event-off='dblclick' data-event='click' className={classNames('tagEdit', {'check': this.state.editMode})} onClick={this.toggleEdit} />
             <input ref="focusAfterCreate" data-tip type="text" value={this.state.tagName} readOnly={!this.state.editMode} onChange={(e) => {this.setState({tagName: e.currentTarget.value,error:''});}}/>

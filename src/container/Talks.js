@@ -50,16 +50,21 @@ class Talks extends React.Component {
          <div className="container mtop">
             <div className="row">
                <div className="twelve columns">
-                  <PageHead title="Agenda" {...this.props} />
-                  <Loading row="3" loading={this.props.speaker.loading}>
-                     <TalkList editTalk={this.editTalk} agenda={this.state.agenda} removeTalk={this.removeTalk} speakers={this.state.speakers} rooms={this.state.rooms}/>
-                     <div className="row mtop25 mbottom100">
-                        <div className="twelve columns">
-                           <Link to="./addtalk" className="button button-primary">Add Talk</Link>{' '}
-                           <Link to="./addbreak" className="button button-primary" disabled={true}>Add Break</Link>
-                        </div>
+                  {(this.props.speaker.startDate===this.props.speaker.endDate) ?
+                     <div><h1>Sorry!</h1><p>Events start and end date cannot be same.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit")}}>GO TO EDIT EVENT</button></div>
+                     : <div>
+                        <PageHead title="Agenda" {...this.props} />
+                        <Loading row="3" loading={this.props.speaker.loading}>
+                           <TalkList editTalk={this.editTalk} agenda={this.state.agenda} removeTalk={this.removeTalk} speakers={this.state.speakers} rooms={this.state.rooms}/>
+                           <div className="row mtop25 mbottom100">
+                              <div className="twelve columns">
+                                 <Link to={"/events/"+this.props.match.params.eventId+"/addtalk"} className="button button-primary">Add Talk</Link>{' '}
+                                 <Link to={"/events/"+this.props.match.params.eventId+"/addbreak"} className="button button-primary" disabled={true}>Add Break</Link>
+                              </div>
+                           </div>
+                        </Loading>
                      </div>
-                  </Loading>
+                  }
                </div>
             </div>
          </div>

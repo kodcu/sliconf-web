@@ -11,6 +11,7 @@ class SponsorTagCreate extends React.Component {
    state = {
       warning:'',
       label:'',
+      tagLen:this.props.sponsorTagLength,
       dynamicKeys:1,
    };
 
@@ -19,11 +20,23 @@ class SponsorTagCreate extends React.Component {
          label:this.state.label,
       }
    };
+   //sa
+
+
+   componentWillReceiveProps(nextProps){
+      console.log(nextProps)
+      //console.log(nextProps.speaker.rooms)
+      if(this.props.sponsorTagLength !== nextProps.sponsorTagLength){
+         this.setState({
+            tagLen:nextProps.sponsorTagLength
+         });
+      }
+   }
 
    create = () => {
       if(this.props.canCreateTag(this.getTagData().label, "sponsors")){
 
-         let uniqueTagId = "newid"+this.state.dynamicKeys;
+         let uniqueTagId = this.state.tagLen+"|newid"+this.state.dynamicKeys;
          this.props.createNewTag(uniqueTagId,this.getTagData());
 
          this.setState({

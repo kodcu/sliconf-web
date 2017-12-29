@@ -24,7 +24,7 @@ class Speakers extends React.Component {
                      <SpeakerList eventId={this.props.match.params.eventId} speakers={this.props.speaker.speakers} topProps={this.props}/>
                      <div className="row mtop25 mbottom100">
                         <div className="twelve columns">
-                           <Link to="./addspeaker" className="button button-primary">Add Speaker</Link>
+                           <Link to={"/events/"+this.props.match.params.eventId+"/addspeaker"} className="button button-primary">Add Speaker</Link>
                         </div>
                      </div>
                   </Loading>
