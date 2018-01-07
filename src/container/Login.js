@@ -39,12 +39,15 @@ class Login extends React.Component {
          if (nextProps.auth.status === false) {
             //Yanlis girdi, mesaj bas
             this.setState({warning: true, message: nextProps.auth.message, type:nextProps.auth.status ? "info" : "error"})
+            this.reCaptchaElement.reset();
          } else {
             //Dogru girildi, storela
             this.props.history.push('/')
          }
       }
    };
+//
+
 
    login = () => {
       //reset
@@ -77,6 +80,8 @@ class Login extends React.Component {
       }
    };
 
+   reCaptchaElement;
+
    render() {
       return (
          <div className="container mtop">
@@ -105,7 +110,7 @@ class Login extends React.Component {
                      <div className="row">
                         <div className="twelve columns">
                            <ReCaptcha
-                              ref="recaptcha"
+                              ref={(el) => { this.reCaptchaElement = el }}
                               sitekey="6Le6PD0UAAAAAP3JH2yxy18pEbGU8h5KwdY7yjXp"
                               onChange={this.onCaptchaChange}
                            />

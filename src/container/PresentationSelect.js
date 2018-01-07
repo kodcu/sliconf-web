@@ -37,13 +37,18 @@ class Talks extends React.Component {
       this.props.addTalk(this.props.match.params.eventId, cloneAgenda)
    };
 
-   editTalk = (index) => {
-      if(this.state.agenda.find((el)=>{return el.id===index}).level===-1){
-         this.props.history.push("/events/"+this.props.match.params.eventId+"/editbreak/"+index);
-      }else{
-         this.props.history.push("/events/"+this.props.match.params.eventId+"/edittalk/"+index);
+   presente = (item) => {
+      //zero one two ... (ayni karakter varsa bir sonraki harfi alir)
+      let numberToText = "ZOTHFISEGN";
+      let number = this.state.agenda.findIndex((el)=>{return el.id===item});
+      let text = "";
+      for(let i=0;i<number.toString().length;i++){
+         text += numberToText[number.toString()[i]];
       }
+      this.props.history.push("/p/"+this.props.match.params.eventId+""+text);
    };
+
+
 
    render() {
       return (
@@ -53,15 +58,9 @@ class Talks extends React.Component {
                   {(this.props.speaker.startDate===this.props.speaker.endDate) ?
                      <div><h1>Sorry!</h1><p>Events start and end date cannot be same.</p><button onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit")}}>GO TO EDIT EVENT</button></div>
                      : <div>
-                        <PageHead where={"/events/"+this.props.match.params.eventId+"/edit"} title="Agenda" {...this.props} />
+                        <PageHead where={"/events/"+this.props.match.params.eventId+"/edit"} title="Select a Talk to Present" {...this.props} />
                         <Loading row="3" loading={this.props.speaker.loading}>
-                           <TalkList editTalk={this.editTalk} agenda={this.state.agenda} removeTalk={this.removeTalk} speakers={this.state.speakers} rooms={this.state.rooms}/>
-                           <div className="row mtop25 mbottom100">
-                              <div className="twelve columns">
-                                 <Link to={"/events/"+this.props.match.params.eventId+"/addtalk"} className="button button-primary">Add Talk</Link>{' '}
-                                 <Link to={"/events/"+this.props.match.params.eventId+"/addbreak"} className="button button-primary" disabled={true}>Add Break</Link>
-                              </div>
-                           </div>
+                           <TalkList presentation={true} presente={this.presente} agenda={this.state.agenda} removeTalk={this.removeTalk} speakers={this.state.speakers} rooms={this.state.rooms}/>
                         </Loading>
                      </div>
                   }

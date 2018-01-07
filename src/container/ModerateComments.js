@@ -4,82 +4,93 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as AuthActions from '../reducks/modules/auth'
 import Comments from '../components/Comments'
+import * as EventActions from '../reducks/modules/event'
+import * as CommentActions from '../reducks/modules/comment'
 
 class ModerateComments extends Component {
 
    state = {
-      denied:[
-         {
-            topic:"Hibernate",
-            commentId:"11",
-            commentMessage:"kotu kotu seyler",
-            roomId:"r2",
-            roomTag:"Room 2",
-            userId:"1513284871292358192831902",
-            userName:"xavaneo",
-            fullName:"Ata Gülalan"
-         },
-         {
-            topic:"Hibernate",
-            commentId:"12",
-            commentMessage:"pis pis seyler",
-            roomId:"r2",
-            roomTag:"Room 2",
-            userId:"1513284871292358192831902",
-            userName:"xavaneo",
-            fullName:"Ata Gülalan"
-         }
-      ],
-      pending:[
-         {
-            topic:"Hibernate",
-            commentId:"13",
-            commentMessage:"guzel soru",
-            roomId:"r2",
-            roomTag:"Room 2",
-            userId:"1513284871292358192831902",
-            userName:"xavaneo",
-            fullName:"Ata Gülalan"
-         },
-         {
-            topic:"Hibernate",
-            commentId:"14",
-            commentMessage:"kotu seyler",
-            roomId:"r2",
-            roomTag:"Room 2",
-            userId:"1513284871292358192831902",
-            userName:"xavaneo",
-            fullName:"Ata Gülalan"
-         },
-         {
-            topic:"Hibernate",
-            commentId:"15",
-            commentMessage:"tuvalet nerede",
-            roomId:"r2",
-            roomTag:"Room 2",
-            userId:"1513284871292358192831902",
-            userName:"xavaneo",
-            fullName:"Ata Gülalan"
-         }
-      ],
-      approved:[
-         {
-            topic:"Hibernate",
-            commentId:"16",
-            commentMessage:"cok super soru",
-            roomId:"r2",
-            roomTag:"Room 2",
-            userId:"1513284871292358192831902",
-            userName:"xavaneo",
-            fullName:"Ata Gülalan"
-         }
-      ],
+      denied:[],
+      pending:[],
+      approved:[],
       isSaved:true,
       clearing:false,
    };
 
+
+   componentDidMount() {
+      this.props.fetchEvent(this.props.match.params.eventId);
+
+   }
+
+   getComments = () => {
+      this.props.getPending(this.state.id);
+   };
+
+   noPendingInterval;
+
+   componentWillReceiveProps(nextProps) {
+      if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) {
+         if(nextProps.event.deleted===true){
+            this.props.history.push("/");
+         }
+         console.log(nextProps.event);
+         this.setState({
+            id: nextProps.event.id ? nextProps.event.id : '',
+            name: nextProps.event.name ? nextProps.event.name : '',
+            logoPath: nextProps.event.logoPath ? nextProps.event.logoPath : '',
+            agenda: nextProps.event.agenda ? nextProps.event.agenda : [],
+            description: nextProps.event.description ? nextProps.event.description : '',
+            web: nextProps.event.about ? nextProps.event.about.web ? nextProps.event.about.web : '' : '',
+            rooms:nextProps.event.rooms ? nextProps.event.rooms : [],
+            sponsorTags: nextProps.event.sponsorTags ? nextProps.event.sponsorTags : {},
+            floorPlan : nextProps.event.floorPlan ? nextProps.event.floorPlan : [],
+            loading:false,
+         }, ()=>{
+
+            this.getComments();
+            this.noPendingInterval = setInterval(function () {
+               if(this.state.pending.length===0 && this.state.approved.length===0 && this.state.denied.length===0){
+                  this.getComments();
+               }
+            }.bind(this),3000);
+         });
+      }
+
+      if (nextProps.comment && (nextProps.comment.comment && this.props.comment.comment !== nextProps.comment.comment)) {
+         console.log("ye")
+         console.log(nextProps.comment.comment);
+         this.setState({
+            pending:nextProps.comment.comment,
+         }, () => {
+
+         })
+      }
+
+      if (nextProps.comment && (nextProps.comment.returnObject && this.props.comment.returnObject !== nextProps.comment.returnObject)) {
+         console.log("ey")
+         console.log(nextProps.comment.returnObject);
+         setTimeout(() => {
+            this.setState({
+               approved:[],
+               denied:[],
+               clearing:false,
+               isSaved:true,
+            })
+         },400);
+         this.getComments();
+
+      }
+
+      /*
+
+
+       */
+   }
+
+
    //TODO state'leri arkadan al
-   //TODO Yorum satirlari ekle
+
    changeState = (type,index,was) => {
       let mark = ["denied", "pending", "approved"];
       let obj = this.state[mark[type]][index];
@@ -97,18 +108,21 @@ class ModerateComments extends Component {
    };
 
    save = () => {
-      //TODO Arka ile bagla
+
+      let approved = this.state.approved.map(function(item) {
+         return item['id'];
+      });
+
+      let denied = this.state.denied.map(function(item) {
+         return item['id'];
+      });
+
+      console.log(approved,denied)
+
       this.setState({
          clearing: true
       });
-      setTimeout(() => {
-         this.setState({
-            approved:[],
-            denied:[],
-            clearing:false,
-            isSaved:true,
-         })
-      },400);
+      this.props.pushComments(this.state.id, this.props.auth.user.id, approved,denied);
    };
 
    render() {
@@ -119,11 +133,12 @@ class ModerateComments extends Component {
                <div className="twelve columns">
                   <div className="row">
                      <div className="ten columns">
-                        <h2 style={{marginRight:15,display:"inline-block"}}>Moderate Comments</h2>
+                        <button className="backButton" onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit")}} />
+                        <h2 style={{marginRight:"20px",verticalAlign:"middle",display: "inline-block"}}>Moderate Comments</h2>
                         <p style={{display:"inline-block",color:this.state.isSaved ? "gainsboro" : "darkgray"}}>{this.state.isSaved ? "Saved.":"You have unsaved changes."}</p>
                      </div>
                      <div className="two columns">
-                        <button onClick={this.save}>SAVE</button>
+                        <button style={{marginTop:"8px"}} onClick={this.save}>SAVE</button>
                      </div>
                   </div>
                   <div className="row">
@@ -155,12 +170,14 @@ class ModerateComments extends Component {
 
 const mapStateToProps = (state, ownProps) => {
    return {
-      auth: state.auth
+      auth: state.auth,
+      comment: state.comment,
+      event: state.event.event,
    }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return {...bindActionCreators(AuthActions, dispatch)}
+   return {...bindActionCreators({...AuthActions, ...EventActions, ...CommentActions}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModerateComments)

@@ -290,14 +290,14 @@ export default function reducer(state = initialState, action = {}) {
          };
       case REMOVE_FLOOR_FROM_LOCAL:
          //console.log(action);
-         const ses4 = state.event.floorPlan.filter(function(el){return el.id !== action.floorId;});;
+         const ses4 = state.event.floorPlan.filter(function(el){return el.id !== action.floor;});;
          return {
             ...state,
             event:{...state.event,floorPlan:ses4}
          };
       case EDIT_FLOOR_FROM_LOCAL:
          const ses5 = state.event.floorPlan.filter(function(el){
-            if(el.id === action.floorId){
+            if(el.id === action.floor){
                el.name = action.name;
                el.image = action.image;
             }
@@ -414,17 +414,18 @@ export function addSponsorToLocal(sponsorName, sponsorImage, tagId, nthNew) {
 }
 
 */
-export function removeFloorFromLocal(floorId) {
+export function removeFloorFromLocal(floor) {
    return {
       type: REMOVE_FLOOR_FROM_LOCAL,
-      floorId
+      floor
    }
 }
+//sasasasa
 
-export function editFloorFromLocal(floorId, name, image) {
+export function editFloorFromLocal(floor, name, image) {
    return {
       type: EDIT_FLOOR_FROM_LOCAL,
-      floorId,name,image
+      floor,name,image
    }
 }
 

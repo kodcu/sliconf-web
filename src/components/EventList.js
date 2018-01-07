@@ -117,11 +117,11 @@ class EventList extends React.Component {
                                  {(event.status===true) ?
 
                                     <div data-for={event.statusDetails.optionalFailed.length > 0 ? 'maybe'+event.key : ''} data-tip>
-                                       <PercentageCircle percentage={event.statusDetails.percentage} failed={event.statusDetails.failed.length > 0} />
+                                       <PercentageCircle percentage={event.statusDetails ? event.statusDetails.percentage : 0} failed={event.statusDetails.failed.length > 0} />
                                     </div>
                                     :
                                     <div data-for={'global'+event.key} data-tip>
-                                       <PercentageCircle percentage={event.statusDetails.percentage} failed={event.statusDetails.failed.length > 0} />
+                                       <PercentageCircle percentage={event.statusDetails ? event.statusDetails.percentage : 0} failed={event.statusDetails.failed.length > 0} />
                                     </div>
                                  }</td>
                               {/*<td style={{textAlign: "center", width:"250px"}}>

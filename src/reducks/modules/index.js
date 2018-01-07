@@ -6,6 +6,7 @@ import auth from "./auth"
 import event from "./event"
 import speaker from "./speaker"
 import room from "./room"
+import comment from "./comment"
 
 export default combineReducers({
    //routing : routerReducer,
@@ -13,5 +14,6 @@ export default combineReducers({
    auth,
    event,
    room,
-   speaker
+   speaker,
+   comment,
 });

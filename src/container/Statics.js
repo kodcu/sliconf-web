@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import * as EventActions from '../reducks/modules/event'
 import {connect} from 'react-redux';
+import PageHead from "../components/PageHead";
 
 class EventSuccess extends Component {
 
@@ -24,16 +25,7 @@ class EventSuccess extends Component {
    render() {
       return (
             <div className="container mtop">
-               <div className="row">
-                  <div className="twelve columns">
-                     <div className="row">
-                        <div className="twelve columns">
-                           <h2>Statics</h2>
-                        </div>
-                     </div>
-
-                  </div>
-               </div>
+               <PageHead where={"/events/"+this.props.match.params.eventId+"/edit"} title="Statics" {...this.props} />
                <div className="row">
                   <div className="four columns">
                      <h4>Total Users</h4>

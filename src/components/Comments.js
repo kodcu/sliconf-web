@@ -4,27 +4,27 @@ import classNames from 'classnames';
 
 class Comments extends Component {
    state = {
-      commentId:0
+      id:0
    };
 
    swapper = (id) => {
-      this.setState({ commentId: id })
+      this.setState({ id: id })
       setTimeout(() => {
          //console.log(id);
-         this.setState({ commentId: 0 })
+         this.setState({ id: 0 })
       }, 300)
    };
 
    comment = (comment, changeState, index, type) => {
       return (
-         <div key={comment.commentId} className={classNames('comment',{'slideAnimateDown':!(this.state.commentId===comment.commentId)},{'slideAnimateUp': this.state.commentId===comment.commentId})}>
-            <a className="user">{comment.userName}</a> commented on <a className="title">{comment.topic} ({comment.roomTag})</a><br /><br />
-            <div className="rightarrow"/>{comment.commentMessage}
+         <div key={comment.id} className={classNames('comment',{'slideAnimateDown':!(this.state.id===comment.id)},{'slideAnimateUp': this.state.id===comment.id})}>
+            <a className="user">{comment.username}</a> commented on <a className="title">{comment.topic} ({comment.roomName})</a><br /><br />
+            <div className="rightarrow"/>{comment.commentValue}
             <div className="buttons">
-               <div className="lefter" onClick={() => {changeState(type,index,-2);this.swapper(comment.commentId)}}>{"⟪"}</div>
-               <div className="left" onClick={() => {changeState(type,index, -1);this.swapper(comment.commentId)}}>{"⟨"}</div>
-               <div className="righter" onClick={() => {changeState(type,index, +2);this.swapper(comment.commentId)}}>{"⟫"}</div>
-               <div className="right" onClick={() => {changeState(type,index, +1);this.swapper(comment.commentId)}}>{"⟩"}</div>
+               <div className="lefter" onClick={() => {changeState(type,index,-2);this.swapper(comment.id)}}>{"⟪"}</div>
+               <div className="left" onClick={() => {changeState(type,index, -1);this.swapper(comment.id)}}>{"⟨"}</div>
+               <div className="righter" onClick={() => {changeState(type,index, +2);this.swapper(comment.id)}}>{"⟫"}</div>
+               <div className="right" onClick={() => {changeState(type,index, +1);this.swapper(comment.id)}}>{"⟩"}</div>
             </div>
          </div>
       )

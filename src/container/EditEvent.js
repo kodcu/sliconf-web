@@ -446,8 +446,8 @@ class EditEvent extends React.Component {
 
    };
 
-   floorRemove = (floorId) => {
-      this.openFloor(floorId)
+   floorRemove = (floor) => {
+      this.openFloor(floor)
    };
 
    openSure = () => {
@@ -479,8 +479,8 @@ class EditEvent extends React.Component {
    };
 
 
-   openFloor = (floorId) => {
-      this.setState({floorIsOpen: true,removeFloorId:floorId});
+   openFloor = (floor) => {
+      this.setState({floorIsOpen: true,removeFloor:floor});
    };
 
    closeFloor = () => {
@@ -955,7 +955,7 @@ class EditEvent extends React.Component {
                   </div>
                   <div className="six columns">
                      <div className="span">
-                        <button onClick={()=>{this.setState({changed:true});this.props.removeFloorFromLocal(this.state.removeFloorId);this.closeFloor();}} className={"button-primary"}>REMOVE</button>
+                        <button onClick={()=>{this.setState({changed:true});this.props.removeFloorFromLocal(this.state.removeFloor);this.closeFloor();}} className={"button-primary"}>REMOVE</button>
                      </div>
                   </div>
                </div>
@@ -1060,7 +1060,7 @@ class EditEvent extends React.Component {
                         <div className="twelve columns">
                            <div className="row">
                               <div className="twelve columns">
-                                 {this.props.history.length > 1 ? <button className="backButton" onClick={this.props.history.goBack} /> : ''}
+                                 <button className="backButton" onClick={()=>{this.props.history.push("/events")}} />
                                  <h2 style={{verticalAlign:"top",display: "inline-block"}}>Edit Event</h2>
                                  <input style={{margin:"10px 30px"}} className={classNames('button-primary',{disabled:!this.state.changed})} type="submit" onClick={()=>{if(this.state.changed){this.save()}}} defaultValue={this.state.saveText}/>
                                  <a className={classNames({hidden:!this.state.changed})} onClick={this.openReset}>Reset</a>
@@ -1249,7 +1249,7 @@ class EditEvent extends React.Component {
                                  <RoomCreate floorPlan={this.state.floorPlan} canCreateTag={this.canCreateTag} callback={this.somethingChanged.bind(this)} eventId={this.state.eventId}/>
                                  <div className="row">
                                     <div className="twelve columns rooms" style={{marginLeft:0}}>
-                                       {this.props.event ? this.props.event.rooms.map((room)=><RoomTag removeAlert={this.openRoomAlert} key={room.id} room={room} eventId={this.props.event.id}/>) : ''}
+                                       {this.props.event ? this.props.event.rooms.map((room)=><RoomTag {...this.props} removeAlert={this.openRoomAlert} key={room.id} room={room} eventId={this.props.event.id}/>) : ''}
                                     </div>
                                  </div>
                               </div>}

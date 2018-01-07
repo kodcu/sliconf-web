@@ -19,7 +19,7 @@ class Events extends Component {
          <div className="container mtop">
             <div className="row">
                <div className="twelve columns">
-                  <PageHead title="Events" {...this.props} />
+                  <PageHead where={"nowhere"} title="Events" {...this.props} />
                   <Loading row="3" loading={this.props.event.loading}>
                      {(this.props.event && this.props.event.active && this.props.event.passive) && (this.props.event.active.length > 0 || this.props.event.passive.length > 0) ?
                         <div>

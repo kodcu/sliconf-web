@@ -28,6 +28,7 @@ import Statics from "./Statics";
 import Speaker from "./Speaker";
 import Error from "./Error";
 import Presentation from "./Presentation";
+import PresentationSelect from "./PresentationSelect";
 
 class App extends Component {
    render() {
@@ -55,6 +56,7 @@ class App extends Component {
                      <PrivateRoute path="/events/:eventId/edit" component={EditEvent}/>
                      <PrivateRoute path="/events/:eventId/moderate" component={ModerateComments}/>
                      <PrivateRoute path="/events/:eventId/statics" component={Statics}/>
+                     <PrivateRoute path="/events/:eventId/presentation" component={PresentationSelect}/>
                      <PrivateRoute path="/events" component={Events}/>
                      <PrivateRoute path="/addeventsuccess" component={AddEventSuccess}/>
                      <PrivateRoute path="/addevent/:isFirst" component={AddEvent}/>

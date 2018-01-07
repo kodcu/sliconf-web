@@ -11,20 +11,20 @@ class RoomCreate extends React.Component {
    state = {
       warning:'',
       label:'',
-      floorId:this.props.floorPlan[0] ? this.props.floorPlan[0].id : '',
+      floor:this.props.floorPlan[0] ? this.props.floorPlan[0].id : '',
       dynamicKeys:1,
    };
 
    getRoomData = () => {
       return {
          label:this.state.label,
-         floorId:this.state.floorId
+         floor:this.state.floor
       }
    };
 
    create = () => {
-      //console.log(this.state.floorId);
-      if(this.state.floorId){
+      //console.log(this.state.floor);
+      if(this.state.floor){
          if(this.props.canCreateTag(this.getRoomData().label, "rooms")){
             this.props.addRoomToLocal({...this.getRoomData(),id:"newid"+this.state.dynamicKeys});
             this.setState({
@@ -58,7 +58,7 @@ class RoomCreate extends React.Component {
    componentWillReceiveProps(nextProps){
       if(nextProps.floorPlan && nextProps.floorPlan.length===1){
          this.setState({
-            floorId:nextProps.floorPlan[0].id
+            floor:nextProps.floorPlan[0].id
          });
       }
    }
@@ -74,7 +74,7 @@ class RoomCreate extends React.Component {
                </div>
                <div className="four columns">
                   <label htmlFor="floorname">Floor</label>
-                  <select className="u-full-width" value={this.state.floorId || ''} onChange={(e) => this.setState({floorId: e.currentTarget.value})}>
+                  <select className="u-full-width" value={this.state.floor || ''} onChange={(e) => this.setState({floor: e.currentTarget.value})}>
                      {this.props.floorPlan.map((floor)=><option key={floor.id} value={floor.id}>{floor.name}</option>)}
                   </select>
                </div>

@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import * as AuthActions from '../reducks/modules/auth'
 import classNames from 'classnames'
 import Validator from '../helpers/Validator';
+import PageHead from "../components/PageHead";
 
 class Settings extends Component {
 
@@ -51,10 +52,7 @@ class Settings extends Component {
                   </div>
                </div>
                <div className="row mbottom10">
-                  <div className="twelve columns">
-                     {this.props.history.length > 1 ? <button className="backButton" onClick={this.props.history.goBack} /> : ''}
-                     <h2 style={{verticalAlign:"top",display: "inline-block"}}>Settings</h2>
-                  </div>
+                  <PageHead where={"nowhere"} title="Settings" {...this.props} />
                   <div className="twelve columns">
                      <Link to="/changepassword">To change your password, click here.</Link>
                   </div>

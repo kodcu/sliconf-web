@@ -1,0 +1,179 @@
+.presentation{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.presentation .scaled {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    transform-origin: left top;
+    background: white;
+    z-index: 3;
+}
+.presentation .leftBar {
+    float: left;
+    width: 30%;
+    height: 100%;
+    background: #fafafa;
+    text-align: center;
+    border-right: 1px solid #ddd;
+}
+.presentation .leftBar .logo {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 50%;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+    overflow:hidden;
+}
+.presentation .leftBar .logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.presentation .leftBar .desc {
+    font-size: 28px;
+    line-height: 30px;
+}
+.presentation .leftBar .desc b {
+    letter-spacing: 5px;
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 28px;
+}
+.presentation .leftBar .joinAt {
+    font-size: 22px;
+}
+.presentation .leftBar .sponsor {
+    width: 240px;
+    height: 150px;
+    margin-top: 30px;
+    overflow: hidden;
+}
+.presentation .leftBar .sponsor .soWidth {
+    /*blur fix*/
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateZ(0) scale(1, 1);
+    transform: translateZ(0);
+    /*20 sponsor max*/
+    width: 4800px;
+    height: 100%;
+    object-fit: contain;
+    transition: 1s transform;
+}
+.presentation .leftBar .sponsor img {
+    float: left;
+    width: 240px;
+    height: 100%;
+    object-fit: contain;
+}
+.presentation .verticalAlign {
+    margin-top: 45px;
+}
+.presentation .rightBar {
+    background: white;
+    width: 70%;
+    float: right;
+}
+.presentation .rightBar h1 {
+    height: 50px;
+    margin-top: 20px;
+    padding-left: 10px;
+    margin-bottom: 20px !important;
+}
+.presentation .rightBar .questions {
+    position: relative;
+    height: 510px;
+    overflow: auto;
+}
+.presentation .rightBar .box {
+    /*blur fix*/
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateZ(0) scale(1, 1);
+    transform: translateZ(0);
+    /**/
+    width: 100%;
+    height: 170px;
+    background: white;
+    box-shadow: 0 2px 0 0 #f3f3f3;
+    position: absolute;
+    transition: 0.5s top, 0.3s background, 0.3s color;
+}
+.presentation .rightBar .box[data-nth='1'] {
+    background: #29b573;
+    color: white;
+}
+.presentation .rightBar .box[data-nth='1'] .name {
+    color: rgba(255, 255, 255, 0.6);
+}
+.presentation .rightBar .box[data-nth='1'] .likes {
+    color: #29b573;
+    background: white;
+}
+.presentation .rightBar .box .name {
+    font-size: 24px;
+    height: 30px;
+    color: rgba(0, 0, 0, 0.6);
+    position: relative;
+    padding: 10px 0 0 10px;
+    transition: 0.3s color;
+}
+.presentation .rightBar .box .likes {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    color: white;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    text-align: center;
+    background: #29b573;
+    border-radius: 50%;
+    font-weight: 800;
+    letter-spacing: 2px;
+    transition: 0.3s background, 0.3s color;
+}
+.presentation .rightBar .box .question {
+    font-size: 36px;
+    height: 120px;
+    min-height: 120px;
+    line-height: 120px;
+    padding-left: 10px;
+}
+.presentation .rightBar .box .question > span {
+    display: inline-block;
+    line-height: 40px;
+    vertical-align: middle;
+}
+@keyframes rubberBand {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 100%, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+.presentation .flashing {
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-name: rubberBand;
+}
+.presentation .blacker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: black;
+}

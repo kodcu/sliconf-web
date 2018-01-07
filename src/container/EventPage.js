@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import * as EventActions from '../reducks/modules/event'
 import moment from 'moment';
 import classNames from 'classnames'
+import PageHead from "../components/PageHead";
 
 class EventPage extends Component {
 
@@ -74,10 +75,8 @@ class EventPage extends Component {
             <div className="row">
                <div className="twelve columns">
                   <div className="row">
-                     <div className="twelve columns">
-                        <h2 style={{color: '#29b573'}}>Add Event</h2>
-                        <h4>Let's create {this.props.match.params.isFirst==="first" ? 'your first' : 'an'} event.</h4>
-                     </div>
+                     <PageHead where={"/events"} title="Add Event" {...this.props} />
+                     <h4>Let's create {this.props.match.params.isFirst==="first" ? 'your first' : 'an'} event.</h4>
                   </div>
                   <div className={classNames('row warning', {'show': this.state.warning})}>
                      <div className="twelve columns">

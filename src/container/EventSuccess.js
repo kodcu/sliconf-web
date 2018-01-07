@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import * as EventActions from '../reducks/modules/event'
 import {connect} from 'react-redux';
+import PageHead from "../components/PageHead";
 
 class EventSuccess extends Component {
 
@@ -22,7 +23,7 @@ class EventSuccess extends Component {
                   <div className="twelve columns">
                      <div className="row">
                         <div className="twelve columns">
-                           <h2>Congratulations!</h2>
+                           <PageHead where={"nowhere"} title="Congratulations!" {...this.props} />
                            <h4>Your event has successfully created.</h4>
                         </div>
                      </div>

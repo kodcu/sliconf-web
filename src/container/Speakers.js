@@ -19,7 +19,7 @@ class Speakers extends React.Component {
          <div className="container mtop">
             <div className="row">
                <div className="twelve columns">
-                  <PageHead title="All Speakers" {...this.props} />
+                  <PageHead where={"/events/"+this.props.match.params.eventId+"/edit"} title="Speakers" {...this.props} />
                   <Loading row="3" loading={this.props.speaker.loading}>
                      <SpeakerList eventId={this.props.match.params.eventId} speakers={this.props.speaker.speakers} topProps={this.props}/>
                      <div className="row mtop25 mbottom100">

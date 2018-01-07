@@ -29,11 +29,16 @@ class RoomTag extends React.Component {
       })
    }
 
+   getFloorName = (room) => {
+      let isEmptyControl = this.props.event.floorPlan.filter((key)=>{return key.id === room.floor;})[0];
+      return  isEmptyControl ? isEmptyControl : "";
+   }
+
    render() {
       const {room} = this.props;
       return (
          <div key={room.id} className="room" style={{background: this.state.color}}>
-            {room.label} <div className="remove" onClick={this.remove}/>
+            {room.label} ({this.getFloorName(room).name}) <div className="remove" onClick={this.remove}/>
          </div>
       );
    }

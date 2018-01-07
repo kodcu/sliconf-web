@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import * as AuthActions from '../reducks/modules/auth'
 import classNames from 'classnames'
 import Validator from '../helpers/Validator';
+import PageHead from "../components/PageHead";
 
 class PassChange extends Component {
 
@@ -80,10 +81,7 @@ class PassChange extends Component {
                <div className="row">
                   <div className="six columns">
                      <div className="row mbottom10">
-                        <div className="twelve columns">
-                           {this.props.history.length > 1 ? <button className="backButton" onClick={this.props.history.goBack} /> : ''}
-                           <h2 style={{verticalAlign:"top",display: "inline-block"}}>Change Password</h2>
-                        </div>
+                        <PageHead where={"/settings"} title="Change Password" {...this.props} />
                      </div>
                      <div className="row">
                         <div className="twelve columns mtop50">
