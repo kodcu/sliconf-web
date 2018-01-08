@@ -85,7 +85,7 @@ class Presentation extends Component {
             sponsorTags: nextProps.event.sponsorTags ? nextProps.event.sponsorTags : {},
             floorPlan : nextProps.event.floorPlan ? nextProps.event.floorPlan : [],
             loading:false,
-            toplam: nextProps.event.sponsors ? nextProps.event.sponsors[Object.keys(nextProps.event.sponsors).filter((el)=>{return el.split("|")[0]==="0"})].filter((el)=>{return el.logo.length>0}).length : 1,
+            toplam: Object.keys(nextProps.event.sponsors).length>0 ? nextProps.event.sponsors[Object.keys(nextProps.event.sponsors).filter((el)=>{return el.split("|")[0]==="0"})].filter((el)=>{return el.logo.length>0}).length : 1,
          }, ()=>{
 
             this.getComments();
@@ -182,19 +182,21 @@ class Presentation extends Component {
 
    combineComments = () => {
       let comments = this.state.comments.slice(0);
-      this.state.newComments.forEach(function(newElement){
-         let changed = false;
-         comments.forEach(function(element){
-            if(newElement.id===element.id){
-               element.like = newElement.like;
-               changed = true;
+      if(this.state.newComments){
+         this.state.newComments.forEach(function(newElement){
+            let changed = false;
+            comments.forEach(function(element){
+               if(newElement.id===element.id){
+                  element.like = newElement.like;
+                  changed = true;
+               }
+            });
+            //if nothing found
+            if(!changed){
+               comments.push(newElement);
             }
          });
-         //if nothing found
-         if(!changed){
-            comments.push(newElement);
-         }
-      });
+      }
       this.setState({comments:comments},()=>{
          this.sortComments();
       });
@@ -249,12 +251,12 @@ class Presentation extends Component {
                      <div className="desc"><span className="joinAt">Join at</span><br />example.com<br /><b>#{this.state.eventCode}</b></div>
                      <div className="sponsor">
                         <div className="soWidth">
-                           {this.state.sponsors.length > 0 ? this.state.sponsors.map((key) => {
+                           {this.state.sponsors ? this.state.sponsors.length > 0 ? this.state.sponsors.map((key) => {
                               if(key.logo){
                                  return <img key={key.logo} src={"http://app.sliconf.com:8090/service/image/get/"+key.logo} alt={key.name} />
                               }
-                           }): ''}
-                           {this.state.sponsors.length > 0 && this.state.sponsors[0].logo!=="" ? <img src={"http://app.sliconf.com:8090/service/image/get/" + (this.state.sponsors[0] ? this.state.sponsors[0].logo : '')} alt={(this.state.sponsors[0] ? this.state.sponsors[0].name : '')} /> : ''}
+                           }): '': ''}
+                           {this.state.sponsors ? this.state.sponsors.length > 0 && this.state.sponsors[0].logo!=="" ? <img src={"http://app.sliconf.com:8090/service/image/get/" + (this.state.sponsors[0] ? this.state.sponsors[0].logo : '')} alt={(this.state.sponsors[0] ? this.state.sponsors[0].name : '')} /> : '' : ''}
                         </div>
                      </div>
                   </div>

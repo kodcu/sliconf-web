@@ -97,7 +97,7 @@ class SpeakerList extends React.Component {
                      }) : null}
                      </tbody>
                   </table>
-                  <ReactTooltip id="editTooltip" place="right" type="dark"  effect="solid"/>
+                  <ReactTooltip id="editTooltip" place="bottom" type="dark"  effect="solid"/>
                </div>
             </div>
          </div>

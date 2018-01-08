@@ -70,7 +70,7 @@ class Speaker extends Component {
       return (
             <div className="container mtop">
                <div className="row">
-                  {this.props.history.length > 1 ? <button className="backButton" onClick={this.props.history.goBack} /> : ''}
+                  {this.props.history.length > 1 ? <button className="backButton" onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/speakers")}} /> : ''}
                </div>
                <div className="row">
                   {this.state.image ?<div className="four columns">

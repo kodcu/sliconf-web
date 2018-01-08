@@ -225,7 +225,7 @@ class AddTalk extends React.Component {
                <div className="twelve columns">
                   <Loading row="3" loading={this.state.loading}>
                      {this.state.speakers && this.state.speakers.length>0 ? this.state.rooms && this.state.rooms.length>0 ? <div className="yea">
-                        <PageHead title={this.props.match.params.talkId ? "Edit Talk" : "Add Talk"} {...this.props} />
+                        <PageHead where={'/events/'+this.props.match.params.eventId+'/talks'} title={this.props.match.params.talkId ? "Edit Talk" : "Add Talk"} {...this.props} />
                            <div className="row">
                               <div className="seven columns">
                                  <div className="row">

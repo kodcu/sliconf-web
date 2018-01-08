@@ -105,7 +105,7 @@ class AddSpeaker extends React.Component {
          <div className="container mtop">
             <div className="row">
                <div className="twelve columns">
-                  <PageHead title={this.state.edit ? "Edit Speaker" : "Add Speaker"} {...this.props} />
+                  <PageHead where={"/events/"+this.props.match.params.eventId+"/speakers"} title={this.state.edit ? "Edit Speaker" : "Add Speaker"} {...this.props} />
                   <div className="row">
                      <div className="six columns">
                         <div className="row">

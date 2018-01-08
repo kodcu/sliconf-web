@@ -48,7 +48,6 @@ class ModerateComments extends Component {
             loading:false,
          }, ()=>{
 
-            this.getComments();
             this.noPendingInterval = setInterval(function () {
                if(this.state.pending.length===0 && this.state.approved.length===0 && this.state.denied.length===0){
                   this.getComments();
