@@ -44,10 +44,6 @@ class AddTalk extends React.Component {
       this.props.fetchEvent(this.props.match.params.eventId);
    }
 
-   componentDidMount(){
-      //console.log(thiass.props.event.agenda);
-   }
-
    componentWillReceiveProps(nextProps) {
       if (nextProps.event && this.props.event !== nextProps.event) {
          this.setState({
@@ -125,9 +121,13 @@ class AddTalk extends React.Component {
       let nV = this.newVersion();
       if(nV!==null){
          this.props.addTalk(this.props.match.params.eventId, nV);
-      }else{
-         alert(this.state.noAlert);
       }
+      /*
+      else{
+         //Bu kisim zaten artik calismiyor. Tooltip olarak gosteriyoruz.
+         //alert(this.state.noAlert);
+      }
+      */
    };
 
    changeValue = (name) => {

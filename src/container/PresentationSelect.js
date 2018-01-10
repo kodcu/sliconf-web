@@ -8,7 +8,7 @@ import PageHead from "../components/PageHead";
 import Loading from "../components/Loading";
 import TalkList from "../components/TalkList";
 
-class Talks extends React.Component {
+class PresentationSelect extends React.Component {
 
    state={
       agenda:this.props.speaker.agenda,
@@ -16,8 +16,11 @@ class Talks extends React.Component {
       rooms:this.props.speaker.rooms
    };
 
+   componentWillMount(){
+      this.props.fetchEventTalks(this.props.match.params.eventId);
+   }
+
    componentWillReceiveProps(nextProps){
-      //console.log(nextProps.speaker.rooms)
       if(this.props.speaker !== nextProps.speaker){
          this.setState({
             agenda:nextProps.speaker.agenda,
@@ -26,16 +29,6 @@ class Talks extends React.Component {
          });
       }
    }
-
-   componentWillMount(){
-      this.props.fetchEventTalks(this.props.match.params.eventId);
-   }
-
-   removeTalk = (index) => {
-      let cloneAgenda = this.props.speaker.agenda ? this.props.speaker.agenda.slice(0) : [];
-      cloneAgenda.splice(Number(cloneAgenda.findIndex((el)=>{return el.id===index})), 1);
-      this.props.addTalk(this.props.match.params.eventId, cloneAgenda)
-   };
 
    presente = (item) => {
       //zero one two ... (ayni karakter varsa bir sonraki harfi alir)
@@ -47,8 +40,6 @@ class Talks extends React.Component {
       }
       this.props.history.push("/p/"+this.props.match.params.eventId+""+text);
    };
-
-
 
    render() {
       return (
@@ -84,4 +75,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
    return bindActionCreators({...talkActions}, dispatch)
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Talks)
+export default connect(mapStateToProps, mapDispatchToProps)(PresentationSelect)

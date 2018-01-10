@@ -137,9 +137,13 @@ class AddTalk extends React.Component {
       let nV = this.newVersion();
       if(nV!==null){
          this.props.addTalk(this.props.match.params.eventId, nV);
-      }else{
-         alert(this.state.noAlert);
       }
+      /*
+      else{
+         //Bu kisim zaten artik calismiyor. Tooltip olarak gosteriyoruz.
+         //alert(this.state.noAlert);
+      }
+      */
 
    };
 

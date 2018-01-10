@@ -49,7 +49,7 @@
     font-size: 28px;
 }
 .presentation .leftBar .joinAt {
-    font-size: 22px;
+    font-size: 18px;
 }
 .presentation .leftBar .sponsor {
     width: 240px;
@@ -83,10 +83,14 @@
     float: right;
 }
 .presentation .rightBar h1 {
-    height: 50px;
+    height: 70px;
     margin-top: 20px;
     padding-left: 10px;
-    margin-bottom: 20px !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 20px;
+    box-shadow: 0 5px 11px -9px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 9999;
 }
 .presentation .rightBar .questions {
     position: relative;
@@ -104,7 +108,7 @@
     background: white;
     box-shadow: 0 2px 0 0 #f3f3f3;
     position: absolute;
-    transition: 0.5s top, 0.3s background, 0.3s color;
+    transition: 0.5s top, 0.3s background, 0.3s color, 0.4s height;
 }
 .presentation .rightBar .box[data-nth='1'] {
     background: #29b573;
@@ -147,11 +151,14 @@
     min-height: 120px;
     line-height: 120px;
     padding-left: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+    transition:0.4s all;
 }
 .presentation .rightBar .box .question > span {
-    display: inline-block;
     line-height: 40px;
     vertical-align: middle;
+    display: inline-block;
 }
 @keyframes rubberBand {
     from {
@@ -176,4 +183,27 @@
     height: 100%;
     z-index: 2;
     background: black;
+}
+
+
+.presentation .rightBar .box.focus .question {
+    height: 470px;
+    min-height: 470px;
+    line-height: 470px;
+}
+
+.presentation .rightBar .box.focus {
+    height: 510px !important;
+}
+
+.presentation .rightBar .box::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: transparent;
+    z-index: 3333;
+    display: block;
+    position: absolute;
 }

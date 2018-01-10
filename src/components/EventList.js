@@ -1,6 +1,7 @@
 import React from 'react';
 import Ionicon from 'react-ionicons'
 import ReactTooltip from 'react-tooltip'
+import classNames from 'classnames';
 
 const EventsNotAvailable = () => {
    return (
@@ -12,9 +13,9 @@ const EventsNotAvailable = () => {
 
 const PercentageCircle = (props) => {
    return (
-      <div className="percentage">
+      <div className={classNames('percentage', {'y':(!props.failed)})} data-perc={props.percentage}>
          {props.failed ?
-            <div id="percentageActiveBorder" style={{backgroundColor:"#F44336",backgroundImage:(props.percentage*3.6>180 ? 'linear-gradient(' + (props.percentage*3.6-90) + 'deg, transparent 50%, #F44336 50%),linear-gradient(90deg, #ff8b83 50%, transparent 50%)' : 'linear-gradient(' + (90+(props.percentage*3.6)) + 'deg, transparent 50%, #ff8b83 50%),linear-gradient(90deg, #ff8b83 50%, transparent 50%)')}} className="percentage-active-border">
+            <div id="percentageActiveBorder" style={{backgroundColor:"#F44336",backgroundImage:(props.percentage*3.6>180 ? 'linear-gradient(' + (props.percentage*3.6-90) + 'deg, transparent 50%, #F44336 50%),linear-gradient(90deg, #ffb9b4 50%, transparent 50%)' : 'linear-gradient(' + (90+(props.percentage*3.6)) + 'deg, transparent 50%, #ffb9b4 50%),linear-gradient(90deg, #ffb9b4 50%, transparent 50%)')}} className="percentage-active-border">
                <div className="percentageCircle" />
             </div>
             :
@@ -108,7 +109,7 @@ class EventList extends React.Component {
                         <tbody>
                         {(this.state.events && this.state.events.length) ? null : <EventsNotAvailable/> }
                         {this.state.events ? this.state.events.map((event)=>{
-                           return <tr data-tip="Click to Edit" key={event.id} onClick={() => this.props.history.push('/events/'+event.key+'/edit')}>
+                           return <tr data-tip="Click to Edit" data-offset="{'top': 2}" key={event.id} onClick={() => this.props.history.push('/events/'+event.key+'/edit')}>
                               <td><div className='eventimage' style={{backgroundImage:'url(http://app.sliconf.com:8090/service/image/get/'+event.logoPath+')'}}/></td>
                               <td>{event.name}</td>
                               <td style={{textAlign: "center"}} className="miniCode">{event.key}</td>
@@ -132,7 +133,7 @@ class EventList extends React.Component {
                                  <button data-tip="Show Agenda" onClick={() => this.props.history.push('/events/'+event.key+'/talks')}><Ionicon icon="ios-microphone-outline" fontSize="20px" color="black"/></button>
                                  <ReactTooltip place="bottom" type="dark" effect="solid"/>
                               </td>*/}
-                              <ReactTooltip id={'global'+event.key} place="left" type="dark" effect="solid">
+                              <ReactTooltip className={"higher"} id={'global'+event.key} place="left" type="dark" effect="solid">
                                  This event will NOT show up on Mobile Devices.<br />Please add more info about your Event<br />
                                  <div style={{whiteSpace:"pre"}}>
                                  {event.statusDetails.failed.join("\n")}
@@ -142,7 +143,7 @@ class EventList extends React.Component {
                                  </div>
                               </ReactTooltip>
 
-                              <ReactTooltip id={'maybe'+event.key} place="left" type="dark" effect="solid">
+                              <ReactTooltip className={"higher"} id={'maybe'+event.key} place="left" type="dark" effect="solid">
                                  This event will show up on Mobile Devices<br /> but participants can always use more info.<br />
                                  <div style={{whiteSpace:"pre"}}>
                                     {event.statusDetails.optionalFailed.join("\n")}

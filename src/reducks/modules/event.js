@@ -6,19 +6,21 @@ const FETCH_EVENT = 'event/FETCH_EVENT';
 const FETCH_EVENT_SUCCESS = 'event/FETCH_EVENT_SUCCESS';
 const FETCH_EVENT_FAIL = 'event/FETCH_EVENT_FAIL';
 
-const ADD_SPEAKER = 'event/SAVE_SPEAKER';
+/*
+const ADD_SPEAKER = 'event/EDIT_EVENT';
 const ADD_SPEAKER_SUCCESS = 'event/SAVE_SPEAKER_SUCCESS';
 const ADD_SPEAKER_FAIL = 'event/SAVE_SPEAKER_FAIL';
+*/
 
-const ADD_EVENT = 'event/ADD_EVENT';
+const ADD_EVENT = 'event/EDIT_EVENT';
 const ADD_EVENT_SUCCESS = 'event/ADD_EVENT_SUCCESS';
-const ADD_EVENT_FAIL = 'event/ADD_EVENT_FAIL';
+const ADD_EVENT_FAIL = 'event/ADD_SPEAKER_FAIL';
 
-const FETCH_EVENTS = 'event/FETCH_EVENTS';
+const FETCH_EVENTS = 'event/EDIT_EVENT';
 const FETCH_EVENTS_SUCCESS = 'event/FETCH_EVENTS_SUCCESS';
 const FETCH_EVENTS_FAIL = 'event/FETCH_EVENTS_FAIL';
 
-const FETCH_ROOMS = 'event/FETCH_ROOMS';
+const FETCH_ROOMS = 'event/EDIT_EVENT';
 const FETCH_ROOMS_SUCCESS = 'event/FETCH_ROOMS_SUCCESS';
 const FETCH_ROOMS_FAIL = 'event/FETCH_ROOMS_FAIL';
 
@@ -38,15 +40,15 @@ const ADD_FLOOR_TO_LOCAL = 'event/ADD_FLOOR_TO_LOCAL';
 
 const EDIT_EVENT = 'event/EDIT_EVENT';
 const EDIT_EVENT_SUCCESS = 'event/EDIT_EVENT_SUCCESS';
-const EDIT_EVENT_FAIL = 'event/EDIT_EVENT_FAIL';
+const EDIT_EVENT_FAIL = 'event/FETCH_EVENT_FAIL';
 
-const DELETE_EVENT = 'event/DELETE_EVENT';
+const DELETE_EVENT = 'event/EDIT_EVENT';
 const DELETE_EVENT_SUCCESS = 'event/DELETE_EVENT_SUCCESS';
-const DELETE_EVENT_FAIL = 'event/DELETE_EVENT_FAIL';
+const DELETE_EVENT_FAIL = 'event/FETCH_EVENT_FAIL';
 
-const EDIT_TAB = 'event/EDIT_TAB';
+const EDIT_TAB = 'event/EDIT_EVENT';
 const EDIT_TAB_SUCCESS = 'event/EDIT_TAB_SUCCESS';
-const EDIT_TAB_FAIL = 'event/EDIT_TAB_FAIL';
+const EDIT_TAB_FAIL = 'event/FETCH_EVENT_FAIL';
 
 const initialState = {
    loading: false,
@@ -109,36 +111,12 @@ export default function reducer(state = initialState, action = {}) {
             event: fillTheBlanks2,
             error: null
          };
-      case EDIT_EVENT_FAIL:
-         return {
-            ...state,
-            loading: false,
-            event: null,
-            error: action.error
-         };
-      case DELETE_EVENT:
-         return {
-            ...state,
-            loading: true
-         };
       case DELETE_EVENT_SUCCESS:
          return {
             ...state,
             event: null,
             removed:true,
             error: null
-         };
-      case DELETE_EVENT_FAIL:
-         return {
-            ...state,
-            loading: false,
-            event: null,
-            error: action.error
-         };
-      case EDIT_TAB:
-         return {
-            ...state,
-            loading: true
          };
       case EDIT_TAB_SUCCESS:
          //console.log(state);
@@ -151,19 +129,7 @@ export default function reducer(state = initialState, action = {}) {
             event: Object.assign({}, state.event, fillTheBlanks3),
             error: null
          };
-      case EDIT_TAB_FAIL:
-         return {
-            ...state,
-            loading: false,
-            event: null,
-            error: action.error
-         };
       // events
-      case FETCH_EVENTS:
-         return {
-            ...state,
-            loading: true
-         };
       case FETCH_EVENTS_SUCCESS:
          return {
             ...state,
@@ -179,11 +145,6 @@ export default function reducer(state = initialState, action = {}) {
             error: action.error
          };
       // rooms
-      case FETCH_ROOMS:
-         return {
-            ...state,
-            loading: true
-         };
       case FETCH_ROOMS_SUCCESS:
          return {
             ...state,
@@ -198,11 +159,7 @@ export default function reducer(state = initialState, action = {}) {
             error: action.error
          };
       // add speaker to event
-      case ADD_SPEAKER:
-         return {
-            ...state,
-            loading: true
-         };
+      /*
       case ADD_SPEAKER_SUCCESS:
          return {
             ...state,
@@ -216,12 +173,8 @@ export default function reducer(state = initialState, action = {}) {
             loading: false,
             error: action.error
          };
+      */
       // add event to system
-      case ADD_EVENT:
-         return {
-            ...state,
-            loading: true
-         };
       case ADD_EVENT_SUCCESS:
          return {
             ...state,
@@ -230,12 +183,6 @@ export default function reducer(state = initialState, action = {}) {
             error: null,
             status:action.result.status,
             message:action.result.message,
-         };
-      case ADD_EVENT_FAIL:
-         return {
-            ...state,
-            loading: false,
-            error: action.error
          };
       case REMOVE_ROOM_FROM_LOCAL:
          return {

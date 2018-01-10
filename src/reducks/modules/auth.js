@@ -4,9 +4,9 @@ const LOAD_FAIL = 'auth/LOAD_FAIL';
 const LOGIN = 'auth/LOGIN';
 const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS';
 const LOGIN_FAIL = 'auth/LOGIN_FAIL';
-const REGISTER = 'auth/REGISTER';
+const REGISTER = 'auth/LOGIN';
 const REGISTER_SUCCESS = 'auth/REGISTER_SUCCESS';
-const REGISTER_FAIL = 'auth/REGISTER_FAIL';
+const REGISTER_FAIL = 'auth/LOGIN_FAIL';
 const RESETPASS = 'auth/REGISTER';
 const RESETPASS_SUCCESS = 'auth/REGISTER_SUCCESS';
 const RESETPASS_FAIL = 'auth/REGISTER_FAIL';
@@ -18,10 +18,10 @@ const LOGOUT_SUCCESS = 'auth/LOGOUT_SUCCESS';
 const LOGOUT_FAIL = 'auth/LOGOUT_FAIL';
 const UPDATE = 'auth/UPDATE';
 const UPDATE_SUCCESS = 'auth/UPDATE_SUCCESS';
-const UPDATE_FAIL = 'auth/UPDATE_FAIL';
-const CHANGEPASS = 'auth/CHANGEPASS';
+const UPDATE_FAIL = 'auth/LOAD_FAIL';
+const CHANGEPASS = 'auth/UPDATE';
 const CHANGEPASS_SUCCESS = 'auth/CHANGEPASS_SUCCESS';
-const CHANGEPASS_FAIL = 'auth/CHANGEPASS_FAIL';
+const CHANGEPASS_FAIL = 'auth/LOAD_FAIL';
 
 const initialState = {
    loaded: false,
@@ -72,12 +72,6 @@ export default function reducer(state = initialState, action = {}) {
             user: null,
             loginError: action.error
          };
-      case REGISTER:
-         return {
-            ...state,
-            message:"",
-            loggingIn: true
-         };
       case REGISTER_SUCCESS:
          return {
             ...state,
@@ -85,58 +79,6 @@ export default function reducer(state = initialState, action = {}) {
             status: action.result.status,
             message: action.result.message,
             user: action.result.returnObject,
-         };
-      case REGISTER_FAIL:
-         return {
-            ...state,
-            loggingIn: false,
-            user: null,
-            loginError: action.error
-         };
-      case RESETPASS:
-         return {
-            ...state,
-            message:"",
-            loading: true
-         };
-      case RESETPASS_SUCCESS:
-         return {
-            ...state,
-            loading: false,
-            loaded: true,
-            status: action.result.status,
-            message: action.result.message,
-            error:null,
-         };
-      case RESETPASS_FAIL:
-         //console.log(action.error)
-         return {
-            ...state,
-            loading: false,
-            loaded: true,
-            error: action.error
-         };
-      case FORGOTPASS:
-         return {
-            ...state,
-            message:"",
-            loading: true
-         };
-      case FORGOTPASS_SUCCESS:
-         return {
-            ...state,
-            loading: false,
-            loaded: true,
-            status: action.result.status,
-            message: action.result.message,
-            error:null,
-         };
-      case FORGOTPASS_FAIL:
-         return {
-            ...state,
-            loading: false,
-            loaded: true,
-            error: action.error
          };
       case LOGOUT:
          return {
@@ -181,19 +123,6 @@ export default function reducer(state = initialState, action = {}) {
                error:true,
             }
          }
-
-      case UPDATE_FAIL:
-         return {
-            ...state,
-            loading: false,
-            loaded: false,
-            error: action.error
-         };
-      case CHANGEPASS:
-         return {
-            ...state,
-            loading: true
-         };
       case CHANGEPASS_SUCCESS:
          return {
             ...state,
@@ -203,13 +132,6 @@ export default function reducer(state = initialState, action = {}) {
             error:null,
             status: action.result.status,
             message: action.result.message
-         };
-      case CHANGEPASS_FAIL:
-         return {
-            ...state,
-            loading: false,
-            loaded: false,
-            error: action.error
          };
       default:
          return state;

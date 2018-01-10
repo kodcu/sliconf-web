@@ -17,20 +17,26 @@ class ModerateComments extends Component {
       clearing:false,
    };
 
+   oneTime = true;
+   noPendingInterval;
 
    componentDidMount() {
       this.props.fetchEvent(this.props.match.params.eventId);
+   }
 
+   componentWillUnmount(){
+      clearInterval(this.noPendingInterval);
    }
 
    getComments = () => {
-      this.props.getPending(this.state.id);
+      this.props.getComments("recent", "pending", 20, this.state.id);
    };
 
-   noPendingInterval;
+
 
    componentWillReceiveProps(nextProps) {
-      if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) {
+      if (((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) && this.oneTime) {
+         this.oneTime = false;
          if(nextProps.event.deleted===true){
             this.props.history.push("/");
          }
@@ -47,8 +53,9 @@ class ModerateComments extends Component {
             floorPlan : nextProps.event.floorPlan ? nextProps.event.floorPlan : [],
             loading:false,
          }, ()=>{
-
+            this.getComments();
             this.noPendingInterval = setInterval(function () {
+               console.log(this.state.pending,this.state.approved,this.state.denied);
                if(this.state.pending.length===0 && this.state.approved.length===0 && this.state.denied.length===0){
                   this.getComments();
                }

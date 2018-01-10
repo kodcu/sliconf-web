@@ -2,9 +2,9 @@ const ADD_ROOM = 'event/ADD_ROOM';
 const ADD_ROOM_SUCCESS = 'event/ADD_ROOM_SUCCESS';
 const ADD_ROOM_FAIL = 'event/ADD_ROOM_FAIL';
 
-const REMOVE_ROOM = 'event/REMOVE_ROOM';
+const REMOVE_ROOM = 'event/ADD_ROOM';
 const REMOVE_ROOM_SUCCESS = 'event/REMOVE_ROOM_SUCCESS';
-const REMOVE_ROOM_FAIL = 'event/REMOVE_ROOM_FAIL';
+const REMOVE_ROOM_FAIL = 'event/ADD_ROOM_FAIL';
 
 
 const initialState = {
@@ -39,24 +39,12 @@ export default function reducer(state = initialState, action = {}) {
             error: action.error
          };
       // remove room
-      case REMOVE_ROOM:
-         return {
-            ...state,
-            loading: true
-         };
       case REMOVE_ROOM_SUCCESS:
          return {
             ...state,
             loading: false,
             del: action.result,
             error: null
-         };
-      case REMOVE_ROOM_FAIL:
-         return {
-            ...state,
-            loading: false,
-            result: null,
-            error: action.error
          };
       default:
          return state;

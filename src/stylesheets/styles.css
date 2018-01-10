@@ -2210,3 +2210,58 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
     vertical-align: middle;
 
 }
+
+.higher{
+    z-index:1000 !important;
+}
+
+.percentage{
+    transition:0.2s all;
+    width: 24px;
+    margin: 0 auto;
+    overflow:hidden;
+}
+
+td:hover .percentage{
+    transform: scale(4) translateY(-1.3px);
+}
+
+td:hover .percentage::before{
+    color:white;
+}
+
+td:hover .percentage::after{
+    background: #f44437;
+    box-shadow: 0 0 0 0.1px #f44437;
+}
+
+.percentage.y::before, .percentage.y::after{
+    display:none;
+}
+
+.percentage::before {
+    content: attr(data-perc) "%";
+    position: absolute;
+    z-index: 3;
+    line-height: 30px;
+    font-size: 4px;
+    width: 21px;
+    color: transparent;
+    transition:0.3s color;
+}
+
+.percentage::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    line-height: 30px;
+    font-size: 7px;
+    width: 10px;
+    background: transparent;
+    height: 10px;
+    top: 9px;
+    left: 7px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0.2px transparent;
+    transition:0.3s all;
+}

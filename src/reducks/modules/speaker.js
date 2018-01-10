@@ -9,19 +9,19 @@ const ADD_SPEAKER = 'speaker/ADD_SPEAKER';
 const ADD_SPEAKER_SUCCESS = 'speaker/ADD_SPEAKER_SUCCESS';
 const ADD_SPEAKER_FAIL = 'speaker/ADD_SPEAKER_FAIL';
 
-const ADD_TALK = 'speaker/ADD_TALK';
+const ADD_TALK = 'speaker/FETCH_SPEAKER';
 const ADD_TALK_SUCCESS = 'speaker/ADD_TALK_SUCCESS';
 const ADD_TALK_FAIL = 'speaker/ADD_TALK_FAIL';
 
-const FETCH_SPEAKERS = 'speaker/FETCH_SPEAKERS';
+const FETCH_SPEAKERS = 'speaker/ADD_SPEAKER';
 const FETCH_SPEAKERS_SUCCESS = 'speaker/FETCH_SPEAKERS_SUCCESS';
 const FETCH_SPEAKERS_FAIL = 'speaker/FETCH_SPEAKERS_FAIL';
 
-const FETCH_TALK = 'speaker/FETCH_TALK';
+const FETCH_TALK = 'speaker/FETCH_SPEAKER';
 const FETCH_TALK_SUCCESS = 'speaker/FETCH_TALK_SUCCESS';
 const FETCH_TALK_FAIL = 'speaker/FETCH_TALK_FAIL';
 
-const FETCH_TALKS = 'speaker/FETCH_TALKS';
+const FETCH_TALKS = 'speaker/FETCH_SPEAKER';
 const FETCH_TALKS_SUCCESS = 'speaker/FETCH_TALKS_SUCCESS';
 const FETCH_TALKS_FAIL = 'speaker/FETCH_TALKS_FAIL';
 
@@ -78,11 +78,6 @@ export default function reducer(state = initialState, action = {}) {
             error: action.error
          };
       // -----
-      case ADD_TALK:
-         return {
-            ...state,
-            loading: true
-         };
       case ADD_TALK_SUCCESS:
          //console.log("ye");
          //console.log(action);
@@ -100,12 +95,6 @@ export default function reducer(state = initialState, action = {}) {
             error: action.error
          };
       // -----
-      case FETCH_SPEAKERS:
-         return {
-            ...state,
-            added:false,
-            loading: true
-         };
       case FETCH_SPEAKERS_SUCCESS:
          return {
             ...state,
@@ -122,11 +111,6 @@ export default function reducer(state = initialState, action = {}) {
             error: action.error
          };
       // -----
-      case FETCH_TALK:
-         return {
-            ...state,
-            loading: true
-         };
       case FETCH_TALK_SUCCESS:
          return {
             ...state,
@@ -141,11 +125,6 @@ export default function reducer(state = initialState, action = {}) {
             error: action.error
          };
       // -----
-      case FETCH_TALKS:
-         return {
-            ...state,
-            loading: true
-         };
       case FETCH_TALKS_SUCCESS:
          //console.log(action.result.returnObject.agenda)
          return {

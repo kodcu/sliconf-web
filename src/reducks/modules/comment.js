@@ -2,12 +2,11 @@ const GETCOMMENTS = 'comment/GETCOMMENTS';
 const GETCOMMENTS_SUCCESS = 'comment/GETCOMMENTS_SUCCESS';
 const GETCOMMENTS_FAIL = 'comment/GETCOMMENTS_FAIL';
 
-const PUSHCOMMENTS = 'comment/PUSHCOMMENTS';
+const PUSHCOMMENTS = 'comment/GETCOMMENTS';
 const PUSHCOMMENTS_SUCCESS = 'comment/PUSHCOMMENTS_SUCCESS';
-const PUSHCOMMENTS_FAIL = 'comment/PUSHCOMMENTS_FAIL';
+const PUSHCOMMENTS_FAIL = 'comment/GETCOMMENTS_FAIL';
 
 const initialState = {
-   DENEME:"DENEME",
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -19,7 +18,6 @@ export default function reducer(state = initialState, action = {}) {
             loaded:false,
          };
       case GETCOMMENTS_SUCCESS:
-
          return {
             ...state,
             error: null,
@@ -34,12 +32,6 @@ export default function reducer(state = initialState, action = {}) {
             loaded: false,
             error: action.error
          };
-      case PUSHCOMMENTS:
-         return {
-            ...state,
-            error: false,
-            loaded:false,
-         };
       case PUSHCOMMENTS_SUCCESS:
          return {
             ...state,
@@ -49,29 +41,17 @@ export default function reducer(state = initialState, action = {}) {
             message: action.result.message,
             returnObject: action.result.returnObject,
          };
-      case PUSHCOMMENTS_FAIL:
-         return {
-            ...state,
-            loaded: false,
-            error: action.error
-         };
       default:
          return state;
    }
 }
 
 
-export function getComments(eventId, talkId) {
+export function getComments(listType, type, limit, eventId, talkId) {
+   if(talkId){eventId = eventId+'/'+talkId;}
    return {
       types: [GETCOMMENTS, GETCOMMENTS_SUCCESS, GETCOMMENTS_FAIL],
-      promise: (client) => client.get('/events/comment/list/approved/'+eventId+'/'+talkId+'?count=20&type=top-rated')
-   }
-}
-
-export function getPending(eventId) {
-   return {
-      types: [GETCOMMENTS, GETCOMMENTS_SUCCESS, GETCOMMENTS_FAIL],
-      promise: (client) => client.get('/events/comment/list/pending/'+eventId+'?count=20&type=recent')
+      promise: (client) => client.get('/events/comment/list/'+type+'/'+eventId+'?count='+limit+'&type='+listType)
    }
 }
 

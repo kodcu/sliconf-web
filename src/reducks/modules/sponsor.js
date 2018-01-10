@@ -2,9 +2,9 @@ const ADD_SPONSOR = 'event/ADD_SPONSOR';
 const ADD_SPONSOR_SUCCESS = 'event/ADD_SPONSOR_SUCCESS';
 const ADD_SPONSOR_FAIL = 'event/ADD_SPONSOR_FAIL';
 
-const REMOVE_SPONSOR = 'event/REMOVE_SPONSOR';
+const REMOVE_SPONSOR = 'event/ADD_SPONSOR';
 const REMOVE_SPONSOR_SUCCESS = 'event/REMOVE_SPONSOR_SUCCESS';
-const REMOVE_SPONSOR_FAIL = 'event/REMOVE_SPONSOR_FAIL';
+const REMOVE_SPONSOR_FAIL = 'event/ADD_SPONSOR_FAIL';
 
 
 const initialState = {
@@ -38,25 +38,12 @@ export default function reducer(state = initialState, action = {}) {
             result: null,
             error: action.error
          };
-      // remove SPONSOR
-      case REMOVE_SPONSOR:
-         return {
-            ...state,
-            loading: true
-         };
       case REMOVE_SPONSOR_SUCCESS:
          return {
             ...state,
             loading: false,
             del: action.result,
             error: null
-         };
-      case REMOVE_SPONSOR_FAIL:
-         return {
-            ...state,
-            loading: false,
-            result: null,
-            error: action.error
          };
       default:
          return state;

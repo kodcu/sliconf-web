@@ -354,25 +354,17 @@ class EditEvent extends React.Component {
          waitingToSave = this.instantGratification(()=>{
             if(this.state.saveText==="SAVED!" || this.state.saveText==="SAVE"){
                clearInterval(waitingToSave);
-               if(tab==="speakers"){
-                  this.props.history.push("/events/"+this.props.match.params.eventId+"/speakers/")
-                  return false;
-               }else if(tab==="agenda"){
-                  this.props.history.push("/events/"+this.props.match.params.eventId+"/talks/")
-                  return false;
-               }else if(tab==="statics"){
-                  this.props.history.push("/events/"+this.props.match.params.eventId+"/statics/")
-                  return false;
-               }else if(tab==="comments"){
-                  this.props.history.push("/events/"+this.props.match.params.eventId+"/moderate/")
-                  return false;
-               }else if(tab==="presentation"){
-                  this.props.history.push("/events/"+this.props.match.params.eventId+"/presentation/")
+               let where = tab;
+               if(tab==="agenda"){where = "talks"}
+               else if(tab==="comments"){where = "moderate"}
+               if(tab==="speakers" || tab==="agenda" || tab==="statics" || tab==="comments" || tab==="presentation"){
+                  this.props.history.push("/events/"+this.props.match.params.eventId+"/"+where+"/");
                   return false;
                }else{
                   this.setState({activeTab:tab});
                   this.props.history.push("/events/"+this.props.match.params.eventId+"/edit/"+tab);
                }
+
             }
             return true;
          },100);

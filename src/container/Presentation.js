@@ -21,7 +21,7 @@ class Presentation extends Component {
       nth:0,
       toplam:1,
       logoPath: "https://trello-attachments.s3.amazonaws.com/58dfa1cf30e8221b3b4afb96/59c263323c5316634be52db8/x/239de66be9ba10b2beccec24c0969f0c/mavi-01.png",
-      eventCode: this.props.match.params.eventId,
+      eventCode: this.props.match.params.eventId.toUpperCase(),
 
    };
 
@@ -40,6 +40,7 @@ class Presentation extends Component {
       }
 
       window.removeEventListener("resize", this.updateDimensions);
+      window.removeEventListener("mousewheel", ()=>{this.boxClick()});
       document.querySelector(".navbar").style.display = "block";
    }
 
@@ -56,15 +57,55 @@ class Presentation extends Component {
 
       {console.log(this.props)}
 
-
-
       this.updateDimensions();
       window.addEventListener("resize", this.updateDimensions);
-      this.props.fetchEvent(this.props.match.params.eventId.slice(0,4));
+      window.addEventListener("mousewheel", ()=>{this.boxClick()});
+      this.props.fetchEvent(this.props.match.params.eventId.toUpperCase().slice(0,4));
 
    }
 
+   easeInOutQuad = (t, b, c, d) => {
+      t /= d/2;
+      if (t < 1) return c/2*t*t + b;
+      t--;
+      return -c/2 * (t*(t-2) - 1) + b;
+   };
 
+   scrollTo = (element, to, duration) => {
+      let start = element.scrollTop,
+         change = to - start,
+         currentTime = 0,
+         increment = 4;
+      let easeInOutQuad = this.easeInOutQuad;
+      let animateScroll = function(){
+         currentTime += increment;
+         element.scrollTop = easeInOutQuad(currentTime, start, change, duration);
+         if(currentTime < duration) {
+            setTimeout(animateScroll, increment);
+         }
+      };
+      animateScroll();
+   };
+
+   boxClick = (el) => {
+      let va = el ? el.target.classList.contains("focus") : '';
+      let childDivs = document.querySelectorAll('.box.focus');
+      let i;
+      for( i=0; i< childDivs.length; i++ ){
+         let childDiv = childDivs[i];
+         childDiv.classList.remove("focus");
+      }
+
+      if(el) {
+         if (va) {
+            console.log("ye");
+            el.target.classList.remove("focus");
+         } else {
+            el.target.classList.add("focus");
+         }
+         this.scrollTo(el.path[1], (el.target.getAttribute("data-nth") - 1) * 170, 400);
+      }
+   };
 
 
    componentWillReceiveProps(nextProps) {
@@ -132,9 +173,9 @@ class Presentation extends Component {
    };
 
    getComments = () => {
-      let nIndex = this.textToNumber(this.props.match.params.eventId.slice(4));
+      let nIndex = this.textToNumber(this.props.match.params.eventId.toUpperCase().slice(4));
       if(this.state.agenda[nIndex]){
-         this.props.getComments(this.state.id, this.state.agenda[nIndex].id);
+         this.props.getComments("top-rated", "approved", 20, this.state.id, this.state.agenda[nIndex].id);
       }else{
          console.log("Talk Error")
       }
@@ -167,6 +208,7 @@ class Presentation extends Component {
       let i;
       for( i=0; i< childDivs.length; i++ ){
          let childDiv = childDivs[i];
+         childDiv.addEventListener("click", this.boxClick);
          childDiv.style.top = ((childDiv.getAttribute("data-nth")-1)*170)+"px";
          childDiv.style.zIndex = 100-childDiv.getAttribute("data-nth");
       }
@@ -187,7 +229,7 @@ class Presentation extends Component {
             let changed = false;
             comments.forEach(function(element){
                if(newElement.id===element.id){
-                  element.like = newElement.like;
+                  element.rate = newElement.rate;
                   changed = true;
                }
             });
@@ -208,20 +250,21 @@ class Presentation extends Component {
          let oldComment = document.querySelector(".box[data-nth='"+(i+1)+"'] .likes");
          let questions = document.querySelector(".questions");
          if(oldComment){
-            oldComment.innerHTML = element.like
+            oldComment.innerHTML = element.rate
          }else{
             let newComment = document.createElement("div");
+            let who = element.fullname !=="Guest" ? element.fullname : element.username;
             newComment.className = "box flashing";
             questions.appendChild(newComment);
             newComment.setAttribute("data-nth", (i+1));
-            newComment.innerHTML += '<div class="name">'+element.username+'<div class="likes">'+element.like+'</div></div><div class="question"><span class="middler">'+element.commentValue+'</span></div>';
+            newComment.innerHTML += '<div class="name">'+who+'<div class="likes">'+element.rate+'</div></div><div class="question"><span class="middler">'+element.commentValue+'</span></div>';
          }
       });
       let swapped;
       do {
          swapped = false;
          for (let i=0; i < comments.length-1; i++) {
-            if (comments[i].like < comments[i+1].like) {
+            if (comments[i].rate < comments[i+1].rate) {
                let temp = comments[i];
                comments[i] = comments[i+1];
                comments[i+1] = temp;
@@ -248,7 +291,7 @@ class Presentation extends Component {
                      <div className="logo">
                         <img src={"http://app.sliconf.com:8090/service/image/get/"+this.state.logoPath} alt="" />
                      </div>
-                     <div className="desc"><span className="joinAt">Join at</span><br />example.com<br /><b>#{this.state.eventCode}</b></div>
+                     <div className="desc"><span className="joinAt">Get the app from</span><br />sliconf.com<br /><b>#{this.state.eventCode}</b></div>
                      <div className="sponsor">
                         <div className="soWidth">
                            {this.state.sponsors ? this.state.sponsors.length > 0 ? this.state.sponsors.map((key) => {

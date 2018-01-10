@@ -2,9 +2,9 @@ const ADD_TAG = 'event/ADD_TAG';
 const ADD_TAG_SUCCESS = 'event/ADD_TAG_SUCCESS';
 const ADD_TAG_FAIL = 'event/ADD_TAG_FAIL';
 
-const REMOVE_TAG = 'event/REMOVE_TAG';
+const REMOVE_TAG = 'event/ADD_TAG';
 const REMOVE_TAG_SUCCESS = 'event/REMOVE_TAG_SUCCESS';
-const REMOVE_TAG_FAIL = 'event/REMOVE_TAG_FAIL';
+const REMOVE_TAG_FAIL = 'event/ADD_TAG_FAIL';
 
 
 const initialState = {
@@ -38,25 +38,12 @@ export default function reducer(state = initialState, action = {}) {
             result: null,
             error: action.error
          };
-      // remove TAG
-      case REMOVE_TAG:
-         return {
-            ...state,
-            loading: true
-         };
       case REMOVE_TAG_SUCCESS:
          return {
             ...state,
             loading: false,
             del: action.result,
             error: null
-         };
-      case REMOVE_TAG_FAIL:
-         return {
-            ...state,
-            loading: false,
-            result: null,
-            error: action.error
          };
       default:
          return state;
