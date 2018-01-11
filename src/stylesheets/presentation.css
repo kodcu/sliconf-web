@@ -137,13 +137,14 @@
     width: 40px;
     height: 40px;
     line-height: 40px;
-    font-size: 20px;
+    font-size: 19px;
     text-align: center;
     background: #29b573;
     border-radius: 50%;
     font-weight: 800;
     letter-spacing: 2px;
     transition: 0.3s background, 0.3s color;
+    overflow: hidden;
 }
 .presentation .rightBar .box .question {
     font-size: 36px;

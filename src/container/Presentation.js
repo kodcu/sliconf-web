@@ -278,9 +278,8 @@ class Presentation extends Component {
       });
 
    };
-
-   //TODO sponsorun logosu yok ise patlamasin
-
+   //TODO 1000'den yuksek oylari kucult
+   //TODO slice'i kaldir
    render() {
       return (
          <div className="presentation">
@@ -291,7 +290,7 @@ class Presentation extends Component {
                      <div className="logo">
                         <img src={"http://app.sliconf.com:8090/service/image/get/"+this.state.logoPath} alt="" />
                      </div>
-                     <div className="desc"><span className="joinAt">Get the app from</span><br />sliconf.com<br /><b>#{this.state.eventCode}</b></div>
+                     <div className="desc"><span className="joinAt">Get the app from</span><br />sliconf.com<br /><b>#{this.state.eventCode.toUpperCase().slice(0,4)}</b></div>
                      <div className="sponsor">
                         <div className="soWidth">
                            {this.state.sponsors ? this.state.sponsors.length > 0 ? this.state.sponsors.map((key) => {

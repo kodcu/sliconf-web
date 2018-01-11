@@ -42,7 +42,7 @@ class PassReset extends Component {
                         isFirst:false,
                      });
                   }else{
-                     this.setState({warning: true, message: nextProps.auth.message, type:nextProps.auth.status ? "info" : "error"});
+                     this.setState({disabled:false,warning: true, message: nextProps.auth.message, type:nextProps.auth.status ? "info" : "error"});
                   }
                }
 
@@ -73,6 +73,9 @@ class PassReset extends Component {
          this.setState({userWarning: true, warning:true, message:"Passwords did not match. Please enter the same password in both fields.", type:"error"})
          this.setState({passWarning: true, passaWarning: true})
       }else{
+         this.setState({
+            disabled:true,
+         })
          // hersey okey
          this.props.resetPassword(this.state.token, this.state.password)
       }
@@ -107,7 +110,7 @@ class PassReset extends Component {
                      </div>
                      <div className="row mtop50">
                         <div className="six columns">
-                           <button className="button-primary" onClick={this.resetPassword}>Reset</button>
+                           <button className={classNames("button-primary",{'disabled': this.state.disabled})} disabled={this.state.disabled} onClick={this.resetPassword}>Reset</button>
                         </div>
                      </div>
                   </div>

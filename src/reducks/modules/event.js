@@ -50,6 +50,12 @@ const EDIT_TAB = 'event/EDIT_EVENT';
 const EDIT_TAB_SUCCESS = 'event/EDIT_TAB_SUCCESS';
 const EDIT_TAB_FAIL = 'event/FETCH_EVENT_FAIL';
 
+const GET_STATICS = 'event/GET_STATICS';
+const GET_STATICS_SUCCESS = 'event/GET_STATICS_SUCCESS';
+const GET_STATICS_FAIL = 'event/GET_STATICS_FAIL';
+
+
+
 const initialState = {
    loading: false,
    event: null,
@@ -265,6 +271,27 @@ export default function reducer(state = initialState, action = {}) {
             ...state,
             event:{...state.event,floorPlan:ses6}
          };
+      case GET_STATICS:
+         return {
+            ...state,
+            error:false,
+            loading: true
+         };
+      case GET_STATICS_SUCCESS:
+         return {
+            ...state,
+            loading: false,
+            statics: action.result.returnObject,
+            status: action.result.status,
+            error: null
+         };
+      case GET_STATICS_FAIL:
+         return {
+            ...state,
+            loading: false,
+            statics: null,
+            error: action.error
+         };
       default:
          return state;
    }
@@ -307,6 +334,13 @@ export function fetchRooms(eventId) {
    return {
       types: [FETCH_ROOMS, FETCH_ROOMS_SUCCESS, FETCH_ROOMS_FAIL],
       promise: (client) => client.get('/events/rooms/'+eventId)
+   }
+}
+
+export function getStatics(eventId) {
+   return {
+      types: [GET_STATICS, GET_STATICS_SUCCESS, GET_STATICS_FAIL],
+      promise: (client) => client.get('/events/get/statistics/'+eventId)
    }
 }
 

@@ -4,15 +4,19 @@ import classNames from 'classnames';
 
 class Comments extends Component {
    state = {
-      id:0
+      id:0,
+      alreadyClicked:false,
    };
 
-   swapper = (id) => {
-      this.setState({ id: id })
-      setTimeout(() => {
-         //console.log(id);
-         this.setState({ id: 0 })
-      }, 300)
+   swapper = (id,type,index,to,callback) => {
+      if(!this.state.alreadyClicked){
+         callback(type,index,to)
+         this.setState({ id: id , alreadyClicked:true})
+         setTimeout(() => {
+            //console.log(id);
+            this.setState({ id: 0 , alreadyClicked:false })
+         }, 300)
+      }
    };
 
    comment = (comment, changeState, index, type) => {
@@ -21,10 +25,10 @@ class Comments extends Component {
             <a className="user">{comment.username}</a> commented on <a className="title">{comment.topic} ({comment.roomName})</a><br /><br />
             <div className="rightarrow"/>{comment.commentValue}
             <div className="buttons">
-               <div className="lefter" onClick={() => {changeState(type,index,-2);this.swapper(comment.id)}}>{"⟪"}</div>
-               <div className="left" onClick={() => {changeState(type,index, -1);this.swapper(comment.id)}}>{"⟨"}</div>
-               <div className="righter" onClick={() => {changeState(type,index, +2);this.swapper(comment.id)}}>{"⟫"}</div>
-               <div className="right" onClick={() => {changeState(type,index, +1);this.swapper(comment.id)}}>{"⟩"}</div>
+               <div className="lefter" onClick={() => {this.swapper(comment.id, type,index,-2,changeState)}}>{"⟪"}</div>
+               <div className="left" onClick={() => {this.swapper(comment.id,type,index,-1,changeState)}}>{"⟨"}</div>
+               <div className="righter" onClick={() => {this.swapper(comment.id,type,index,+2,changeState)}}>{"⟫"}</div>
+               <div className="right" onClick={() => {this.swapper(comment.id,type,index,+1,changeState)}}>{"⟩"}</div>
             </div>
          </div>
       )

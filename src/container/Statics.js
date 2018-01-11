@@ -3,10 +3,12 @@ import {bindActionCreators} from 'redux';
 import * as EventActions from '../reducks/modules/event'
 import {connect} from 'react-redux';
 import PageHead from "../components/PageHead";
+import Loading from "../components/Loading";
 
-class EventSuccess extends Component {
+class Statics extends Component {
 
    state = {
+      loading:true,
       eventId:this.props.match.eventId,
       users:839,
       approved:94,
@@ -15,10 +17,24 @@ class EventSuccess extends Component {
       mostLikedQuestion:"What will change with Java 9?",
    };
 
+   componentWillReceiveProps(nextProps){
+      if(nextProps.event && nextProps.event.statics && nextProps.event.statics !== this.props.event.statics && !nextProps.event.loading){
+         console.log(nextProps.event.statics);
+         this.setState({
+            loading:false,
+            approved:nextProps.event.statics.approvedComments,
+            unapproved:nextProps.event.statics.deniedComments,
+            users:nextProps.event.statics.totalUsers.allFetched,
+            mostQuestionedSpeech:nextProps.event.statics.mostCommentedSession.topic,
+            mostLikedQuestion:nextProps.event.statics.mostLikedComment.commentValue,
+
+         })
+      }
+
+   }
+
    componentWillMount() {
-         /*this.setState({
-            key:this.props.event.statics.key
-         });*/
+         this.props.getStatics(this.props.match.params.eventId);
    }
 
 
@@ -26,32 +42,34 @@ class EventSuccess extends Component {
       return (
             <div className="container mtop">
                <PageHead where={"/events/"+this.props.match.params.eventId+"/edit"} title="Statics" {...this.props} />
-               <div className="row">
-                  <div className="four columns">
-                     <h4>Total Users</h4>
-                     <h2 className="code">{this.state.users}</h2>
+               <Loading row="3" loading={this.state.loading}>
+                  <div className="row">
+                     <div className="four columns">
+                        <h4>Total Users</h4>
+                        <h2 className="code">{this.state.users}</h2>
+                     </div>
+                     <div className="four columns">
+                        <h4>Approved Questions</h4>
+                        <h2 className="code">{this.state.approved}</h2>
+                     </div>
+                     <div className="four columns">
+                        <h4>Unapproved Questions</h4>
+                        <h2 className="code">{this.state.unapproved}</h2>
+                     </div>
                   </div>
-                  <div className="four columns">
-                     <h4>Approved Questions</h4>
-                     <h2 className="code">{this.state.approved}</h2>
+                  <div className="row">
+                     <div className="twelve columns">
+                        <h4>Most Questioned Speech</h4>
+                        <h2>{this.state.mostQuestionedSpeech}</h2>
+                     </div>
                   </div>
-                  <div className="four columns">
-                     <h4>Unapproved Questions</h4>
-                     <h2 className="code">{this.state.unapproved}</h2>
+                  <div className="row">
+                     <div className="twelve columns">
+                        <h4>Most Liked Question</h4>
+                        <h2>{this.state.mostLikedQuestion}</h2>
+                     </div>
                   </div>
-               </div>
-               <div className="row">
-                  <div className="twelve columns">
-                     <h4>Most Questioned Speech</h4>
-                     <h2>{this.state.mostQuestionedSpeech}</h2>
-                  </div>
-               </div>
-               <div className="row">
-                  <div className="twelve columns">
-                     <h4>Most Liked Question</h4>
-                     <h2>{this.state.mostLikedQuestion}</h2>
-                  </div>
-               </div>
+               </Loading>
                {/*
                   <div className="row">
                      <div className="twelve columns">
@@ -77,4 +95,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
    return {...bindActionCreators(EventActions, dispatch)}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventSuccess)
+export default connect(mapStateToProps, mapDispatchToProps)(Statics)

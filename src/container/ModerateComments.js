@@ -15,6 +15,9 @@ class ModerateComments extends Component {
       approved:[],
       isSaved:true,
       clearing:false,
+      hideTip:false,
+      tipText:"You can use arrow keys to approve or deny comments from pending.",
+      tipMode:1,
    };
 
    oneTime = true;
@@ -22,17 +25,36 @@ class ModerateComments extends Component {
 
    componentDidMount() {
       this.props.fetchEvent(this.props.match.params.eventId);
+      window.addEventListener("keydown", this.keyPress, false);
    }
 
    componentWillUnmount(){
       clearInterval(this.noPendingInterval);
+      window.removeEventListener("keydown", this.keyPress, false);
    }
+
+   keyPress = (e) => {
+      let kc = e.keyCode===37 ? "left" : e.keyCode===39 ? "right" : undefined;
+      if(kc && document.querySelector(".commentBox.pending .comment .buttons ."+kc)){
+         document.querySelector(".commentBox.pending .comment .buttons ."+kc).click()
+         this.setState({
+            tipText:"You can use enter to save current state.",
+            tipMode:2,
+         })
+      }
+      if(e.keyCode===13){
+         this.save();
+         if(this.state.tipMode===2){
+            this.setState({
+               hideTip:true,
+            })
+         }
+      }
+   };
 
    getComments = () => {
       this.props.getComments("recent", "pending", 20, this.state.id);
    };
-
-
 
    componentWillReceiveProps(nextProps) {
       if (((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) && this.oneTime) {
@@ -40,7 +62,6 @@ class ModerateComments extends Component {
          if(nextProps.event.deleted===true){
             this.props.history.push("/");
          }
-         console.log(nextProps.event);
          this.setState({
             id: nextProps.event.id ? nextProps.event.id : '',
             name: nextProps.event.name ? nextProps.event.name : '',
@@ -55,7 +76,6 @@ class ModerateComments extends Component {
          }, ()=>{
             this.getComments();
             this.noPendingInterval = setInterval(function () {
-               console.log(this.state.pending,this.state.approved,this.state.denied);
                if(this.state.pending.length===0 && this.state.approved.length===0 && this.state.denied.length===0){
                   this.getComments();
                }
@@ -64,8 +84,6 @@ class ModerateComments extends Component {
       }
 
       if (nextProps.comment && (nextProps.comment.comment && this.props.comment.comment !== nextProps.comment.comment)) {
-         console.log("ye")
-         console.log(nextProps.comment.comment);
          this.setState({
             pending:nextProps.comment.comment,
          }, () => {
@@ -87,15 +105,8 @@ class ModerateComments extends Component {
          this.getComments();
 
       }
-
-      /*
-
-
-       */
    }
 
-
-   //TODO state'leri arkadan al
 
    changeState = (type,index,was) => {
       let mark = ["denied", "pending", "approved"];
@@ -131,6 +142,7 @@ class ModerateComments extends Component {
       this.props.pushComments(this.state.id, this.props.auth.user.id, approved,denied);
    };
 
+
    render() {
 
       return (
@@ -146,6 +158,9 @@ class ModerateComments extends Component {
                      <div className="two columns">
                         <button style={{marginTop:"8px"}} onClick={this.save}>SAVE</button>
                      </div>
+                  </div>
+                  <div className={classNames('row mbottom25',{'hidden':(this.state.hideTip)})}>
+                     <div className="twelve columns">Little tip: {this.state.tipText}</div>
                   </div>
                   <div className="row">
                      <div className="four columns">
