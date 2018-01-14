@@ -110,7 +110,7 @@ class EventList extends React.Component {
                         {(this.state.events && this.state.events.length) ? null : <EventsNotAvailable/> }
                         {this.state.events ? this.state.events.map((event)=>{
                            return <tr data-tip="Click to Edit" data-offset="{'top': 2}" key={event.id} onClick={() => this.props.history.push('/events/'+event.key+'/edit')}>
-                              <td><div className='eventimage' style={{backgroundImage:'url(http://app.sliconf.com:8090/service/image/get/'+event.logoPath+')'}}/></td>
+                              <td><div className='eventimage' style={{backgroundImage:'url(https://app.sliconf.com:8090/service/image/get/'+event.logoPath+')'}}/></td>
                               <td>{event.name}</td>
                               <td style={{textAlign: "center"}} className="miniCode">{event.key}</td>
                               <td style={{textAlign: "center"}}>{("0" + new Date(event.startDate).getDate()).slice(-2)+"."+("0" + (new Date(event.startDate).getMonth()+1)).slice(-2)+"."+new Date(event.startDate).getFullYear()}</td>

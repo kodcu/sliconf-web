@@ -55,8 +55,6 @@ class Presentation extends Component {
          this.getComments();
       }.bind(this), 3000));
 
-      {console.log(this.props)}
-
       this.updateDimensions();
       window.addEventListener("resize", this.updateDimensions);
       window.addEventListener("mousewheel", ()=>{this.boxClick()});
@@ -288,17 +286,19 @@ class Presentation extends Component {
                <div className="leftBar">
                   <div className="verticalAlign">
                      <div className="logo">
-                        <img src={"http://app.sliconf.com:8090/service/image/get/"+this.state.logoPath} alt="" />
+                        <img src={"https://app.sliconf.com:8090/service/image/get/"+this.state.logoPath} alt="" />
                      </div>
                      <div className="desc"><span className="joinAt">Get the app from</span><br />sliconf.com<br /><b>#{this.state.eventCode.toUpperCase().slice(0,4)}</b></div>
                      <div className="sponsor">
                         <div className="soWidth">
                            {this.state.sponsors ? this.state.sponsors.length > 0 ? this.state.sponsors.map((key) => {
                               if(key.logo){
-                                 return <img key={key.logo} src={"http://app.sliconf.com:8090/service/image/get/"+key.logo} alt={key.name} />
+                                 return <img key={key.logo} src={"https://app.sliconf.com:8090/service/image/get/"+key.logo} alt={key.name} />
+                              }else{
+                                 return '';
                               }
                            }): '': ''}
-                           {this.state.sponsors ? this.state.sponsors.length > 0 && this.state.sponsors[0].logo!=="" ? <img src={"http://app.sliconf.com:8090/service/image/get/" + (this.state.sponsors[0] ? this.state.sponsors[0].logo : '')} alt={(this.state.sponsors[0] ? this.state.sponsors[0].name : '')} /> : '' : ''}
+                           {this.state.sponsors ? this.state.sponsors.length > 0 && this.state.sponsors[0].logo!=="" ? <img src={"https://app.sliconf.com:8090/service/image/get/" + (this.state.sponsors[0] ? this.state.sponsors[0].logo : '')} alt={(this.state.sponsors[0] ? this.state.sponsors[0].name : '')} /> : '' : ''}
                         </div>
                      </div>
                   </div>

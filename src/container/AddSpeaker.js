@@ -145,11 +145,11 @@ class AddSpeaker extends React.Component {
                      <div className="six columns">
                         <div className="row">
                            <div className="twelve columns">
-                              <ImageUpload onLoad={this.onImageLoaded} logo={"http://app.sliconf.com:8090/service/image/get/"+this.state.image}>
+                              <ImageUpload onLoad={this.onImageLoaded} logo={"https://app.sliconf.com:8090/service/image/get/"+this.state.image}>
                                  {this.state.image ?
                                     <div className="row">
                                        <div className="twelve columns">
-                                          <div className="resim" style={{backgroundImage: 'url("http://app.sliconf.com:8090/service/image/get/' + this.state.image + '")'}} width="100%" alt=""/>
+                                          <div className="resim" style={{backgroundImage: 'url("https://app.sliconf.com:8090/service/image/get/' + this.state.image + '")'}} width="100%" alt=""/>
                                        </div>
                                     </div>: ''}
                               </ImageUpload>

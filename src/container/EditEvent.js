@@ -1026,11 +1026,11 @@ class EditEvent extends React.Component {
                </div>
                <div className="row">
                   <div className="six columns">
-                     <ImageUpload onLoad={this.onFloorImageLoaded} logo={"http://app.sliconf.com:8090/service/image/get/"+this.state.modalImage}>
+                     <ImageUpload onLoad={this.onFloorImageLoaded} logo={"https://app.sliconf.com:8090/service/image/get/"+this.state.modalImage}>
                         {this.state.modalImage ?
                            <div className="row">
                               <div className="twelve columns">
-                                 <div className="resim" style={{backgroundImage: 'url("http://app.sliconf.com:8090/service/image/get/' + this.state.modalImage + '")'}} width="100%" alt=""/>
+                                 <div className="resim" style={{backgroundImage: 'url("https://app.sliconf.com:8090/service/image/get/' + this.state.modalImage + '")'}} width="100%" alt=""/>
                               </div>
                            </div>: ''}
 
@@ -1150,10 +1150,10 @@ class EditEvent extends React.Component {
                               <div className="row">
                                  <div className="twelve columns">
                                     {this.state.logoPath ?
-                                          <ImageUpload onLoad={this.onEventImageLoaded} logo={"http://app.sliconf.com:8090/service/image/get/"+this.state.logoPath}>
+                                          <ImageUpload onLoad={this.onEventImageLoaded} logo={"https://app.sliconf.com:8090/service/image/get/"+this.state.logoPath}>
                                           <div className="row">
                                                 <div className="twelve columns">
-                                                   <div className="resim" style={{backgroundImage: 'url("http://app.sliconf.com:8090/service/image/get/' + this.state.logoPath + '")'}} width="100%" alt="" />
+                                                   <div className="resim" style={{backgroundImage: 'url("https://app.sliconf.com:8090/service/image/get/' + this.state.logoPath + '")'}} width="100%" alt="" />
                                                 </div>
                                              </div>
                                           </ImageUpload>: <ImageUpload onLoad={this.onEventImageLoaded} logo={""}/>

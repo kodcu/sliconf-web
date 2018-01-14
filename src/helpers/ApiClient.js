@@ -8,7 +8,7 @@ function formatUrl(path) {
    const adjustedPath = path[0] !== '/' ? '/' + path : path;
 
    if (process.env.NODE_ENV === "development") {
-      return 'http://app.sliconf.com/api' + adjustedPath;
+      return 'https://app.sliconf.com/api' + adjustedPath;
    }
    return '/api' + adjustedPath;
 }
