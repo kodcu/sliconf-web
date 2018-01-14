@@ -50,7 +50,7 @@ class ImageUpload extends React.Component {
                accept="image/jpeg, image/png"
                onDrop={this.onDropFiles}
                style={{}}
-               className={classNames('resimHolder', {'active':(!this.state.removed && (this.state.imageId!=='' && this.state.imageId!==null && this.state.imageId!=="https://app.sliconf.com:8090/service/image/get/"))})}
+               className={classNames('resimHolder', {'active':(!this.state.removed && (this.state.imageId!=='' && this.state.imageId!==null && this.state.imageId!=="https://app.sliconf.com/api/image/get/"))})}
             >
                {this.props.children}
 

@@ -48,7 +48,7 @@ class Floor extends React.Component {
    render() {
       const {tagId,floor} = this.props;
       return (
-         <div key={floor.id} className={classNames({ "sponsor":true, "noImage": !this.state.logo })} data-id={floor.id} data-name={this.state.name} data-tag={tagId} style={{backgroundImage: "url(\"https://app.sliconf.com:8090/service/image/get/"+this.state.logo+"\")"}}>
+         <div key={floor.id} className={classNames({ "sponsor":true, "noImage": !this.state.logo })} data-id={floor.id} data-name={this.state.name} data-tag={tagId} style={{backgroundImage: "url(\"https://app.sliconf.com/api/image/get/"+this.state.logo+"\")"}}>
             <div className="overModal">
                <div className="remove" onClick={this.remove}/>
                <div className="edit" onClick={this.edit}/>

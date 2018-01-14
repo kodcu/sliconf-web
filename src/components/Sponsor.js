@@ -43,7 +43,7 @@ class Sponsor extends React.Component {
    render() {
       const {tagId,sponsor} = this.props;
       return (
-         <div key={sponsor.id} className={classNames({ "sponsor":true, "noImage": !this.state.logo })} data-id={sponsor.id} data-name={this.state.name} data-tag={tagId} style={{backgroundImage: "url(\"https://app.sliconf.com:8090/service/image/get/"+this.state.logo+"\")"}}>
+         <div key={sponsor.id} className={classNames({ "sponsor":true, "noImage": !this.state.logo })} data-id={sponsor.id} data-name={this.state.name} data-tag={tagId} style={{backgroundImage: "url(\"https://app.sliconf.com/api/image/get/"+this.state.logo+"\")"}}>
             <div className="overModal">
                <div className="remove" onClick={()=>{this.props.remove(this.props.sponsor.id)}}/>
                <div className="edit" onClick={this.edit}/>

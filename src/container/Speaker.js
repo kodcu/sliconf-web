@@ -74,7 +74,7 @@ class Speaker extends Component {
                </div>
                <div className="row">
                   {this.state.image ?<div className="four columns">
-                      <div className="resim noTouch" width="100%" style={{backgroundImage: "url('https://app.sliconf.com:8090/service/image/get/"+this.state.image+"')", float:"left"}}/>
+                      <div className="resim noTouch" width="100%" style={{backgroundImage: "url('https://app.sliconf.com/api/image/get/"+this.state.image+"')", float:"left"}}/>
                   </div>:''}
                   <div className="six columns">
                      <div className="row">
