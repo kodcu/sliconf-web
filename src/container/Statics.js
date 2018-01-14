@@ -25,8 +25,8 @@ class Statics extends Component {
             approved:nextProps.event.statics.approvedComments,
             unapproved:nextProps.event.statics.deniedComments,
             users:nextProps.event.statics.totalUsers.allFetched,
-            mostQuestionedSpeech:nextProps.event.statics.mostCommentedSession.topic,
-            mostLikedQuestion:nextProps.event.statics.mostLikedComment.commentValue,
+            mostQuestionedSpeech:nextProps.event.statics.mostCommentedSession ? nextProps.event.statics.mostCommentedSession.topic : '-',
+            mostLikedQuestion:nextProps.event.statics.mostLikedComment ? nextProps.event.statics.mostLikedComment.commentValue : '-',
 
          })
       }
