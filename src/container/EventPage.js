@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import DatePicker from 'react-datepicker';
+import DatePicker from '../components/DatePicker';
 import {bindActionCreators} from 'redux';
 import * as EventActions from '../reducks/modules/event'
 import moment from 'moment';
@@ -85,7 +85,7 @@ class EventPage extends Component {
                   </div>
                   <div className="row mtop50">
                      <div className="six columns">
-                        <input autoFocus className={"moving u-full-width"} type="text" id="name" value={this.state.event_name}
+                        <input maxLength="100" autoFocus className={"moving u-full-width"} type="text" id="name" value={this.state.event_name}
                                onChange={(e) => this.setState({event_name: e.target.value})}/>
                         <label htmlFor="name">Event Name</label>
                      </div>
@@ -94,7 +94,7 @@ class EventPage extends Component {
                      <div className="six columns">
                         <label htmlFor="date">Event date</label>
                         <DatePicker
-                           dateFormat="DD MMMM YYYY, dddd, HH:mm"
+                           dateFormat="DD MMM YYYY, ddd"
                            locale={"en"}
                            showTimeSelect
                            timeIntervals={60}

@@ -6,7 +6,7 @@ import PageHead from "../components/PageHead";
 import moment from 'moment';
 import classNames from 'classnames';
 import * as EventActions from '../reducks/modules/event';
-import DatePicker from 'react-datepicker';
+import DatePicker from '../components/DatePicker';
 import Loading from "../components/Loading";
 import ReactTooltip from 'react-tooltip'
 
@@ -284,7 +284,7 @@ class AddTalk extends React.Component {
                                           maxDate={moment(this.state.endDate)}
                                           timeIntervals={5}
                                           className="u-full-width"
-                                          dateFormat="DD MMMM YYYY, dddd, HH:mm"
+                                          dateFormat="DD MMM YYYY, ddd"
                                           locale={"en"}
                                           selected={moment(this.state.startDate)}
                                           onChange={this.changeDateValue('startDate')}

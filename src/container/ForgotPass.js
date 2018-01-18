@@ -26,6 +26,7 @@ class Login extends Component {
          if(nextProps.auth && nextProps.auth.message==="Mail sent!"){
             this.props.history.push("/mailsuccess");
          }else{
+            this.reCaptchaElement.reset();
             if(!nextProps.auth.loggingIn){
                this.setState({warning: true, message: nextProps.auth.message, type:nextProps.auth.status ? "info" : "error"})
             }
@@ -57,7 +58,9 @@ class Login extends Component {
       }else{
          this.setState({warning: true, message: "Please confirm you are human.", type:"error"});
       }
-   }
+   };
+
+   reCaptchaElement;
 
    render() {
       return (
@@ -84,7 +87,7 @@ class Login extends Component {
                   <div className="row">
                      <div className="twelve columns">
                         <ReCaptcha
-                           ref="recaptcha"
+                           ref={(el) => { this.reCaptchaElement = el }}
                            sitekey="6Le6PD0UAAAAAP3JH2yxy18pEbGU8h5KwdY7yjXp"
                            onChange={this.onCaptchaChange}
                         />

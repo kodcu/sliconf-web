@@ -7,7 +7,7 @@ import * as RoomActions from '../reducks/modules/room';
 import moment from 'moment';
 import classNames from 'classnames';
 import ImageUpload from '../components/ImageUpload';
-import DatePicker from 'react-datepicker';
+import DatePicker from '../components/DatePicker';
 import Modal from 'react-modal';
 import RoomTag from "../components/RoomTag";
 import RoomCreate from "../components/RoomCreate";
@@ -1098,14 +1098,14 @@ class EditEvent extends React.Component {
                            <div className="six columns">
                               <h3>General</h3>
                               <div className="twelve columns">
-                                 <input autoFocus className="moving u-full-width" type="text" id="name" value={this.state.name} onChange={(e) => this.setState({name: e.currentTarget.value, changed:true})} />
+                                 <input maxLength="100" autoFocus className="moving u-full-width" type="text" id="name" value={this.state.name} onChange={(e) => this.setState({name: e.currentTarget.value, changed:true})} />
                                  <label htmlFor="name">Event Name</label>
                               </div>
                               <div className="twelve columns">
-                                 <div className="six columns">
+                                 <div className="twelve columns">
                                     <label htmlFor="startdate">Event Starts</label>
                                     <DatePicker
-                                       dateFormat="DD MMM YYYY, ddd, HH:mm"
+                                       dateFormat="DD MMM YYYY, ddd"
                                        locale={"en"}
                                        showTimeSelect
                                        timeIntervals={60}
@@ -1121,10 +1121,10 @@ class EditEvent extends React.Component {
                                        readOnly={true}
                                     />
                                  </div>
-                                 <div className="six columns">
+                                 <div className="twelve columns">
                                     <label htmlFor="enddate">Event Ends</label>
                                     <DatePicker
-                                       dateFormat="DD MMM YYYY, ddd, HH:mm"
+                                       dateFormat="DD MMM YYYY, ddd"
                                        locale={"en"}
                                        showTimeSelect
                                        timeIntervals={60}

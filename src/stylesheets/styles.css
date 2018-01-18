@@ -335,6 +335,7 @@ input[type="text"],
 input[type="tel"],
 input[type="url"],
 input[type="password"],
+input[type="time"],
 textarea,
 select {
     height: 38px;
@@ -354,6 +355,7 @@ input[type="number"],
 input[type="search"],
 input[type="text"],
 input[type="tel"],
+input[type="time"],
 input[type="url"],
 input[type="password"],
 textarea {
@@ -367,6 +369,7 @@ textarea {
     padding-bottom: 6px;
 }
 input[type="email"]:focus,
+input[type="time"]:focus,
 input[type="number"]:focus,
 input[type="search"]:focus,
 input[type="text"]:focus,
@@ -898,6 +901,7 @@ input[type="button"].button-primary:focus {
     box-shadow: 0px 0px 21px -4px #25a568;
 }
 input[type="email"],
+input[type="time"],
 input[type="number"],
 input[type="search"],
 input[type="text"],
@@ -915,6 +919,7 @@ select {
     border-width: 2px !important;
 }
 input[type="email"]:focus,
+input[type="time"]:focus,
 input[type="number"]:focus,
 input[type="search"]:focus,
 input[type="text"]:focus,
@@ -2089,7 +2094,7 @@ ul.react-datepicker__time-list {
 }
 
 
-input[type="email"], input[type="number"], input[type="search"], input[type="text"], input[type="tel"], input[type="url"], input[type="password"], textarea, select {
+input[type="email"], input[type="time"], input[type="number"], input[type="search"], input[type="text"], input[type="tel"], input[type="url"], input[type="password"], textarea, select {
     border-bottom-color:#d2d2d2;
 }
 
