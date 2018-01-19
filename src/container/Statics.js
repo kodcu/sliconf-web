@@ -46,31 +46,31 @@ class Statics extends Component {
                <Loading row="3" loading={this.state.loading}>
                   <div className="row">
                      <div className="three columns">
-                        <h4>Total Views</h4>
+                        <h6>Total Views</h6>
                         <h2 className="code">{this.state.users}</h2>
                      </div>
                      <div className="three columns">
-                        <h4>Unique Users</h4>
+                        <h6>Unique Users</h6>
                         <h2 className="code">{this.state.usersUnique}</h2>
                      </div>
                      <div className="three columns">
-                        <h4>Approved Questions</h4>
+                        <h6>Approved Questions</h6>
                         <h2 className="code">{this.state.approved}</h2>
                      </div>
                      <div className="three columns">
-                        <h4>Unapproved Questions</h4>
+                        <h6>Unapproved Questions</h6>
                         <h2 className="code">{this.state.unapproved}</h2>
                      </div>
                   </div>
                   <div className="row">
                      <div className="twelve columns">
-                        <h4>Most Questioned Speech</h4>
+                        <h6>Most Questioned Speech</h6>
                         <h2>{this.state.mostQuestionedSpeech}</h2>
                      </div>
                   </div>
                   <div className="row">
                      <div className="twelve columns">
-                        <h4>Most Liked Question</h4>
+                        <h6>Most Liked Question</h6>
                         <h2>{this.state.mostLikedQuestion}</h2>
                      </div>
                   </div>
