@@ -85,7 +85,7 @@ class EventPage extends Component {
                   </div>
                   <div className="row mtop50">
                      <div className="six columns">
-                        <input maxLength="100" autoFocus className={"moving u-full-width"} type="text" id="name" value={this.state.event_name}
+                        <input maxLength="50" autoFocus className={"moving u-full-width"} type="text" id="name" value={this.state.event_name}
                                onChange={(e) => this.setState({event_name: e.target.value})}/>
                         <label htmlFor="name">Event Name</label>
                      </div>

@@ -1098,7 +1098,7 @@ class EditEvent extends React.Component {
                            <div className="six columns">
                               <h3>General</h3>
                               <div className="twelve columns">
-                                 <input maxLength="100" autoFocus className="moving u-full-width" type="text" id="name" value={this.state.name} onChange={(e) => this.setState({name: e.currentTarget.value, changed:true})} />
+                                 <input maxLength="50" autoFocus className="moving u-full-width" type="text" id="name" value={this.state.name} onChange={(e) => this.setState({name: e.currentTarget.value, changed:true})} />
                                  <label htmlFor="name">Event Name</label>
                               </div>
                               <div className="twelve columns">

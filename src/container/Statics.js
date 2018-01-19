@@ -10,11 +10,12 @@ class Statics extends Component {
    state = {
       loading:true,
       eventId:this.props.match.eventId,
-      users:839,
-      approved:94,
-      unapproved:26,
-      mostQuestionedSpeech:"Microservices and Future",
-      mostLikedQuestion:"What will change with Java 9?",
+      users:0,
+      usersUnique:0,
+      approved:0,
+      unapproved:0,
+      mostQuestionedSpeech:"",
+      mostLikedQuestion:"",
    };
 
    componentWillReceiveProps(nextProps){
@@ -25,9 +26,9 @@ class Statics extends Component {
             approved:nextProps.event.statics.approvedComments,
             unapproved:nextProps.event.statics.deniedComments,
             users:nextProps.event.statics.totalUsers.allFetched,
+            usersUnique:nextProps.event.statics.totalUsers.uniqueCount,
             mostQuestionedSpeech:nextProps.event.statics.mostCommentedSession ? nextProps.event.statics.mostCommentedSession.topic : '-',
             mostLikedQuestion:nextProps.event.statics.mostLikedComment ? nextProps.event.statics.mostLikedComment.commentValue : '-',
-
          })
       }
 
@@ -44,15 +45,19 @@ class Statics extends Component {
                <PageHead where={"/events/"+this.props.match.params.eventId+"/edit"} title="Statics" {...this.props} />
                <Loading row="3" loading={this.state.loading}>
                   <div className="row">
-                     <div className="four columns">
-                        <h4>Total Users</h4>
+                     <div className="three columns">
+                        <h4>Total Views</h4>
                         <h2 className="code">{this.state.users}</h2>
                      </div>
-                     <div className="four columns">
+                     <div className="three columns">
+                        <h4>Unique Users</h4>
+                        <h2 className="code">{this.state.usersUnique}</h2>
+                     </div>
+                     <div className="three columns">
                         <h4>Approved Questions</h4>
                         <h2 className="code">{this.state.approved}</h2>
                      </div>
-                     <div className="four columns">
+                     <div className="three columns">
                         <h4>Unapproved Questions</h4>
                         <h2 className="code">{this.state.unapproved}</h2>
                      </div>
