@@ -6,13 +6,31 @@ import * as SpeakerActions from '../reducks/modules/speaker'
 import PageHead from "../components/PageHead";
 import Loading from "../components/Loading";
 import SpeakerList from "../components/SpeakerList";
+import * as Silly from '../reducks/modules/silly'
 
 class Speakers extends React.Component {
+
+   state = {
+     speakers:[]
+   };
 
    componentWillMount(){
       this.props.fetchEventSpeakers(this.props.match.params.eventId);
    }
 
+   componentWillReceiveProps(nextProps){
+      if(this.props.speaker !== nextProps.speaker){
+         this.setState({
+            speakers: nextProps.speaker ? nextProps.speaker.speakers : [],
+         },()=>{
+            if(this.state.speakers && this.state.speakers.length>0) {
+               this.props.changeStep(30);
+            }else{
+               this.props.changeStep(19);
+            }
+         })
+      }
+   }
 
    render() {
       return (
@@ -40,12 +58,13 @@ const mapStateToProps = (state, ownProps) => {
    return {
       speaker: state.speaker,
       auth: state.auth,
+      silly: state.silly,
    }
 }
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return {...bindActionCreators(SpeakerActions, dispatch)}
+   return {...bindActionCreators({...SpeakerActions,...Silly}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Speakers)

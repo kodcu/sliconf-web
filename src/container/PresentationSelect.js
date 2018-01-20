@@ -1,11 +1,11 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-
 import * as talkActions from '../reducks/modules/speaker'
 import PageHead from "../components/PageHead";
 import Loading from "../components/Loading";
 import TalkList from "../components/TalkList";
+import * as Silly from '../reducks/modules/silly'
 
 class PresentationSelect extends React.Component {
 
@@ -17,6 +17,7 @@ class PresentationSelect extends React.Component {
 
    componentWillMount(){
       this.props.fetchEventTalks(this.props.match.params.eventId);
+      this.props.changeStep(28);
    }
 
    componentWillReceiveProps(nextProps){
@@ -71,7 +72,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return bindActionCreators({...talkActions}, dispatch)
+   return bindActionCreators({...talkActions, ...Silly}, dispatch)
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PresentationSelect)

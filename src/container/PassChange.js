@@ -5,6 +5,7 @@ import * as AuthActions from '../reducks/modules/auth'
 import classNames from 'classnames'
 import Validator from '../helpers/Validator';
 import PageHead from "../components/PageHead";
+import * as Silly from '../reducks/modules/silly'
 
 class PassChange extends Component {
 
@@ -40,6 +41,7 @@ class PassChange extends Component {
 
    componentWillMount(){
       this.setState({token:this.props.match.params.token})
+      this.props.changeStep(22);
    }
 
    changePassword = (token, password) => {
@@ -118,13 +120,14 @@ class PassChange extends Component {
 
 const mapStateToProps = (state, ownProps) => {
    return {
-      auth: state.auth
+      auth: state.auth,
+      silly: state.silly,
    }
 }
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return {...bindActionCreators(AuthActions, dispatch)}
+   return {...bindActionCreators({...AuthActions,...Silly}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PassChange)

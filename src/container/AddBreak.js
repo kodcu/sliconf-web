@@ -9,6 +9,7 @@ import * as EventActions from '../reducks/modules/event';
 import DatePicker from '../components/DatePicker';
 import Loading from "../components/Loading";
 import ReactTooltip from 'react-tooltip'
+import * as Silly from '../reducks/modules/silly'
 
 class AddTalk extends React.Component {
 
@@ -42,6 +43,7 @@ class AddTalk extends React.Component {
 
    componentWillMount(){
       this.props.fetchEvent(this.props.match.params.eventId);
+      this.props.changeStep(25);
    }
 
    componentWillReceiveProps(nextProps) {
@@ -274,7 +276,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return bindActionCreators({...EventActions,...TalkActions}, dispatch)
+   return bindActionCreators({...EventActions,...TalkActions,...Silly}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTalk)

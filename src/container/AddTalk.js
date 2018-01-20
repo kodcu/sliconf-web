@@ -9,6 +9,7 @@ import * as EventActions from '../reducks/modules/event';
 import DatePicker from '../components/DatePicker';
 import Loading from "../components/Loading";
 import ReactTooltip from 'react-tooltip'
+import * as Silly from '../reducks/modules/silly'
 
 class AddTalk extends React.Component {
 
@@ -54,6 +55,7 @@ class AddTalk extends React.Component {
 
    componentDidMount(){
       //console.log(tasdhis.props.event.agenda);
+      this.props.changeStep(27);
    }
 
    componentWillReceiveProps(nextProps) {
@@ -344,7 +346,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return bindActionCreators({...EventActions,...TalkActions}, dispatch)
+   return bindActionCreators({...EventActions,...TalkActions,...Silly}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTalk)

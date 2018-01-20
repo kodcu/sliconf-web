@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux';
 import * as EventActions from '../reducks/modules/event'
 import {connect} from 'react-redux';
 import PageHead from "../components/PageHead";
+import * as Silly from '../reducks/modules/silly'
 
 class EventSuccess extends Component {
 
@@ -14,6 +15,7 @@ class EventSuccess extends Component {
       this.setState({
          key:this.props.event.creation.key
       });
+      this.props.changeStep(5);
    }
 
    render() {
@@ -48,11 +50,12 @@ const mapStateToProps = (state, ownProps) => {
    return {
       event: state.event,
       user: state.auth.user,
+      silly: state.silly,
    }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return {...bindActionCreators(EventActions, dispatch)}
+   return {...bindActionCreators({...EventActions, ...Silly}, dispatch)}
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventSuccess)

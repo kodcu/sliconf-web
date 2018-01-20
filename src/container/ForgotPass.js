@@ -39,7 +39,7 @@ class Login extends Component {
       this.setState({
          captcha:value,
       });
-      console.log("Captcha value:", value);
+      //console.log("Captcha value:", value);
    }
    //sa
    sendForgotMail = () => {

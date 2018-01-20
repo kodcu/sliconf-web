@@ -30,7 +30,7 @@ class Register extends Component {
             });
          }
          //Birden fazla componentWillReceiveProps cagirilmasin diye bu sekilde sarmalaniyor
-         console.log(nextProps);
+         //console.log(nextProps);
          if ((this.props.auth !== nextProps.auth && !nextProps.auth.loggingIn)) {
             if (nextProps.auth.status === false) {
                //Yanlis girdi, mesaj bas

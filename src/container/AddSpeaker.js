@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import * as SpeakerActions from '../reducks/modules/speaker'
 import PageHead from "../components/PageHead";
 import ImageUpload from '../components/ImageUpload'
+import * as Silly from '../reducks/modules/silly'
 
 class AddSpeaker extends React.Component {
 
@@ -42,6 +43,7 @@ class AddSpeaker extends React.Component {
       if(this.props.match.params.redirected === "redirected"){
          this.props.fetchEventSpeakers(this.props.match.params.eventId);
       }
+      this.props.changeStep(26);
    }
 
    componentDidMount(){
@@ -180,7 +182,7 @@ const mapStateToProps = (state, ownProps) => {
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return bindActionCreators({...SpeakerActions}, dispatch)
+   return bindActionCreators({...SpeakerActions,...Silly}, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddSpeaker)

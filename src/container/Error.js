@@ -33,7 +33,7 @@ class Error extends Component {
    };
 
    componentWillMount(){
-      console.log()
+      //console.log()
    }
 
    render() {

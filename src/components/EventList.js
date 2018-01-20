@@ -79,11 +79,18 @@ class EventList extends React.Component {
       return this.state.active===what ? this.state.mode===1
          ? <Ionicon icon={"ios-arrow-up"} style={{verticalAlign:"top"}} />
          : <Ionicon icon={"ios-arrow-down"} style={{verticalAlign:"top"}} />
-         : <Ionicon icon={"ios-remove"} style={{verticalAlign:"top"}} />
+         : <Ionicon icon={"ios-remove"} rotate={false} style={{verticalAlign:"top"}} />
    };
 
+   tooler = [];
+
+   pusher = (e) => {
+      //return yazidirilmasin diye
+      this.tooler.push(e);
+   }
 
    render() {
+      this.tooler = [];
       return (
          <div>
             <div className="row">
@@ -116,7 +123,6 @@ class EventList extends React.Component {
                               <td style={{textAlign: "center"}}>{("0" + new Date(event.startDate).getDate()).slice(-2)+"."+("0" + (new Date(event.startDate).getMonth()+1)).slice(-2)+"."+new Date(event.startDate).getFullYear()}</td>
                               <td style={{textAlign: "center"}}>
                                  {(event.status===true) ?
-
                                     <div data-for={event.statusDetails.optionalFailed.length > 0 ? 'maybe'+event.key : ''} data-tip>
                                        <PercentageCircle percentage={event.statusDetails ? event.statusDetails.percentage : 0} failed={event.statusDetails.failed.length > 0} />
                                     </div>
@@ -133,27 +139,30 @@ class EventList extends React.Component {
                                  <button data-tip="Show Agenda" onClick={() => this.props.history.push('/events/'+event.key+'/talks')}><Ionicon icon="ios-microphone-outline" fontSize="20px" color="black"/></button>
                                  <ReactTooltip place="bottom" type="dark" effect="solid"/>
                               </td>*/}
-                              <ReactTooltip className={"higher"} id={'global'+event.key} place="left" type="dark" effect="solid">
+                              {this.pusher(<div key={event.id}><ReactTooltip className={"higher"} id={'global'+event.key} place="left" type="dark" effect="solid">
                                  This event will NOT show up on Mobile Devices.<br />Please add more info about your Event<br />
                                  <div style={{whiteSpace:"pre"}}>
-                                 {event.statusDetails.failed.join("\n")}
+                                    {event.statusDetails.failed.join("\n")}
                                  </div>
                                  <div style={{whiteSpace:"pre"}}>
                                     {event.statusDetails.optionalFailed.join("\n")}
                                  </div>
                               </ReactTooltip>
 
-                              <ReactTooltip className={"higher"} id={'maybe'+event.key} place="left" type="dark" effect="solid">
-                                 This event will show up on Mobile Devices<br /> but participants can always use more info.<br />
-                                 <div style={{whiteSpace:"pre"}}>
-                                    {event.statusDetails.optionalFailed.join("\n")}
-                                 </div>
-                              </ReactTooltip>
+                                 <ReactTooltip className={"higher"} id={'maybe'+event.key} place="left" type="dark" effect="solid">
+                                    This event will show up on Mobile Devices<br /> but participants can always use more info.<br />
+                                    <div style={{whiteSpace:"pre"}}>
+                                       {event.statusDetails.optionalFailed.join("\n")}
+                                    </div>
+                                 </ReactTooltip></div>)}
 
                            </tr>
                         }) : null}
                         </tbody>
                      </table>
+                     {this.tooler.map((e)=>{
+                        return e;
+                     })}
                      <ReactTooltip place="bottom" type="dark" effect="solid"/>
                   </div>
                </div>

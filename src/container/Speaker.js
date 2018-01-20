@@ -4,6 +4,7 @@ import * as EventActions from '../reducks/modules/event'
 import * as SpeakerActions from '../reducks/modules/speaker'
 import {connect} from 'react-redux';
 import Ionicon from 'react-ionicons'
+import * as Silly from '../reducks/modules/silly'
 
 class Speaker extends Component {
 
@@ -47,6 +48,8 @@ class Speaker extends Component {
          //konusmacilar serverdan cekilmediyse onceki sayfaya at ki ceksin
          this.props.history.push("/events/"+this.props.match.params.eventId+"/speakers");
       }
+
+      this.props.changeStep(20);
    }
 
    deleteSpeaker = () => {
@@ -142,11 +145,12 @@ const mapStateToProps = (state, ownProps) => {
       speaker: state.speaker,
       event: state.event,
       user: state.auth.user,
+      silly: state.silly,
    }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return {...bindActionCreators({...EventActions,...SpeakerActions}, dispatch)}
+   return {...bindActionCreators({...EventActions,...SpeakerActions,...Silly}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Speaker)

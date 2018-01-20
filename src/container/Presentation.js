@@ -96,7 +96,7 @@ class Presentation extends Component {
 
       if(el) {
          if (va) {
-            console.log("ye");
+            //console.log("ye");
             el.target.classList.remove("focus");
          } else {
             el.target.classList.add("focus");
@@ -111,7 +111,7 @@ class Presentation extends Component {
          if(nextProps.event.deleted===true){
             this.props.history.push("/");
          }
-         console.log(nextProps.event)
+         //console.log(nextProps.event)
          this.setState({
             id: nextProps.event.id ? nextProps.event.id : '',
             name: nextProps.event.name ? nextProps.event.name : '',
@@ -175,7 +175,7 @@ class Presentation extends Component {
       if(this.state.agenda[nIndex]){
          this.props.getComments("top-rated", "approved", 20, this.state.id, this.state.agenda[nIndex].id);
       }else{
-         console.log("Talk Error")
+         //console.log("Talk Error")
       }
    };
 

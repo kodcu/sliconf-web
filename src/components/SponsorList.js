@@ -27,7 +27,7 @@ class SponsorList extends React.Component {
 
    componentWillReceiveProps(nextProps){
       if((nextProps.sponsors && (nextProps.sponsors !== this.props.sponsors)) || (this.props.nthChange !== nextProps.nthChange)){
-         console.log("bana iletildi");
+         //console.log("bana iletildi");
          this.setState({
             sponsors:nextProps.sponsors,
             reRenderer:this.state.reRenderer+1,

@@ -19,7 +19,7 @@ class DatePicker extends Component {
          date:moment(Math.floor((Number(moment(this.props.selected).unix()))/86400)*86400+Number(this.state.time)+((new Date().getTimezoneOffset())*60))+86400,
          timeRaw:("0"+Math.floor((time-this.extraTime)/3600)).slice(-2)+":"+("0"+Math.floor((time-this.extraTime)/60)%60).slice(-2)
       },()=>{
-         console.log(this.state.time);
+         //console.log(this.state.time);
       });
    }
    //sasasasasasasasasasa

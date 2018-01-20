@@ -24,7 +24,7 @@ class SponsorTagCreate extends React.Component {
 
 
    componentWillReceiveProps(nextProps){
-      console.log(nextProps)
+      //console.log(nextProps)
       //console.log(nextProps.speaker.rooms)
       if(this.props.sponsorTagLength !== nextProps.sponsorTagLength){
          this.setState({

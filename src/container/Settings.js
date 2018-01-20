@@ -6,6 +6,7 @@ import * as AuthActions from '../reducks/modules/auth'
 import classNames from 'classnames'
 import Validator from '../helpers/Validator';
 import PageHead from "../components/PageHead";
+import * as Silly from '../reducks/modules/silly'
 
 class Settings extends Component {
 
@@ -18,6 +19,10 @@ class Settings extends Component {
       warning:false,
       message:"",
       type:"info"
+   }
+
+   componentDidMount(){
+      this.props.changeStep(21)
    }
 
    componentWillReceiveProps(nextProps) {
@@ -99,12 +104,13 @@ class Settings extends Component {
 const mapStateToProps = (state, ownProps) => {
    return {
       auth: state.auth,
-      message: state.auth.message
+      message: state.auth.message,
+      silly: state.silly,
    }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return {...bindActionCreators(AuthActions, dispatch)}
+   return {...bindActionCreators({...AuthActions, ...Silly}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings)

@@ -4,6 +4,7 @@ import * as EventActions from '../reducks/modules/event'
 import {connect} from 'react-redux';
 import PageHead from "../components/PageHead";
 import Loading from "../components/Loading";
+import * as Silly from '../reducks/modules/silly'
 
 class Statics extends Component {
 
@@ -20,7 +21,7 @@ class Statics extends Component {
 
    componentWillReceiveProps(nextProps){
       if(nextProps.event && nextProps.event.statics && nextProps.event.statics !== this.props.event.statics && !nextProps.event.loading){
-         console.log(nextProps.event.statics);
+         //console.log(nextProps.event.statics);
          this.setState({
             loading:false,
             approved:nextProps.event.statics.approvedComments,
@@ -36,6 +37,7 @@ class Statics extends Component {
 
    componentWillMount() {
          this.props.getStatics(this.props.match.params.eventId);
+         this.props.changeStep(23);
    }
 
 
@@ -97,7 +99,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return {...bindActionCreators(EventActions, dispatch)}
+   return {...bindActionCreators({...EventActions,...Silly}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Statics)

@@ -92,8 +92,8 @@ class ModerateComments extends Component {
       }
 
       if (nextProps.comment && (nextProps.comment.returnObject && this.props.comment.returnObject !== nextProps.comment.returnObject)) {
-         console.log("ey")
-         console.log(nextProps.comment.returnObject);
+         //console.log("ey")
+         //console.log(nextProps.comment.returnObject);
          setTimeout(() => {
             this.setState({
                approved:[],
@@ -134,7 +134,7 @@ class ModerateComments extends Component {
          return item['id'];
       });
 
-      console.log(approved,denied)
+      //console.log(approved,denied)
 
       this.setState({
          clearing: true

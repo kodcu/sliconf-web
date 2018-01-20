@@ -19,6 +19,7 @@ import Loading from "../components/Loading";
 import ReactTelInput from 'react-telephone-input';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import ReactTooltip from 'react-tooltip'
+import * as Silly from '../reducks/modules/silly'
 
 const _ = require("lodash");
 const { compose, withProps, lifecycle } = require("recompose");
@@ -185,6 +186,8 @@ class EditEvent extends React.Component {
       deleteInput:'',
       notCorrectEventName:'You must enter your event name to the field!',
       noAsking:false,
+      speakers:[],
+      agenda:[],
    };
 
    constructor(props){
@@ -213,9 +216,13 @@ class EditEvent extends React.Component {
       let par = this.props.match.params.new;
       if(par==="new-event"){
          this.openNewAlert();
+         this.props.changeStep(6, "general", false);
       }else if(par==="general" || par==="social" || par==="contact" || par==="floorplan" || par==="rooms" || par==="sponsors" || par==="advanced"){
          this.changeTab(this.props.match.params.new);
       }
+
+
+
       this.props.fetchEvent(this.props.match.params.eventId);
    }
 
@@ -274,6 +281,8 @@ class EditEvent extends React.Component {
             }
       }
 
+
+
       if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) {
          //console.log("event degismis");
 
@@ -302,17 +311,23 @@ class EditEvent extends React.Component {
             mapdescription: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.description ? nextProps.event.about.location.description : '' : '' : '',
             rooms:nextProps.event.rooms ? nextProps.event.rooms : [],
             sponsors: nextProps.event.sponsors ? nextProps.event.sponsors : {},
+            speakers: nextProps.event.speakers ? nextProps.event.speakers : [],
+            agenda: nextProps.event.agenda ? nextProps.event.agenda : [],
             sponsorTags: nextProps.event.sponsorTags ? nextProps.event.sponsorTags : {},
             floorPlan : nextProps.event.floorPlan ? nextProps.event.floorPlan : [],
             loading:false,
             nthChange:this.state.nthChange+1,
          },()=>{
+
+            //console.log("bucagirildi");
+            this.silly(this.state.activeTab, nextProps.silly.step, this.state.activeTab);
+
             if(this.state.changeTabAfterReset){
                this.changeTab(this.state.nextTab);
                this.setState({
                   changeTabAfterReset:false,
                   nextTab:this.state.activeTab,
-               })
+               });
             }
          });
       }
@@ -342,9 +357,118 @@ class EditEvent extends React.Component {
       if(fn()){
          return setInterval(fn,delay);
       }
-   }
+   };
+
+   silly = (tab, tempStep, tempTab="", tempCompleted=false) => {
+      //console.log(tempTab, "calistirildi")
+      if(tab === "general" && (tempStep!==6 && tempStep!==7 && tempStep!==8 && tempStep!==9)){
+         //console.log("aktif tab general, 6,7,8,9 degil, bu yuzden 7 yapiliyor");
+         tempStep = 7;
+         tempTab = "general";
+      }
+
+      if(tab === "general" && tempStep===7 && this.state.description){
+         //console.log("7 idi 8 yapildi");
+         tempStep = 8;
+         tempTab = "general";
+      }
+
+      if(tab === "general" && tempStep===8 && this.state.logoPath){
+         //console.log("8 idi 9 yapildi");
+         tempStep = 9;
+         tempTab = "general";
+      }
+
+      let generalDone = !!(this.state.name && this.state.description && this.state.logoPath && this.state.startDate && this.state.endDate);
+      let socialDone = !!(this.state.facebook && this.state.twitter && this.state.youtube && this.state.instagram);
+      let contactDone = !!(this.state.email && this.state.web && this.state.phone && this.state.phonea && this.state.lat && this.state.lng);
+      let roomsDone = this.state.rooms.length>0;
+      let sponsorTagsDone = Object.keys(this.state.sponsorTags).length>0;
+      let sponsorsDone = false;
+      let speakersDone = this.state.speakers.length>0;
+      let agendaDone = this.state.agenda.length>0;
+      Object.keys(this.state.sponsors).forEach(function(e){let packa = this.state.sponsors[e];if(packa.length>0){sponsorsDone = true;}}.bind(this));
+      let allDone = generalDone && socialDone && contactDone && roomsDone && sponsorTagsDone && sponsorsDone && speakersDone && agendaDone;
+      //sasa
+
+      if(tab === "floorplan" && tempStep===12 && this.state.floorPlan.length>0){
+         //console.log("12 idi 13 yapildi");
+         tempStep = 13;
+         tempTab = "floorplan";
+      }
+
+      if(tab === "rooms" && tempStep===14 && this.state.rooms.length>0){
+         //console.log("14 idi 15 yapildi");
+         tempStep = 15;
+         tempTab = "rooms";
+      }
+
+      if(tab === "sponsors" && tempStep===16 && Object.keys(this.state.sponsorTags).length>0){
+         //console.log("16 idi 17 yapildi");
+         tempStep = 17;
+         tempTab = "sponsors";
+      }
+
+      if(tab === "sponsors" && tempStep===17){
+         let bigger = false;
+         Object.keys(this.state.sponsors).forEach(function(e){
+            //console.log(e);
+            let packa = this.state.sponsors[e];
+            if(packa.length>0){
+               bigger = true;
+            }
+         }.bind(this));
+         if(bigger){
+            //console.log("17 idi 18 yapildi");
+            tempStep = 18;
+            tempTab = "sponsors";
+         }
+      }
+
+      if(allDone){
+         tempStep = 32;
+      }
+
+      //console.log("boylece sonuc ",tempStep)
+      this.props.changeStep(tempStep, tempTab, tempCompleted);
+   };
 
    changeTab = (tab) => {
+      //console.log(tab);
+
+      if(tab==="general" && (this.props.silly.step!==7 && this.props.silly.step!==8 && this.props.silly.step!==9)){
+         //console.log("general'e tiklandi")
+         this.silly(tab,7,"general");
+      }
+
+      if(tab==="social" && (this.props.silly.step!==10)){
+         //console.log("social'e tiklandi")
+         this.silly(tab,10,"social");
+      }
+
+      if(tab==="contact" && (this.props.silly.step!==11)){
+         //console.log("contact'e tiklandi")
+         this.silly(tab,11,"contact");
+      }
+
+      if(tab==="floorplan" && (this.props.silly.step!==12 && this.props.silly.step!==13)){
+         //console.log("floorplan'e tiklandi")
+         this.silly(tab,12,"floorplan");
+      }
+
+      if(tab==="rooms" && (this.props.silly.step!==14 && this.props.silly.step!==15)){
+         //console.log("rooms'e tiklandi")
+         this.silly(tab,14,"rooms");
+      }
+
+      if(tab==="sponsors" && (this.props.silly.step!==16 && this.props.silly.step!==17 && this.props.silly.step!==18)){
+         //console.log("sponsors'e tiklandi")
+         this.silly(tab,16,"sponsors");
+      }
+
+      //sasasasasasa
+
+
       this.setState({
          nextTab:tab,
       });
@@ -484,6 +608,7 @@ class EditEvent extends React.Component {
    };
 
    closeNew = () => {
+      this.props.changeStep(7,"general", false)
       this.setState({newAlertIsOpen: false});
    };
 
@@ -525,7 +650,7 @@ class EditEvent extends React.Component {
    }
 
    tagSwapper = (tagId, direction) => {
-      console.log(tagId);
+      //console.log(tagId);
       let tags = this.state.sponsorTags;
       let sponsors = this.state.sponsors;
       if(direction==="up"){
@@ -534,7 +659,7 @@ class EditEvent extends React.Component {
             let kyc = this.keyChanger;
             Object.keys(this.state.sponsorTags).forEach(function(key) {
                //yukari gidecek, tiklanan indexin ustundeki id'yi sakla. (temp)
-               console.log(nth-1, key.split("|")[0]);
+               //console.log(nth-1, key.split("|")[0]);
                let chk = Number(key.split("|")[0]) === nth-1 ? key.split("|")[1] : '';
                if(chk){
                   let swapped = nth+"|"+chk;
@@ -551,7 +676,7 @@ class EditEvent extends React.Component {
             let kyc = this.keyChanger;
             Object.keys(this.state.sponsorTags).forEach(function(key) {
                //yukari gidecek, tiklanan indexin ustundeki id'yi sakla. (temp)
-               console.log(nth- -1, key.split("|")[0]);
+               //console.log(nth- -1, key.split("|")[0]);
                let chk = Number(key.split("|")[0]) === nth- -1 ? key.split("|")[1] : '';
                if(chk){
                   let swapped = nth+"|"+chk;
@@ -634,7 +759,7 @@ class EditEvent extends React.Component {
                this.setState({
                   sponsors:ses2
                },()=> {
-                  console.log("ye",this.state);
+                  //console.log("ye",this.state);
                });
 
 
@@ -785,7 +910,7 @@ class EditEvent extends React.Component {
                <div className="row">
                   <div className="twelve columns">
                      <div className="span">
-                        <button onClick={this.closeNew} className={"button-primary"}>ALL RIGHT</button>
+                        <button onClick={this.closeNew} className={"button-primary"}>ALRIGHT</button>
                      </div>
                   </div>
                </div>
@@ -1314,12 +1439,13 @@ const mapStateToProps = (state) => {
       fetch: state.event,
       event: state.event.event,
       auth: state.auth,
+      silly: state.silly,
    }
 };
 
 
 const mapDispatchToProps = (dispatch) => {
-   return bindActionCreators({...EventActions,...RoomActions}, dispatch)
+   return bindActionCreators({...EventActions,...RoomActions, ...Silly}, dispatch)
 };
 
 EditEvent.defaultProps = { id: '' };

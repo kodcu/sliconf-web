@@ -6,6 +6,7 @@ import * as EventActions from '../reducks/modules/event'
 import moment from 'moment';
 import classNames from 'classnames'
 import PageHead from "../components/PageHead";
+import * as Silly from '../reducks/modules/silly'
 
 class EventPage extends Component {
 
@@ -58,7 +59,7 @@ class EventPage extends Component {
    };
    //sasasasasasas
    createEvent = () => {
-      if(this.state.event_duration<=0 && this.state.event_duration>24) {
+      if(this.state.event_duration<=0 || this.state.event_duration>24) {
          this.setState({warning: true, message: "You must enter a valid duration.", type:"error"})
       }else if(this.state.event_duration_days<1) {
          this.setState({warning: true, message: "You must enter a valid day.", type:"error"})
@@ -86,7 +87,10 @@ class EventPage extends Component {
                   <div className="row mtop50">
                      <div className="six columns">
                         <input maxLength="50" autoFocus className={"moving u-full-width"} type="text" id="name" value={this.state.event_name}
-                               onChange={(e) => this.setState({event_name: e.target.value})}/>
+                               onChange={(e) => {
+                                  this.setState({event_name: e.target.value});
+                                  if(this.props.silly.step===3 && e.target.value.length>3){this.props.changeStep(4,"eventName",true)}
+                               }}/>
                         <label htmlFor="name">Event Name</label>
                      </div>
                   </div>
@@ -112,7 +116,9 @@ class EventPage extends Component {
                   <div className="row mtop25">
                      <div className="six columns">
                         <input className={"moving u-full-width"} type="text" id="duration" value={this.state.event_duration}
-                               onChange={(e) => this.setState({event_duration: e.target.value})}/>
+                               onChange={(e) => {this.setState({event_duration: e.target.value})
+                                  if(this.props.silly.step===4 && (this.state.event_duration<=0 || this.state.event_duration>24)){this.props.changeStep(4,"eventDuration",true)}
+                                 }}/>
                         <label htmlFor="duration">Event Duration (Hours)</label>
                      </div>
                   </div>
@@ -147,11 +153,12 @@ const mapStateToProps = (state, ownProps) => {
    return {
       event: state.event,
       user: state.auth.user,
+      silly: state.silly,
    }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return {...bindActionCreators(EventActions, dispatch)}
+   return {...bindActionCreators({...EventActions,...Silly}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventPage)
