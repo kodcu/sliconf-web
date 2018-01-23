@@ -1,4 +1,5 @@
 const NEXT_STEP = 'silly/NEXT_STEP';
+const CHANGE_BAR = 'silly/CHANGE_BAR';
 
 const initialState = {
    loading: false,
@@ -6,6 +7,7 @@ const initialState = {
    tab:"",
    completed:false,
    lastStep:-1,
+   showbar:false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -29,16 +31,27 @@ export default function reducer(state = initialState, action = {}) {
             };
          }
          break;
+      case CHANGE_BAR:
+            return {
+               ...state,
+               showbar:action.showbar,
+            };
+         break;
       default:
          return state;
    }
 }
 
-//sasasa
 
 export function changeStep(step, tab="", completed=false) {
    return {
       type: NEXT_STEP,
       step,tab,completed
+   }
+}
+export function changeBar(bool) {
+   return {
+      type: CHANGE_BAR,
+      bool
    }
 }

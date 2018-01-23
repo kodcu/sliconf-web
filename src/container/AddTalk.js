@@ -192,6 +192,7 @@ class AddTalk extends React.Component {
       let i,j,d=false;
       let collItem = null;
       let ts = this.newVersion();
+      console.log(ts);
       if(ts){
          //dogru islem yapabilmemiz icin siralamamiz gerekiyor
          ts.sort(function(a, b) {
@@ -201,7 +202,8 @@ class AddTalk extends React.Component {
          for(i=0;i<ts.length;i++){
             for(j=0;j<i;j++){
                //new bugfix - tam ust uste gelirse
-               if(ts[i].date===ts[j].date){
+               if(ts[i].date===ts[j].date && ts[i].room === ts[j].room){
+                  console.log(ts[i], ts[j]);
                   collItem = ts[i].id===this.state.id ? ts[j] : ts[i];
                   this.setState({noAlert:"There is a collusion! (With "+collItem.topic+" at "+moment(collItem.date*1000).format('HH:mm')+")"});
                   return true;

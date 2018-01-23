@@ -221,8 +221,6 @@ class EditEvent extends React.Component {
          this.changeTab(this.props.match.params.new);
       }
 
-
-
       this.props.fetchEvent(this.props.match.params.eventId);
    }
 
