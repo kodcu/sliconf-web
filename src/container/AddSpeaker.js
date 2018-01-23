@@ -5,6 +5,7 @@ import * as SpeakerActions from '../reducks/modules/speaker'
 import PageHead from "../components/PageHead";
 import ImageUpload from '../components/ImageUpload'
 import * as Silly from '../reducks/modules/silly'
+import Modal from 'react-modal';
 
 class AddSpeaker extends React.Component {
 
@@ -17,6 +18,8 @@ class AddSpeaker extends React.Component {
       linkedin: '',
       twitter: '',
       edit:false,
+      errorModal:false,
+      errorMessage:'',
    };
 
    search = (nameKey, myArray) => {
@@ -102,6 +105,14 @@ class AddSpeaker extends React.Component {
       this.setState({image})
    };
 
+   showErrorModal = (errorMessage) => {
+      //console.log(errorMessage);
+      this.setState({
+         errorModal:true,
+         errorMessage,
+      });
+   };
+
    render() {
       return (
          <div className="container mtop">
@@ -110,6 +121,28 @@ class AddSpeaker extends React.Component {
                   <PageHead where={"/events/"+this.props.match.params.eventId+"/speakers"} title={this.state.edit ? "Edit Speaker" : "Add Speaker"} {...this.props} />
                   <div className="row">
                      <div className="six columns">
+                        <Modal
+                           className="Modal"
+                           overlayClassName="Overlay"
+                           isOpen={this.state.errorModal}
+                           contentLabel="Error!"
+                           onRequestClose={()=>{this.setState({errorModal:false})}}
+                           style={{content : {width:500,textAlign:"center",overflow: "hidden"}}}
+                        >
+                           <div className="row">
+                              <div className="twelve columns">
+                                 <h2>Error!</h2>
+                                 <p>{this.state.errorMessage}</p>
+                              </div>
+                           </div>
+                           <div className="row">
+                              <div className="twelve columns">
+                                 <div className="span">
+                                    <button onClick={()=>{this.setState({errorModal:false})}} className={"button-primary"}>OK</button>
+                                 </div>
+                              </div>
+                           </div>
+                        </Modal>
                         <div className="row">
                            <div className="twelve columns">
                               <input autoFocus className="moving u-full-width" type="text" id="fullname"
@@ -147,7 +180,7 @@ class AddSpeaker extends React.Component {
                      <div className="six columns">
                         <div className="row">
                            <div className="twelve columns">
-                              <ImageUpload onLoad={this.onImageLoaded} logo={"https://app.sliconf.com/api/image/get/"+this.state.image}>
+                              <ImageUpload showModal={this.showErrorModal} onLoad={this.onImageLoaded} logo={"https://app.sliconf.com/api/image/get/"+this.state.image}>
                                  {this.state.image ?
                                     <div className="row">
                                        <div className="twelve columns">

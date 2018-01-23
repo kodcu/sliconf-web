@@ -36,7 +36,6 @@ export default function reducer(state = initialState, action = {}) {
                ...state,
                showbar:action.showbar,
             };
-         break;
       default:
          return state;
    }

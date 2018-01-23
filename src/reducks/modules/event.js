@@ -242,11 +242,12 @@ export default function reducer(state = initialState, action = {}) {
             event:{...state.event,sponsors:ses3}
          };
       case REMOVE_FLOOR_FROM_LOCAL:
-         //console.log(action);
-         const ses4 = state.event.floorPlan.filter(function(el){return el.id !== action.floor;});;
+         console.log(state);
+         const ses4 = state.event.floorPlan.filter(function(el){return el.id !== action.floor;});
+         const ses7 = state.event.rooms.filter(function(el){return el.floor !== action.floor;});;
          return {
             ...state,
-            event:{...state.event,floorPlan:ses4}
+            event:{...state.event,floorPlan:ses4, rooms:ses7}
          };
       case EDIT_FLOOR_FROM_LOCAL:
          const ses5 = state.event.floorPlan.filter(function(el){

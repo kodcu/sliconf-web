@@ -22,7 +22,8 @@ class Floor extends React.Component {
    componentWillReceiveProps(nextProps){
       if(this.props.reRenderer !== nextProps.nthChange){
          this.setState({
-            logo:this.props.floor.image,
+            logo:nextProps.floor.image,
+            name:nextProps.floor.name,
             reRenderer:nextProps.nthChange,
          })
       }

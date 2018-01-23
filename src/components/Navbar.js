@@ -52,6 +52,7 @@ class NavBar extends Component {
       "So, these are the people you are inviting... Great choices! All of them! Maybe it's a great time to look your agenda if you haven't already?", //Speakers - Something to show 30
       "Just look at this! It's already best agenda in the world!", //Talks (Agenda) - Something to show 31
       "I think you just filled all the requirements! Great Job!", //Edit Event - All Done 32
+      "Why would someone wants to delete their event anyways?", //Advanced 33
    ];
    //sasa
    nextOn = [];
@@ -59,7 +60,7 @@ class NavBar extends Component {
             ">~<", "^_^", "^.^", "^-^", "^o^", "^.^", "^_^", "^.^", "^_^", "^-^", //0[0-9]
             "^.^", "^_^", "^-^", "^o^", "^_^", "^-^", "^.^", "^_^", "^o^", "^_^", //1[0-9]
             ".o.", "^.^", ">.<", "^-^", "^_^", "^.^", "^-^", "^.^", "^_^", "^.^", //2[0-9]
-            "^0^", "^0^", "^.^", "^-^", "^_^", "^.^", "^-^", "^.^", "^_^", "^.^", //3[0-9]
+            "^0^", "^0^", "^.^", "?_?", "^_^", "^.^", "^-^", "^.^", "^_^", "^.^", //3[0-9]
             ];
 
 
@@ -86,8 +87,8 @@ class NavBar extends Component {
    };
 
    next = () => {
-      if(this.state.step===3 && this.props.silly.tab==="eventName" && this.props.silly.completed){
-         this.props.changeStep(4);
+      if(this.state.step===9 && this.props.silly.tab==="general" && this.props.silly.completed){
+         this.props.changeStep(10);
       }
    };
 

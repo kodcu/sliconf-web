@@ -8,6 +8,7 @@ class ImageUpload extends React.Component {
    state = {
       imageId:this.props.logo,
       removed:false,
+      loading:false,
    };
 
    componentWillReceiveProps(nextProps){
@@ -18,8 +19,18 @@ class ImageUpload extends React.Component {
       }
    }
 
+   showModal = (err) => {
+      //console.log(this.props);
+      if(this.props.showModal){
+         this.props.showModal(err);
+      }
+   };
+
    onDropFiles = (acceptedFiles, rejectedFiles) => {
-      if (acceptedFiles.length) {
+      if (acceptedFiles && acceptedFiles[0].size<1048576) {
+         this.setState({
+            loading:true,
+         });
          new ApiClient().post('/image/upload',{
             file: acceptedFiles[0],
          }).then((res)=>{
@@ -28,18 +39,29 @@ class ImageUpload extends React.Component {
                   this.props.onLoad(res.returnObject)
                   this.setState({
                      removed:false,
+                     loading:false,
                   })
                }
             })
          },(err)=>{
+            this.setState({
+               loading:false,
+            });
+            this.showModal("Image could not be uploaded.");
             if(this.props.onError) {
                this.props.onError(err)
             }
          }).catch((err)=>{
+            this.showModal("Image could not be uploaded.");
+            this.setState({
+               loading:false,
+            });
             if(this.props.onError) {
                this.props.onError(err)
             }
          })
+      }else{
+         this.showModal("Image must be under 1 MegaByte.");
       }
    };
 
@@ -50,12 +72,12 @@ class ImageUpload extends React.Component {
                accept="image/jpeg, image/png"
                onDrop={this.onDropFiles}
                style={{}}
-               className={classNames('resimHolder', {'active':(!this.state.removed && (this.state.imageId!=='' && this.state.imageId!==null && this.state.imageId!=="https://app.sliconf.com/api/image/get/"))})}
+               className={classNames('resimHolder', {'loading':this.state.loading}, {'active':(!this.state.removed && (this.state.imageId!=='' && this.state.imageId!==null && this.state.imageId!=="https://app.sliconf.com/api/image/get/"))})}
             >
                {this.props.children}
 
             </Dropzone>
-            <button style={{marginTop:"20px"}} onClick={()=>{this.setState({imageId:null,removed:true},this.props.onLoad());}}>Remove Image</button>
+            <button style={{marginTop:"20px"}} onClick={()=>{if(!this.state.loading){this.setState({imageId:null,removed:true},this.props.onLoad());}}}>Remove Image</button>
          </div>
       );
    }

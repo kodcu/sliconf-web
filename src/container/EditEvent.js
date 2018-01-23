@@ -185,9 +185,12 @@ class EditEvent extends React.Component {
       initalize:true,
       deleteInput:'',
       notCorrectEventName:'You must enter your event name to the field!',
-      noAsking:false,
+      noAsking:true,
       speakers:[],
       agenda:[],
+      errorModal:false,
+      errorMessage:'',
+      manualFloor:false,
    };
 
    constructor(props){
@@ -223,6 +226,7 @@ class EditEvent extends React.Component {
 
       this.props.fetchEvent(this.props.match.params.eventId);
    }
+
 
    resetAll = () => {
       this.closeReset();
@@ -284,7 +288,7 @@ class EditEvent extends React.Component {
       if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) {
          //console.log("event degismis");
 
-         console.log(nextProps.event);
+         //console.log(nextProps.event);
          if(nextProps.event.deleted===true){
             this.props.history.push("/");
          }
@@ -317,8 +321,7 @@ class EditEvent extends React.Component {
             nthChange:this.state.nthChange+1,
          },()=>{
 
-            //console.log("bucagirildi");
-            this.silly(this.state.activeTab, nextProps.silly.step, this.state.activeTab);
+            this.silly(this.state.activeTab, nextProps.silly.step, this.state.activeTab, nextProps.silly.step===9);
 
             if(this.state.changeTabAfterReset){
                this.changeTab(this.state.nextTab);
@@ -375,6 +378,7 @@ class EditEvent extends React.Component {
          //console.log("8 idi 9 yapildi");
          tempStep = 9;
          tempTab = "general";
+         tempCompleted = true;
       }
 
       let generalDone = !!(this.state.name && this.state.description && this.state.logoPath && this.state.startDate && this.state.endDate);
@@ -447,6 +451,11 @@ class EditEvent extends React.Component {
       if(tab==="contact" && (this.props.silly.step!==11)){
          //console.log("contact'e tiklandi")
          this.silly(tab,11,"contact");
+      }
+
+      if(tab==="advanced" && (this.props.silly.step!==33)){
+         //console.log("contact'e tiklandi")
+         this.silly(tab,33,"advanced");
       }
 
       if(tab==="floorplan" && (this.props.silly.step!==12 && this.props.silly.step!==13)){
@@ -720,7 +729,13 @@ class EditEvent extends React.Component {
       this.closeRoomAlert();
    };
 
-
+   showErrorModal = (errorMessage) => {
+      //console.log(errorMessage);
+      this.setState({
+         errorModal:true,
+         errorMessage,
+      });
+   };
 
    openModal = (id,logo,name,tag) => {
       if(!id) {
@@ -737,7 +752,8 @@ class EditEvent extends React.Component {
             modalId:id,
             modalImage:logo,
             modalName:name,
-            modalIsOpen: true
+            modalIsOpen: true,
+            modalIsNew:false,
          });
       }
 
@@ -749,6 +765,7 @@ class EditEvent extends React.Component {
             if(this.state.activeTab==="sponsors"){
 
                const ses2 = this.state.sponsors;
+               //console.log(ses2)
                let mState = this.state;
                Object.keys(ses2).filter(key => ses2[key].filter(key2 =>{if(this.state.modalId.includes(key2.id)){ses2[key] = ses2[key].filter(function(el){
                   if(el.id === key2.id){el.name = mState.modalName;el.logo = mState.modalImage;}
@@ -762,10 +779,21 @@ class EditEvent extends React.Component {
 
 
             }else if(this.state.activeTab==="floorplan"){
-               this.props.editFloorFromLocal(this.state.modalId, this.state.modalName, this.state.modalImage);
+
+               let ses2 = this.state.floorPlan.slice(0);
+               let mState = this.state;
+               //console.log(ses2)
+               ses2.filter(key2 =>{if(this.state.modalId.includes(key2.id)){ses2 = ses2.filter(function(el){
+                  if(el.id === key2.id){el.name = mState.modalName;el.image = mState.modalImage;}
+                  return true;
+               });}return false;});
                this.setState({
-                  nthChange:this.state.nthChange+1,
-               })
+                  floorPlan:ses2,
+                  nthNewFloor: this.state.nthNewFloor+1,
+               },()=> {
+                  //console.log("ye",this.state);
+               });
+
             }
          }else{
             if(this.state.activeTab==="sponsors"){
@@ -885,10 +913,43 @@ class EditEvent extends React.Component {
       });
    };
 
+   magic = () => {
+      this.props.addFloorToLocal("Default Floor", "",this.state.nthNewFloor);
+      this.setState({
+         nthNewFloor:this.state.nthNewFloor+1,
+         modalIsNew:false,
+         changed:1,
+      });
+   };
+
    render() {
       return (
 
          <div className="container mtop">
+
+
+            <Modal
+               className="Modal"
+               overlayClassName="Overlay"
+               isOpen={this.state.errorModal}
+               contentLabel="Error!"
+               onRequestClose={()=>{this.setState({errorModal:false})}}
+               style={{content : {width:500,textAlign:"center",overflow: "hidden"}}}
+            >
+               <div className="row">
+                  <div className="twelve columns">
+                     <h2>Error!</h2>
+                     <p>{this.state.errorMessage}</p>
+                  </div>
+               </div>
+               <div className="row">
+                  <div className="twelve columns">
+                     <div className="span">
+                        <button onClick={()=>{this.setState({errorModal:false})}} className={"button-primary"}>OK</button>
+                     </div>
+                  </div>
+               </div>
+            </Modal>
 
             <Modal
                className="Modal"
@@ -1141,7 +1202,7 @@ class EditEvent extends React.Component {
             >
                <div className="row">
                   <div className="nine columns">
-                     <h2>Add Image</h2>
+                     <h2>{this.state.activeTab==="floorplan" ? "Add Floor" : "Add Sponsor"}</h2>
                   </div>
                   <div className="three columns">
                      <button style={{float:"right"}} onClick={this.closeModal}>close</button>
@@ -1149,7 +1210,7 @@ class EditEvent extends React.Component {
                </div>
                <div className="row">
                   <div className="six columns">
-                     <ImageUpload onLoad={this.onFloorImageLoaded} logo={"https://app.sliconf.com/api/image/get/"+this.state.modalImage}>
+                     <ImageUpload showModal={this.showErrorModal} onLoad={this.onFloorImageLoaded} logo={"https://app.sliconf.com/api/image/get/"+this.state.modalImage}>
                         {this.state.modalImage ?
                            <div className="row">
                               <div className="twelve columns">
@@ -1163,7 +1224,7 @@ class EditEvent extends React.Component {
                      <label htmlFor="modalName">Name</label>
                      <input autoFocus className="u-full-width" type="text" id="modalName" value={this.state.modalName} onKeyPress={this.handleKeyPress} onChange={(e) => this.setState({modalName:e.currentTarget.value})}/>
                      <div className="span" style={{float:"right"}}>
-                        <button onClick={this.modalSave} className={"button-primary"}>save</button>
+                        <button onClick={this.modalSave} className={"button-primary"}>{this.state.modalIsNew ? "ADD" : "SAVE"}</button>
                      </div>
                   </div>
                </div>
@@ -1175,11 +1236,13 @@ class EditEvent extends React.Component {
                         <div className="twelve columns">
                            <div className="row">
                               <div className="twelve columns">
-                                 <button className="backButton" onClick={()=>{this.props.history.push("/events")}} />
+                                 <button data-tip className="backButton" disabled={this.state.changed} onClick={()=>{this.props.history.push("/events")}} />
                                  <h2 style={{verticalAlign:"top",display: "inline-block"}}>Edit Event</h2>
                                  <input style={{margin:"10px 30px"}} className={classNames('button-primary',{disabled:!this.state.changed})} type="submit" onClick={()=>{if(this.state.changed){this.save()}}} defaultValue={this.state.saveText}/>
                                  <a className={classNames({hidden:!this.state.changed})} onClick={this.openReset}>Reset</a>
                                  <span className={classNames("text italic",{hidden:this.state.changed || (this.state.saveText!=="SAVED!" && this.state.saveText!=="SAVE")})}>All changes are saved!</span>
+                                 {/*<span className={classNames("text italic",{hidden:!this.state.changed})}>You have unsaved changes!</span>
+                                 <span className={classNames("text italic",{hidden:this.state.saveText!=="SAVING..."})}>Saving...</span>*/}
                                  <div className="toRight code">
                                     <small className={"eCodeIndicator"}>event code:</small>
                                     {this.props.match.params.eventId}</div>
@@ -1273,13 +1336,13 @@ class EditEvent extends React.Component {
                               <div className="row">
                                  <div className="twelve columns">
                                     {this.state.logoPath ?
-                                          <ImageUpload onLoad={this.onEventImageLoaded} logo={"https://app.sliconf.com/api/image/get/"+this.state.logoPath}>
+                                          <ImageUpload showModal={this.showErrorModal} onLoad={this.onEventImageLoaded} logo={"https://app.sliconf.com/api/image/get/"+this.state.logoPath}>
                                           <div className="row">
                                                 <div className="twelve columns">
                                                    <div className="resim" style={{backgroundImage: 'url("https://app.sliconf.com/api/image/get/' + this.state.logoPath + '")'}} width="100%" alt="" />
                                                 </div>
                                              </div>
-                                          </ImageUpload>: <ImageUpload onLoad={this.onEventImageLoaded} logo={""}/>
+                                          </ImageUpload>: <ImageUpload showModal={this.showErrorModal} onLoad={this.onEventImageLoaded} logo={""}/>
                                     }
                                  </div>
                               </div>
@@ -1400,15 +1463,23 @@ class EditEvent extends React.Component {
                               <h3>Floor Plan</h3>
                               <div className="row">
                                  <div className="twelve columns floors">
-                                    {this.state.floorPlan ? this.state.floorPlan.map((floor)=>
-                                       <Floor remove={this.floorRemove} nthChange={this.state.nthChange} callback={this.somethingChanged} modalCallback={this.openModal} key={floor.id} floor={floor} eventId={this.state.id}/>) : ''}
-                                    <div className="addSponsor" onClick={this.addFloor}>+</div>
+                                    {this.state.floorPlan.length===0 && this.state.manualFloor===false ?
+                                       <div>
+                                          <h4>Do you want to add default floor with no floor plan?</h4>
+                                          <button onClick={this.magic}>Yes, do the magic.</button> <button onClick={()=>{this.setState({manualFloor:true})}}>No, I want to do it manually.</button>
+                                       </div>
+                                       :
+                                       <div>
+                                       {this.state.floorPlan ? this.state.floorPlan.map((floor, key)=>
+                                          <Floor name={floor.name} remove={this.floorRemove} nthChange={this.state.nthChange} callback={this.somethingChanged} modalCallback={this.openModal} key={key} floor={floor} eventId={this.state.id}/>) : ''}
+                                          <div className="addSponsor" onClick={this.addFloor}>+</div>
+                                       </div>
+                                    }
                                  </div>
                               </div>
                            </div>
                         </div>
                      </div>
-
                      <div className={classNames('tab',{'active':this.state.activeTab==="advanced"})}>
                         <div className="row mtop50">
                            <div className="twelve columns">
