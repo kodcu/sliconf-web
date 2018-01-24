@@ -20,6 +20,7 @@ export default function reducer(state = initialState, action = {}) {
                tab:action.tab,
                completed:action.completed,
                lastStep:action.step!==-2 && action.step!==0 ? action.step : state.lastStep,
+               callback:action.callback,
             };
          }else if(state.step===-2 && action.step!==-2){
             return {
@@ -28,6 +29,7 @@ export default function reducer(state = initialState, action = {}) {
                tab:action.tab,
                completed:action.completed,
                lastStep:action.step,
+               callback:action.callback,
             };
          }
          break;
@@ -42,10 +44,10 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 
-export function changeStep(step, tab="", completed=false) {
+export function changeStep(step, tab="", completed=false, callback) {
    return {
       type: NEXT_STEP,
-      step,tab,completed
+      step,tab,completed,callback
    }
 }
 export function changeBar(bool) {

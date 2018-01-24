@@ -28,10 +28,10 @@ class NavBar extends Component {
       "So, this is the control panel for your event. Read the instructions and click \"Alright\"", //First opening 6
       "Let's enter a description for your event first. Don't forget to save after you made a change!", //General description 7
       "Look, a plus sign! Click on it to upload your event's logo. I prefer under 1MB and square. Don't forget to save!", //General Logo 8
-      "Let's fill our social part now. Click on \"Social\" to continue our journey!", //General last step 9
-      "OK! Let's add some social links to our event. If you don't have any, it's okay! Just click \"Contact\".", //Social 10
-      "Let's fill these fields! Just remember, \"Location\" is required. When you are ready, click \"Floor Plan\".", //Contact 11
-      "Click on plus sign to add a floor. You don't have to add images to floors. After you create one, click \"Save\".", //Floors add floor 12
+      "Let's fill our social part now. Click on \"Next\" to continue our journey!", //General last step 9
+      "OK! Let's add some social links to our event. If you don't have any, it's okay! Just click \"Next\".", //Social 10
+      "Let's fill these fields! Just remember, \"Location\" is required. When you are ready, click \"Next\".", //Contact 11
+      "If you don't have any floor plan nor multi-floored event, you can 'Do The Magic!'", //Floors add floor 12
       "Great! You have floor(s), so we can add rooms! Click on \"Rooms\" to continue.", //Floors last step 13
       "You do not have any rooms. To add a room, type room's name, select which floor it is on and click \"Create Room\".", //Rooms add room 14
       "Great! You have room(s)! To add sponsors, just click on \"Sponsors\".", //Rooms last step 15
@@ -55,7 +55,7 @@ class NavBar extends Component {
       "Why would someone wants to delete their event anyways?", //Advanced 33
    ];
    //sasa
-   nextOn = [];
+   nextOn = [9,10,11,13,15];
    faces =  [
             ">~<", "^_^", "^.^", "^-^", "^o^", "^.^", "^_^", "^.^", "^_^", "^-^", //0[0-9]
             "^.^", "^_^", "^-^", "^o^", "^_^", "^-^", "^.^", "^_^", "^o^", "^_^", //1[0-9]
@@ -87,9 +87,12 @@ class NavBar extends Component {
    };
 
    next = () => {
-      if(this.state.step===9 && this.props.silly.tab==="general" && this.props.silly.completed){
-         this.props.changeStep(10);
+      if(this.props.silly.callback){
+         this.props.silly.callback();
       }
+      /*if(this.state.step===9 && this.props.silly.tab==="general" && this.props.silly.completed){
+         this.props.changeStep(10);
+      }*/
    };
 
    ok = () => {

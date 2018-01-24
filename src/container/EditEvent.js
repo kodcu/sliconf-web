@@ -321,7 +321,16 @@ class EditEvent extends React.Component {
             nthChange:this.state.nthChange+1,
          },()=>{
 
-            this.silly(this.state.activeTab, nextProps.silly.step, this.state.activeTab, nextProps.silly.step===9);
+            let tempTab = this.state.activeTab;
+            let tempStep = nextProps.silly.step;
+            let tempComplete = false;
+            let tempFunc = ()=>{};
+            if(nextProps.silly.step===9){
+               tempComplete = true;
+            }
+
+            //console.log(tempTab, tempStep, tempTab, tempComplete, tempFunc);
+            this.silly(tempTab, tempStep, tempTab, tempComplete, tempFunc);
 
             if(this.state.changeTabAfterReset){
                this.changeTab(this.state.nextTab);
@@ -360,7 +369,7 @@ class EditEvent extends React.Component {
       }
    };
 
-   silly = (tab, tempStep, tempTab="", tempCompleted=false) => {
+   silly = (tab, tempStep, tempTab="", tempCompleted=false, tempFunc) => {
       //console.log(tempTab, "calistirildi")
       if(tab === "general" && (tempStep!==6 && tempStep!==7 && tempStep!==8 && tempStep!==9)){
          //console.log("aktif tab general, 6,7,8,9 degil, bu yuzden 7 yapiliyor");
@@ -378,7 +387,6 @@ class EditEvent extends React.Component {
          //console.log("8 idi 9 yapildi");
          tempStep = 9;
          tempTab = "general";
-         tempCompleted = true;
       }
 
       let generalDone = !!(this.state.name && this.state.description && this.state.logoPath && this.state.startDate && this.state.endDate);
@@ -431,8 +439,29 @@ class EditEvent extends React.Component {
          tempStep = 32;
       }
 
+      if(tab === "general" && tempStep===9){
+         tempCompleted = true;
+         tempFunc = function(){this.changeTab("social")}.bind(this)
+      }
+      if(tab === "social" && tempStep===10){
+         tempCompleted = true;
+         tempFunc = function(){this.changeTab("contact")}.bind(this)
+      }
+      if(tab === "contact" && tempStep===11){
+         tempCompleted = true;
+         tempFunc = function(){this.changeTab("floorplan")}.bind(this)
+      }
+      if(tab === "floorplan" && tempStep===13){
+         tempCompleted = true;
+         tempFunc = function(){this.changeTab("rooms")}.bind(this)
+      }
+      if(tab === "rooms" && tempStep===15){
+         tempCompleted = true;
+         tempFunc = function(){this.changeTab("sponsors")}.bind(this)
+      }
+
       //console.log("boylece sonuc ",tempStep)
-      this.props.changeStep(tempStep, tempTab, tempCompleted);
+      this.props.changeStep(tempStep, tempTab, tempCompleted, tempFunc);
    };
 
    changeTab = (tab) => {
