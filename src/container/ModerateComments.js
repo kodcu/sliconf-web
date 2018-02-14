@@ -13,11 +13,13 @@ class ModerateComments extends Component {
       denied:[],
       pending:[],
       approved:[],
+      firstFetch: true,
       isSaved:true,
       clearing:false,
       hideTip:false,
       tipText:"You can use arrow keys to approve or deny comments from pending.",
       tipMode:1,
+      commentSavePool: []
    };
 
    oneTime = true;
@@ -53,7 +55,13 @@ class ModerateComments extends Component {
    };
 
    getComments = () => {
-      this.props.getComments("recent", "pending", 20, this.state.id);
+      this.props.getComments("recent", "pending", 20, this.state.id, null, 'web');
+      this.props.getComments("recent", "approved", 20, this.state.id, null, 'web');
+      this.props.getComments("recent", "denied", 20, this.state.id, null, 'web');
+   };
+
+   getPendingComments = () => {
+     this.props.getComments("recent", "pending", 20, this.state.id, null, 'web');
    };
 
    componentWillReceiveProps(nextProps) {
@@ -77,34 +85,63 @@ class ModerateComments extends Component {
             this.getComments();
             this.noPendingInterval = setInterval(function () {
                if(this.state.pending.length===0 && this.state.approved.length===0 && this.state.denied.length===0){
-                  this.getComments();
+                   this.getComments();
+               } else if (this.state.pending.length===0) {
+                   this.getPendingComments();
                }
             }.bind(this),3000);
          });
       }
 
-      if (nextProps.comment && (nextProps.comment.comment && this.props.comment.comment !== nextProps.comment.comment)) {
-         this.setState({
-            pending:nextProps.comment.comment,
-         }, () => {
+      // Commentler cekildiginde tetiklenen function
+       if (nextProps.comment && (nextProps.comment.comment && this.props.comment.comment !== nextProps.comment.comment)) {
 
-         })
-      }
+           if (nextProps.comment.commentType) {
+               if (nextProps.comment.commentType === 'pending') {
+                   this.setState({
+                       pending: nextProps.comment.comment
+                   }, () => {
+                   });
+               }
+               else if (nextProps.comment.commentType === 'approved') {
+                   this.setState({
+                       approved: nextProps.comment.comment
+                   }, () => {
+                   });
+               }
+               else if (nextProps.comment.commentType === 'denied') {
+                   this.setState({
+                       denied: nextProps.comment.comment
+                   }, () => {
+                   });
+               }
+           } else {
+               this.setState({
+                   pending: nextProps.comment.comment
+               }, () => {
+               });
+           }
+       }
 
-      if (nextProps.comment && (nextProps.comment.returnObject && this.props.comment.returnObject !== nextProps.comment.returnObject)) {
-         //console.log("ey")
-         //console.log(nextProps.comment.returnObject);
-         setTimeout(() => {
-            this.setState({
-               approved:[],
-               denied:[],
-               clearing:false,
-               isSaved:true,
-            })
-         },400);
-         this.getComments();
+       if (nextProps.comment && (nextProps.comment.pushCommentStatus !== this.props.comment.pushCommentStatus)) {
 
-      }
+       }
+
+           /*
+          if (nextProps.comment && (nextProps.comment.returnObject && this.props.comment.returnObject !== nextProps.comment.returnObject)) {
+             //console.log("ey")
+             //console.log(nextProps.comment.returnObject);
+             setTimeout(() => {
+                this.setState({
+                   approved:[],
+                   denied:[],
+                   clearing:false,
+                   isSaved:true,
+                })
+             },400);
+             this.getComments();
+
+          }*/
    }
 
 
@@ -119,27 +156,37 @@ class ModerateComments extends Component {
          [mark[type+was]]: tempState,
          isSaved: false
       });
+
+      // this.state.commentSavePool.push(obj.id);
+
+      if (mark[type+was] === "approved") {
+          this.save([obj['id']], []);
+      } else if (mark[type+was] === "denied"){
+          this.save([], [obj['id']]);
+      }
+
       setTimeout(() => {
          this.state[mark[type]].splice(index, 1);
       },300);
    };
 
-   save = () => {
+   save = (approved, denied) => {
 
+       /*
       let approved = this.state.approved.map(function(item) {
          return item['id'];
       });
 
       let denied = this.state.denied.map(function(item) {
          return item['id'];
-      });
+      });*/
 
       //console.log(approved,denied)
-
+       /*
       this.setState({
          clearing: true
-      });
-      this.props.pushComments(this.state.id, this.props.auth.user.id, approved,denied);
+      });*/
+      this.props.pushComments(this.state.id, this.props.auth.user.id, approved, denied);
    };
 
 
@@ -153,10 +200,12 @@ class ModerateComments extends Component {
                      <div className="ten columns">
                         <button className="backButton" onClick={()=>{this.props.history.push("/events/"+this.props.match.params.eventId+"/edit")}} />
                         <h2 style={{marginRight:"20px",verticalAlign:"middle",display: "inline-block"}}>Moderate Comments</h2>
-                        <p style={{display:"inline-block",color:this.state.isSaved ? "gainsboro" : "darkgray"}}>{this.state.isSaved ? "Saved.":"You have unsaved changes."}</p>
+                         {//<p style={{display:"inline-block",color:this.state.isSaved ? "gainsboro" : "darkgray"}}>{this.state.isSaved ? "Saved.":"You have unsaved changes."}</p>
+                         }
                      </div>
                      <div className="two columns">
-                        <button style={{marginTop:"8px"}} onClick={this.save}>SAVE</button>
+                         {//<button style={{marginTop:"8px"}} onClick={this.save}>SAVE</button>
+                         }
                      </div>
                   </div>
                   <div className={classNames('row mbottom25',{'hidden':(this.state.hideTip)})}>

@@ -10,8 +10,8 @@ class Comments extends Component {
 
    swapper = (id,type,index,to,callback) => {
       if(!this.state.alreadyClicked){
-         callback(type,index,to)
-         this.setState({ id: id , alreadyClicked:true})
+         callback(type,index,to);
+         this.setState({ id: id , alreadyClicked:true});
          setTimeout(() => {
             //console.log(id);
             this.setState({ id: 0 , alreadyClicked:false })
@@ -22,7 +22,7 @@ class Comments extends Component {
    comment = (comment, changeState, index, type) => {
       return (
          <div key={comment.id} className={classNames('comment',{'slideAnimateDown':!(this.state.id===comment.id)},{'slideAnimateUp': this.state.id===comment.id})}>
-            <a className="user">{comment.username}</a> commented on <a className="title">{comment.topic} ({comment.roomName})</a><br /><br />
+            <a className="user">{comment.username}</a> commented on <a className="title">{comment.topic && comment.topic.length < 50 ? comment.topic : comment.topic.slice(0,50) + '...'} ({comment.roomName})</a><br /><br />
             <div className="rightarrow"/>{comment.commentValue}
             <div className="buttons">
                <div className="lefter" onClick={() => {this.swapper(comment.id, type,index,-2,changeState)}}>{"⟪"}</div>

@@ -25,6 +25,7 @@ export default function reducer(state = initialState, action = {}) {
             status: action.result.status,
             message: action.result.message,
             comment: action.result.returnObject,
+            commentType: action.result.commentType
          };
       case GETCOMMENTS_FAIL:
          return {
@@ -40,6 +41,7 @@ export default function reducer(state = initialState, action = {}) {
             status: action.result.status,
             message: action.result.message,
             returnObject: action.result.returnObject,
+            pushCommentStatus: action.result.status
          };
       default:
          return state;
@@ -47,11 +49,11 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 
-export function getComments(listType, type, limit, eventId, talkId) {
+export function getComments(listType, type, limit, eventId, talkId, clientType = '') {
    if(talkId){eventId = eventId+'/'+talkId;}
    return {
       types: [GETCOMMENTS, GETCOMMENTS_SUCCESS, GETCOMMENTS_FAIL],
-      promise: (client) => client.get('/events/comment/list/'+type+'/'+eventId+'?count='+limit+'&type='+listType)
+      promise: (client) => client.get('/events/comment/list/'+type+'/'+eventId+'?count='+limit+'&type='+listType+'&clientType='+clientType)
    }
 }
 

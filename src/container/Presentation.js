@@ -173,7 +173,7 @@ class Presentation extends Component {
    getComments = () => {
       let nIndex = this.textToNumber(this.props.match.params.eventId.toUpperCase().slice(4));
       if(this.state.agenda[nIndex]){
-         this.props.getComments("top-rated", "approved", 20, this.state.id, this.state.agenda[nIndex].id);
+         this.props.getComments("top-rated", "approved", 20, this.state.id, this.state.agenda[nIndex].id, '');
       }else{
          //console.log("Talk Error")
       }
