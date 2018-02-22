@@ -41,7 +41,7 @@ class AddTalk extends React.Component {
          speaker: this.state.speaker ? this.state.speaker : this.state.speakers[0].id,
          detail: this.state.detail,
          topic: this.state.topic,
-         date: Math.floor(this.state.startDate/1000),
+         date: moment(this.state.startDate).valueOf(),
          duration: Number(this.state.duration),
          room: this.state.room ? this.state.room : this.state.rooms[0].id,
          level: this.state.level ? this.state.level : 0,
@@ -60,11 +60,22 @@ class AddTalk extends React.Component {
 
    componentWillReceiveProps(nextProps) {
       if (nextProps.event && this.props.event !== nextProps.event) {
-         this.setState({
+          //console.log('willreceiveprops first', nextProps.event);
+
+          if(this.props.match.params.talkId) {
+              let getter1 = nextProps.event.agenda.filter(agendaItem => agendaItem.id === this.props.match.params.talkId)[0];
+              if (getter1) {
+                  this.setState({
+                      startDate:moment(getter1.date),
+                  })
+              }
+          }
+
+          this.setState({
             speakers: nextProps.event.speakers,
             rooms: nextProps.event.rooms,
             agenda: nextProps.event.agenda,
-            startDate:nextProps.event.startDate,
+            //startDate:nextProps.event.startDate,
             firstStartDate:nextProps.event.startDate,
             endDate:nextProps.event.endDate,
             loading: false,
@@ -83,8 +94,8 @@ class AddTalk extends React.Component {
                      detail:getter.detail,
                      level:getter.level,
                      room:getter.room,
-                     startDate:moment(getter.date*1000),
-                     firstStartDate:moment(getter.date*1000),
+                     startDate:moment(getter.date),
+                     firstStartDate:moment(nextProps.event.startDate),
                      duration:getter.duration,
                      topicsRaw:getter.tags.join(", "),
                      topics:getter.tags,
@@ -182,7 +193,7 @@ class AddTalk extends React.Component {
    changeDateValue = (name) => {
       return (date) => {
          this.setState({
-            [name]: Math.floor(moment(date).unix()/60)*60*1000,
+            [name]: Math.floor(moment(date).valueOf()/60000)*60000,
          },()=>{this.setState({
             collided: this.isCollided()
          })})
@@ -205,13 +216,13 @@ class AddTalk extends React.Component {
                if(ts[i].date===ts[j].date && ts[i].room === ts[j].room){
                   //console.log(ts[i], ts[j]);
                   collItem = ts[i].id===this.state.id ? ts[j] : ts[i];
-                  this.setState({noAlert:"There is a collusion! (With "+collItem.topic+" at "+moment(collItem.date*1000).format('HH:mm')+")"});
+                  this.setState({noAlert:"There is a collusion! (With "+collItem.topic+" at "+moment(collItem.date).format('HH:mm')+")"});
                   return true;
                }
                if(ts[i].room===ts[j].room || ts[i].room===""){
                   //console.log("start>=end", ts[i].date>=ts[j].date+ts[j].duration);
                   //console.log("start>start", ts[i].date>ts[j].date);
-                  if(!(ts[i].date>=ts[j].date+(ts[j].duration*60) && ts[i].date>ts[j].date)){
+                  if(!(ts[i].date>=ts[j].date+(ts[j].duration*60000) && ts[i].date>ts[j].date)){
                      d = true;
                      //end-begin collusion bug fix
                      collItem = ts[i].id===this.state.id ? ts[j] : ts[i];
@@ -219,7 +230,7 @@ class AddTalk extends React.Component {
                }
             }
          }
-         if(d){this.setState({noAlert:"There is a collusion! (With "+collItem.topic+" at "+moment(collItem.date*1000).format('HH:mm')+")"})}
+         if(d){this.setState({noAlert:"There is a collusion! (With "+collItem.topic+" at "+moment(collItem.date).format('HH:mm')+")"})}
          return d;
       }else{
          return true;

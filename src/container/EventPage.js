@@ -54,7 +54,7 @@ class EventPage extends Component {
 
    changeDateValue = (name) => {
       return (date) => {
-         this.setState({[name]:moment(date).unix() * 1000})
+         this.setState({[name]:moment(date).valueOf()})
       }
    };
    //sasasasasasas
@@ -64,8 +64,8 @@ class EventPage extends Component {
       }else if(this.state.event_duration_days<1) {
          this.setState({warning: true, message: "You must enter a valid day.", type:"error"})
       }else{
-         let t = moment( this.state.event_time ).unix()*1000;
-         let et = moment(  this.state.event_time + (24*60*60*(this.state.event_duration_days-1)*1000) + (this.state.event_duration*60*60*1000)).unix()*1000;
+         let t = moment( this.state.event_time ).valueOf();
+         let et = moment(  this.state.event_time + (24*60*60*(this.state.event_duration_days-1)*1000) + (this.state.event_duration*60*60*1000)).valueOf();
          this.props.createEvent(this.props.user.id,this.state.event_name, t, et)
       }
    };

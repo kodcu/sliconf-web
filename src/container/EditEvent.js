@@ -351,7 +351,7 @@ class EditEvent extends React.Component {
    */
    changeDateValue = (name) => {
       return (date) => {
-         this.setState({[name]: moment(moment(date).unix() * 1000), changed: true})
+         this.setState({[name]: moment(date), changed: true})
       }
    };
 
@@ -538,8 +538,8 @@ class EditEvent extends React.Component {
          return {
             "key": this.props.match.params.eventId,
             "name": this.state.name,
-            "startDate": moment(this.state.startDate*1000).unix(),
-            "endDate": moment(this.state.endDate*1000).unix(),
+            "startDate": moment(this.state.startDate).valueOf(),
+            "endDate": moment(this.state.endDate).valueOf(),
             "logoPath": this.state.logoPath,
             "description":  this.state.description,
             "about": {

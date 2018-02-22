@@ -36,7 +36,7 @@ const ListItem = ({talk, removeTalk, editTalk, speaker, room, presentation}) => 
          </td>
          <td onClick={()=>{editTalk(talk.id)}} style={{width:"200px"}}>{room ? room.label : ''}</td>
          <td onClick={()=>{editTalk(talk.id)}} style={{width:"200px"}}>{speaker ? speaker.name : ''}</td>
-         <td onClick={()=>{editTalk(talk.id)}} style={{textAlign:"center"}}>{("0" + new Date(talk.date*1000).getDate()).slice(-2)+"."+("0" + (new Date(talk.date*1000).getMonth()+1)).slice(-2)+"."+new Date(talk.date*1000).getFullYear()+" "+("0" + new Date(talk.date*1000).getHours()).slice(-2)+":"+("0" + new Date(talk.date*1000).getMinutes()).slice(-2)}</td>
+         <td onClick={()=>{editTalk(talk.id)}} style={{textAlign:"center"}}>{("0" + new Date(talk.date).getDate()).slice(-2)+"."+("0" + (new Date(talk.date).getMonth()+1)).slice(-2)+"."+new Date(talk.date).getFullYear()+" "+("0" + new Date(talk.date).getHours()).slice(-2)+":"+("0" + new Date(talk.date).getMinutes()).slice(-2)}</td>
          <td onClick={()=>{editTalk(talk.id)}}><div className="circle">{talk.duration} Min</div></td>
          <td onClick={()=>{editTalk(talk.id)}} className="topics" style={{width:"200px",maxWidth:"200px"}}><div className="ongoing">{talk.tags.length>0 ? talk.tags.map((topic)=>{return <div key={topic} className="room">{topic}</div>}) : talk.level===-1 ? 'Break' : "No tags to be listed"}</div></td>
 
