@@ -29,8 +29,13 @@ export default function clientMiddleware(client) {
          const [REQUEST, SUCCESS, FAILURE] = types;
          next({...rest, type: REQUEST});
 
-         // TODO getState().auth.token olacak
-         client.token = 'token123';
+          const tokenState = getState();
+
+          if (tokenState && tokenState.auth && tokenState.auth.user && tokenState.auth.user.token) {
+              client.token = tokenState.auth.user.token;
+          } else {
+             client.token = "";
+          }
 
          const actionPromise = promise(client);
          actionPromise.then(

@@ -29,7 +29,8 @@ export default class ApiClient {
             const request = superagent[method](formatUrl(path));
 
             if(!file){
-               request.set("Content-Type", "application/json")
+               request.set("Content-Type", "application/json");
+               request.set("Authorization", this.token);
             }
             /*
             if(this.token){
@@ -47,7 +48,25 @@ export default class ApiClient {
                request.attach('uploaded_file', file)
             }
 
-            request.end((err, {body} = {}) => err ? reject(body || err) : resolve(body));
+            request.end((err, res) => {
+                if(res && res.status === 401){
+                    //Clear cookies
+                    document.cookie.split(";").forEach(function(c){
+                        document.cookie = c.replace(/^ +/, "")
+                            .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+                    });
+                    //And redirect
+                    setTimeout(function(){
+                        window.location = "/logout";
+                    },1);
+                }
+
+                if (err) {
+                    reject(res.body || err);
+                } else {
+                    resolve(res.body);
+                }
+            });
          }));
    }
 }
