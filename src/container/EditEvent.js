@@ -248,6 +248,10 @@ class EditEvent extends React.Component {
       }
    };
 
+   sortRooms = (a,b) => {
+      return a.label>b.label; 
+   };
+
    componentWillReceiveProps(nextProps) {
       //console.log("bisiler oldu");
       //console.log(nextProps.fetch);
@@ -311,7 +315,7 @@ class EditEvent extends React.Component {
             lat: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.lat ? nextProps.event.about.location.lat : '' : '' : '',
             lng: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.lng ? nextProps.event.about.location.lng : '' : '' : '',
             mapdescription: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.description ? nextProps.event.about.location.description : '' : '' : '',
-            rooms:nextProps.event.rooms ? nextProps.event.rooms : [],
+            rooms:nextProps.event.rooms ? nextProps.event.rooms.sort(this.sortRooms) : [],
             sponsors: nextProps.event.sponsors ? nextProps.event.sponsors : {},
             speakers: nextProps.event.speakers ? nextProps.event.speakers : [],
             agenda: nextProps.event.agenda ? nextProps.event.agenda : [],
