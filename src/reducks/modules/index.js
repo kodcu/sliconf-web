@@ -8,14 +8,16 @@ import speaker from "./speaker"
 import room from "./room"
 import comment from "./comment"
 import silly from "./silly"
+import admin from "./admin"
 
 export default combineReducers({
-   //routing : routerReducer,
-   rehydrate,
-   auth,
-   event,
-   room,
-   speaker,
-   comment,
-   silly,
+    //routing : routerReducer,
+    rehydrate,
+    auth,
+    event,
+    room,
+    speaker,
+    comment,
+    silly,
+    admin
 });

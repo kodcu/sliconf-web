@@ -12,6 +12,7 @@ import AddEventSuccess from "./EventSuccess";
 import ForgotPass from "./ForgotPass";
 import {history} from '../reducks'
 import PrivateRoute from "./PrivateRoute";
+import PrivateAdminRoute from "./PrivateAdminRoute";
 import PublicRoute from "./PublicRoute";
 import MasterPage from "./MasterPage";
 import Speakers from "./Speakers";
@@ -29,6 +30,7 @@ import Speaker from "./Speaker";
 import Error from "./Error";
 import Presentation from "./Presentation";
 import PresentationSelect from "./PresentationSelect";
+import AdminPage from "./AdminPage";
 
 class App extends Component {
    render() {
@@ -63,6 +65,7 @@ class App extends Component {
                      <PrivateRoute path="/addevent" component={AddEvent}/>
                      <PrivateRoute path="/settings" component={Settings}/>
                      <PrivateRoute path="/changepassword" component={PassChange}/>
+                     <PrivateAdminRoute path="/admin" component={AdminPage}/>
                      <Route path="/p/:eventId" component={Presentation}/>
                      <Route path="/logout" component={Logout}/>
                      <Route path="/410" render={routeProps => <Error {...routeProps} error={"410"}/>} />
