@@ -69,7 +69,7 @@ class RoomCreate extends React.Component {
          <div className="row">
             <div className="twelve columns" style={{marginLeft:0}}>
                <div className="five columns">
-                  <input data-tip data-event='click' data-event-off='dblclick' className="moving u-full-width" ref={"focusAfterCreate"} type="text" id="roomname" value={this.state.label} onChange={(e) => {this.setState({warning:'',label: e.currentTarget.value});}}/>
+                  <input maxLength="120" data-tip data-event='click' data-event-off='dblclick' className="moving u-full-width" ref={"focusAfterCreate"} type="text" id="roomname" value={this.state.label} onChange={(e) => {this.setState({warning:'',label: e.currentTarget.value});}}/>
                   <label htmlFor="roomname">Room Name</label>
                </div>
                <div className="four columns">

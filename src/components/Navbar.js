@@ -68,6 +68,7 @@ class NavBar extends Component {
    componentDidMount(){
       //console.log(this.props);
       this.setState({
+          isAdmin: this.props.auth && this.props.auth.user && this.props.auth.user.role === "ROLE_ADMIN",
          step:this.props.silly.step,
          percentage: (this.props.event && this.props.event.event && this.props.event.event.statusDetails && this.props.event.event.statusDetails.percentage) ? this.props.event.event.statusDetails.percentage : 0,
       });
@@ -109,7 +110,8 @@ class NavBar extends Component {
 
    componentWillReceiveProps(nextProps){
       this.setState({
-         step:nextProps.silly.step,
+          isAdmin: this.props.auth && this.props.auth.user && this.props.auth.user.role === "ROLE_ADMIN",
+          step:nextProps.silly.step,
          percentage: (nextProps.event && nextProps.event.event && nextProps.event.event.statusDetails && nextProps.event.event.statusDetails.percentage) ? nextProps.event.event.statusDetails.percentage : 0,
          lastStep:nextProps.silly.lastStep,
       });
@@ -152,7 +154,11 @@ class NavBar extends Component {
                         <ul className="navbar-list">
                            <AuthView out><li onClick={this.mobileToggle} className="navbar-item"><Link className="navbar-link" to="/login">Sign In</Link></li></AuthView>
                            <AuthView out><li onClick={this.mobileToggle} className="navbar-item"><Link className="navbar-link" to="/register">Register</Link></li></AuthView>
-                           <AuthView in><li onClick={this.mobileToggle} className="navbar-item"><Link className="navbar-link" to="/events">Events</Link></li></AuthView>
+                            {
+                               this.state.isAdmin ? (
+                                <AuthView in><li onClick={this.mobileToggle} className="navbar-item"><Link className="navbar-link" to="/admin">Admin</Link></li></AuthView>) : (null)
+                            }
+                            <AuthView in><li onClick={this.mobileToggle} className="navbar-item"><Link className="navbar-link" to="/events">Events</Link></li></AuthView>
                            <AuthView in><li onClick={this.mobileToggle} className="navbar-item"><Link className="navbar-link" to="/settings">Settings</Link></li></AuthView>
                            <AuthView in><li onClick={this.mobileToggle} className="navbar-item"><Link className="navbar-link" to="/logout">Sign Out</Link></li></AuthView>
                         </ul>
@@ -173,11 +179,11 @@ const mapStateToProps = (state, ownProps) => {
       event: state.event,
       auth: state.auth,
    }
-}
+};
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
    return bindActionCreators({...Silly}, dispatch)
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar)

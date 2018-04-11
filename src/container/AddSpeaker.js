@@ -145,33 +145,33 @@ class AddSpeaker extends React.Component {
                         </Modal>
                         <div className="row">
                            <div className="twelve columns">
-                              <input autoFocus className="moving u-full-width" type="text" id="fullname"
+                              <input maxLength="120" autoFocus className="moving u-full-width" type="text" id="fullname"
                                      value={this.state.fullName} onChange={this.changeValue('fullName')}/>
                               <label htmlFor="fullname">Full Name</label>
                            </div>
                         </div>
                         <div className="row">
                            <div className="twelve columns">
-                              <input className="moving u-full-width" type="text" id="worksat"
+                              <input maxLength="120" className="moving u-full-width" type="text" id="worksat"
                                      value={this.state.workingAt} onChange={this.changeValue('workingAt')}/>
                               <label htmlFor="worksat">Works At</label>
                            </div>
                         </div>
                         <div className="row">
                            <div className="twelve columns">
-                              <label htmlFor="pass">Detail</label>
+                              <label maxLength="2000" htmlFor="pass">Detail</label>
                               <textarea style={{minHeight: 110}} className="u-full-width" value={this.state.detail}
                                         onChange={this.changeValue('detail')}/>
                            </div>
                         </div>
                         <div className="row">
                            <div className="six columns">
-                              <input type="text" className="moving u-full-width" value={this.state.linkedin} id="linkedin"
+                              <input maxLength="120" type="text" className="moving u-full-width" value={this.state.linkedin} id="linkedin"
                                      onChange={this.changeValue('linkedin')}/>
                               <label htmlFor="linkedin">linkedin</label>
                            </div>
                            <div className="six columns">
-                              <input type="text" className="moving u-full-width" value={this.state.twitter} id="twitter"
+                              <input maxLength="120" type="text" className="moving u-full-width" value={this.state.twitter} id="twitter"
                                      onChange={this.changeValue('twitter')}/>
                               <label htmlFor="twitter">twitter</label>
                            </div>
