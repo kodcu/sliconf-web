@@ -249,7 +249,7 @@ class EditEvent extends React.Component {
    };
 
    sortRooms = (a,b) => {
-      return a.label>b.label; 
+      return a.label>b.label;
    };
 
    componentWillReceiveProps(nextProps) {
@@ -1256,6 +1256,7 @@ class EditEvent extends React.Component {
                   <div className="six columns">
                      <label htmlFor="modalName">Name</label>
                      <input autoFocus className="u-full-width" type="text" id="modalName" value={this.state.modalName} onKeyPress={this.handleKeyPress} onChange={(e) => this.setState({modalName:e.currentTarget.value})}/>
+                     <p className={"modal-tip"}>We prefer the photo under 1MB and square.</p>
                      <div className="span" style={{float:"right"}}>
                         <button onClick={this.modalSave} className={"button-primary"}>{this.state.modalIsNew ? "ADD" : "SAVE"}</button>
                      </div>
