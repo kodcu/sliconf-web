@@ -69,7 +69,7 @@ class SponsorTagCreate extends React.Component {
          <div className="row">
             <div className="twelve columns" style={{marginLeft:0}}>
                <div className="nine columns">
-                  <input data-tip data-event='click' data-event-off='dblclick' ref={"focusAfterCreate"} className="moving u-full-width" type="text" id="tagname" value={this.state.label} onChange={(e) => {this.setState({warning:'',label: e.currentTarget.value});}}/>
+                  <input maxLength="120" data-tip data-event='click' data-event-off='dblclick' ref={"focusAfterCreate"} className="moving u-full-width" type="text" id="tagname" value={this.state.label} onChange={(e) => {this.setState({warning:'',label: e.currentTarget.value});}}/>
                   <label htmlFor="tagname">Sponsorship Packages</label>
                </div>
                <div className="three columns">

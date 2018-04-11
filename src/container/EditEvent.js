@@ -109,7 +109,7 @@ const MapWithASearchBox = compose(
          onPlacesChanged={props.onPlacesChanged}
       >
          <input
-            type="text"
+             type="text"
             placeholder= {props.mapdescription ? props.mapdescription : "Search"}
             style={{
                marginLeft:'1%',
@@ -249,7 +249,7 @@ class EditEvent extends React.Component {
    };
 
    sortRooms = (a,b) => {
-      return a.label>b.label; 
+      return a.label>b.label;
    };
 
    componentWillReceiveProps(nextProps) {
@@ -1255,7 +1255,7 @@ class EditEvent extends React.Component {
                   </div>
                   <div className="six columns">
                      <label htmlFor="modalName">Name</label>
-                     <input autoFocus className="u-full-width" type="text" id="modalName" value={this.state.modalName} onKeyPress={this.handleKeyPress} onChange={(e) => this.setState({modalName:e.currentTarget.value})}/>
+                     <input maxLength="120" autoFocus className="u-full-width" type="text" id="modalName" value={this.state.modalName} onKeyPress={this.handleKeyPress} onChange={(e) => this.setState({modalName:e.currentTarget.value})}/>
                      <div className="span" style={{float:"right"}}>
                         <button onClick={this.modalSave} className={"button-primary"}>{this.state.modalIsNew ? "ADD" : "SAVE"}</button>
                      </div>
@@ -1362,7 +1362,7 @@ class EditEvent extends React.Component {
                               </div>
                               <div className="twelve columns">
                                  <label htmlFor="desc">Event Description</label>
-                                 <textarea style={{height:"150px"}} className="u-full-width" id="desc" value={this.state.description} onChange={(e) => this.setState({description: e.currentTarget.value, changed: true})}/>
+                                 <textarea maxLength="2000" style={{height:"150px"}} className="u-full-width" id="desc" value={this.state.description} onChange={(e) => this.setState({description: e.currentTarget.value, changed: true})}/>
                               </div>
                            </div>
                            <div className="six columns mtop50">
@@ -1389,21 +1389,21 @@ class EditEvent extends React.Component {
                               <h3>Social</h3>
                               <div className="twelve columns">
                                  <div className="six columns">
-                                    <input className="moving u-full-width" type="text" id="facebook" value={this.state.facebook} onChange={(e) => this.setState({facebook:e.currentTarget.value, changed:true})}/>
+                                    <input maxLength="240" className="moving u-full-width" type="text" id="facebook" value={this.state.facebook} onChange={(e) => this.setState({facebook:e.currentTarget.value, changed:true})}/>
                                     <label htmlFor="facebook">facebook</label>
                                  </div>
                                  <div className="six columns">
-                                    <input className="moving u-full-width" type="text" id="instagram" value={this.state.instagram} onChange={(e) => this.setState({instagram:e.currentTarget.value, changed:true})}/>
+                                    <input maxLength="240" className="moving u-full-width" type="text" id="instagram" value={this.state.instagram} onChange={(e) => this.setState({instagram:e.currentTarget.value, changed:true})}/>
                                     <label htmlFor="instagram">instagram</label>
                                  </div>
                               </div>
                               <div className="twelve columns">
                                  <div className="six columns">
-                                    <input className="moving u-full-width" type="text" id="youtube" value={this.state.youtube} onChange={(e) => this.setState({youtube:e.currentTarget.value, changed:true})}/>
+                                    <input maxLength="240" className="moving u-full-width" type="text" id="youtube" value={this.state.youtube} onChange={(e) => this.setState({youtube:e.currentTarget.value, changed:true})}/>
                                     <label htmlFor="youtube">Youtube</label>
                                  </div>
                                  <div className="six columns">
-                                    <input className="moving u-full-width" type="text" id="twitter" value={this.state.twitter} onChange={(e) => this.setState({twitter:e.currentTarget.value, changed:true})}/>
+                                    <input maxLength="240" className="moving u-full-width" type="text" id="twitter" value={this.state.twitter} onChange={(e) => this.setState({twitter:e.currentTarget.value, changed:true})}/>
                                     <label htmlFor="twitter">twitter</label>
                                  </div>
                               </div>
@@ -1416,11 +1416,11 @@ class EditEvent extends React.Component {
                               <h3>Contact</h3>
                               <div className="twelve columns" style={{marginLeft:0}}>
                                  <div className="six columns">
-                                    <input className="moving u-full-width" type="text" id="website" value={this.state.web} onChange={(e) => this.setState({web:e.currentTarget.value, changed:true})}/>
+                                    <input maxLength="120" className="moving u-full-width" type="text" id="website" value={this.state.web} onChange={(e) => this.setState({web:e.currentTarget.value, changed:true})}/>
                                     <label htmlFor="website">Website</label>
                                  </div>
                                  <div className="six columns">
-                                    <input className="moving u-full-width" type="text" id="email" value={this.state.email} onChange={(e) => this.setState({email:e.currentTarget.value, changed:true})}/>
+                                    <input maxLength="120" className="moving u-full-width" type="text" id="email" value={this.state.email} onChange={(e) => this.setState({email:e.currentTarget.value, changed:true})}/>
                                     <label htmlFor="email">E-MAIL</label>
                                  </div>
                               </div>

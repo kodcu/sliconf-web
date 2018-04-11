@@ -88,13 +88,13 @@ class PassChange extends Component {
                      <div className="row">
                         <div className="twelve columns mtop50">
 
-                           <input autoFocus className={classNames("moving",{'hata': this.state.opassWarning})} type="password" id="cpass" value={this.state.oldpassword}
+                           <input maxLength="30" autoFocus className={classNames("moving",{'hata': this.state.opassWarning})} type="password" id="cpass" value={this.state.oldpassword}
                                   onChange={(e) => this.setState({oldpassword: e.target.value})}/>
                            <label htmlFor="cpass">CURRENT Password</label>
                         </div>
                         <div className="twelve columns">
 
-                           <input className={classNames("moving",{'hata': this.state.passWarning})} type="password" id="pass" value={this.state.password}
+                           <input maxLength="30" className={classNames("moving",{'hata': this.state.passWarning})} type="password" id="pass" value={this.state.password}
                                   onChange={(e) => this.setState({password: e.target.value})}/>
                            <label htmlFor="pass">NEW Password</label>
                         </div>
