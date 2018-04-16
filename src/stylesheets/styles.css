@@ -2704,3 +2704,21 @@ td:hover .percentage::after{
     color: gray;
     font-size: 11px !important;
 }
+
+.googleLogo::before{
+    content:'';
+    background: url("../img/google.svg");
+    width: 24px;
+    height: 24px;
+    margin: 6px 12px 0 0;
+    float: left;
+}
+
+.linkedInLogo::before{
+    content:'';
+    background: url("../img/linkedin.svg");
+    width: 24px;
+    height: 24px;
+    margin: 6px 12px 0 0;
+    float: left;
+}

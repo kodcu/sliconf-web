@@ -142,31 +142,40 @@ class Login extends React.Component {
                         </div>
                      </div>
 
-                      <div className="row">
-                          <div className="six columns">
-                              <GoogleLogin
-                                  clientId="31237231524-4vibq7hrr7g6dsp1h9oh5h9k9mmndhhq.apps.googleusercontent.com"
-                                  buttonText="Google"
-                                  className="button-primary"
-                                  onSuccess={this.responseGoogle}
-                                  onFailure={this.responseGoogle}
-                              />
-                          </div>
-                          {/*<div className="six columns">*/}
-                              {/*<SocialButton*/}
-                                  {/*provider='linkedin'*/}
-                                  {/*appId='863g25szn8vggb'*/}
-                                  {/*onLoginSuccess={this.responseLinkedIn}*/}
-                                  {/*onLoginFailure={this.responseLinkedIn}*/}
-                                  {/*className="button-primary"*/}
-                              {/*>LinkedIn</SocialButton>*/}
-                          {/*</div>*/}
-                      </div>
+
 
                      <div className="row mtop25">
                         <div className="six columns">
                            <button className="button-primary" onClick={this.login}>Sign In</button><Link style={{fontSize:"12px",display:"inline-block",marginLeft:10}} className="forgotpass" to="/forgotpass">Lost password?</Link>
                         </div>
+                     </div>
+
+                     <div className="row">
+                        <span style={{color:"#666", lineHeight:"64px",fontWeight: "bold"}}>or</span><br />
+                        <GoogleLogin
+                           clientId="31237231524-4vibq7hrr7g6dsp1h9oh5h9k9mmndhhq.apps.googleusercontent.com"
+                           buttonText={
+                              <div className="googleLogo">
+                                 <span>Sign in with Google</span>
+                              </div>
+                           }
+                           className="button-google"
+                           onSuccess={this.responseGoogle}
+                           onFailure={this.responseGoogle}
+                        />
+                        {/*
+                        <SocialButton
+                           provider='linkedin'
+                           appId='863g25szn8vggb'
+                           onLoginSuccess={this.responseLinkedIn}
+                           onLoginFailure={this.responseLinkedIn}
+                           className="button-linkedin"
+                        >
+                           <div className="linkedInLogo">
+                              <span>Sign in with Linkedin</span>
+                           </div>
+                        </SocialButton>
+                        */}
                      </div>
                   </div>
 
