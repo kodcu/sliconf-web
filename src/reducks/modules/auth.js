@@ -159,6 +159,21 @@ export function login(username, password, captcha) {
    }
 }
 
+/**
+ * Google ya da Linkedin gibi servisler uzerinden login olmayi saglar
+ * @param serviceName -- google ya da linkedin
+ * @param token -- servis uzerinden alinmis token
+ * @returns {{types: *[], promise: function(*): (Request|*)}}
+ */
+export function loginWithService(serviceName, token) {
+    let url = '/users/login/auth/' + serviceName + '/' + token;
+
+    return {
+        types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
+        promise: (client) => client.post(url)
+    }
+}
+
 export function register(email, username, password) {
    return {
       types: [REGISTER, REGISTER_SUCCESS, REGISTER_FAIL],

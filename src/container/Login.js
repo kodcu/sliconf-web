@@ -7,6 +7,9 @@ import {Link} from 'react-router-dom';
 import Validator from '../helpers/Validator';
 import ReCaptcha from 'react-google-recaptcha';
 
+// import GoogleLogin from '../components/login/GoogleLogin';
+import GoogleLogin from 'react-google-login';
+import SocialButton from "../components/SocialButton";
 
 class Login extends React.Component {
 
@@ -48,6 +51,28 @@ class Login extends React.Component {
    };
 //
 
+    responseGoogle = (response) => {
+        console.log(response);
+        this.setState({userWarning: false, passWarning:false});
+        if (response && response !== undefined && response !== null && !response.error) {
+            this.props.loginWithService('google', response.tokenId);
+        } else {
+            this.setState({userWarning: true})
+            this.setState({warning: true, message: "Check your Google Authentication!", type:"error"})
+        }
+    };
+
+    responseLinkedIn = (response) => {
+        console.log(response);
+
+        this.setState({userWarning: false, passWarning:false});
+        if (response && response !== undefined && response !== null && !response.error && response._token) {
+            this.props.loginWithService('linkedin', response._token.accessToken);
+        } else {
+            this.setState({userWarning: true})
+            this.setState({warning: true, message: "Check your LinkedIn Authentication!", type:"error"})
+        }
+    };
 
    login = () => {
       //reset
@@ -116,6 +141,27 @@ class Login extends React.Component {
                            />
                         </div>
                      </div>
+
+                      <div className="row">
+                          <div className="six columns">
+                              <GoogleLogin
+                                  clientId="31237231524-4vibq7hrr7g6dsp1h9oh5h9k9mmndhhq.apps.googleusercontent.com"
+                                  buttonText="Google"
+                                  className="button-primary"
+                                  onSuccess={this.responseGoogle}
+                                  onFailure={this.responseGoogle}
+                              />
+                          </div>
+                          {/*<div className="six columns">*/}
+                              {/*<SocialButton*/}
+                                  {/*provider='linkedin'*/}
+                                  {/*appId='863g25szn8vggb'*/}
+                                  {/*onLoginSuccess={this.responseLinkedIn}*/}
+                                  {/*onLoginFailure={this.responseLinkedIn}*/}
+                                  {/*className="button-primary"*/}
+                              {/*>LinkedIn</SocialButton>*/}
+                          {/*</div>*/}
+                      </div>
 
                      <div className="row mtop25">
                         <div className="six columns">
