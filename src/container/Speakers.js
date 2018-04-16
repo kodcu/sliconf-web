@@ -66,7 +66,8 @@ class Speakers extends React.Component {
 
    exportJSON = () => {
       const items = this.state.speakers;
-      const header = Object.keys(items[0]);
+      const header = items[0] ? Object.keys(items[0]) : "id,name,profilePicture,workingAt,about,twitter,linkedin".split(",");
+      console.log(header);
       let text = header+",safeCol"+"\n"+this.JSONcsv(items);
       let fileBlob = new Blob([text], {type: "application/octet-binary"});
       let link = document.createElement("a");

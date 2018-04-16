@@ -98,12 +98,12 @@ class PassReset extends Component {
                      </div>
                      <div className="row">
                         <div className="twelve columns">
-                           <input autoFocus className={classNames("moving",{'hata': this.state.passWarning})} type="password" id="pass" value={this.state.password}
+                           <input maxLength="30" autoFocus className={classNames("moving",{'hata': this.state.passWarning})} type="password" id="pass" value={this.state.password}
                                   onChange={(e) => this.setState({password: e.target.value})}/>
                            <label htmlFor="pass">Password</label>
                         </div>
                         <div className="twelve columns">
-                        <input className={classNames("moving",{'hata': this.state.passaWarning})} type="password" id="pass" value={this.state.passworda}
+                        <input maxLength="30" className={classNames("moving",{'hata': this.state.passaWarning})} type="password" id="pass" value={this.state.passworda}
                                onChange={(e) => this.setState({passworda: e.target.value})}/>
                            <label htmlFor="pass">Password (again)</label>
                         </div>

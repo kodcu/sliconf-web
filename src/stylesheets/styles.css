@@ -2698,3 +2698,9 @@ td:hover .percentage::after{
           transform: scale(1);
       }
 }
+
+.modal-tip{
+    text-transform: uppercase;
+    color: gray;
+    font-size: 11px !important;
+}

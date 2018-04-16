@@ -257,7 +257,7 @@ class AddTalk extends React.Component {
                                  </div>
                                  <div className="row">
                                     <div className="twelve columns">
-                                       <input autoFocus className="moving u-full-width" type="text" id={"topic"}
+                                       <input maxLength="120" autoFocus className="moving u-full-width" type="text" id={"topic"}
                                               value={this.state.topic} onChange={this.changeValue('topic')}/>
                                        <label htmlFor="topic">Topic</label>
                                     </div>
@@ -312,13 +312,13 @@ class AddTalk extends React.Component {
                                  <div className="row">
                                     <div className="twelve columns">
                                        <label>Duration(<small>minutes</small>)</label>
-                                       <input type="number" className="u-full-width" value={this.state.duration} onChange={this.changeValue('duration')}/>
+                                       <input maxLength="4" type="number" className="u-full-width" value={this.state.duration} onChange={this.changeValue('duration')}/>
                                     </div>
                                  </div>
                               </div>
                               <div className="row">
                                  <div className="twelve columns">
-                                    <input className="moving u-full-width" type="text" id={"tags"}
+                                    <input maxLength="60" className="moving u-full-width" type="text" id={"tags"}
                                            value={this.state.topicsRaw} onChange={this.changeValue('topicsRaw')}/>
                                     <label htmlFor="tags">Tags (seperate with comma)</label>
                                  </div>

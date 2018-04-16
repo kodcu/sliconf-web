@@ -65,21 +65,21 @@ class Settings extends Component {
 
                <div className="row mtop50">
                   <div className="six columns">
-                     <input autoFocus className={"moving"} type="text" id="fname" value={this.state.fullname}
+                     <input maxLength="120" autoFocus className={"moving"} type="text" id="fname" value={this.state.fullname}
                             onChange={(e) => this.setState({fullname: e.target.value})}/>
                      <label htmlFor="fname">full name</label>
                   </div>
                </div>
                <div className="row">
                   <div className="six columns">
-                     <input className={classNames("moving",{'hata': this.state.userWarning})} type="text" id="name" value={this.state.username}
+                     <input maxLength="30" className={classNames("moving",{'hata': this.state.userWarning})} type="text" id="name" value={this.state.username}
                             onChange={(e) => this.setState({username: e.target.value})}/>
                      <label htmlFor="name">username</label>
                   </div>
                </div>
                <div className="row">
                   <div className="six columns">
-                     <input disabled={true} className={classNames("moving",{'hata': this.state.mailWarning})} type="email" id="mail" value={this.state.email}
+                     <input maxLength="120" disabled={true} className={classNames("moving",{'hata': this.state.mailWarning})} type="email" id="mail" value={this.state.email}
                             onChange={(e) => this.setState({email: e.target.value})}/>
                      <label htmlFor="mail">e-mail</label>
                   </div>
