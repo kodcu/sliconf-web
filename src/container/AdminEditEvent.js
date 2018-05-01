@@ -113,7 +113,7 @@ class AdminEditEvent extends React.Component {
                                                         name="packageSelection"
                                                         key="packageSelectionKey"
                                                         onChange={this.changeValue}
-                                                        value={this.state.eventState.id}>
+                                                        value={this.state.eventState ? this.state.eventState.id : ""}>
                                                     {
                                                         this.state.eventPackages.map((ePackage) => <option
                                                             key={ePackage.id}
