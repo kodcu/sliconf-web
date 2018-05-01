@@ -120,13 +120,14 @@ class AdminEventList extends React.Component {
                                     <th onClick={() => {
                                         this.changeOrder("startDate")
                                     }} style={{textAlign: "center"}}>Date {this.returnIcons("startDate")}</th>
+                                    <th style={{textAlign: "center"}}>Email</th>
                                     <th style={{textAlign: "center"}}>Status</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {(this.state.events && this.state.events.length) ? null : <EventsNotAvailable/>}
                                 {this.state.events ? this.state.events.map((event) => {
-                                    return <tr data-offset="{'top': 2}" key={event.id}>
+                                    return <tr data-tip="Click to Edit" data-offset="{'top': 2}" key={event.id} onClick={() => this.props.history.push('/admin/' + event.key + '/edit')}>
                                         <td>
                                             <div className='eventimage'
                                                  style={{backgroundImage: 'url(https://app.sliconf.com/api/image/get/' + event.logoPath + ')'}}/>
@@ -134,6 +135,7 @@ class AdminEventList extends React.Component {
                                         <td>{event.name}</td>
                                         <td style={{textAlign: "center"}} className="miniCode">{event.key}</td>
                                         <td style={{textAlign: "center"}}>{("0" + new Date(event.startDate).getDate()).slice(-2) + "." + ("0" + (new Date(event.startDate).getMonth() + 1)).slice(-2) + "." + new Date(event.startDate).getFullYear()}</td>
+                                        <td style={{textAlign: "center"}}>{event.userObject ? event.userObject.email : '-'}</td>
                                         <td style={{textAlign: "center"}}>
                                             {(event.status === true) ?
                                                 <div

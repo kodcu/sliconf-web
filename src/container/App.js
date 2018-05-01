@@ -31,6 +31,7 @@ import Error from "./Error";
 import Presentation from "./Presentation";
 import PresentationSelect from "./PresentationSelect";
 import AdminPage from "./AdminPage";
+import AdminEditEvent from "./AdminEditEvent";
 
 class App extends Component {
    render() {
@@ -65,8 +66,11 @@ class App extends Component {
                      <PrivateRoute path="/addevent" component={AddEvent}/>
                      <PrivateRoute path="/settings" component={Settings}/>
                      <PrivateRoute path="/changepassword" component={PassChange}/>
+
+                      <PrivateAdminRoute path="/admin/:eventId/edit" component={AdminEditEvent}/>
                      <PrivateAdminRoute path="/admin" component={AdminPage}/>
-                     <Route path="/p/:eventId" component={Presentation}/>
+
+                      <Route path="/p/:eventId" component={Presentation}/>
                      <Route path="/logout" component={Logout}/>
                      <Route path="/410" render={routeProps => <Error {...routeProps} error={"410"}/>} />
                      <Route path="/401" render={routeProps => <Error {...routeProps} error={"401"}/>} />

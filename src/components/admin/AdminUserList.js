@@ -92,7 +92,6 @@ class AdminUserList extends React.Component {
                                     <th onClick={() => {
                                         this.changeOrder("role")
                                     }} style={{textAlign: "center"}}>Role {this.returnIcons("role")}</th>
-                                    <th style={{textAlign: "center"}}>Anonymous</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -103,7 +102,6 @@ class AdminUserList extends React.Component {
                                         <td>{user.fullname}</td>
                                         <td style={{textAlign: "center"}} className="miniCode">{user.email}</td>
                                         <td style={{textAlign: "center"}}>{user.role}</td>
-                                        <td style={{textAlign: "center"}}>{user.anonymous ? 'true' : 'false'}</td>
                                     </tr>
                                 }) : null}
                                 </tbody>

@@ -6,11 +6,24 @@ const FETCH_EVENTS = 'admin/FETCH_EVENTS';
 const FETCH_EVENTS_SUCCESS = 'admin/FETCH_EVENTS_SUCCESS';
 const FETCH_EVENTS_FAIL = 'admin/FETCH_EVENTS_FAIL';
 
+const FETCH_EVENT_PACKAGES = 'admin/FETCH_EVENT_PACKAGES';
+const FETCH_EVENT_PACKAGES_SUCCESS = 'admin/FETCH_EVENT_PACKAGES_SUCCESS';
+const FETCH_EVENT_PACKAGES_FAIL = 'admin/FETCH_EVENT_PACKAGES_FAIL';
+
+
+const CHANGE_EVENT_PACKAGE = 'admin/CHANGE_EVENT_PACKAGE';
+const CHANGE_EVENT_PACKAGE_SUCCESS = 'admin/CHANGE_EVENT_PACKAGE_SUCCESS';
+const CHANGE_EVENT_PACKAGE_FAIL = 'admin/CHANGE_EVENT_PACKAGE_FAIL';
+
 const initialState = {
     userLoading: false,
     eventLoading: false,
+    eventPackagesLoading: false,
+    eventChangeStateLoading: false,
     users: [],
     events: [],
+    eventPackages: [],
+    eventStateResponse: []
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -54,6 +67,44 @@ export default function reducer(state = initialState, action = {}) {
                 events: [],
                 error: action.error
             };
+            ///
+        case FETCH_EVENT_PACKAGES:
+            return {
+                ...state,
+                eventPackagesLoading: true
+            };
+        case FETCH_EVENT_PACKAGES_SUCCESS:
+            return {
+                ...state,
+                eventPackagesLoading: false,
+                eventPackages: action.result.returnObject,
+            };
+        case FETCH_EVENT_PACKAGES_FAIL:
+            return {
+                ...state,
+                eventPackagesLoading: false,
+                eventPackages: [],
+                error: action.error
+            };
+            ///
+        case CHANGE_EVENT_PACKAGE:
+            return {
+                ...state,
+                eventChangeStateLoading: true
+            };
+        case CHANGE_EVENT_PACKAGE_SUCCESS:
+            return {
+                ...state,
+                eventChangeStateLoading: false,
+                eventStateResponse: action.result.returnObject,
+            };
+        case CHANGE_EVENT_PACKAGE_FAIL:
+            return {
+                ...state,
+                eventChangeStateLoading: false,
+                eventStateResponse: {},
+                error: action.error
+            };
         default:
             return state;
     }
@@ -62,7 +113,6 @@ export default function reducer(state = initialState, action = {}) {
 export function getUsersForAdmin() {
     return {
         types: [FETCH_USERS, FETCH_USERS_SUCCESS, FETCH_USERS_FAIL],
-        // TODO change url to correct one
         promise: (client) => client.get('/admin/list/users')
     }
 }
@@ -70,7 +120,20 @@ export function getUsersForAdmin() {
 export function getEventsForAdmin() {
     return {
         types: [FETCH_EVENTS, FETCH_EVENTS_SUCCESS, FETCH_EVENTS_FAIL],
-        // TODO change url to correct one
         promise: (client) => client.get('/admin/list/events')
+    }
+}
+
+export function getEventPackagesForAdmin() {
+    return {
+        types: [FETCH_EVENT_PACKAGES, FETCH_EVENT_PACKAGES_SUCCESS, FETCH_EVENT_PACKAGES_FAIL],
+        promise: (client) => client.get('/admin/list/event-states')
+    }
+}
+
+export function changeEventPackage(eventId, stateId) {
+    return {
+        types: [CHANGE_EVENT_PACKAGE, CHANGE_EVENT_PACKAGE_SUCCESS, CHANGE_EVENT_PACKAGE_FAIL],
+        promise: (client) => client.post(`/admin/change/event-state/${eventId}/${stateId}`)
     }
 }
