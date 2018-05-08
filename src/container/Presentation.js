@@ -22,7 +22,7 @@ class Presentation extends Component {
       toplam:1,
       logoPath: "https://trello-attachments.s3.amazonaws.com/58dfa1cf30e8221b3b4afb96/59c263323c5316634be52db8/x/239de66be9ba10b2beccec24c0969f0c/mavi-01.png",
       eventCode: this.props.match.params.eventId.toUpperCase(),
-
+      ignoreFirstCommentFetch:true,
    };
 
    //Bu kod react'in genel yapisina uygun degildir. Animasyonlu gecisleri yapmak icin HTML DOM MANIPULATION kullanilmistir.
@@ -31,6 +31,7 @@ class Presentation extends Component {
    unmountTimeouts = [];
 
    componentWillUnmount(){
+
       //geri gelme etkinligi varsa
       for(let i = 0; i < this.unmountIntervals.length; i++){
          clearInterval(this.unmountIntervals[i]);
@@ -46,20 +47,22 @@ class Presentation extends Component {
 
 
    componentDidMount() {
-      this.sortComments();
+      console.log(this.state);
 
+      this.sortComments();
       document.querySelector(".navbar").style.display = "none";
 
 
-      this.unmountIntervals.push(setInterval(function(){
+      this.unmountIntervals.push(setInterval(function () {
          this.getComments();
       }.bind(this), 3000));
 
       this.updateDimensions();
       window.addEventListener("resize", this.updateDimensions);
-      window.addEventListener("mousewheel", ()=>{this.boxClick()});
-      this.props.fetchEvent(this.props.match.params.eventId.toUpperCase().slice(0,4));
-
+      window.addEventListener("mousewheel", () => {
+         this.boxClick()
+      });
+      this.props.fetchEvent(this.props.match.params.eventId.toUpperCase().slice(0, 4));
    }
 
    easeInOutQuad = (t, b, c, d) => {
@@ -111,7 +114,7 @@ class Presentation extends Component {
          if(nextProps.event.deleted===true){
             this.props.history.push("/");
          }
-         //console.log(nextProps.event)
+         console.log(nextProps.event);
          this.setState({
             id: nextProps.event.id ? nextProps.event.id : '',
             name: nextProps.event.name ? nextProps.event.name : '',
@@ -171,6 +174,8 @@ class Presentation extends Component {
    };
 
    getComments = () => {
+      console.log("fetching new comments");
+
       let nIndex = this.textToNumber(this.props.match.params.eventId.toUpperCase().slice(4));
       if(this.state.agenda[nIndex]){
          this.props.getComments("top-rated", "approved", 20, this.state.id, this.state.agenda[nIndex].id, '');
@@ -221,59 +226,67 @@ class Presentation extends Component {
 
 
    combineComments = () => {
-      let comments = this.state.comments.slice(0);
-      if(this.state.newComments){
-         this.state.newComments.forEach(function(newElement){
-            let changed = false;
-            comments.forEach(function(element){
-               if(newElement.id===element.id){
-                  element.rate = newElement.rate;
-                  changed = true;
+      if (!this.state.ignoreFirstCommentFetch) {
+         let comments = this.state.comments.slice(0);
+         if (this.state.newComments) {
+            this.state.newComments.forEach(function (newElement) {
+               let changed = false;
+               comments.forEach(function (element) {
+                  if (newElement.id === element.id) {
+                     element.rate = newElement.rate;
+                     changed = true;
+                  }
+               });
+               //if nothing found
+               if (!changed) {
+                  comments.push(newElement);
                }
             });
-            //if nothing found
-            if(!changed){
-               comments.push(newElement);
-            }
+         }
+         this.setState({comments: comments}, () => {
+            this.sortComments();
+         });
+      } else {
+         this.setState({
+            ignoreFirstCommentFetch: false, 
          });
       }
-      this.setState({comments:comments},()=>{
-         this.sortComments();
-      });
    };
 
-   sortComments = () => {
-      let comments = this.state.comments;
-      comments.forEach(function(element, i) {
-         let oldComment = document.querySelector(".box[data-nth='"+(i+1)+"'] .likes");
-         let questions = document.querySelector(".questions");
-         if(oldComment){
-            oldComment.innerHTML = element.rate
-         }else{
-            let newComment = document.createElement("div");
-            let who = element.fullname !=="Guest" ? element.fullname : element.username;
-            newComment.className = "box flashing";
-            questions.appendChild(newComment);
-            newComment.setAttribute("data-nth", (i+1));
-            newComment.innerHTML += '<div class="name">'+who+'<div class="likes">'+element.rate+'</div></div><div class="question"><span class="middler">'+element.commentValue+'</span></div>';
-         }
-      });
-      let swapped;
-      do {
-         swapped = false;
-         for (let i=0; i < comments.length-1; i++) {
-            if (comments[i].rate < comments[i+1].rate) {
-               let temp = comments[i];
-               comments[i] = comments[i+1];
-               comments[i+1] = temp;
-               this.swapComments(i+1,i+2);
-               swapped = true;
+      sortComments = () => {
+         let comments = this.state.comments;
+         comments.forEach(function(element, i) {
+            let oldComment = document.querySelector(".box[data-nth='"+(i+1)+"'] .likes");
+            let questions = document.querySelector(".questions");
+            if(oldComment){
+               oldComment.innerHTML = element.rate
+            }else{
+               let newComment = document.createElement("div");
+               let who = element.fullname !=="Guest" ? element.fullname : element.username;
+               newComment.className = "box flashing";
+               questions.appendChild(newComment);
+               newComment.setAttribute("data-nth", (i+1));
+               newComment.innerHTML += '<div class="name">'+who+'<div class="likes">'+element.rate+'</div></div><div class="question"><span class="middler">'+element.commentValue+'</span></div>';
             }
-         }
-      } while (swapped);
-      this.setState({comments:comments},()=>{
-         this.arrange();
-      });
+         });
+         let swapped;
+         do {
+            swapped = false;
+            for (let i=0; i < comments.length-1; i++) {
+               if (comments[i].rate < comments[i+1].rate) {
+                  let temp = comments[i];
+                  comments[i] = comments[i+1];
+                  comments[i+1] = temp;
+                  this.swapComments(i+1,i+2);
+                  swapped = true;
+               }
+            }
+         } while (swapped);
+         this.setState({comments:comments},()=>{
+            this.arrange();
+         });
+
+
 
    };
    //TODO 1000'den yuksek oylari kucult
