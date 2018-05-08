@@ -6,7 +6,7 @@ import PageHead from "../components/PageHead";
 import Loading from "../components/Loading";
 import * as Silly from '../reducks/modules/silly'
 
-class Statics extends Component {
+class Statistics extends Component {
 
    state = {
       loading:true,
@@ -44,7 +44,7 @@ class Statics extends Component {
    render() {
       return (
             <div className="container mtop">
-               <PageHead where={"/events/"+this.props.match.params.eventId+"/edit"} title="Statics" {...this.props} />
+               <PageHead where={"/events/"+this.props.match.params.eventId+"/edit"} title="Statistics" {...this.props} />
                <Loading row="3" loading={this.state.loading}>
                   <div className="row">
                      <div className="three columns">
@@ -102,4 +102,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
    return {...bindActionCreators({...EventActions,...Silly}, dispatch)}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Statics)
+export default connect(mapStateToProps, mapDispatchToProps)(Statistics)

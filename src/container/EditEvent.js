@@ -521,7 +521,7 @@ class EditEvent extends React.Component {
                let where = tab;
                if(tab==="agenda"){where = "talks"}
                else if(tab==="comments"){where = "moderate"}
-               if(tab==="speakers" || tab==="agenda" || tab==="statics" || tab==="comments" || tab==="presentation"){
+               if(tab==="speakers" || tab==="agenda" || tab==="statistics" || tab==="comments" || tab==="presentation"){
                   this.props.history.push("/events/"+this.props.match.params.eventId+"/"+where+"/");
                   return false;
                }else{
@@ -1304,8 +1304,8 @@ class EditEvent extends React.Component {
                             onClick={(e) => this.changeTab('speakers')}><a className="navbar-link">Speakers</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="agenda"})}
                             onClick={(e) => this.changeTab('agenda')}><a className="navbar-link">Agenda</a></li>
-                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="statics"})}
-                            onClick={(e) => this.changeTab('statics')}><a className="navbar-link">Statics</a></li>
+                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="statistics"})}
+                            onClick={(e) => this.changeTab('statistics')}><a className="navbar-link">Statistics</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="comments"})}
                             onClick={(e) => this.changeTab('comments')}><a className="navbar-link">Comments</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="presentation"})}
