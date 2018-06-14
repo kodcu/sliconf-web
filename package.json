@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "babel-polyfill": "^6.23.0",
     "classnames": "^2.2.5",
     "history": "^4.6.3",
     "lodash": "^4.17.4",
