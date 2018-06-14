@@ -119,7 +119,9 @@ class Login extends React.Component {
                   <div className="six columns">
                      <div className="row mbottom10">
                         <div className="twelve columns">
-                           <h2 style={{color: '#29b573'}}>Sign In</h2>
+                           <h2 style={{color: '#29b573', marginBottom:"2px"}}>Sign In</h2>
+                           <span>Don't you have an account? <a className="underline" onClick={()=>this.props.history.push("/register")}>Register now!</a></span>
+                           <br /><br />
                         </div>
                      </div>
                      <div className="row">
@@ -151,7 +153,7 @@ class Login extends React.Component {
                      </div>
 
                      <div className="row">
-                        <span style={{color:"#666", lineHeight:"64px",fontWeight: "bold"}}>or</span><br />
+                        <br />
                         <GoogleLogin
                            clientId="31237231524-4vibq7hrr7g6dsp1h9oh5h9k9mmndhhq.apps.googleusercontent.com"
                            buttonText={

@@ -1855,6 +1855,9 @@ input.moving, textarea.moving{
     margin-top:20px;
     margin-bottom:0;
     border-bottom-color:#d2d2d2;
+    -webkit-box-shadow: inset 0px 0px 0px 200px rgba(255,255,255,1);
+    -moz-box-shadow: inset 0px 0px 0px 200px rgba(255,255,255,1);
+    box-shadow: inset 0px 0px 0px 200px rgba(255,255,255,1);
 }
 
 input.moving + label, textarea.moving + label{
@@ -2721,4 +2724,8 @@ td:hover .percentage::after{
     height: 24px;
     margin: 6px 12px 0 0;
     float: left;
+}
+
+.underline{
+    text-decoration:underline;
 }

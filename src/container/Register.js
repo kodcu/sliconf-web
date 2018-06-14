@@ -86,7 +86,9 @@ class Register extends Component {
                   <div className="six columns">
                      <div className="row mbottom10">
                         <div className="twelve columns">
-                           <h2 style={{color: '#29b573'}}>Register</h2>
+                           <h2 style={{color: '#29b573', marginBottom:"2px"}}>Register</h2>
+                           <span>Have an account? <a className="underline" onClick={()=>this.props.history.push("/login")}>Sign In</a></span>
+                           <br /><br />
                         </div>
                      </div>
                      <div className="row">

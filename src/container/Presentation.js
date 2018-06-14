@@ -248,7 +248,7 @@ class Presentation extends Component {
          });
       } else {
          this.setState({
-            ignoreFirstCommentFetch: false, 
+            ignoreFirstCommentFetch: false,
          });
       }
    };
