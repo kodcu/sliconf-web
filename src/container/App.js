@@ -30,6 +30,7 @@ import Speaker from "./Speaker";
 import Error from "./Error";
 import Presentation from "./Presentation";
 import PresentationSelect from "./PresentationSelect";
+import Survey from "./Survey";
 import AdminPage from "./AdminPage";
 import AdminEditEvent from "./AdminEditEvent";
 
@@ -60,6 +61,9 @@ class App extends Component {
                      <PrivateRoute path="/events/:eventId/moderate" component={ModerateComments}/>
                      <PrivateRoute path="/events/:eventId/statistics" component={Statistics}/>
                      <PrivateRoute path="/events/:eventId/presentation" component={PresentationSelect}/>
+
+                     <PrivateRoute path="/events/:eventId/survey" component={Survey}/>
+
                      <PrivateRoute path="/events" component={Events}/>
                      <PrivateRoute path="/addeventsuccess" component={AddEventSuccess}/>
                      <PrivateRoute path="/addevent/:isFirst" component={AddEvent}/>
