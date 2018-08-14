@@ -291,6 +291,10 @@ class EditEvent extends React.Component {
 
       if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) {
          //console.log("event degismis");
+         console.log(nextProps.event)
+            if(nextProps.event.returnMessage && nextProps.event.returnMessage.startsWith("Room count must be equal or below at")){
+               this.pricingModal();
+            }
 
          //console.log(nextProps.event);
          if(nextProps.event.deleted===true){
@@ -604,6 +608,15 @@ class EditEvent extends React.Component {
 
    floorRemove = (floor) => {
       this.openFloor(floor)
+   };
+
+   pricingModal = () => {
+      this.setState({pricingModalIsOpen: true});
+   };
+
+   closePricingModal = () => {
+      this.resetAll();
+      this.setState({pricingModalIsOpen: false});
    };
 
    openSure = () => {
@@ -979,6 +992,33 @@ class EditEvent extends React.Component {
                   <div className="twelve columns">
                      <div className="span">
                         <button onClick={()=>{this.setState({errorModal:false})}} className={"button-primary"}>OK</button>
+                     </div>
+                  </div>
+               </div>
+            </Modal>
+
+            <Modal
+               className="Modal"
+               overlayClassName="Overlay"
+               isOpen={this.state.pricingModalIsOpen}
+               contentLabel="Sorry..."
+               style={{content : {width:500,textAlign:"center",overflow: "hidden"}}}
+            >
+               <div className="row">
+                  <div className="twelve columns">
+                     <h2>Sorry...</h2>
+                     <p>Your Event Plan is {this.props.event ? this.props.event.eventState.name : ""}.</p>
+                     <p>Your maximum room count can be {this.props.event ? this.props.event.eventState.roomCount : ""}.<br />
+                        Your maximum participant count can be {this.props.event ? this.props.event.eventState.participantCount : ""}.<br />
+                        Your maximum session count can be {this.props.event ? this.props.event.eventState.sessionCount : ""}.</p>
+                     <p>Do you want to upgrade it now?</p>
+                  </div>
+               </div>
+               <div className="row">
+                  <div className="twelve columns">
+                     <div className="span">
+                        <a onClick={this.closePricingModal} className={"button-secondary"} style={{marginRight:"30px"}}>Close</a>
+                        <button onClick={()=> window.open("https://sliconf.com/pricing-2/", "_blank")} className={"button-primary"}>Go Pricing</button>
                      </div>
                   </div>
                </div>
