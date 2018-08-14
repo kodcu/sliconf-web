@@ -126,13 +126,18 @@ export default function reducer(state = initialState, action = {}) {
          };
       case EDIT_TAB_SUCCESS:
          //console.log(state);
-         const fillTheBlanks3 = action.result.returnObject;
+         let fillTheBlanks3 = action.result.returnObject;
+         let floorMerge = Object.assign({}, state.event, fillTheBlanks3);
+         if(action.result.message === "Floor saved successfully"){
+            floorMerge = Object.assign({}, state.event, {asd:"asd",floorPlan:fillTheBlanks3});
+         }
+
          //console.log("yeni",fillTheBlanks3)
          //console.log(state.event);
          return {
             ...state,
             loading: false,
-            event: Object.assign({}, state.event, fillTheBlanks3),
+            event: floorMerge,
             error: null
          };
       // events
