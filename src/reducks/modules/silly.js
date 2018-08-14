@@ -31,6 +31,8 @@ export default function reducer(state = initialState, action = {}) {
                lastStep:action.step,
                callback:action.callback,
             };
+         }else{
+            return state;
          }
          break;
       case CHANGE_BAR:

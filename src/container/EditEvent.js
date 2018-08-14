@@ -464,7 +464,7 @@ class EditEvent extends React.Component {
          tempFunc = function(){this.changeTab("sponsors")}.bind(this)
       }
 
-      //console.log("boylece sonuc ",tempStep)
+      //console.log(tempTab, tempStep, tempTab, tempCompleted, tempFunc);
       this.props.changeStep(tempStep, tempTab, tempCompleted, tempFunc);
    };
 

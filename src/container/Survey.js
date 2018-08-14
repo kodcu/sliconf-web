@@ -40,7 +40,7 @@ class Survey extends React.Component {
                      : <div>
                         <PageHead where={"/events/"+this.props.match.params.eventId+"/edit"} title="Survey" {...this.props} />
                         <Loading row="3" loading={this.props.speaker.loading}>
-                           
+
                         </Loading>
                      </div>
                   }
