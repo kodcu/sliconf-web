@@ -10,6 +10,7 @@ import DatePicker from '../components/DatePicker';
 import Loading from "../components/Loading";
 import ReactTooltip from 'react-tooltip'
 import * as Silly from '../reducks/modules/silly'
+import Modal from 'react-modal';
 
 class AddTalk extends React.Component {
 
@@ -57,6 +58,15 @@ class AddTalk extends React.Component {
       //console.log(tasdhis.props.event.agenda);
       this.props.changeStep(27);
    }
+
+   pricingModal = () => {
+      this.setState({pricingModalIsOpen: true});
+   };
+
+   closePricingModal = () => {
+      this.setState({pricingModalIsOpen: false});
+   };
+
 
    componentWillReceiveProps(nextProps) {
       if (nextProps.event && this.props.event !== nextProps.event) {
@@ -108,7 +118,11 @@ class AddTalk extends React.Component {
 
       if(nextProps.speaker && this.props.speaker !== nextProps.speaker){
          if(!nextProps.speaker.loading){
-            this.props.history.push("/events/"+this.props.match.params.eventId+"/talks");
+            if(nextProps.speaker && nextProps.speaker.returnMessage.startsWith("Session count must be equal or below at")){
+               this.pricingModal();
+            }else{
+               this.props.history.push("/events/"+this.props.match.params.eventId+"/talks");
+            }
          }
       }
    }
@@ -238,7 +252,32 @@ class AddTalk extends React.Component {
    };
 
    render(){
-      return (
+      return ([<Modal
+         className="Modal"
+         overlayClassName="Overlay"
+         isOpen={this.state.pricingModalIsOpen}
+         contentLabel="Sorry..."
+         style={{content : {width:500,textAlign:"center",overflow: "hidden"}}}
+      >
+         <div className="row">
+            <div className="twelve columns">
+               <h2>Sorry...</h2>
+               <p>Your Event Plan is {this.props.event ? this.props.event.eventState.name : ""}.</p>
+               <p>Your maximum room count can be {this.props.event ? this.props.event.eventState.roomCount : ""}.<br />
+                  Your maximum participant count can be {this.props.event ? this.props.event.eventState.participantCount : ""}.<br />
+                  Your maximum session count can be {this.props.event ? this.props.event.eventState.sessionCount : ""}.</p>
+               <p>Do you want to upgrade it now?</p>
+            </div>
+         </div>
+         <div className="row">
+            <div className="twelve columns">
+               <div className="span">
+                  <a onClick={this.closePricingModal} className={"button-secondary"} style={{marginRight:"30px"}}>Close</a>
+                  <button onClick={()=> window.open("https://sliconf.com/pricing-2/", "_blank")} className={"button-primary"}>Go Pricing</button>
+               </div>
+            </div>
+         </div>
+      </Modal>,
          <div className="container mtop">
             <div className="row">
                <div className="twelve columns">
@@ -344,7 +383,7 @@ class AddTalk extends React.Component {
                   </Loading>
                </div>
             </div>
-         </div>
+         </div>]
       );
    }
 }

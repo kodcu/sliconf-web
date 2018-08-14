@@ -85,6 +85,7 @@ export default function reducer(state = initialState, action = {}) {
             ...state,
             loading: false,
             agenda: action.result.returnObject,
+            returnMessage: action.result.message,
             error: null
          };
       case ADD_TALK_FAIL:
