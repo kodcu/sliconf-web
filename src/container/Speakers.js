@@ -46,6 +46,26 @@ class Speakers extends React.Component {
       return str.substring(0, str.lastIndexOf("\r\n"));
    };
 
+   satirBul = (tt) => {
+      let satirlar = [];
+      let eskiSatirlar = tt.split("\n");
+      let elde = 0;
+      let toplamSTR = "";
+      for(let i=0; i<eskiSatirlar.length; i++){
+         elde += eskiSatirlar[i].split("\"").length-1;
+         if(eskiSatirlar[i].split("\"").length%2===0 || elde%2===1){
+            toplamSTR += eskiSatirlar[i]+"\n";
+            if(elde%2===0){
+               satirlar.push(toplamSTR.replace(/\n$/, ""));
+            }
+         }else{
+            satirlar.push(eskiSatirlar[i]);
+         }
+      }
+      console.log(toplamSTR);
+      return satirlar;
+   };
+
    CSVToArray = (text) => {
       let p = '', row = [''], ret = [row], i = 0, r = 0, s = !0, l;
       for (l of text) {
@@ -63,7 +83,7 @@ class Speakers extends React.Component {
    };
 
    csvJSON = (csv) => {
-      let lines=csv.split("\n");
+      let lines=this.satirBul(csv);
       let result = [];
       let headers=(lines[0]).split(",");
       for(let i=1;i<lines.length;i++){
@@ -108,7 +128,7 @@ class Speakers extends React.Component {
             reader.onload = function() {
                console.log(JSON.parse(that.csvJSON(reader.result)));
                this.props.addSpeaker(this.props.match.params.eventId, JSON.parse(this.csvJSON(reader.result)));
-            }.bind(this); 
+            }.bind(this);
 
             reader.readAsText(file);
          } else {
