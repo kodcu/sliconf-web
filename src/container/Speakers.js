@@ -39,25 +39,39 @@ class Speakers extends React.Component {
          let line = '';
          for (let index in array[i]) {
             if (line !== '') line += ',';
-            line += array[i][index];
+            line += "\""+array[i][index].replace(/"/g, '""')+"\"";
          }
-         str += line+"," + '\r\n';
+         str += line+"," + '\"\"\r\n';
       }
       return str.substring(0, str.lastIndexOf("\r\n"));
+   };
+
+   CSVToArray = (text) => {
+      let p = '', row = [''], ret = [row], i = 0, r = 0, s = !0, l;
+      for (l of text) {
+         if ('"' === l) {
+            if (s && l === p) row[i] += l;
+            s = !s;
+         } else if (',' === l && s) l = row[++i] = '';
+         else if ('\n' === l && s) {
+            if ('\r' === p) row[i] = row[i].slice(0, -1);
+            row = ret[++r] = [l = '']; i = 0;
+         } else row[i] += l;
+         p = l;
+      }
+      return ret;
    };
 
    csvJSON = (csv) => {
       let lines=csv.split("\n");
       let result = [];
       let headers=(lines[0]).split(",");
-      console.log(headers);
       for(let i=1;i<lines.length;i++){
          let obj = {};
-         let currentLine=lines[i].split(",");
+         let currentLine=this.CSVToArray(lines[i])[0];
          for(let j=0;j<headers.length;j++){
             console.log(typeof(headers[j]), headers[j].toString());
             obj[headers[j]] = currentLine[j];
-            //sasa
          }
          result.push(obj);
       }
@@ -84,7 +98,7 @@ class Speakers extends React.Component {
       let element = document.createElement('div');
       element.innerHTML = '<input type="file">';
       let fileInput = element.firstChild;
-
+      let that = this;
       fileInput.addEventListener('change', function() {
          let file = fileInput.files[0];
 
@@ -92,9 +106,9 @@ class Speakers extends React.Component {
             let reader = new FileReader();
 
             reader.onload = function() {
-               console.log(JSON.parse(this.csvJSON(reader.result)));
+               console.log(JSON.parse(that.csvJSON(reader.result)));
                this.props.addSpeaker(this.props.match.params.eventId, JSON.parse(this.csvJSON(reader.result)));
-            }.bind(this);
+            }.bind(this); 
 
             reader.readAsText(file);
          } else {
