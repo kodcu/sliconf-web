@@ -122,6 +122,12 @@ class AdminEditEvent extends React.Component {
                                                 </select>
                                             </div>
 
+
+                                            <div className="twelve columns">
+                                                <label htmlFor="event-state-selection">Event Mail</label>
+                                                {this.state.event && this.state.event.about && this.state.event.about.email || "Not specified"}
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
