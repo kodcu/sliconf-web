@@ -82,13 +82,13 @@ class AdminEditEvent extends React.Component {
                                                         this.props.history.push("/admin/")
                                                     }}/>
                                             <h2 style={{verticalAlign: "top", display: "inline-block"}}>Edit Event</h2>
-                                            <input style={{margin: "10px 30px"}}
+                                            <button style={{margin: "10px 30px"}}
                                                    className={classNames('button-primary', {disabled: !this.state.changed})}
-                                                   type="submit" onClick={() => {
+                                                   onClick={() => {
                                                 if (this.state.changed) {
                                                     this.save()
                                                 }
-                                            }} defaultValue={this.state.saveText}/>
+                                                   }} defaultValue={this.state.saveText}>SAVE</button>
                                             <a className={classNames({hidden: !this.state.changed})}
                                                onClick={this.openReset}>Reset</a>
                                             <span
