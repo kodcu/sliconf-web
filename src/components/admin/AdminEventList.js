@@ -100,7 +100,7 @@ class AdminEventList extends React.Component {
             <div>
                 <div className="row">
                     <div className="twelve columns">
-                        <h3>{this.props.title || 'Events'}</h3>
+                        <h3>Events (Total of {this.state.events && this.state.events.length})</h3>
                     </div>
                 </div>
                 <div className="row events">
