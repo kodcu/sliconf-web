@@ -21,7 +21,7 @@ class AdminEditEvent extends React.Component {
         eventPackages: this.props.eventPackages,
         eventStateResponse: this.props.eventStateResponse,
         eventState: {},
-
+        loading:true,
     };
 
     componentDidMount() {
@@ -33,16 +33,16 @@ class AdminEditEvent extends React.Component {
         if (nextProps.event !== this.props.event) {
             this.setState((prevState, props) => ({
                 event: nextProps.event,
-                eventState: nextProps.event.eventState ? nextProps.event.eventState : null
+                eventState: nextProps.event.eventState ? nextProps.event.eventState : null,
+               loading:false,
             }));
         }
 
         if (nextProps.eventPackages !== this.props.eventPackages) {
             this.setState((prevState, props) => ({
                 eventPackages: nextProps.eventPackages,
-                eventState: prevState.eventState ? prevState.eventState : nextProps.eventPackages.returnObject[0]
+                eventState: prevState.eventState ? prevState.eventState : nextProps.eventPackages.returnObject[0],
             }));
-
         }
 
         if (nextProps.eventStateResponse !== this.props.eventStateResponse) {
