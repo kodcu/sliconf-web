@@ -1804,6 +1804,7 @@ input[type=submit], li a , button, .button {
 }
 .react-datepicker__month {
     margin: 0.3em 0.7em;
+    height:180px;
 }
 .react-datepicker__day-name, .react-datepicker__day {
     width: 1.5em;

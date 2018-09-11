@@ -231,7 +231,7 @@ class AddTalk extends React.Component {
                                           className="u-full-width"
                                           dateFormat="DD MMM YYYY, ddd, HH:mm"
                                           locale={"en"}
-                                          selected={moment(this.state.startDate)}
+                                          selected={moment(this.state.firstStartDate)}
                                           onChange={this.changeDateValue('startDate')}
                                           popperPlacement="bottom-end"
                                           readOnly={true}
