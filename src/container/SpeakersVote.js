@@ -9,35 +9,44 @@ import ReactTooltip from 'react-tooltip'
 import Ionicon from 'react-ionicons'
 import SpeakerListVote from "../components/SpeakerListVote";
 
-class Statistics extends Component {
+class SpeakersVote extends Component {
 
       state = {
-            loading: true,
+            loading: false,
             eventId: this.props.match.eventId,
-            users: 0,
-            usersUnique: 0,
-            approved: 0,
-            unapproved: 0,
-            mostQuestionedSpeech: "",
-            mostLikedQuestion: "",
-            active: "",
+            active:"",
             mode: 0,
             speakers: [],
+            votes:[
+                  {
+                      photo: "sdfadskfj",
+                      speaker: "Murat",
+                      workingAt: "Kodcu",
+                      topic: "Hello World",
+                      count: 12,
+                      average: 3.41
+                  },
+                  {
+                      photo: "gsafadskfj",
+                      speaker: "Berkay",
+                      workingAt: "Kodcu",
+                      topic: "Hello World 2",
+                      count: 44,
+                      average: 4.82
+                  },
+                  {
+                      photo: "gsafadskfj",
+                      speaker: "Berkay",
+                      workingAt: "Kodcu",
+                      topic: "Hello World 3",
+                      count: 11,
+                      average: 4.94
+                  }
+              ]
       };
 
       componentWillReceiveProps(nextProps) {
-            if (nextProps.event && nextProps.event.statics && nextProps.event.statics !== this.props.event.statics && !nextProps.event.loading) {
-                  //console.log(nextProps.event.statics);
-                  this.setState({
-                        loading: false,
-                        approved: nextProps.event.statics.approvedComments,
-                        unapproved: nextProps.event.statics.deniedComments,
-                        users: nextProps.event.statics.totalUsers.allFetched,
-                        usersUnique: nextProps.event.statics.totalUsers.uniqueCount,
-                        mostQuestionedSpeech: nextProps.event.statics.mostCommentedSession ? nextProps.event.statics.mostCommentedSession.topic : '-',
-                        mostLikedQuestion: nextProps.event.statics.mostLikedComment ? nextProps.event.statics.mostLikedComment.commentValue : '-',
-                  })
-            }
+
 
             if (this.props.speaker !== nextProps.speaker) {
                   this.setState({
@@ -54,7 +63,7 @@ class Statistics extends Component {
       }
 
       componentWillMount() {
-            this.props.getStatics(this.props.match.params.eventId);
+            //this.props.getStatics(this.props.match.params.eventId);
             this.props.changeStep(23);
       }
 
@@ -72,7 +81,7 @@ class Statistics extends Component {
                   <div className="container mtop">
                         <PageHead where={"/events/" + this.props.match.params.eventId + "/statistics"} title="Speakers Vote" {...this.props} />
                         <Loading row="3" loading={this.state.loading}>
-                              <SpeakerListVote eventId={this.props.match.params.eventId} speakers={this.props.speaker.speakers} topProps={this.props} />
+                              <SpeakerListVote eventId={this.props.match.params.eventId} speakers={this.state.votes} topProps={this.props} />
                         </Loading>
                   </div>
             );
@@ -92,4 +101,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return { ...bindActionCreators({ ...EventActions, ...Silly }, dispatch) }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Statistics)
+export default connect(mapStateToProps, mapDispatchToProps)(SpeakersVote)

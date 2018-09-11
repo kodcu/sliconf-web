@@ -4,11 +4,13 @@ import Ionicon from 'react-ionicons'
 
 const ListItem = ({speaker,index,eventId,props}) => {
    return (
-      <tr data-tip={"Click to View"} data-for="editTooltip" onClick={()=>{props.topProps.history.push('/events/'+eventId+'/speaker/'+index)}}>
-         <td><div className="eventimage" style={{backgroundImage: 'url("https://app.sliconf.com/api/image/get/'+speaker.profilePicture+'")'}}/></td>
-         <td>{speaker.name}</td>
+      <tr>
+         <td><div className="eventimage" style={{backgroundImage: 'url("https://app.sliconf.com/api/image/get/'+speaker.photo+'")'}}/></td>
+         <td>{speaker.speaker}</td>
          <td>{speaker.workingAt}</td>
-         <td className="topics"><div className="ongoing">{speaker.topics ? speaker.topics.map((topic)=>{return <div key={topic} className="room">{topic}</div>}):''}</div></td>
+         <td>{speaker.topic}</td>
+         <td>{speaker.count}</td>
+         <td>{speaker.average}</td>
       </tr>
    )
 };
@@ -16,7 +18,7 @@ const ListItem = ({speaker,index,eventId,props}) => {
 const SpeakersNotAvailable = () => {
    return (
       <tr>
-         <td colSpan="4" style={{marginBottom:"10px"}}>No speakers to be listed!</td>
+         <td colSpan="6" style={{marginBottom:"10px"}}>No speakers to be listed!</td>
       </tr>
    )
 };
@@ -85,11 +87,11 @@ class SpeakerListVote extends React.Component {
                      <thead>
                      <tr>
                         <th style={{width: 40}}>Photo</th>
-                        <th onClick={()=>{this.changeOrder("name")}}>Full Name {this.returnIcons("name")}</th>
-                        <th onClick={()=>{this.changeOrder("workingAt")}}>Working At {this.returnIcons("workingAt")}</th>
-                        <th>Topics</th>
-                        <th>Number of votes</th>
-                        <th>Average of votes</th>
+                        <th style={{minWidth:150}} onClick={()=>{this.changeOrder("speaker")}}>Full Name {this.returnIcons("speaker")}</th>
+                        <th style={{minWidth:170}} onClick={()=>{this.changeOrder("workingAt")}}>Working At {this.returnIcons("workingAt")}</th>
+                        <th style={{width:"100%"}}>Topic</th>
+                        <th style={{width:100}}>Number of votes</th>
+                        <th style={{width:100}}>Average of votes</th>
                      </tr>
                      </thead>
                      <tbody>
