@@ -12,8 +12,7 @@ import GoogleLogin from 'react-google-login';
 import SocialButton from "../components/SocialButton";
 
 class Login extends React.Component {
-
-   state = {
+    state = {
       user: "",
       password: "",
       warning: false,

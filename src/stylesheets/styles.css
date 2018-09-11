@@ -2730,3 +2730,27 @@ td:hover .percentage::after{
 .underline{
     text-decoration:underline;
 }
+
+.bar{
+    display:block;
+    width:100%;
+    background:#eee;
+    padding:5px 10px;
+    color:black;
+    position:relative;
+}
+
+.bar .inner-bar{
+    height:100%;
+    position:absolute;
+    background:#29b573;
+    color:white;
+    overflow:hidden;
+    padding:5px 10px;
+    left:0;
+    top:0;
+}
+
+.bar .inner-bar .notInterrupt{
+    width:960px;
+}

@@ -4,19 +4,102 @@ import * as EventActions from '../reducks/modules/event'
 import { connect } from 'react-redux';
 import PageHead from "../components/PageHead";
 import Loading from "../components/Loading";
-import * as Silly from '../reducks/modules/silly'
+import * as Silly from '../reducks/modules/silly';
+import Bar from "../components/Bar";
 
 class StatisticsSurvey extends Component {
 
     state = {
-        loading: true,
+        loading: false,
         eventId: this.props.match.eventId,
-        users: 0,
-        usersUnique: 0,
-        answered: 0,
-        unanswered: 0,
-        mostQuestionedSpeech: "",
-        mostLikedQuestion: "",
+        surveys:[
+            {
+                id:"surveyId1",
+                name:'Survey 1',
+                description:"Survey Desc",
+                participants:6,
+                viewers:12,
+                questions:[
+                    {
+                        text: 'Hello World?',
+                        totalVoters:100,
+                        options:[
+                            {
+                                id:"fidan",
+                                text:'Answer 1',
+                                voters:62,
+                            },
+                            {
+                                id:"zilan",
+                                text:'Answer 2',
+                                voters:12,
+                            },
+                            {
+                                id:"filan",
+                                text:'Answer 3',
+                                voters:2,
+                            },
+                            {
+                                id:"falan",
+                                text:'Answer 4',
+                                voters:24,
+                            },                        
+                        ]
+                    },
+                ]
+            },
+            {
+                id:"surveyId2",
+                name:'Survey 2',
+                description:"Survey 2 Desc",
+                participants:4,
+                viewers:22,
+                questions:[
+                    {
+                        text: 'Hello World 2?',
+                        totalVoters:100,
+                        options:[
+                            {
+                                id:"fidan",
+                                text:'Answer 1',
+                                voters:62,
+                            },
+                            {
+                                id:"zilan",
+                                text:'Answer 2',
+                                voters:12,
+                            },
+                            {
+                                id:"filan",
+                                text:'Answer 3',
+                                voters:2,
+                            },
+                            {
+                                id:"falan",
+                                text:'Answer 4',
+                                voters:24,
+                            },                        
+                        ]
+                    },
+                    {
+                        text: 'Hello World 3?',
+                        totalVoters:74,
+                        options:[
+                            {
+                                id:"fidan",
+                                text:'Answer 1',
+                                voters:62,
+                            },
+                            {
+                                id:"zilan",
+                                text:'Answer 2',
+                                voters:12,
+                            }                
+                        ]
+                    },
+                ]
+            },
+        ]
     };
 
     componentWillReceiveProps(nextProps) {
@@ -24,24 +107,23 @@ class StatisticsSurvey extends Component {
             //console.log(nextProps.event.statics);
             this.setState({
                 loading: false,
-                approved: nextProps.event.statics.approvedComments,
-                unapproved: nextProps.event.statics.deniedComments,
-                users: nextProps.event.statics.totalUsers.allFetched,
-                usersUnique: nextProps.event.statics.totalUsers.uniqueCount,
-                mostQuestionedSpeech: nextProps.event.statics.mostCommentedSession ? nextProps.event.statics.mostCommentedSession.topic : '-',
-                mostLikedQuestion: nextProps.event.statics.mostLikedComment ? nextProps.event.statics.mostLikedComment.commentValue : '-',
             })
         }
 
     }
 
     componentWillMount() {
-        this.props.getStatics(this.props.match.params.eventId);
+        //this.props.getStatics(this.props.match.params.eventId);
         this.props.changeStep(23);
     }
 
 
     render() {
+
+        let viewers = this.state.surveys.reduce(function(acc, val) { return acc + val.viewers; }, 0);
+        let participants = this.state.surveys.reduce(function(acc, val) { return acc + val.participants; }, 0);
+        let percentage = Math.round(participants/viewers*10000)/100
+
         return (
             <div className="container mtop">
                 <PageHead where={"/events/" + this.props.match.params.eventId + "/statistics"} title="Survey Statistics" {...this.props} />
@@ -49,37 +131,53 @@ class StatisticsSurvey extends Component {
                     <div className="row">
                         <div className="three columns">
                             <h6>Total Views</h6>
-                            <h2 className="code">{this.state.users}</h2>
+                            <h2 className="code">{viewers}</h2>
                         </div>
                         <div className="three columns">
-                            <h6>Unique Users</h6>
-                            <h2 className="code">{this.state.usersUnique}</h2>
+                            <h6>Unique Participants</h6>
+                            <h2 className="code">{participants}</h2>
                         </div>
                         <div className="three columns">
-                            <h6>Answered Questions</h6>
-                            <h2 className="code">{this.state.answered}</h2>
+                            <h6>Percentage</h6>
+                            <h2 className="code">%{percentage}</h2>
                         </div>
                     </div>
                     <div className="row">
                         <div className="twelve columns mtop100">
-                            <h2 className="code">Questions</h2>
+                            <h2>Surveys</h2>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="twelve columns">
-                            <h3>Something good?</h3>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="twelve columns">
-                           <h3>Yes</h3>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="twelve columns backgraoundColoregreen">
-                           <h3>No</h3>
-                        </div>
-                    </div>
+                    {this.state.surveys.map(survey=>{
+                        return (
+                            <div className="mtop50">
+                                <h3>{survey.name}</h3>
+                                    {survey.questions.map(question=>{
+                                        let most = Math.round(Math.max.apply(Math, question.options.map(a=>a.voters))/question.totalVoters*10000)/100;
+                                        return (
+                                            <div className="mtop25">
+                                                <div className="row">
+                                                    <div className="twelve columns">
+                                                        <h5>{question.text}</h5> 
+                                                    </div>
+                                                </div>
+                                                {question.options.map(answer=>{   
+                                                    let percentage = Math.round(answer.voters/question.totalVoters*10000)/100;
+                                                    let shownPercentage = (100*percentage)/most;
+                                                    return (
+                                                        <div className="row">
+                                                            <div className="twelve columns">
+                                                            <h4><Bar percentage={shownPercentage}>{answer.text} (%{percentage})</Bar></h4>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
+                                        ) 
+                                    })}
+                            </div>
+                        )
+                    })}
+                    <br /><br /><br /><br /><br />
                 </Loading>
             </div>
         );

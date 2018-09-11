@@ -23,7 +23,7 @@ class Statistics extends Component {
             active: "",
             mode: 0,
             speakers: [],
-            activeTab: "general",
+            activeTab: "statistics",
       };
 
       componentWillReceiveProps(nextProps) {
@@ -98,7 +98,7 @@ class Statistics extends Component {
                                                 onClick={(e) => this.changeTab('speakersVote')}><a className="navbar-link">Speakers Vote</a></li>
                               </div>
 
-                              <div className="row mtop100">
+                              <div className="row mtop50">
                                     <div className="three columns">
                                           <h6>Total Views</h6>
                                           <h2 className="code">{this.state.users}</h2>
