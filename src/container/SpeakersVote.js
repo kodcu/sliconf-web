@@ -46,8 +46,6 @@ class SpeakersVote extends Component {
       };
 
       componentWillReceiveProps(nextProps) {
-
-
             if (this.props.speaker !== nextProps.speaker) {
                   this.setState({
                         speakers: nextProps.speaker ? nextProps.speaker.speakers : [],

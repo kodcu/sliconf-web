@@ -292,62 +292,73 @@ class EditEvent extends React.Component {
       if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) {
          //console.log("event degismis");
          console.log(nextProps.event)
+         if(nextProps.event.status===true){
+            console.log("STATUS TRUE")
             if(nextProps.event.returnMessage && nextProps.event.returnMessage.startsWith("Room count must be equal or below at")){
                this.pricingModal();
             }
 
-         //console.log(nextProps.event);
-         if(nextProps.event.deleted===true){
-            this.props.history.push("/");
+            //console.log(nextProps.event);
+            if(nextProps.event.deleted===true){
+               this.props.history.push("/");
+            }
+
+            this.setState({
+               id: nextProps.event.id ? nextProps.event.id : '',
+               name: nextProps.event.name ? nextProps.event.name : '',
+               startDate: nextProps.event.startDate ? moment(nextProps.event.startDate) : moment(),
+               endDate: nextProps.event.endDate ? moment(nextProps.event.endDate) : moment(),
+               logoPath: nextProps.event.logoPath ? nextProps.event.logoPath : '',
+               description: nextProps.event.description ? nextProps.event.description : '',
+               youtube: nextProps.event.about ? nextProps.event.about.social ? nextProps.event.about.social.youtube ? nextProps.event.about.social.youtube : '' : '' : '',
+               twitter: nextProps.event.about ? nextProps.event.about.social ? nextProps.event.about.social.twitter ? nextProps.event.about.social.twitter : '' : '' : '',
+               facebook: nextProps.event.about ? nextProps.event.about.social ? nextProps.event.about.social.facebook ? nextProps.event.about.social.facebook : '' : '' : '',
+               instagram: nextProps.event.about ? nextProps.event.about.social ? nextProps.event.about.social.instagram ? nextProps.event.about.social.instagram : '' : '' : '',
+               web: nextProps.event.about ? nextProps.event.about.web ? nextProps.event.about.web : '' : '',
+               email: nextProps.event.about ? nextProps.event.about.email ? nextProps.event.about.email : '' : '',
+               phone: nextProps.event.about ? nextProps.event.about.phone ? nextProps.event.about.phone[0] ? nextProps.event.about.phone[0] : '' : '' : '',
+               phonea: nextProps.event.about ? nextProps.event.about.phone ? nextProps.event.about.phone[1] ? nextProps.event.about.phone[1] : '' : '' : '',
+               lat: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.lat ? nextProps.event.about.location.lat : '' : '' : '',
+               lng: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.lng ? nextProps.event.about.location.lng : '' : '' : '',
+               mapdescription: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.description ? nextProps.event.about.location.description : '' : '' : '',
+               rooms:nextProps.event.rooms ? nextProps.event.rooms.sort(this.sortRooms) : [],
+               sponsors: nextProps.event.sponsors ? nextProps.event.sponsors : {},
+               speakers: nextProps.event.speakers ? nextProps.event.speakers : [],
+               agenda: nextProps.event.agenda ? nextProps.event.agenda : [],
+               sponsorTags: nextProps.event.sponsorTags ? nextProps.event.sponsorTags : {},
+               floorPlan : nextProps.event.floorPlan ? nextProps.event.floorPlan : [],
+               loading:false,
+               nthChange:this.state.nthChange+1,
+            },()=>{
+
+               let tempTab = this.state.activeTab;
+               let tempStep = nextProps.silly.step;
+               let tempComplete = false;
+               let tempFunc = ()=>{};
+               if(nextProps.silly.step===9){
+                  tempComplete = true;
+               }
+
+               //console.log(tempTab, tempStep, tempTab, tempComplete, tempFunc);
+               this.silly(tempTab, tempStep, tempTab, tempComplete, tempFunc);
+
+               if(this.state.changeTabAfterReset){
+                  this.changeTab(this.state.nextTab);
+                  this.setState({
+                     changeTabAfterReset:false,
+                     nextTab:this.state.activeTab,
+                  });
+               }
+            });
+         }else {
+            console.log("STATUS FALSE");
+            this.setState({
+               errorMessage:"Event cannot be saved. Please contact us at 'contact@sliconf.com'. This error may be occurred because of an expired event.",
+               errorModal:true,
+            }, ()=>{
+               this.resetAll(); 
+            })
          }
-
-         this.setState({
-            id: nextProps.event.id ? nextProps.event.id : '',
-            name: nextProps.event.name ? nextProps.event.name : '',
-            startDate: nextProps.event.startDate ? moment(nextProps.event.startDate) : moment(),
-            endDate: nextProps.event.endDate ? moment(nextProps.event.endDate) : moment(),
-            logoPath: nextProps.event.logoPath ? nextProps.event.logoPath : '',
-            description: nextProps.event.description ? nextProps.event.description : '',
-            youtube: nextProps.event.about ? nextProps.event.about.social ? nextProps.event.about.social.youtube ? nextProps.event.about.social.youtube : '' : '' : '',
-            twitter: nextProps.event.about ? nextProps.event.about.social ? nextProps.event.about.social.twitter ? nextProps.event.about.social.twitter : '' : '' : '',
-            facebook: nextProps.event.about ? nextProps.event.about.social ? nextProps.event.about.social.facebook ? nextProps.event.about.social.facebook : '' : '' : '',
-            instagram: nextProps.event.about ? nextProps.event.about.social ? nextProps.event.about.social.instagram ? nextProps.event.about.social.instagram : '' : '' : '',
-            web: nextProps.event.about ? nextProps.event.about.web ? nextProps.event.about.web : '' : '',
-            email: nextProps.event.about ? nextProps.event.about.email ? nextProps.event.about.email : '' : '',
-            phone: nextProps.event.about ? nextProps.event.about.phone ? nextProps.event.about.phone[0] ? nextProps.event.about.phone[0] : '' : '' : '',
-            phonea: nextProps.event.about ? nextProps.event.about.phone ? nextProps.event.about.phone[1] ? nextProps.event.about.phone[1] : '' : '' : '',
-            lat: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.lat ? nextProps.event.about.location.lat : '' : '' : '',
-            lng: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.lng ? nextProps.event.about.location.lng : '' : '' : '',
-            mapdescription: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.description ? nextProps.event.about.location.description : '' : '' : '',
-            rooms:nextProps.event.rooms ? nextProps.event.rooms.sort(this.sortRooms) : [],
-            sponsors: nextProps.event.sponsors ? nextProps.event.sponsors : {},
-            speakers: nextProps.event.speakers ? nextProps.event.speakers : [],
-            agenda: nextProps.event.agenda ? nextProps.event.agenda : [],
-            sponsorTags: nextProps.event.sponsorTags ? nextProps.event.sponsorTags : {},
-            floorPlan : nextProps.event.floorPlan ? nextProps.event.floorPlan : [],
-            loading:false,
-            nthChange:this.state.nthChange+1,
-         },()=>{
-
-            let tempTab = this.state.activeTab;
-            let tempStep = nextProps.silly.step;
-            let tempComplete = false;
-            let tempFunc = ()=>{};
-            if(nextProps.silly.step===9){
-               tempComplete = true;
-            }
-
-            //console.log(tempTab, tempStep, tempTab, tempComplete, tempFunc);
-            this.silly(tempTab, tempStep, tempTab, tempComplete, tempFunc);
-
-            if(this.state.changeTabAfterReset){
-               this.changeTab(this.state.nextTab);
-               this.setState({
-                  changeTabAfterReset:false,
-                  nextTab:this.state.activeTab,
-               });
-            }
-         });
       }
    }
    /*
@@ -997,6 +1008,7 @@ class EditEvent extends React.Component {
                </div>
             </Modal>
 
+
             <Modal
                className="Modal"
                overlayClassName="Overlay"
@@ -1007,10 +1019,10 @@ class EditEvent extends React.Component {
                <div className="row">
                   <div className="twelve columns">
                      <h2>Sorry...</h2>
-                     <p>Your Event Plan is {this.props.event ? this.props.event.eventState.name : ""}.</p>
-                     <p>Your maximum room count can be {this.props.event ? this.props.event.eventState.roomCount : ""}.<br />
-                        Your maximum participant count can be {this.props.event ? this.props.event.eventState.participantCount : ""}.<br />
-                        Your maximum session count can be {this.props.event ? this.props.event.eventState.sessionCount : ""}.</p>
+                     <p>Your Event Plan is {this.props.event ? this.props.event.eventState && this.props.event.eventState.name : ""}.</p>
+                     <p>Your maximum room count can be {this.props.event ? this.props.event.eventState && this.props.event.eventState.roomCount : ""}.<br />
+                        Your maximum participant count can be {this.props.event ? this.props.event.eventState && this.props.event.eventState.participantCount : ""}.<br />
+                        Your maximum session count can be {this.props.event ? this.props.event.eventState && this.props.event.eventState.sessionCount : ""}.</p>
                      <p>Do you want to upgrade it now?</p>
                   </div>
                </div>

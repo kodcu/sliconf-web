@@ -166,7 +166,7 @@ class StatisticsSurvey extends Component {
                                                     return (
                                                         <div className="row">
                                                             <div className="twelve columns">
-                                                            <h4><Bar percentage={shownPercentage}>{answer.text} (%{percentage})</Bar></h4>
+                                                            <h4><Bar percentage={shownPercentage}>{answer.text} %{percentage}</Bar></h4>
                                                             </div>
                                                         </div>
                                                     )
