@@ -30,7 +30,8 @@ import Speaker from "./Speaker";
 import Error from "./Error";
 import Presentation from "./Presentation";
 import PresentationSelect from "./PresentationSelect";
-import Survey from "./Survey";
+import Surveys from "./Surveys";
+import AddSurvey from "./Survey";
 import StatisticsSurvey from "./StatisticsSurvey";
 import SpeakersVote from "./SpeakersVote";
 import AdminPage from "./AdminPage";
@@ -64,7 +65,9 @@ class App extends Component {
                      <PrivateRoute path="/events/:eventId/statistics" component={Statistics}/>
                      <PrivateRoute path="/events/:eventId/presentation" component={PresentationSelect}/>
 
-                     <PrivateRoute path="/events/:eventId/survey" component={Survey}/>
+                     <PrivateRoute path="/events/:eventId/surveys" component={Surveys}/>
+                     <PrivateRoute path="/events/:eventId/addsurvey" component={AddSurvey}/>
+
                      <PrivateRoute path="/events/:eventId/statisticsSurvey" component={StatisticsSurvey}/>
                      <PrivateRoute path="/events/:eventId/speakersVote" component={SpeakersVote}/>
 
