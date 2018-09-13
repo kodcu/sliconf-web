@@ -292,7 +292,7 @@ class EditEvent extends React.Component {
       if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) {
          //console.log("event degismis");
          console.log(nextProps.event)
-         if(nextProps.event.status===true){
+         if(nextProps.event.requestStatus===true){
             console.log("STATUS TRUE")
             if(nextProps.event.returnMessage && nextProps.event.returnMessage.startsWith("Room count must be equal or below at")){
                this.pricingModal();
@@ -356,7 +356,7 @@ class EditEvent extends React.Component {
                errorMessage:"Event cannot be saved. Please contact us at 'contact@sliconf.com'. This error may be occurred because of an expired event.",
                errorModal:true,
             }, ()=>{
-               this.resetAll(); 
+               this.resetAll();
             })
          }
       }
@@ -1385,7 +1385,7 @@ class EditEvent extends React.Component {
                                        timeIntervals={60}
                                        className="u-full-width"
                                        minDate={moment()}
-                                       maxDate={moment().add(5, "years")}
+                                       maxDate={moment().add(3, "years")}
                                        selected={moment(this.state.startDate)}
                                        selectsStart
                                        startDate={this.state.startDate}
@@ -1403,8 +1403,8 @@ class EditEvent extends React.Component {
                                        showTimeSelect
                                        timeIntervals={60}
                                        className="u-full-width"
-                                       minDate={moment()}
-                                       maxDate={moment().add(5, "years")}
+                                       minDate={moment(this.state.startDate)}
+                                       maxDate={moment(this.state.startDate).add(1, "week")}
                                        selected={moment(this.state.endDate)}
                                        selectsEnd
                                        startDate={this.state.startDate}

@@ -60,9 +60,11 @@ class EventPage extends Component {
    //sasasasasasas
    createEvent = () => {
       if(this.state.event_duration<=0 || this.state.event_duration>24) {
-         this.setState({warning: true, message: "You must enter a valid duration.", type:"error"})
+         this.setState({warning: true, message: "You must enter a valid duration. (0-24)", type:"error"})
       }else if(this.state.event_duration_days<1) {
-         this.setState({warning: true, message: "You must enter a valid day.", type:"error"})
+         this.setState({warning: true, message: "You must enter a valid day. (1-7)", type:"error"})
+      }else if(this.state.event_duration_days>7) {
+         this.setState({warning: true, message: "You must enter a valid day. (1-7)", type:"error"})
       }else{
          let t = moment( this.state.event_time ).valueOf();
          let et = moment(  this.state.event_time + (24*60*60*(this.state.event_duration_days-1)*1000) + (this.state.event_duration*60*60*1000)).valueOf();

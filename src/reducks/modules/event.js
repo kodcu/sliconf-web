@@ -81,6 +81,7 @@ export default function reducer(state = initialState, action = {}) {
          fillTheBlanks.floorPlan = fillTheBlanks.floorPlan ? fillTheBlanks.floorPlan : [];
          fillTheBlanks.sponsorTags = fillTheBlanks.sponsorTags ? fillTheBlanks.sponsorTags : {};
          fillTheBlanks.sponsors = fillTheBlanks.sponsors ? fillTheBlanks.sponsors : {};
+         fillTheBlanks.requestStatus = action.result.status;
          return {
             ...state,
             loading: false,
