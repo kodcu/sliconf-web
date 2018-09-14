@@ -8,6 +8,7 @@ import speaker from "./speaker"
 import room from "./room"
 import comment from "./comment"
 import silly from "./silly"
+import survey from "./survey"
 import admin from "./admin"
 
 export default combineReducers({
@@ -19,5 +20,6 @@ export default combineReducers({
     speaker,
     comment,
     silly,
+    survey,
     admin
 });

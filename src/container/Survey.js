@@ -13,10 +13,10 @@ class Survey extends React.Component {
       agenda: this.props.speaker.agenda,
       speakers: this.props.speaker,
       rooms: this.props.speaker.rooms,
+      surveyName:"",
       survey: [
          ["","",""]
       ],
-      lastFocus:false,
    };
 
    componentWillMount() {
@@ -27,32 +27,35 @@ class Survey extends React.Component {
 
    }
 
-   //feels like a hack but it works, just remember that a CPU is literally a rock that we tricked into thinking
-   dontStealFocus = (e) => {
-      if(this.state.lastFocus){
-         e.target.focus();
-      }
-   };
-
    render() {
       let cloneSurvey = this.state.survey.slice(0);
       return (
          <div className="container mtop">
             <div className="row">
                <div className="twelve columns">
-
-                  <PageHead where={"/events/" + this.props.match.params.eventId + "/edit"}
-                            title="Survey" {...this.props} />
+                  <PageHead where={"/events/" + this.props.match.params.eventId + "/surveys"}
+                            title="Add Survey" {...this.props} />
                   <Loading row="3" loading={this.props.speaker.loading}>
+
+
+                     <div className="row">
+                        <div className="twelve columns">
+                           <input maxLength="100" autoFocus className="moving u-full-width" type="text"
+                                  id={"surveyName"}
+                                  value={this.state.surveyName}
+                                  onChange={(e) => {this.setState({surveyName:e.currentTarget.value})}}/>
+                           <label htmlFor={"surveyName"}>{"Survey Name"}</label>
+                        </div>
+                     </div>
+
                      {this.state.survey.map((question, nthQuestion) => {
                         return (
                            <div>
                               <div className="row">
-                                 <div className="twelve columns">
-                                    <input key={"q" + nthQuestion} maxLength="50" autoFocus className="moving u-full-width" type="text"
+                                 <div className="seven columns">
+                                    <input key={"q" + nthQuestion} maxLength="100" className="moving u-full-width" type="text"
                                            id={"q" + nthQuestion}
                                            value={question[0]}
-                                           onBlur={this.dontStealFocus}
                                            onChange={(e) => {
                                               cloneSurvey[nthQuestion][0] = e.currentTarget.value;
                                               this.setState({
@@ -61,12 +64,7 @@ class Survey extends React.Component {
                                                  if (cloneSurvey[cloneSurvey.length - 1][0] !== "") {
                                                     cloneSurvey.push(["", "", ""]);
                                                     this.setState({
-                                                       lastFocus:true,
                                                        survey: cloneSurvey,
-                                                    },()=>{
-                                                       this.setState({
-                                                          lastFocus: false,
-                                                       });
                                                     });
                                                  }
                                               })
@@ -103,8 +101,13 @@ class Survey extends React.Component {
                            </div>
                         )
                      })}
-
-
+                     <div className="row">
+                        <div className="column mtop50">
+                           <div className="twelwe columns">
+                              <small>New fields will open as you type</small>
+                           </div>
+                        </div>
+                     </div>
                      <div className="row">
                         <div className="column mtop50">
                            <div className="twelwe columns">
@@ -112,7 +115,7 @@ class Survey extends React.Component {
                            </div>
                         </div>
                      </div>
-
+                     <br /><br /><br />
                   </Loading>
                </div>
             </div>

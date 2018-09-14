@@ -536,7 +536,7 @@ class EditEvent extends React.Component {
                let where = tab;
                if(tab==="agenda"){where = "talks"}
                else if(tab==="comments"){where = "moderate"}
-               if(tab==="speakers" || tab==="agenda" || tab==="statistics" || tab==="comments" || tab==="presentation" || tab==="survey"){
+               if(tab==="speakers" || tab==="agenda" || tab==="statistics" || tab==="comments" || tab==="presentation" || tab==="surveys"){
                   this.props.history.push("/events/"+this.props.match.params.eventId+"/"+where+"/");
                   return false;
                }else{
@@ -1362,8 +1362,8 @@ class EditEvent extends React.Component {
                             onClick={(e) => this.changeTab('comments')}><a className="navbar-link">Comments</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="presentation"})}
                             onClick={(e) => this.changeTab('presentation')}><a className="navbar-link">Presentation</a></li>
-                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="survey"})}
-                            onClick={(e) => this.changeTab('survey')}><a className="navbar-link">Survey</a></li>
+                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="surveys"})}
+                            onClick={(e) => this.changeTab('surveys')}><a className="navbar-link">Survey</a></li>
                      </ul>
                   </div>
                   <div className="tabContainer">

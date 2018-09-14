@@ -30,12 +30,15 @@ class AdminEditEvent extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
         if (nextProps.event !== this.props.event) {
-            this.setState((prevState, props) => ({
-                event: nextProps.event,
-                eventState: nextProps.event.eventState ? nextProps.event.eventState : null,
-               loading:false,
-            }));
+            this.setState({
+               event: nextProps.event,
+               eventState: nextProps.event.eventState ? nextProps.event.eventState : null,
+               loading: false,
+            },()=>{
+               this.props.getUserInfoForAdmin(this.state.event.executiveUser);
+            });
         }
 
         if (nextProps.eventPackages !== this.props.eventPackages) {
@@ -44,6 +47,12 @@ class AdminEditEvent extends React.Component {
                 eventState: prevState.eventState ? prevState.eventState : nextProps.eventPackages.returnObject[0],
             }));
         }
+
+       if (nextProps.userInfo !== this.props.userInfo) {
+          this.setState({
+             userInfo: nextProps.userInfo,
+          });
+       }
 
         if (nextProps.eventStateResponse !== this.props.eventStateResponse) {
             this.setState({
@@ -106,8 +115,10 @@ class AdminEditEvent extends React.Component {
                                 <div className={classNames('tab', {'active': this.state.activeTab === "general"})}>
                                     <div className="row mtop50">
                                         <div className="six columns">
-                                            {/*<h3>General</h3>*/}
-                                            <div className="twelve columns">
+                                           <div className="twelve columns">
+                                              <h2>Event Info</h2>
+                                           </div>
+                                            <div className="twelve columns mtop25">
                                                 <label htmlFor="event-state-selection">Event Package</label>
                                                 <select id="event-state-selection"
                                                         name="packageSelection"
@@ -121,14 +132,39 @@ class AdminEditEvent extends React.Component {
                                                     }
                                                 </select>
                                             </div>
+                                           <div className="twelve columns mtop25">
+                                              <label htmlFor="event-state-selection">Event Mail</label>
+                                              {this.state.event && this.state.event.about && this.state.event.about.email || "Not specified"}
+                                           </div>
 
 
-                                            <div className="twelve columns">
-                                                <label htmlFor="event-state-selection">Event Mail</label>
-                                                {this.state.event && this.state.event.about && this.state.event.about.email || "Not specified"}
-                                            </div>
 
                                         </div>
+                                       <div className="six columns">
+                                          <div className="twelve columns">
+                                             <h2>User Info</h2>
+                                          </div>
+
+                                          <div className="twelve columns mtop25">
+                                             <label htmlFor="event-state-selection">User Mail</label>
+                                             {this.state.userInfo && this.state.userInfo.email || "Not specified"}
+                                          </div>
+
+                                          <div className="twelve columns mtop25">
+                                             <label htmlFor="event-state-selection">Username</label>
+                                             {this.state.userInfo && this.state.userInfo.username || "Not specified"}
+                                          </div>
+
+                                          <div className="twelve columns mtop25">
+                                             <label htmlFor="event-state-selection">User Full Name</label>
+                                             {this.state.userInfo && this.state.userInfo.fullname || "Not specified"}
+                                          </div>
+
+                                          <div className="twelve columns mtop25">
+                                             <label htmlFor="event-state-selection">User Role</label>
+                                             {this.state.userInfo && this.state.userInfo.role || "Not specified"}
+                                          </div>
+                                       </div>
                                     </div>
                                 </div>
                             </div>
@@ -153,6 +189,7 @@ const mapStateToProps = (state) => {
         silly: state.silly,
         eventPackages: state.admin.eventPackages,
         eventStateResponse: state.admin.eventStateResponse,
+        userInfo: state.admin.userInfo,
     }
 };
 

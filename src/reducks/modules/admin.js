@@ -10,6 +10,9 @@ const FETCH_EVENT_PACKAGES = 'admin/FETCH_EVENT_PACKAGES';
 const FETCH_EVENT_PACKAGES_SUCCESS = 'admin/FETCH_EVENT_PACKAGES_SUCCESS';
 const FETCH_EVENT_PACKAGES_FAIL = 'admin/FETCH_EVENT_PACKAGES_FAIL';
 
+const FETCH_USER_INFO = 'admin/FETCH_USER_INFO';
+const FETCH_USER_INFO_SUCCESS = 'admin/FETCH_USER_INFO_SUCCESS';
+const FETCH_USER_INFO_FAIL = 'admin/FETCH_USER_INFO_FAIL';
 
 const CHANGE_EVENT_PACKAGE = 'admin/CHANGE_EVENT_PACKAGE';
 const CHANGE_EVENT_PACKAGE_SUCCESS = 'admin/CHANGE_EVENT_PACKAGE_SUCCESS';
@@ -87,6 +90,25 @@ export default function reducer(state = initialState, action = {}) {
                 error: action.error
             };
             ///
+       case FETCH_USER_INFO:
+          return {
+             ...state,
+             userInfoLoading: true
+          };
+       case FETCH_USER_INFO_SUCCESS:
+          return {
+             ...state,
+             userInfoLoading: false,
+             userInfo: action.result.returnObject,
+          };
+       case FETCH_USER_INFO_FAIL:
+          return {
+             ...state,
+             userInfoLoading: false,
+             userInfo: [],
+             error: action.error
+          };
+            ///
         case CHANGE_EVENT_PACKAGE:
             return {
                 ...state,
@@ -129,6 +151,13 @@ export function getEventPackagesForAdmin() {
         types: [FETCH_EVENT_PACKAGES, FETCH_EVENT_PACKAGES_SUCCESS, FETCH_EVENT_PACKAGES_FAIL],
         promise: (client) => client.get('/admin/list/event-states')
     }
+}
+
+export function getUserInfoForAdmin(userId) {
+   return {
+      types: [FETCH_USER_INFO, FETCH_USER_INFO_SUCCESS, FETCH_USER_INFO_FAIL],
+      promise: (client) => client.get('/admin/users/'+userId)
+   }
 }
 
 export function changeEventPackage(eventId, stateId) {
