@@ -101,6 +101,6 @@ export function fetchSurvey(surveyId) {
 export function fetchEventSurveys(eventId) {
    return {
       types: [FETCH_SURVEYS, FETCH_SURVEYS_SUCCESS, FETCH_SURVEYS_FAIL],
-      promise: (client) => client.get('/events/'+eventId+'/surveys')
+      promise: (client) => client.get('/events/'+eventId+'/surveys/')
    }
 }

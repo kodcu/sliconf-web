@@ -1362,8 +1362,8 @@ class EditEvent extends React.Component {
                             onClick={(e) => this.changeTab('comments')}><a className="navbar-link">Comments</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="presentation"})}
                             onClick={(e) => this.changeTab('presentation')}><a className="navbar-link">Presentation</a></li>
-                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="surveys"})}
-                            onClick={(e) => this.changeTab('surveys')}><a className="navbar-link">Survey</a></li>
+                        {/*<li className={classNames('navbar-item',{'active':this.state.activeTab==="surveys"})}
+                            onClick={(e) => this.changeTab('surveys')}><a className="navbar-link">Survey</a></li>*/}
                      </ul>
                   </div>
                   <div className="tabContainer">
