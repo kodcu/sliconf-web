@@ -1384,7 +1384,7 @@ class EditEvent extends React.Component {
                                        showTimeSelect
                                        timeIntervals={60}
                                        className="u-full-width"
-                                       minDate={moment()}
+                                       minDate={moment().add(1, 'weeks')}
                                        maxDate={moment().add(3, "years")}
                                        selected={moment(this.state.startDate)}
                                        selectsStart
