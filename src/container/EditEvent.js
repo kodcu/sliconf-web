@@ -20,6 +20,7 @@ import ReactTelInput from 'react-telephone-input';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import ReactTooltip from 'react-tooltip'
 import * as Silly from '../reducks/modules/silly'
+import Link from "react-router-dom/es/Link";
 
 const _ = require("lodash");
 const { compose, withProps, lifecycle } = require("recompose");
@@ -1332,6 +1333,22 @@ class EditEvent extends React.Component {
                                  <div className="toRight code">
                                     <small className={"eCodeIndicator"}>event code:</small>
                                     {this.props.match.params.eventId}</div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div className="row mtop25 mbottom50" style={{ display:(this.state.startDate - moment())/86400000<1 ? "block" : "none"}}>
+                        <div className="twelve columns">
+                           <div className="row">
+                              <div className="six columns">
+                                 <Link className="bigGreenButton" to="./moderate">
+                                    Moderate Comments
+                                 </Link>
+                              </div>
+                              <div className="six columns">
+                                 <Link className="bigGreenButton" to="./presentation">
+                                    Begin Presentation
+                                 </Link>
                               </div>
                            </div>
                         </div>
