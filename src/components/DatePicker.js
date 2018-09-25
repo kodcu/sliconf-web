@@ -76,7 +76,7 @@ class DatePicker extends Component {
                />
             </div>
             <div className="four columns">
-               <input type="time" style={{width:"100%"}} value={this.state.timeRaw} onChange={(e)=>{this.changeTimeValue(e)}} />
+               <input disabled={this.props.disabled} type="time" style={{width:"100%"}} value={this.state.timeRaw} onChange={(e)=>{this.changeTimeValue(e)}} />
             </div>
          </div>
       );

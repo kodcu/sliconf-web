@@ -1375,6 +1375,10 @@ class EditEvent extends React.Component {
                                  <input maxLength="50" autoFocus className="moving u-full-width" type="text" id="name" value={this.state.name} onChange={(e) => this.setState({name: e.currentTarget.value, changed:true})} />
                                  <label htmlFor="name">Event Name</label>
                               </div>
+                              <div style={{color:"red",margin:"20px 0", display:(this.state.startDate - moment())/86400000<2 ? "block" : "none"}}>
+                                 YOU CANNOT CHANGE THE DATE OF THE EVENT BECAUSE IT WILL START WITHIN 2 DAYS.
+                                 IF YOU WANT TO CHANGE THE EVENT DATE, PLEASE CONTACT US AT contact@sliconf.com
+                              </div>
                               <div className="twelve columns">
                                  <div className="twelve columns">
                                     <label htmlFor="startdate">Event Starts</label>
@@ -1393,6 +1397,7 @@ class EditEvent extends React.Component {
                                        onChange={this.changeDateValue('startDate')}
                                        popperPlacement="bottom-start"
                                        readOnly={true}
+                                       disabled={(this.state.startDate - moment())/86400000<2}
                                     />
                                  </div>
                                  <div className="twelve columns">
@@ -1412,6 +1417,7 @@ class EditEvent extends React.Component {
                                        onChange={this.changeDateValue('endDate')}
                                        popperPlacement="bottom-start"
                                        readOnly={true}
+                                       disabled={(this.state.startDate - moment())/86400000<2}
                                     />
                                  </div>
                               </div>

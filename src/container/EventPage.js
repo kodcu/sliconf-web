@@ -103,9 +103,9 @@ class EventPage extends Component {
                            showTimeSelect
                            timeIntervals={60}
                            className="u-full-width"
-                           minDate={moment()}
+                           minDate={moment().add(1, "week")}
                            maxDate={moment().add(5, "years")}
-                           selected={moment(this.state.event_time)}
+                           selected={moment(this.state.event_time).add(1, "week")}
                            selectsStart
                            onChange={this.changeDateValue('event_time')}
                            popperPlacement="bottom-end"
