@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux';
 import * as EventActions from '../reducks/modules/event'
 import * as CommentActions from '../reducks/modules/comment'
 import {connect} from 'react-redux';
+import * as Silly from '../reducks/modules/silly'
 import '../stylesheets/presentation.css'
 //sasa
 
@@ -47,6 +48,7 @@ class Presentation extends Component {
 
 
    componentDidMount() {
+      this.props.changeStep(-1);
       console.log(this.state);
 
       this.sortComments();
@@ -331,11 +333,12 @@ const mapStateToProps = (state, ownProps) => {
       event: state.event.event,
       user: state.auth.user,
       comment: state.comment,
+      silly: state.silly,
    }
-}
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-   return {...bindActionCreators({...EventActions,...CommentActions}, dispatch)}
+   return {...bindActionCreators({...EventActions,...CommentActions, ...Silly}, dispatch)}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Presentation)
