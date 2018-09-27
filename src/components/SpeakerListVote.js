@@ -29,6 +29,14 @@ class SpeakerListVote extends React.Component {
       speakers: this.props.speakers,
       active:"",
       mode:0,
+   };
+
+   componentWillReceiveProps(nextProps) {
+      if (this.props.speakers !== nextProps.speakers) {
+         this.setState({
+            speakers: nextProps.speakers, 
+         })
+      }
    }
 
    sortTable = (what,type) => {

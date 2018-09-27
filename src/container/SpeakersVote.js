@@ -16,52 +16,23 @@ class SpeakersVote extends Component {
             eventId: this.props.match.eventId,
             active:"",
             mode: 0,
-            speakers: [],
-            votes:[
-                  {
-                      photo: "sdfadskfj",
-                      speaker: "Murat",
-                      workingAt: "Kodcu",
-                      topic: "Hello World",
-                      count: 12,
-                      average: 3.41
-                  },
-                  {
-                      photo: "gsafadskfj",
-                      speaker: "Berkay",
-                      workingAt: "Kodcu",
-                      topic: "Hello World 2",
-                      count: 44,
-                      average: 4.82
-                  },
-                  {
-                      photo: "gsafadskfj",
-                      speaker: "Berkay",
-                      workingAt: "Kodcu",
-                      topic: "Hello World 3",
-                      count: 11,
-                      average: 4.94
-                  }
-              ]
+            votes:[],
       };
 
       componentWillReceiveProps(nextProps) {
-            if (this.props.speaker !== nextProps.speaker) {
+            if (this.props.statics !== nextProps.statics) {
+               console.log(nextProps.statics);
                   this.setState({
-                        speakers: nextProps.speaker ? nextProps.speaker.speakers : [],
+                     votes: nextProps.statics ? nextProps.statics : [],
                   }, () => {
-                        if (this.state.speakers && this.state.speakers.length > 0) {
-                              this.props.changeStep(30);
-                        } else {
-                              this.props.changeStep(19);
-                        }
+
                   })
             }
 
       }
 
       componentWillMount() {
-            //this.props.getStatics(this.props.match.params.eventId);
+            this.props.getVotes(this.props.match.params.eventId);
             this.props.changeStep(23);
       }
 
@@ -89,7 +60,7 @@ const mapStateToProps = (state, ownProps) => {
       return {
             event: state.event,
             user: state.auth.user,
-            speaker: state.speaker,
+            statics: state.event.statics,
             auth: state.auth,
             silly: state.silly,
       }

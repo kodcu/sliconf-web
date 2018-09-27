@@ -89,7 +89,7 @@ class Statistics extends Component {
                   <div className="container mtop">
                         <PageHead where={"/events/" + this.props.match.params.eventId + "/edit"} title="Statistics" {...this.props} />
                         <Loading row="3" loading={this.state.loading}>
-                           {/*
+
                               <div className="container u-full-width tabs">
                                           <li className={classNames('navbar-item', { 'active': this.state.activeTab === "statistics" })}
                                                 onClick={(e) => this.changeTab('statistics')}><a className="navbar-link">General</a></li>
@@ -98,7 +98,6 @@ class Statistics extends Component {
                                  <li className={classNames('navbar-item', { 'active': this.state.activeTab === "speakersVote" })}
                                                 onClick={(e) => this.changeTab('speakersVote')}><a className="navbar-link">Speakers Vote</a></li>
                               </div>
-                              */}
                               <div className="row mtop50">
                                     <div className="three columns">
                                           <h6>Total Views</h6>

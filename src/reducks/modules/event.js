@@ -351,6 +351,14 @@ export function getStatics(eventId) {
    }
 }
 
+export function getVotes(eventId) {
+   return {
+      types: [GET_STATICS, GET_STATICS_SUCCESS, GET_STATICS_FAIL],
+      promise: (client) => client.get('/events/'+eventId+'/statistics/sessions')
+   }
+}
+
+
 export function removeRoomFromLocal(roomId) {
    return {
       type: REMOVE_ROOM_FROM_LOCAL,
