@@ -10,7 +10,7 @@ const ListItem = ({speaker,index,eventId,props}) => {
          <td>{speaker.workingAt}</td>
          <td>{speaker.topic}</td>
          <td>{speaker.count}</td>
-         <td>{speaker.average}</td>
+         <td>{Math.round(speaker.average*100)/100}</td> 
       </tr>
    )
 };
@@ -34,7 +34,7 @@ class SpeakerListVote extends React.Component {
    componentWillReceiveProps(nextProps) {
       if (this.props.speakers !== nextProps.speakers) {
          this.setState({
-            speakers: nextProps.speakers, 
+            speakers: nextProps.speakers,
          })
       }
    }
@@ -98,8 +98,8 @@ class SpeakerListVote extends React.Component {
                         <th style={{minWidth:150}} onClick={()=>{this.changeOrder("speaker")}}>Full Name {this.returnIcons("speaker")}</th>
                         <th style={{minWidth:170}} onClick={()=>{this.changeOrder("workingAt")}}>Working At {this.returnIcons("workingAt")}</th>
                         <th style={{width:"100%"}}>Topic</th>
-                        <th style={{width:100}}>Number of votes</th>
-                        <th style={{width:100}}>Average of votes</th>
+                        <th style={{width:100}} onClick={()=>{this.changeOrder("count")}}>Number of votes {this.returnIcons("count")}</th>
+                        <th style={{width:100}} onClick={()=>{this.changeOrder("average")}}>Average of votes {this.returnIcons("average")}</th>
                      </tr>
                      </thead>
                      <tbody>

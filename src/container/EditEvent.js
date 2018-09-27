@@ -254,14 +254,16 @@ class EditEvent extends React.Component {
    };
 
    componentWillReceiveProps(nextProps) {
-      //console.log("bisiler oldu");
-      //console.log(nextProps.fetch);
+      console.log("bisiler oldu");
+      console.log(nextProps);
+
 
       if((nextProps.fetch && this.props.fetch !== nextProps.fetch) && nextProps.fetch.loading===false && nextProps.fetch.status===false){
          this.props.history.push("/");
       }
 
       if(nextProps.fetch.removed){
+         console.log("removed");
          this.props.history.push("/");
       }
 
@@ -287,8 +289,6 @@ class EditEvent extends React.Component {
                }.bind(this),2000)
             }
       }
-
-
 
       if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) {
          //console.log("event degismis");
@@ -1392,9 +1392,12 @@ class EditEvent extends React.Component {
                                  <input maxLength="50" autoFocus className="moving u-full-width" type="text" id="name" value={this.state.name} onChange={(e) => this.setState({name: e.currentTarget.value, changed:true})} />
                                  <label htmlFor="name">Event Name</label>
                               </div>
-                              <div style={{color:"red",margin:"20px 0", display:(this.state.startDate - moment())/86400000<2 ? "block" : "none"}}>
-                                 YOU CANNOT CHANGE THE DATE OF THE EVENT BECAUSE IT WILL START WITHIN 2 DAYS.
+                              <div style={{color:"red",margin:"20px 0", display:(this.state.startDate - moment())/86400000<2 && (this.state.startDate - moment())>0 ? "block" : "none"}}>
+                                 YOU CANNOT CHANGE THE DATE OF THE EVENT BECAUSE EVENT WILL START WITHIN 2 DAYS.
                                  IF YOU WANT TO CHANGE THE EVENT DATE, PLEASE CONTACT US AT contact@sliconf.com
+                              </div>
+                              <div style={{color:"red",margin:"20px 0", display:(this.state.startDate - moment())<0 ? "block" : "none"}}>
+                                 YOU CANNOT CHANGE THE DATE OF THE EVENT BECAUSE EVENT IS EXPIRED.
                               </div>
                               <div className="twelve columns">
                                  <div className="twelve columns">
