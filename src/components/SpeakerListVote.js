@@ -10,7 +10,7 @@ const ListItem = ({speaker,index,eventId,props}) => {
          <td>{speaker.workingAt}</td>
          <td>{speaker.topic}</td>
          <td>{speaker.count}</td>
-         <td>{Math.round(speaker.average*100)/100}</td> 
+         <td>{Math.round(speaker.average*100)/100}</td>
       </tr>
    )
 };

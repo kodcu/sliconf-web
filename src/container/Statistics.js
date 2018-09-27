@@ -93,8 +93,8 @@ class Statistics extends Component {
                               <div className="container u-full-width tabs">
                                           <li className={classNames('navbar-item', { 'active': this.state.activeTab === "statistics" })}
                                                 onClick={(e) => this.changeTab('statistics')}><a className="navbar-link">General</a></li>
-                                 <li className={classNames('navbar-item', { 'active': this.state.activeTab === "statisticsSurvey" })}
-                                                onClick={(e) => this.changeTab('statisticsSurvey')}><a className="navbar-link">Survey Statistics</a></li>
+                                 {/*<li className={classNames('navbar-item', { 'active': this.state.activeTab === "statisticsSurvey" })}
+                                                onClick={(e) => this.changeTab('statisticsSurvey')}><a className="navbar-link">Survey Statistics</a></li>*/}
                                  <li className={classNames('navbar-item', { 'active': this.state.activeTab === "speakersVote" })}
                                                 onClick={(e) => this.changeTab('speakersVote')}><a className="navbar-link">Speakers Vote</a></li>
                               </div>
