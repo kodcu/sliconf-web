@@ -7,6 +7,7 @@ import PageHead from "../components/PageHead";
 import Loading from "../components/Loading";
 import TalkList from "../components/TalkList";
 import * as Silly from '../reducks/modules/silly'
+import moment from "moment/moment";
 
 class Talks extends React.Component {
 
@@ -63,6 +64,18 @@ class Talks extends React.Component {
                      : <div>
                         <PageHead where={"/events/"+this.props.match.params.eventId+"/edit"} title="Agenda" {...this.props} />
                         <Loading row="3" loading={this.state.loading}>
+                           {console.log(this.props.speaker.startDate)}
+                           <div className="row mtop25 mbottom50" style={{ display:(this.props.speaker.startDate - moment())/86400000<1 ? "block" : "none"}}>
+                              <div className="twelve columns">
+                                 <div className="row">
+                                    <div className="twelve columns">
+                                       <Link className="bigGreenButton" to="../presentation" style={{height:100, padding:"20px 0"}}>
+                                          Begin Presentation
+                                       </Link>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
                            <TalkList editTalk={this.editTalk} agenda={this.state.agenda} removeTalk={this.removeTalk} speakers={this.state.speakers} rooms={this.state.rooms}/>
                            <div className="row mtop25 mbottom100">
                               <div className="twelve columns">
