@@ -46,7 +46,7 @@ class EventPage extends Component {
       super(props)
       this.state = {
          event_name: "",
-         event_time:(Math.floor(moment().unix()/3600)+1)*3600 * 1000,
+         event_time:(Math.floor(moment().unix()/3600)+1)*3600 * 1000 + 604800000,
          event_duration:0,
          event_duration_days:1,
       };
@@ -105,7 +105,7 @@ class EventPage extends Component {
                            className="u-full-width"
                            minDate={moment().add(1, "week")}
                            maxDate={moment().add(5, "years")}
-                           selected={moment(this.state.event_time).add(1, "week")}
+                           selected={moment(this.state.event_time)}
                            selectsStart
                            onChange={this.changeDateValue('event_time')}
                            popperPlacement="bottom-end"
