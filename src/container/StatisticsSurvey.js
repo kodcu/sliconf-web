@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import * as EventActions from '../reducks/modules/event'
+import * as SurveyActions from '../reducks/modules/survey'
 import { connect } from 'react-redux';
 import PageHead from "../components/PageHead";
 import Loading from "../components/Loading";
@@ -12,95 +13,15 @@ class StatisticsSurvey extends Component {
     state = {
         loading: false,
         eventId: this.props.match.eventId,
-        surveys:[
-            {
-                id:"surveyId1",
-                name:'Survey 1',
-                description:"Survey Desc",
-                participants:6,
-                viewers:12,
-                questions:[
-                    {
-                        text: 'Hello World?',
-                        totalVoters:100,
-                        options:[
-                            {
-                                id:"fidan",
-                                text:'Answer 1',
-                                voters:62,
-                            },
-                            {
-                                id:"zilan",
-                                text:'Answer 2',
-                                voters:12,
-                            },
-                            {
-                                id:"filan",
-                                text:'Answer 3',
-                                voters:2,
-                            },
-                            {
-                                id:"falan",
-                                text:'Answer 4',
-                                voters:24,
-                            },                        
-                        ]
-                    },
-                ]
-            },
-            {
-                id:"surveyId2",
-                name:'Survey 2',
-                description:"Survey 2 Desc",
-                participants:4,
-                viewers:22,
-                questions:[
-                    {
-                        text: 'Hello World 2?',
-                        totalVoters:100,
-                        options:[
-                            {
-                                id:"fidan",
-                                text:'Answer 1',
-                                voters:62,
-                            },
-                            {
-                                id:"zilan",
-                                text:'Answer 2',
-                                voters:12,
-                            },
-                            {
-                                id:"filan",
-                                text:'Answer 3',
-                                voters:2,
-                            },
-                            {
-                                id:"falan",
-                                text:'Answer 4',
-                                voters:24,
-                            },                        
-                        ]
-                    },
-                    {
-                        text: 'Hello World 3?',
-                        totalVoters:74,
-                        options:[
-                            {
-                                id:"fidan",
-                                text:'Answer 1',
-                                voters:62,
-                            },
-                            {
-                                id:"zilan",
-                                text:'Answer 2',
-                                voters:12,
-                            }                
-                        ]
-                    },
-                ]
-            },
-        ]
+        surveys:[]
     };
+
+
+   componentWillMount() {
+      this.props.fetchEventSurveys(this.props.match.params.eventId);
+      //this.props.getStatics(this.props.match.params.eventId);
+      this.props.changeStep(23);
+   }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.event && nextProps.event.statics && nextProps.event.statics !== this.props.event.statics && !nextProps.event.loading) {
@@ -110,13 +31,12 @@ class StatisticsSurvey extends Component {
             })
         }
 
+       if(this.props.survey !== nextProps.survey){
+          this.setState({
+             surveys: nextProps.survey ? nextProps.survey.surveys : [],
+          })
+       }
     }
-
-    componentWillMount() {
-        //this.props.getStatics(this.props.match.params.eventId);
-        this.props.changeStep(23);
-    }
-
 
     render() {
 
@@ -185,13 +105,14 @@ class StatisticsSurvey extends Component {
 }
 const mapStateToProps = (state, ownProps) => {
     return {
+        survey: state.survey,
         event: state.event,
         user: state.auth.user,
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    return { ...bindActionCreators({ ...EventActions, ...Silly }, dispatch) }
+    return { ...bindActionCreators({ ...EventActions, ...Silly, ...SurveyActions}, dispatch) }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(StatisticsSurvey)

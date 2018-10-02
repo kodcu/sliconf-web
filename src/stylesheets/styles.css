@@ -2770,3 +2770,23 @@ td:hover .percentage::after{
 .bar .inner-bar .notInterrupt{
     width:960px;
 }
+
+.qWrapper{
+    border-left: 3px solid transparent;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    padding-left: 20px;
+    margin: 40px 0 0;
+}
+
+.qWrapper.odd{
+    border-left-color:#d2d2d2;
+}
+
+.qWrapper.even{
+    border-left-color:#2ab573;
+}
+
+.aWrapper {
+    padding-left: 50px;
+}

@@ -1,3 +1,5 @@
+import surveysMock from "../../mock/surveys";
+
 const FETCH_SURVEY = 'survey/FETCH_SURVEY';
 const FETCH_SURVEY_SUCCESS = 'survey/FETCH_SURVEY_SUCCESS';
 const FETCH_SURVEY_FAIL = 'survey/FETCH_SURVEY_FAIL';
@@ -82,25 +84,31 @@ export default function reducer(state = initialState, action = {}) {
    }
 }
 
-export function addSurvey(eventId, survey) {
-   return {
-      types: [ADD_SURVEY, ADD_SURVEY_SUCCESS, ADD_SURVEY_FAIL],
-      promise: (client) => client.post('/events/survey/create/'+eventId, {
-         data: survey
-      })
-   }
-}
-
+/*
 export function fetchSurvey(surveyId) {
    return {
       types: [FETCH_SURVEY, FETCH_SURVEY_SUCCESS, FETCH_SURVEY_FAIL],
-      promise: (client) => client.post('/surveys/' + surveyId)
+      promise: (client) => client.post('/surveys/' + surveyId, {
+         mock:surveysMock
+      })
+   }
+}
+*/
+
+export function fetchEventSurveys(eventId) {
+   console.log("mock",surveysMock.surveys);
+   return {
+      types: [FETCH_SURVEYS, FETCH_SURVEYS_SUCCESS, FETCH_SURVEYS_FAIL],
+      mock:surveysMock.surveys,
+      promise: (client) => client.get('/events/'+eventId+'/surveys')
    }
 }
 
-export function fetchEventSurveys(eventId) {
+export function postEventSurveys(eventId, survey) {
    return {
-      types: [FETCH_SURVEYS, FETCH_SURVEYS_SUCCESS, FETCH_SURVEYS_FAIL],
-      promise: (client) => client.get('/events/'+eventId+'/surveys/')
+      types: [ADD_SURVEY, ADD_SURVEY_SUCCESS, ADD_SURVEY_FAIL],
+      promise: (client) => client.post('/events/'+eventId+'/surveys', {
+         data: survey
+      })
    }
 }

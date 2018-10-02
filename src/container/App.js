@@ -67,6 +67,7 @@ class App extends Component {
 
                      <PrivateRoute path="/events/:eventId/surveys" component={Surveys}/>
                      <PrivateRoute path="/events/:eventId/addsurvey" component={AddSurvey}/>
+                     <PrivateRoute path="/events/:eventId/editsurvey/:surveyId" component={AddSurvey}/>
 
                      <PrivateRoute path="/events/:eventId/statisticsSurvey" component={StatisticsSurvey}/>
                      <PrivateRoute path="/events/:eventId/speakersVote" component={SpeakersVote}/>

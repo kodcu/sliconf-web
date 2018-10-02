@@ -1,11 +1,24 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip'
 import Ionicon from 'react-ionicons'
+import Modal from 'react-modal';
 
 const ListItem = ({survey,index,eventId,props}) => {
+   let removeSurvey = (sId) => {
+      console.log(sId);
+   };
+
    return (
-      <tr data-tip={"Click to View"} data-for="editTooltip" onClick={()=>{props.topProps.history.push('/events/'+eventId+'/survey/'+index)}}>
-         <td>{survey.name}</td>
+      <tr>
+         <td data-tip={"Click to Delete"} data-for="editTooltip" onClick={() => {
+            removeSurvey(survey.id)
+         }} style={{
+            width: "10px",
+            textAlign: "center",
+            padding: "5px",
+            lineHeight: "10px"
+         }}><Ionicon icon="ios-remove-circle" fontSize="25px" color="#F44336" /></td>
+         <td data-tip={"Click to View"} data-for="editTooltip" onClick={()=>{props.topProps.history.push('/events/'+eventId+'/editsurvey/'+index)}}>{survey.name}</td>
       </tr>
    )
 };
@@ -13,7 +26,7 @@ const ListItem = ({survey,index,eventId,props}) => {
 const SurveysNotAvailable = () => {
    return (
       <tr>
-         <td colSpan="1" style={{marginBottom:"10px"}}>No surveys to be listed!</td>
+         <td colSpan="2" style={{marginBottom:"10px"}}>No surveys to be listed!</td>
       </tr>
    )
 };
@@ -24,10 +37,11 @@ class SurveyList extends React.Component {
       surveys: this.props.surveys,
       active:"",
       mode:0,
+      isModalOpen:false,
    };
 
    sortTable = (what,type) => {
-      let cloneTable = this.props.surveys ? this.props.surveys.slice(0) : [];
+      let cloneTable = this.state.surveys ? this.state.surveys.slice(0) : [];
       if(type){
          return cloneTable.sort(function(a, b) {
             if(type===1){
@@ -39,7 +53,7 @@ class SurveyList extends React.Component {
             }
          })
       }else{
-         return this.props.surveys;
+         return this.state.surveys;
       }
    };
 
@@ -76,13 +90,41 @@ class SurveyList extends React.Component {
    render() {
       return (
          <div className="row">
+            <Modal
+               className="Modal"
+               overlayClassName="Overlay"
+               isOpen={this.state.isModalOpen}
+               onRequestClose={()=>{this.setState({isModalOpen:false})}}
+               contentLabel="Are you sure?"
+               style={{content : {width:400,textAlign:"center"}}}
+            >
+               <div className="row">
+                  <div className="twelve columns">
+                     <h2>Remove Survey?</h2>
+                     <p>You CANNOT undo this action.</p>
+                  </div>
+               </div>
+               <div className="row">
+                  <div className="six columns">
+                     <div className="span">
+                        <button onClick={()=>{this.setState({isModalOpen:false})}}>CANCEL</button>
+                     </div>
+                  </div>
+                  <div className="six columns">
+                     <div className="span">
+                        <button onClick={()=>{this.props.removeTalk(this.state.whatIndex);}} className={"button-primary"}>REMOVE</button>
+                     </div>
+                  </div>
+               </div>
+            </Modal>
             <div className="twelve columns">
                <div className="docs-example">
                   <table className="u-full-width events surveys">
                      <thead>
-                     <tr>
-                        <th onClick={()=>{this.changeOrder("name")}}>Full Name {this.returnIcons("name")}</th>
-                     </tr>
+                        <tr>
+                           <th/>
+                           <th onClick={()=>{this.changeOrder("name")}}>Survey Name {this.returnIcons("name")}</th>
+                        </tr>
                      </thead>
                      <tbody>
                      {(this.state.surveys && this.state.surveys.length) ? null : <SurveysNotAvailable/> }
