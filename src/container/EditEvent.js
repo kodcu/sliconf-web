@@ -254,8 +254,8 @@ class EditEvent extends React.Component {
    };
 
    componentWillReceiveProps(nextProps) {
-      console.log("bisiler oldu");
-      console.log(nextProps);
+      //console.log("bisiler oldu");
+      //console.log(nextProps);
 
 
       if((nextProps.fetch && this.props.fetch !== nextProps.fetch) && nextProps.fetch.loading===false && nextProps.fetch.status===false){
@@ -290,11 +290,21 @@ class EditEvent extends React.Component {
             }
       }
 
+
+
       if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) {
          //console.log("event degismis");
-         console.log(nextProps.event)
-         if(nextProps.event.requestStatus===true){
-            console.log("STATUS TRUE")
+         //console.log("event",nextProps.fetch.status);
+         if(nextProps.fetch.saveStatus===false){
+            //console.log("STATUS FALSE, SHOWING MODAL");
+            this.setState({
+               errorMessage:"Event cannot be saved. Please contact us at 'contact@sliconf.com'. This error may be occurred because of an expired event.",
+               errorModal:true,
+            }, ()=>{
+               this.resetAll();
+            })
+         }else{
+            //console.log("STATUS TRUE")
             if(nextProps.event.returnMessage && nextProps.event.returnMessage.startsWith("Room count must be equal or below at")){
                this.pricingModal();
             }
@@ -351,14 +361,6 @@ class EditEvent extends React.Component {
                   });
                }
             });
-         }else {
-            console.log("STATUS FALSE");
-            this.setState({
-               errorMessage:"Event cannot be saved. Please contact us at 'contact@sliconf.com'. This error may be occurred because of an expired event.",
-               errorModal:true,
-            }, ()=>{
-               this.resetAll();
-            })
          }
       }
    }

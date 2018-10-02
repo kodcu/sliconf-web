@@ -81,13 +81,14 @@ export default function reducer(state = initialState, action = {}) {
          fillTheBlanks.floorPlan = fillTheBlanks.floorPlan ? fillTheBlanks.floorPlan : [];
          fillTheBlanks.sponsorTags = fillTheBlanks.sponsorTags ? fillTheBlanks.sponsorTags : {};
          fillTheBlanks.sponsors = fillTheBlanks.sponsors ? fillTheBlanks.sponsors : {};
-         fillTheBlanks.requestStatus = action.result.status;
+         fillTheBlanks.requestStatus = true;
          return {
             ...state,
             loading: false,
             removed:false,
             event: fillTheBlanks,
             status: action.result.status,
+            saveStatus: true,
             error: null
          };
       case FETCH_EVENT_FAIL:
@@ -103,7 +104,6 @@ export default function reducer(state = initialState, action = {}) {
             loading: true
          };
       case EDIT_EVENT_SUCCESS:
-         //console.log(action.result)adsfasdfasdfa
          const fillTheBlanks2 = action.result.returnObject;
          fillTheBlanks2.about = fillTheBlanks2.about ? fillTheBlanks2.about : {};
          fillTheBlanks2.rooms = fillTheBlanks2.rooms ? fillTheBlanks2.rooms : [];
@@ -116,6 +116,7 @@ export default function reducer(state = initialState, action = {}) {
             ...state,
             loading: false,
             event: fillTheBlanks2,
+            saveStatus:action.result.status,
             error: null
          };
       case DELETE_EVENT_SUCCESS:
