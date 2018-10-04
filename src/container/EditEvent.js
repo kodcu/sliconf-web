@@ -1033,7 +1033,7 @@ class EditEvent extends React.Component {
                   <div className="twelve columns">
                      <div className="span">
                         <a onClick={this.closePricingModal} className={"button-secondary"} style={{marginRight:"30px"}}>Close</a>
-                        <button onClick={()=> window.open("https://sliconf.com/pricing-2/", "_blank")} className={"button-primary"}>Go Pricing</button>
+                        <button onClick={()=> window.open("https://sliconf.com/pricing/", "_blank")} className={"button-primary"}>Go Pricing</button>
                      </div>
                   </div>
                </div>
