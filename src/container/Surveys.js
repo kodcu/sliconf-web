@@ -21,12 +21,17 @@ class Surveys extends React.Component {
 
    componentWillReceiveProps(nextProps){
       console.log("mock geldi", nextProps);
-      if(this.props.survey !== nextProps.survey){
+      if(this.props.survey !== nextProps.survey && nextProps.survey.type!=="remove  "){
          this.setState({
             surveys: nextProps.survey ? nextProps.survey.surveys : [],
          })
       }
    }
+
+   removeSurvey = (eId, sId) => {
+      console.log("removing",eId,sId);
+      this.props.removeEventSurvey(eId,sId);
+   };
 
    render() {
       return (
@@ -50,7 +55,7 @@ class Surveys extends React.Component {
                      </div>
                   : ""}
                   <Loading row="3" loading={this.props.survey.loading}>
-                     <SurveyList eventId={this.props.match.params.eventId} surveys={this.state.surveys} topProps={this.props}/>
+                     <SurveyList removeSurvey={this.removeSurvey} eventId={this.props.match.params.eventId} surveys={this.state.surveys} topProps={this.props}/>
                      <div className="row mtop25 mbottom100">
                         <div className="twelve columns">
                            <Link to={"/events/"+this.props.match.params.eventId+"/addsurvey"} className="button button-primary">Add Survey</Link>

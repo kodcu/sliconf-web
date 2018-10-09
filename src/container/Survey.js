@@ -91,15 +91,16 @@ class Survey extends React.Component {
       let postObj = {
          "name": this.state.surveyName,
          "userId": this.props.auth.user.id,
-         "eventKey": "5b75694331142d0007be36a1",
-         "eventId": this.props.match.params.eventId,
+         "eventKey": this.props.match.params.eventId,
          "description": "Description",
          "questions": mapped,
       };
 
-      console.log(postObj)
-
-      this.props.postEventSurveys(this.props.match.params.eventId, postObj);
+      if(this.state.editSurvey){
+         this.props.putEventSurveys(this.props.match.params.eventId, postObj);
+      }else{
+         this.props.postEventSurveys(this.props.match.params.eventId, postObj);
+      }
    };
 
    render() {

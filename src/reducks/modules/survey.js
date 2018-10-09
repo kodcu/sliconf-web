@@ -8,6 +8,10 @@ const ADD_SURVEY = 'survey/ADD_SURVEY';
 const ADD_SURVEY_SUCCESS = 'survey/ADD_SURVEY_SUCCESS';
 const ADD_SURVEY_FAIL = 'survey/ADD_SURVEY_FAIL';
 
+const REMOVE_SURVEY = 'survey/REMOVE_SURVEY';
+const REMOVE_SURVEY_SUCCESS = 'survey/REMOVE_SURVEY_SUCCESS';
+const REMOVE_SURVEY_FAIL = 'survey/REMOVE_SURVEY_FAIL';
+
 const FETCH_SURVEYS = 'survey/ADD_SURVEY';
 const FETCH_SURVEYS_SUCCESS = 'survey/FETCH_SURVEYS_SUCCESS';
 const FETCH_SURVEYS_FAIL = 'survey/FETCH_SURVEYS_FAIL';
@@ -44,6 +48,7 @@ export default function reducer(state = initialState, action = {}) {
       case ADD_SURVEY:
          return {
             ...state,
+            type:"add",
             added:false,
             loading: true
          };
@@ -64,9 +69,32 @@ export default function reducer(state = initialState, action = {}) {
             error: action.error
          };
       // -----
+      case REMOVE_SURVEY:
+         return {
+            ...state,
+            type:"remove",
+            removed:false,
+            loading: true
+         };
+      case REMOVE_SURVEY_SUCCESS:
+         return {
+            ...state,
+            loading: false,
+            removed:true,
+            error: null
+         };
+      case REMOVE_SURVEY_FAIL:
+         return {
+            ...state,
+            loading: false,
+            removed:false,
+            error: action.error
+         };
+      // -----
       case FETCH_SURVEYS_SUCCESS:
          return {
             ...state,
+            type:"fetch",
             loading: false,
             added:false,
             surveys: action.result.returnObject.surveys
@@ -101,6 +129,22 @@ export function fetchEventSurveys(eventId) {
       types: [FETCH_SURVEYS, FETCH_SURVEYS_SUCCESS, FETCH_SURVEYS_FAIL],
       mock:surveysMock.surveys,
       promise: (client) => client.get('/events/'+eventId+'/surveys')
+   }
+}
+
+export function removeEventSurvey(eventId, survey) {
+   return {
+      types: [REMOVE_SURVEY, REMOVE_SURVEY_SUCCESS, REMOVE_SURVEY_FAIL],
+      promise: (client) => client.del('/events/'+eventId+'/surveys/'+survey)
+   }
+}
+
+export function putEventSurveys(eventId, survey) {
+   return {
+      types: [ADD_SURVEY, ADD_SURVEY_SUCCESS, ADD_SURVEY_FAIL],
+      promise: (client) => client.put('/events/'+eventId+'/surveys', {
+         data: survey
+      })
    }
 }
 

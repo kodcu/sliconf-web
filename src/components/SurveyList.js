@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 
 const ListItem = ({survey,index,eventId,props}) => {
    let removeSurvey = (sId) => {
-      console.log(sId);
+      props.removeSurvey(eventId, sId);
    };
 
    return (

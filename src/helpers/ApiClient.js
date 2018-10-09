@@ -63,7 +63,7 @@ export default class ApiClient {
                 }
 
                 if (err) {
-                    reject(res.body || err);
+                    reject((res && res.body) || err);
                 } else {
                     resolve(res.body);
                 }
