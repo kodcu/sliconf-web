@@ -21,10 +21,15 @@ class Surveys extends React.Component {
 
    componentWillReceiveProps(nextProps){
       console.log("mock geldi", nextProps);
-      if(this.props.survey !== nextProps.survey && nextProps.survey.type!=="remove  "){
+      if(this.props.survey !== nextProps.survey && nextProps.survey.type!=="remove"){
          this.setState({
             surveys: nextProps.survey ? nextProps.survey.surveys : [],
          })
+      }
+
+      if(nextProps.survey.type==="remove" && !nextProps.survey.loading){
+         console.log("Successfully Removed");
+         this.props.fetchEventSurveys(this.props.match.params.eventId);
       }
    }
 

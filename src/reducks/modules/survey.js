@@ -28,6 +28,7 @@ export default function reducer(state = initialState, action = {}) {
       case FETCH_SURVEY:
          return {
             ...state,
+            removed:false,
             loading: true
          };
       case FETCH_SURVEY_SUCCESS:
@@ -50,6 +51,7 @@ export default function reducer(state = initialState, action = {}) {
             ...state,
             type:"add",
             added:false,
+            removed:false,
             loading: true
          };
       case ADD_SURVEY_SUCCESS:
@@ -77,6 +79,7 @@ export default function reducer(state = initialState, action = {}) {
             loading: true
          };
       case REMOVE_SURVEY_SUCCESS:
+         console.log("saksess");
          return {
             ...state,
             loading: false,
@@ -96,14 +99,16 @@ export default function reducer(state = initialState, action = {}) {
             ...state,
             type:"fetch",
             loading: false,
+            removed:false,
             added:false,
-            surveys: action.result.returnObject.surveys
+            surveys: action.result.returnObject
          };
       case FETCH_SURVEYS_FAIL:
          return {
             ...state,
             loading: false,
             surveys: [],
+            removed:false,
             added:false,
             error: action.error
          };
@@ -124,10 +129,8 @@ export function fetchSurvey(surveyId) {
 */
 
 export function fetchEventSurveys(eventId) {
-   console.log("mock",surveysMock.surveys);
    return {
       types: [FETCH_SURVEYS, FETCH_SURVEYS_SUCCESS, FETCH_SURVEYS_FAIL],
-      mock:surveysMock.surveys,
       promise: (client) => client.get('/events/'+eventId+'/surveys')
    }
 }

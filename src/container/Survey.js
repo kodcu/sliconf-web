@@ -20,7 +20,8 @@ class Survey extends React.Component {
          ["","",""]
       ],
       editSurvey: false,
-      surveyId: ""
+      surveyId: "",
+      saved:false,
    };
 
    componentWillMount() {
@@ -37,33 +38,41 @@ class Survey extends React.Component {
 
    componentWillReceiveProps(nextProps) {
       if(this.props.survey !== nextProps.survey){
-         this.setState({
-
-            surveys: nextProps.survey ? nextProps.survey.surveys : [],
-         },()=>{
-            let surveyName = "";
-            let surveyDesc = "";
-            let survey = [];
-            this.state.surveys.map(el=>{
-               if(el.id===this.state.surveyId){
-                  surveyName = el.name;
-                  surveyDesc = el.description;
-                  el.questions.map(question=>{
-                     let nQ = [];
-                     nQ.push(question.text);
-                     question.options.map(option=>{
-                        nQ.push(option.text);
-                     });
-                     survey.push(nQ);
+         console.log("s", nextProps.survey);
+         if(nextProps.survey.added){
+            this.props.history.push("/events/"+this.props.match.params.eventId+"/surveys");
+         }else {
+            if(!this.state.saved) {
+               this.setState({
+                  surveys: nextProps.survey ? nextProps.survey.surveys : [],
+               }, () => {
+                  let surveyName = "";
+                  let surveyDesc = "";
+                  let survey = [];
+                  this.state.surveys.length > 0 && this.state.surveys.map(el => {
+                     if (el.id === this.state.surveyId) {
+                        surveyName = el.name;
+                        surveyDesc = el.description;
+                        el.questions.map(question => {
+                           let nQ = [];
+                           nQ.push(question.text);
+                           question.options.map(option => {
+                              nQ.push(option.text);
+                           });
+                           nQ.push("");
+                           survey.push(nQ);
+                        });
+                        survey.push(["","",""]);
+                     }
+                  });
+                  this.setState({
+                     surveyName,
+                     surveyDesc,
+                     survey,
                   })
-               }
-            });
-            this.setState({
-               surveyName,
-               surveyDesc,
-               survey,
-            })
-         })
+               })
+            }
+         }
       }
    }
 
@@ -96,11 +105,16 @@ class Survey extends React.Component {
          "questions": mapped,
       };
 
-      if(this.state.editSurvey){
-         this.props.putEventSurveys(this.props.match.params.eventId, postObj);
-      }else{
-         this.props.postEventSurveys(this.props.match.params.eventId, postObj);
-      }
+      this.setState({
+         saved:true,
+      },()=>{
+         if(this.state.editSurvey){
+            postObj = {...postObj, "id":this.props.match.params.surveyId};
+            this.props.putEventSurveys(this.props.match.params.eventId, postObj);
+         }else{
+            this.props.postEventSurveys(this.props.match.params.eventId, postObj);
+         }
+      })
    };
 
    render() {
@@ -162,8 +176,9 @@ class Survey extends React.Component {
                                  return nthAnswer !== 0 && (
                                     <div key={"AWrapper"+nthAnswer} className="row aWrapper">
                                        <div className="nine columns">
+                                          <div className={"number"}>{nthAnswer}</div>
                                           <div className="eight columns">
-                                             <input maxLength="50" className="moving u-full-width" type="text"
+                                             <input maxLength="50" className="u-full-width" type="text"
                                                     id={"q" + nthQuestion + "a" + nthAnswer}
                                                     value={answer}
                                                     onChange={(e) => {
@@ -179,8 +194,6 @@ class Survey extends React.Component {
                                                           }
                                                        })
                                                     }}/>
-                                             <label
-                                                htmlFor={"q" + nthQuestion + "a" + nthAnswer}>{"Option " + (nthAnswer)}</label>
                                           </div>
                                        </div>
                                     </div>

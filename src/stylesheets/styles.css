@@ -2788,5 +2788,17 @@ td:hover .percentage::after{
 }
 
 .aWrapper {
-    padding-left: 50px;
+}
+
+.number{
+    float: left;
+    width: 30px;
+    height: 30px;
+    background: #2bb573;
+    border-radius: 50%;
+    margin: 6px 0;
+    text-align: center;
+    color: white;
+    font-weight: bolder;
+    line-height: 30px;
 }
