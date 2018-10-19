@@ -19,8 +19,8 @@ class Home extends Component {
                   {!(this.props.user !== null && this.props.user !== undefined && this.props.user !== "" &&  Object.keys(this.props.user).length > 0  ) ? <div className="row">
                      <div className="six columns">
                         <h4 style={{fontSize: '2rem', color: 'gray'}}>You can download the app on</h4>
-                        <a className="button button-primary" style={{marginRight: '10px'}}>Google Play</a>
-                        <a className="button button-primary">Apple Store</a>
+                        <a href={"https://play.google.com/store/apps/details?id=com.sliconf"} target={"_blank"} className="button button-primary" style={{marginRight: '10px'}}>Google Play</a>
+                        <a href={"https://itunes.apple.com/us/app/sliconf/id1331984098"} target={"_blank"} className="button button-primary">Apple Store</a>
                      </div>
                   </div> :<div className="row" />}
                </div>
