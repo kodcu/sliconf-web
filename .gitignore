@@ -3,6 +3,10 @@
 # dependencies
 /node_modules
 
+# scanner
+/.scannerwork
+/sonar-project.properties
+
 # testing
 /coverage
 
