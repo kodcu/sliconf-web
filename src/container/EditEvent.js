@@ -150,6 +150,7 @@ class EditEvent extends React.Component {
       instagram: "",
       web: "",
       email: "",
+      venue: "",
       phone: "",
       phonea: "",
       lat: "",
@@ -329,6 +330,7 @@ class EditEvent extends React.Component {
                email: nextProps.event.about ? nextProps.event.about.email ? nextProps.event.about.email : '' : '',
                phone: nextProps.event.about ? nextProps.event.about.phone ? nextProps.event.about.phone[0] ? nextProps.event.about.phone[0] : '' : '' : '',
                phonea: nextProps.event.about ? nextProps.event.about.phone ? nextProps.event.about.phone[1] ? nextProps.event.about.phone[1] : '' : '' : '',
+               venue: nextProps.event.about ? nextProps.event.about.venue ? nextProps.event.about.venue : '' : '',
                lat: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.lat ? nextProps.event.about.location.lat : '' : '' : '',
                lng: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.lng ? nextProps.event.about.location.lng : '' : '' : '',
                mapdescription: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.description ? nextProps.event.about.location.description : '' : '' : '',
@@ -413,7 +415,7 @@ class EditEvent extends React.Component {
 
       let generalDone = !!(this.state.name && this.state.description && this.state.logoPath && this.state.startDate && this.state.endDate);
       let socialDone = !!(this.state.facebook && this.state.twitter && this.state.youtube && this.state.instagram);
-      let contactDone = !!(this.state.email && this.state.web && this.state.phone && this.state.phonea && this.state.lat && this.state.lng);
+      let contactDone = !!(this.state.email && this.state.venue && this.state.web && this.state.phone && this.state.phonea && this.state.lat && this.state.lng);
       let roomsDone = this.state.rooms.length>0;
       let sponsorTagsDone = Object.keys(this.state.sponsorTags).length>0;
       let sponsorsDone = false;
@@ -573,6 +575,7 @@ class EditEvent extends React.Component {
                },
                "web": this.state.web,
                "email": this.state.email,
+               "venue": this.state.venue,
                "phone": [
                   this.state.phone,
                   this.state.phonea
@@ -1509,7 +1512,7 @@ class EditEvent extends React.Component {
                               </div>
                               <div className="twelve columns" style={{marginLeft:0}}>
                                  <div className="six columns">
-                                    <label htmlFor="phone">Phone</label>
+                                    <label htmlFor="phone">Cell Phone</label>
                                     <ReactTelInput defaultCountry="tr" className="u-full-width" type="text" id="phone" value={this.state.phone} onBlur={(telNumber)=>{
                                        this.setState({
                                           phone:telNumber,
@@ -1517,7 +1520,7 @@ class EditEvent extends React.Component {
                                        })}}/>
                                  </div>
                                  <div className="six columns">
-                                    <label htmlFor="phonea">Alternative Phone</label>
+                                    <label htmlFor="phonea">Office Phone</label>
                                     <ReactTelInput defaultCountry="tr" className="u-full-width" type="text" id="phone" value={this.state.phonea} onBlur={(telNumber)=>{
                                        this.setState({
                                           phonea:telNumber,
@@ -1525,6 +1528,14 @@ class EditEvent extends React.Component {
                                        })}}/>
                                  </div>
                               </div>
+                              {/*
+                              <div className="twelve columns" style={{marginLeft:0}}>
+                                 <div className="twelve columns">
+                                    <input className="moving u-full-width" type="text" id="venue" value={this.state.venue} onChange={(e) => this.setState({venue:e.currentTarget.value, changed:true})}/>
+                                    <label htmlFor="venue">VENUE</label>
+                                 </div>
+                              </div>
+                              */} 
                               <div className="twelve columns" style={{marginLeft:0}}>
                                  <div className="twelve columns">
                                     <label htmlFor="lokasyon">Location</label>
