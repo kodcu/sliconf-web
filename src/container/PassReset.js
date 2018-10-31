@@ -31,7 +31,7 @@ class PassReset extends Component {
                setTimeout(function(){
                   nextProps.history.push("/login");
                },3000);
-            }if(nextProps.auth.message==="Token Is Not Valid"){
+            }else if(nextProps.auth.message==="Token Is Not Valid"){
                nextProps.history.push("/410");
             }else{
             //console.log("ye", nextProps);

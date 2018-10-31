@@ -1,5 +1,4 @@
 const NEXT_STEP = 'silly/NEXT_STEP';
-const CHANGE_BAR = 'silly/CHANGE_BAR';
 
 const initialState = {
    loading: false,
@@ -7,7 +6,6 @@ const initialState = {
    tab:"",
    completed:false,
    lastStep:-1,
-   showbar:false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -34,27 +32,14 @@ export default function reducer(state = initialState, action = {}) {
          }else{
             return state;
          }
-         break;
-      case CHANGE_BAR:
-            return {
-               ...state,
-               showbar:action.showbar,
-            };
       default:
          return state;
    }
 }
 
-
-export function changeStep(step, tab="", completed=false, callback) {
+export function changeStep(step, tab="", completed=false, callback=()=>{}) {
    return {
       type: NEXT_STEP,
       step,tab,completed,callback
-   }
-}
-export function changeBar(bool) {
-   return {
-      type: CHANGE_BAR,
-      bool
    }
 }

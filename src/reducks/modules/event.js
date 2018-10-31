@@ -251,7 +251,7 @@ export default function reducer(state = initialState, action = {}) {
       case REMOVE_FLOOR_FROM_LOCAL:
          console.log(state);
          const ses4 = state.event.floorPlan.filter(function(el){return el.id !== action.floor;});
-         const ses7 = state.event.rooms.filter(function(el){return el.floor !== action.floor;});;
+         const ses7 = state.event.rooms.filter(function(el){return el.floor !== action.floor;});
          return {
             ...state,
             event:{...state.event,floorPlan:ses4, rooms:ses7}

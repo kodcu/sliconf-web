@@ -1,4 +1,4 @@
-import surveysMock from "../../mock/surveys";
+//import surveysMock from "../../mock/surveys";
 
 const FETCH_SURVEY = 'survey/FETCH_SURVEY';
 const FETCH_SURVEY_SUCCESS = 'survey/FETCH_SURVEY_SUCCESS';

@@ -5,7 +5,6 @@ import * as talkActions from '../reducks/modules/speaker'
 import * as surveyActions from '../reducks/modules/survey'
 import PageHead from "../components/PageHead";
 import Loading from "../components/Loading";
-import TalkList from "../components/TalkList";
 import * as Silly from '../reducks/modules/silly'
 
 class Survey extends React.Component {
@@ -58,12 +57,15 @@ class Survey extends React.Component {
                            nQ.push(question.text);
                            question.options.map(option => {
                               nQ.push(option.text);
+                              return option;
                            });
                            nQ.push("");
                            survey.push(nQ);
+                           return question;
                         });
                         survey.push(["","",""]);
                      }
+                     return el;
                   });
                   this.setState({
                      surveyName,
@@ -95,6 +97,7 @@ class Survey extends React.Component {
             }
             return returnObj;
          }
+         return el;
       }).filter(el=>el!==undefined);
 
       let postObj = {
@@ -150,7 +153,7 @@ class Survey extends React.Component {
 
                      {this.state.survey.map((question, nthQuestion) => {
                         return (
-                           <div key={"QWrapper"+nthQuestion} className={"qWrapper"+ " "+ (nthQuestion%2===1 ? "odd" : "even")}>
+                           <div key={"QWrapper"+nthQuestion} className={"qWrapper "+ (nthQuestion%2===1 ? "odd" : "even")}>
                               <div className="row">
                                  <div className="seven columns">
                                     <input key={"q" + nthQuestion} maxLength="100" className="moving u-full-width" type="text"

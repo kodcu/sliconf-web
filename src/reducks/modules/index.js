@@ -1,7 +1,7 @@
 import {combineReducers} from "redux"
 //import {routerReducer} from 'react-router-redux'
 
-import rehydrate from "./rehydrate"
+import rehydrate from "./reducer"
 import auth from "./auth"
 import event from "./event"
 import speaker from "./speaker"

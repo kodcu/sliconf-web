@@ -134,7 +134,7 @@ class AdminEditEvent extends React.Component {
                                             </div>
                                            <div className="twelve columns mtop25">
                                               <label htmlFor="event-state-selection">Event Mail</label>
-                                              {this.state.event && this.state.event.about && this.state.event.about.email || "Not specified"}
+                                              {this.state.event && this.state.event.about && (this.state.event.about.email || "Not specified")}
                                            </div>
 
 
@@ -147,22 +147,22 @@ class AdminEditEvent extends React.Component {
 
                                           <div className="twelve columns mtop25">
                                              <label htmlFor="event-state-selection">User Mail</label>
-                                             {this.state.userInfo && this.state.userInfo.email || "Not specified"}
+                                             {this.state.userInfo && (this.state.userInfo.email || "Not specified")}
                                           </div>
 
                                           <div className="twelve columns mtop25">
                                              <label htmlFor="event-state-selection">Username</label>
-                                             {this.state.userInfo && this.state.userInfo.username || "Not specified"}
+                                             {this.state.userInfo && (this.state.userInfo.username || "Not specified")}
                                           </div>
 
                                           <div className="twelve columns mtop25">
                                              <label htmlFor="event-state-selection">User Full Name</label>
-                                             {this.state.userInfo && this.state.userInfo.fullname || "Not specified"}
+                                             {this.state.userInfo && (this.state.userInfo.fullname || "Not specified")}
                                           </div>
 
                                           <div className="twelve columns mtop25">
                                              <label htmlFor="event-state-selection">User Role</label>
-                                             {this.state.userInfo && this.state.userInfo.role || "Not specified"}
+                                             {this.state.userInfo && (this.state.userInfo.role || "Not specified")}
                                           </div>
                                        </div>
                                     </div>

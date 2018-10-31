@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import RealDatePicker from 'react-datepicker';
-import moment from 'moment';
 
-class DatePicker extends Component {
+class Bar extends Component {
     state = {
         perc:this.props.percentage || 0,
     };
@@ -30,4 +28,4 @@ class DatePicker extends Component {
     }
 }
 
-export default DatePicker
+export default Bar

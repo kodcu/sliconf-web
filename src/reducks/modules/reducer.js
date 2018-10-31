@@ -7,6 +7,5 @@ export default function reducer(state = {}, action = {}) {
          loaded: true
       };
    }
-
    return state;
 }

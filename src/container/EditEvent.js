@@ -393,7 +393,8 @@ class EditEvent extends React.Component {
       }
    };
 
-   silly = (tab, tempStep, tempTab="", tempCompleted=false, tempFunc) => {
+   silly = (tab, tempStep, tempTab="", tempCompleted=false, tempFunc=()=>{}) => {
+
       //console.log(tempTab, "calistirildi")
       if(tab === "general" && (tempStep!==6 && tempStep!==7 && tempStep!==8 && tempStep!==9)){
          //console.log("aktif tab general, 6,7,8,9 degil, bu yuzden 7 yapiliyor");
@@ -902,9 +903,9 @@ class EditEvent extends React.Component {
    canCreateTag = (tag, which) => {
       if(which==="rooms"){
          return this.props.event && this.props.event.rooms ? this.props.event.rooms.filter(function (el) { return el.label === tag; }).length===0 && tag!=="" : false;
-      }if(which==="sponsors"){
+      } else if(which==="sponsors"){
          return this.props.event && this.state.sponsorTags ? Object.values(this.state.sponsorTags).filter(function (el) { return el === tag; }).length===0 && tag!=="" : false;
-      }else {
+      } else {
          return false;
       }
    };
@@ -948,13 +949,7 @@ class EditEvent extends React.Component {
          sponsorTags:{...this.state.sponsorTags, [id]:newTagData.label},
          sponsors:{...this.state.sponsors,[id]:[]}
       });
-   }
-
-   tagNameMove = (id,axis) => {
-      this.setState({
-         changed:true,
-      });
-   }
+   };
 
    removeSponsorFromLocal = (sponsorId) => {
       const ses = this.state.sponsors;
@@ -1578,7 +1573,6 @@ class EditEvent extends React.Component {
                                     {this.props.event && Object.keys(this.state.sponsors).length>0  ? Object.keys(this.state.sponsors).sort((a,b)=>{return a.split("|")[0]-b.split("|")[0]}).map((sponsors)=><SponsorList tagSwapper={this.tagSwapper} editCallback={this.tagNameEdit} remove={(sponsorId)=>{this.openSponsor(sponsorId)}} nthChange={this.state.nthChange} modalCallback={this.openModal} key={sponsors} tagId={sponsors} tagName={this.state.sponsorTags[sponsors]} sponsors={this.state.sponsors[sponsors]} eventId={this.props.event.id}/>) : ''}
                                  </div>
                               </div>
-
 
                            </div>
                         </div>

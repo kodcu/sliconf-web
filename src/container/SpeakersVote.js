@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import PageHead from "../components/PageHead";
 import Loading from "../components/Loading";
 import * as Silly from '../reducks/modules/silly'
-import ReactTooltip from 'react-tooltip'
 import Ionicon from 'react-ionicons'
 import SpeakerListVote from "../components/SpeakerListVote";
 
