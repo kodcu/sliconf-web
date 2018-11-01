@@ -42,12 +42,12 @@ class Login extends React.Component {
    };
 
    componentWillReceiveProps(nextProps) {
-      let {nextAuth} = nextProps;
-      let {postAuth} = this.props;
-      if (nextAuth && postAuth.loginError !== nextAuth.loginError) {
+      let nextAuth = nextProps.auth;
+      let postAuth = this.props.auth;
+      if (postAuth && nextAuth && postAuth.loginError !== nextAuth.loginError) {
          this.showError("Cannot reach destination server!");
       }else{
-         if (postAuth.user !== nextAuth.user) {
+         if (postAuth && nextAuth && postAuth.user !== nextAuth.user) {
             if (nextAuth.status === false) {
                this.showError(nextAuth.message, nextAuth.status ? "info" : "error");
                this.reCaptchaElement.reset();

@@ -43,10 +43,10 @@ class EventPage extends Component {
    }
 
    constructor(props) {
-      super(props)
+      super(props);
       this.state = {
          event_name: "",
-         event_time:(Math.floor(moment().unix()/3600)+1)*3600 * 1000 + 604800000,
+         event_time:(Math.floor(moment().unix()/3600)+1)*3600 * 1000,
          event_duration:0,
          event_duration_days:1,
       };
@@ -57,7 +57,7 @@ class EventPage extends Component {
          this.setState({[name]:moment(date).valueOf()})
       }
    };
-   //sasasasasasas
+
    createEvent = () => {
       if(this.state.event_duration<=0 || this.state.event_duration>24) {
          this.setState({warning: true, message: "You must enter a valid duration. (0-24)", type:"error"})
@@ -103,7 +103,7 @@ class EventPage extends Component {
                            showTimeSelect
                            timeIntervals={60}
                            className="u-full-width"
-                           minDate={moment().add(1, "week")}
+                           minDate={moment()}
                            maxDate={moment().add(5, "years")}
                            selected={moment(this.state.event_time)}
                            selectsStart

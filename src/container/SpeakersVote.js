@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import PageHead from "../components/PageHead";
 import Loading from "../components/Loading";
 import * as Silly from '../reducks/modules/silly'
-import Ionicon from 'react-ionicons'
 import SpeakerListVote from "../components/SpeakerListVote";
 
 class SpeakersVote extends Component {
@@ -34,14 +33,6 @@ class SpeakersVote extends Component {
             this.props.getVotes(this.props.match.params.eventId);
             this.props.changeStep(23);
       }
-
-
-      returnIcons = (what) => {
-            return this.state.active === what ? this.state.mode === 1
-                  ? <Ionicon icon={"ios-arrow-up"} style={{ verticalAlign: "top" }} />
-                  : <Ionicon icon={"ios-arrow-down"} style={{ verticalAlign: "top" }} />
-                  : <Ionicon icon={"ios-remove"} style={{ verticalAlign: "top" }} />
-      };
 
       render() {
             return (

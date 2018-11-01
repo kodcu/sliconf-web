@@ -6,7 +6,6 @@ import PageHead from "../components/PageHead";
 import Loading from "../components/Loading";
 import * as Silly from '../reducks/modules/silly'
 import classNames from 'classnames';
-import Ionicon from 'react-ionicons'
 
 class Statistics extends Component {
 
@@ -58,20 +57,6 @@ class Statistics extends Component {
             this.props.changeStep(23);
       }
 
-
-      returnIcons = (what) => {
-            return this.state.active === what ? this.state.mode === 1
-                  ? <Ionicon icon={"ios-arrow-up"} style={{ verticalAlign: "top" }} />
-                  : <Ionicon icon={"ios-arrow-down"} style={{ verticalAlign: "top" }} />
-                  : <Ionicon icon={"ios-remove"} style={{ verticalAlign: "top" }} />
-      };
-
-      instantGratification = (fn, delay) => {
-            if (fn()) {
-                  return setInterval(fn, delay);
-            }
-      };
-
       changeTab = (tab) => {
 
             this.setState({
@@ -92,10 +77,10 @@ class Statistics extends Component {
                               <div className="container u-full-width tabs">
                                  <li className={classNames('navbar-item', { 'active': this.state.activeTab === "statistics" })}
                                      onClick={(e) => this.changeTab('statistics')}><a className="navbar-link">General</a></li>
-                                 {/*<li className={classNames('navbar-item', { 'active': this.state.activeTab === "statisticsSurvey" })}
+                                 <li className={classNames('navbar-item', { 'active': this.state.activeTab === "statisticsSurvey" })}
                                      onClick={(e) => this.changeTab('statisticsSurvey')}><a className="navbar-link">Survey Statistics</a></li>
                                  <li className={classNames('navbar-item', { 'active': this.state.activeTab === "speakersVote" })}
-                                     onClick={(e) => this.changeTab('speakersVote')}><a className="navbar-link">Speakers Vote</a></li>*/}
+                                     onClick={(e) => this.changeTab('speakersVote')}><a className="navbar-link">Speakers Vote</a></li>
                               </div>
                               <div className="row mtop50">
                                     <div className="three columns">

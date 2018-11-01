@@ -104,7 +104,7 @@ class SpeakerListVote extends React.Component {
                      </thead>
                      <tbody>
                      {(this.state.speakers && this.state.speakers.length) ? null : <SpeakersNotAvailable/> }
-                     {this.state.speakers ? this.state.speakers.map((speaker, index)=>{
+                     {this.state.speakers ? this.state.speakers.map((speaker)=>{
                         return <ListItem key={speaker.name} speaker={speaker} index={speaker.id} eventId={this.props.eventId} props={this.props}/>
                      }) : null}
                      </tbody>
