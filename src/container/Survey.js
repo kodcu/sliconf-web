@@ -100,6 +100,13 @@ class Survey extends React.Component {
          return el;
       }).filter(el=>el!==undefined);
 
+      //Soru boş ise
+      if(mapped[mapped.length-1] && mapped[mapped.length-1][0]===""){
+         mapped.pop();
+      }
+      console.log("map", mapped);
+
+      //sasasa
       let postObj = {
          "name": this.state.surveyName,
          "userId": this.props.auth.user.id,

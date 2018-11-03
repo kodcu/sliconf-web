@@ -1337,6 +1337,7 @@ class EditEvent extends React.Component {
                            </div>
                         </div>
                      </div>
+                     {/*
                      <div className="row mtop25 mbottom50" style={{ display:(this.state.startDate - moment())/86400000<1 ? "block" : "none"}}>
                         <div className="twelve columns">
                            <div className="row">
@@ -1353,6 +1354,7 @@ class EditEvent extends React.Component {
                            </div>
                         </div>
                      </div>
+                     */}
                   <div className="container u-full-width tabs">
                      <ul className="navbar-list clickable noselect">
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="general"})}
@@ -1375,9 +1377,9 @@ class EditEvent extends React.Component {
                             onClick={(e) => this.changeTab('agenda')}><a className="navbar-link">Agenda</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="statistics"})}
                             onClick={(e) => this.changeTab('statistics')}><a className="navbar-link">Statistics</a></li>
-                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="comments"})}
-                            onClick={(e) => this.changeTab('comments')}><a className="navbar-link">Comments</a></li>
-                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="presentation"})}
+                        <li className={classNames('navbar-item',{'buttonize':(this.state.startDate - moment())/86400000<1},{'active':this.state.activeTab==="comments"})}
+                            onClick={(e) => this.changeTab('comments')}><a className="navbar-link">Moderate</a></li>
+                        <li className={classNames('navbar-item',{'buttonize':(this.state.startDate - moment())/86400000<1},{'active':this.state.activeTab==="presentation"})}
                             onClick={(e) => this.changeTab('presentation')}><a className="navbar-link">Presentation</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="surveys"})}
                             onClick={(e) => this.changeTab('surveys')}><a className="navbar-link">Survey</a></li>

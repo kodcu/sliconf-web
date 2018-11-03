@@ -80,9 +80,14 @@ class StatisticsSurvey extends Component {
                                                         <h5>{question.text}</h5> 
                                                     </div>
                                                 </div>
-                                                {question.options.map(answer=>{   
+                                                {question.options.map(answer=>{
                                                     let percentage = Math.round(answer.voters/question.totalVoters*10000)/100;
+                                                    //if 0/0
+                                                    if(isNaN(percentage)){
+                                                       percentage = 0;
+                                                    }
                                                     let shownPercentage = (100*percentage)/most;
+
                                                     return (
                                                         <div className="row">
                                                             <div className="twelve columns">

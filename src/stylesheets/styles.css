@@ -2620,3 +2620,20 @@ td:hover .percentage::after {
     border-radius: 50%;
     background: #2bb573
 }
+
+.buttonize a{
+    color:white;
+}
+
+.buttonize:before {
+    content: '';
+    background: #2ab573;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 10px 5%;
+    width: 90%;
+    height: 45px;
+    z-index: -1;
+    border-radius: 100px;
+}
