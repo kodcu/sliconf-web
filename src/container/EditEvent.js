@@ -20,7 +20,6 @@ import ReactTelInput from 'react-telephone-input';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import ReactTooltip from 'react-tooltip'
 import * as Silly from '../reducks/modules/silly'
-import Link from "react-router-dom/es/Link";
 
 const _ = require("lodash");
 const { compose, withProps, lifecycle } = require("recompose");
@@ -1399,7 +1398,7 @@ class EditEvent extends React.Component {
                                  IF YOU WANT TO CHANGE THE EVENT DATE, PLEASE CONTACT US AT contact@sliconf.com
                               </div>
                               <div style={{color:"red",margin:"20px 0", display:(this.state.startDate - moment())<0 ? "block" : "none"}}>
-                                 YOU CANNOT CHANGE THE DATE OF THE EVENT BECAUSE EVENT IS EXPIRED.
+                                 YOU CANNOT EDIT THIS EVENT BECAUSE EVENT IS EXPIRED.
                               </div>
                               <div className="twelve columns">
                                  <div className="twelve columns">
@@ -1525,7 +1524,7 @@ class EditEvent extends React.Component {
                                        })}}/>
                                  </div>
                               </div>
-                              
+
                               <div className="twelve columns" style={{marginLeft:0}}>
                                  <div className="twelve columns">
                                     <input className="moving u-full-width" type="text" id="venue" value={this.state.venue} onChange={(e) => this.setState({venue:e.currentTarget.value, changed:true})}/>

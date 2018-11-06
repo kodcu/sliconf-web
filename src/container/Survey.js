@@ -106,7 +106,7 @@ class Survey extends React.Component {
       }
       console.log("map", mapped);
 
-      //sasasa
+      //Post objesini oluşturalım
       let postObj = {
          "name": this.state.surveyName,
          "userId": this.props.auth.user.id,
