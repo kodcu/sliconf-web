@@ -329,7 +329,7 @@ class EditEvent extends React.Component {
                email: nextProps.event.about ? nextProps.event.about.email ? nextProps.event.about.email : '' : '',
                phone: nextProps.event.about ? nextProps.event.about.phone ? nextProps.event.about.phone[0] ? nextProps.event.about.phone[0] : '' : '' : '',
                phonea: nextProps.event.about ? nextProps.event.about.phone ? nextProps.event.about.phone[1] ? nextProps.event.about.phone[1] : '' : '' : '',
-               venue: nextProps.event.about ? nextProps.event.about.venue ? nextProps.event.about.venue : '' : '',
+               venue: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.venue ? nextProps.event.about.location.venue : '' : '' : '',
                lat: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.lat ? nextProps.event.about.location.lat : '' : '' : '',
                lng: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.lng ? nextProps.event.about.location.lng : '' : '' : '',
                mapdescription: nextProps.event.about ? nextProps.event.about.location ? nextProps.event.about.location.description ? nextProps.event.about.location.description : '' : '' : '',
@@ -575,7 +575,6 @@ class EditEvent extends React.Component {
                },
                "web": this.state.web,
                "email": this.state.email,
-               "venue": this.state.venue,
                "phone": [
                   this.state.phone,
                   this.state.phonea
@@ -583,7 +582,8 @@ class EditEvent extends React.Component {
                "location": {
                   "lat": this.state.lat,
                   "lng": this.state.lng,
-                  "description": this.state.mapdescription
+                  "description": this.state.mapdescription,
+                  "venue": this.state.venue,
                }
             }
          }
