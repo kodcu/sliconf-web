@@ -1525,14 +1525,14 @@ class EditEvent extends React.Component {
                                        })}}/>
                                  </div>
                               </div>
-                              {/*
+                              
                               <div className="twelve columns" style={{marginLeft:0}}>
                                  <div className="twelve columns">
                                     <input className="moving u-full-width" type="text" id="venue" value={this.state.venue} onChange={(e) => this.setState({venue:e.currentTarget.value, changed:true})}/>
                                     <label htmlFor="venue">VENUE</label>
                                  </div>
                               </div>
-                              */}
+
                               <div className="twelve columns" style={{marginLeft:0}}>
                                  <div className="twelve columns">
                                     <label htmlFor="lokasyon">Location</label>
