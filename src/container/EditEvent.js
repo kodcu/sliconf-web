@@ -1225,6 +1225,35 @@ class EditEvent extends React.Component {
             <Modal
                className="Modal"
                overlayClassName="Overlay"
+               isOpen={this.state.whyDisabledModal}
+               onRequestClose={()=>{this.setState({whyDisabledModal:false})}}
+               contentLabel="Why disabled?"
+               style={{content : {width:400,textAlign:"center"}}}
+            >
+               <div className="row">
+                  <div className="twelve columns">
+                     <h2>Event will be expired soon...</h2>
+                     <div style={{margin:"20px 0", display:(this.state.startDate - moment())/86400000<2 && (this.state.startDate - moment())>0 ? "block" : "none"}}>
+                        YOU CANNOT CHANGE THE DATE OF THE EVENT BECAUSE EVENT WILL START WITHIN 2 DAYS.
+                        IF YOU WANT TO CHANGE THE EVENT DATE, PLEASE CONTACT US AT contact@sliconf.com
+                     </div>
+                     <div style={{margin:"20px 0", display:(this.state.startDate - moment())<0 ? "block" : "none"}}>
+                        YOU CANNOT EDIT THIS EVENT BECAUSE EVENT IS EXPIRED.
+                     </div>
+                  </div>
+               </div>
+               <div className="row">
+                  <div className="twelve columns">
+                     <div className="span">
+                        <button className={"button-primary"} onClick={()=>{this.setState({whyDisabledModal:false})}}>Close</button>
+                     </div>
+                  </div>
+               </div>
+            </Modal>
+
+            <Modal
+               className="Modal"
+               overlayClassName="Overlay"
                isOpen={this.state.sponsorIsOpen}
                onRequestClose={this.closeSponsor}
                contentLabel="Are you sure?"
@@ -1393,13 +1422,6 @@ class EditEvent extends React.Component {
                                  <input maxLength="50" autoFocus className="moving u-full-width" type="text" id="name" value={this.state.name} onChange={(e) => this.setState({name: e.currentTarget.value, changed:true})} />
                                  <label htmlFor="name">Event Name</label>
                               </div>
-                              <div style={{color:"red",margin:"20px 0", display:(this.state.startDate - moment())/86400000<2 && (this.state.startDate - moment())>0 ? "block" : "none"}}>
-                                 YOU CANNOT CHANGE THE DATE OF THE EVENT BECAUSE EVENT WILL START WITHIN 2 DAYS.
-                                 IF YOU WANT TO CHANGE THE EVENT DATE, PLEASE CONTACT US AT contact@sliconf.com
-                              </div>
-                              <div style={{color:"red",margin:"20px 0", display:(this.state.startDate - moment())<0 ? "block" : "none"}}>
-                                 YOU CANNOT EDIT THIS EVENT BECAUSE EVENT IS EXPIRED.
-                              </div>
                               <div className="twelve columns">
                                  <div className="twelve columns">
                                     <label htmlFor="startdate">Event Starts</label>
@@ -1440,6 +1462,11 @@ class EditEvent extends React.Component {
                                        readOnly={true}
                                        disabled={(this.state.startDate - moment())/86400000<2}
                                     />
+                                 </div>
+                                 <div className="twelve columns">
+                                    <a onClick={()=>{this.setState({whyDisabledModal:true})}} htmlFor="desc" style={{display:(this.state.startDate - moment())/86400000<2?"block":"none", float:"right", marginBottom:"30px", color:"#29b573"}}>
+                                       Why I cannot change the date?
+                                    </a> 
                                  </div>
                               </div>
                               <div className="twelve columns">
