@@ -1387,30 +1387,30 @@ class EditEvent extends React.Component {
                      <ul className="navbar-list clickable noselect">
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="general"})}
                             onClick={(e) => this.changeTab('general')}><a className="navbar-link">General</a></li>
+                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="contact"})}
+                            onClick={(e) => this.changeTab('contact')}><a className="navbar-link">About</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="social"})}
                             onClick={(e) => this.changeTab('social')}><a className="navbar-link">Social</a></li>
-                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="contact"})}
-                            onClick={(e) => this.changeTab('contact')}><a className="navbar-link">Contact</a></li>
+                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="floorplan"})}
+                            onClick={(e) => this.changeTab('floorplan')}><a className="navbar-link">Floor Plan</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="rooms"})}
                             onClick={(e) => this.changeTab('rooms')}><a className="navbar-link">Rooms</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="sponsors"})}
                             onClick={(e) => this.changeTab('sponsors')}><a className="navbar-link">Sponsors</a></li>
-                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="floorplan"})}
-                            onClick={(e) => this.changeTab('floorplan')}><a className="navbar-link">Floor Plan</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="advanced"})}
                             onClick={(e) => this.changeTab('advanced')}><a className="navbar-link">Advanced</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="speakers"})}
                             onClick={(e) => this.changeTab('speakers')}><a className="navbar-link">Speakers</a></li>
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="agenda"})}
                             onClick={(e) => this.changeTab('agenda')}><a className="navbar-link">Agenda</a></li>
-                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="statistics"})}
-                            onClick={(e) => this.changeTab('statistics')}><a className="navbar-link">Statistics</a></li>
+                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="surveys"})}
+                            onClick={(e) => this.changeTab('surveys')}><a className="navbar-link">Survey</a></li>
                         <li className={classNames('navbar-item',{'buttonize':(this.state.startDate - moment())/86400000<1},{'active':this.state.activeTab==="comments"})}
                             onClick={(e) => this.changeTab('comments')}><a className="navbar-link">Moderate</a></li>
                         <li className={classNames('navbar-item',{'buttonize':(this.state.startDate - moment())/86400000<1},{'active':this.state.activeTab==="presentation"})}
                             onClick={(e) => this.changeTab('presentation')}><a className="navbar-link">Presentation</a></li>
-                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="surveys"})}
-                            onClick={(e) => this.changeTab('surveys')}><a className="navbar-link">Survey</a></li>
+                        <li className={classNames('navbar-item',{'active':this.state.activeTab==="statistics"})}
+                            onClick={(e) => this.changeTab('statistics')}><a className="navbar-link">Statistics</a></li>
                      </ul>
                   </div>
                   <div className="tabContainer">
@@ -1491,34 +1491,6 @@ class EditEvent extends React.Component {
                            </div>
                         </div>
                      </div>
-
-                     <div className={classNames('tab',{'active':this.state.activeTab==="social"})}>
-                        <div className="row mtop50">
-                           <div className="twelve columns">
-                              <h3>Social</h3>
-                              <div className="twelve columns">
-                                 <div className="six columns">
-                                    <input className="moving u-full-width" type="text" id="facebook" value={this.state.facebook} onChange={(e) => this.setState({facebook:e.currentTarget.value, changed:true})}/>
-                                    <label htmlFor="facebook">facebook</label>
-                                 </div>
-                                 <div className="six columns">
-                                    <input className="moving u-full-width" type="text" id="instagram" value={this.state.instagram} onChange={(e) => this.setState({instagram:e.currentTarget.value, changed:true})}/>
-                                    <label htmlFor="instagram">instagram</label>
-                                 </div>
-                              </div>
-                              <div className="twelve columns">
-                                 <div className="six columns">
-                                    <input className="moving u-full-width" type="text" id="youtube" value={this.state.youtube} onChange={(e) => this.setState({youtube:e.currentTarget.value, changed:true})}/>
-                                    <label htmlFor="youtube">Youtube</label>
-                                 </div>
-                                 <div className="six columns">
-                                    <input className="moving u-full-width" type="text" id="twitter" value={this.state.twitter} onChange={(e) => this.setState({twitter:e.currentTarget.value, changed:true})}/>
-                                    <label htmlFor="twitter">twitter</label>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
                      <div className={classNames('tab',{'active':this.state.activeTab==="contact"})}>
                         <div className="row mtop50">
                            <div className="twelve columns">
@@ -1567,45 +1539,34 @@ class EditEvent extends React.Component {
                               </div>
                            </div>
                         </div>
-                     </div>
-
-                     <div className={classNames('tab',{'active':this.state.activeTab==="rooms"})}>
+                     </div>          
+                     <div className={classNames('tab',{'active':this.state.activeTab==="social"})}>
                         <div className="row mtop50">
                            <div className="twelve columns">
-                              <h3>Rooms</h3>
-                              {this.state.floorPlan.length===0 ? <div><h4>To add room for this event, please add floor first.</h4><button onClick={this.goToFloor}>Go To Floor Tab</button></div> : <div>
-                                 <RoomCreate floorPlan={this.state.floorPlan} canCreateTag={this.canCreateTag} callback={this.somethingChanged.bind(this)} eventId={this.state.eventId}/>
-                                 <div className="row">
-                                    <div className="twelve columns rooms" style={{marginLeft:0}}>
-                                       {this.props.event ? this.props.event.rooms.map((room)=><RoomTag {...this.props} removeAlert={this.openRoomAlert} key={room.id} room={room} eventId={this.props.event.id}/>) : ''}
-                                    </div>
+                              <h3>Social</h3>
+                              <div className="twelve columns">
+                                 <div className="six columns">
+                                    <input className="moving u-full-width" type="text" id="facebook" value={this.state.facebook} onChange={(e) => this.setState({facebook:e.currentTarget.value, changed:true})}/>
+                                    <label htmlFor="facebook">facebook</label>
                                  </div>
-                              </div>}
+                                 <div className="six columns">
+                                    <input className="moving u-full-width" type="text" id="instagram" value={this.state.instagram} onChange={(e) => this.setState({instagram:e.currentTarget.value, changed:true})}/>
+                                    <label htmlFor="instagram">instagram</label>
+                                 </div>
+                              </div>
+                              <div className="twelve columns">
+                                 <div className="six columns">
+                                    <input className="moving u-full-width" type="text" id="youtube" value={this.state.youtube} onChange={(e) => this.setState({youtube:e.currentTarget.value, changed:true})}/>
+                                    <label htmlFor="youtube">Youtube</label>
+                                 </div>
+                                 <div className="six columns">
+                                    <input className="moving u-full-width" type="text" id="twitter" value={this.state.twitter} onChange={(e) => this.setState({twitter:e.currentTarget.value, changed:true})}/>
+                                    <label htmlFor="twitter">twitter</label>
+                                 </div>
+                              </div>
                            </div>
                         </div>
                      </div>
-
-                     <div className={classNames('tab',{'active':this.state.activeTab==="sponsors"})}>
-                        <div className="row mtop50">
-                           <div className="twelve columns">
-                              <h3>Sponsors</h3>
-                              <SponsorTagCreate sponsorTagLength={this.state.sponsorTags ? Object.keys(this.state.sponsorTags).length : 0} createNewTag={this.createNewTag} eventId={this.state.eventId} canCreateTag={this.canCreateTag} callback={this.somethingChanged.bind(this)}/>
-                              <div className="row">
-                                 <div className="twelve columns tags" style={{marginLeft:0}}>
-                                    {this.state && Object.keys(this.state.sponsorTags).length>0 ? Object.keys(this.state.sponsorTags).sort((a,b)=>{return a.split("|")[0]-b.split("|")[0]}).map((tag)=><SponsorTag remove={(tagId)=>{this.openSponsorTag(tagId)}} key={tag} tag={{"id":tag, "label":this.state.sponsorTags[tag]}} eventId={this.props.event.id}/>) : ''}
-                                 </div>
-                              </div>
-
-                              <div className="row">
-                                 <div className="twelve columns sponsors" style={{marginLeft:0}}>
-                                    {this.props.event && Object.keys(this.state.sponsors).length>0  ? Object.keys(this.state.sponsors).sort((a,b)=>{return a.split("|")[0]-b.split("|")[0]}).map((sponsors)=><SponsorList tagSwapper={this.tagSwapper} editCallback={this.tagNameEdit} remove={(sponsorId)=>{this.openSponsor(sponsorId)}} nthChange={this.state.nthChange} modalCallback={this.openModal} key={sponsors} tagId={sponsors} tagName={this.state.sponsorTags[sponsors]} sponsors={this.state.sponsors[sponsors]} eventId={this.props.event.id}/>) : ''}
-                                 </div>
-                              </div>
-
-                           </div>
-                        </div>
-                     </div>
-
                      <div className={classNames('tab',{'active':this.state.activeTab==="floorplan"})}>
                         <div className="row mtop50">
                            <div className="twelve columns">
@@ -1626,6 +1587,41 @@ class EditEvent extends React.Component {
                                     }
                                  </div>
                               </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div className={classNames('tab',{'active':this.state.activeTab==="rooms"})}>
+                        <div className="row mtop50">
+                           <div className="twelve columns">
+                              <h3>Rooms</h3>
+                              {this.state.floorPlan.length===0 ? <div><h4>To add room for this event, please add floor first.</h4><button onClick={this.goToFloor}>Go To Floor Tab</button></div> : <div>
+                                 <RoomCreate floorPlan={this.state.floorPlan} canCreateTag={this.canCreateTag} callback={this.somethingChanged.bind(this)} eventId={this.state.eventId}/>
+                                 <div className="row">
+                                    <div className="twelve columns rooms" style={{marginLeft:0}}>
+                                       {this.props.event ? this.props.event.rooms.map((room)=><RoomTag {...this.props} removeAlert={this.openRoomAlert} key={room.id} room={room} eventId={this.props.event.id}/>) : ''}
+                                    </div>
+                                 </div>
+                              </div>}
+                           </div>
+                        </div>
+                     </div>
+                     <div className={classNames('tab',{'active':this.state.activeTab==="sponsors"})}>
+                        <div className="row mtop50">
+                           <div className="twelve columns">
+                              <h3>Sponsors</h3>
+                              <SponsorTagCreate sponsorTagLength={this.state.sponsorTags ? Object.keys(this.state.sponsorTags).length : 0} createNewTag={this.createNewTag} eventId={this.state.eventId} canCreateTag={this.canCreateTag} callback={this.somethingChanged.bind(this)}/>
+                              <div className="row">
+                                 <div className="twelve columns tags" style={{marginLeft:0}}>
+                                    {this.state && Object.keys(this.state.sponsorTags).length>0 ? Object.keys(this.state.sponsorTags).sort((a,b)=>{return a.split("|")[0]-b.split("|")[0]}).map((tag)=><SponsorTag remove={(tagId)=>{this.openSponsorTag(tagId)}} key={tag} tag={{"id":tag, "label":this.state.sponsorTags[tag]}} eventId={this.props.event.id}/>) : ''}
+                                 </div>
+                              </div>
+
+                              <div className="row">
+                                 <div className="twelve columns sponsors" style={{marginLeft:0}}>
+                                    {this.props.event && Object.keys(this.state.sponsors).length>0  ? Object.keys(this.state.sponsors).sort((a,b)=>{return a.split("|")[0]-b.split("|")[0]}).map((sponsors)=><SponsorList tagSwapper={this.tagSwapper} editCallback={this.tagNameEdit} remove={(sponsorId)=>{this.openSponsor(sponsorId)}} nthChange={this.state.nthChange} modalCallback={this.openModal} key={sponsors} tagId={sponsors} tagName={this.state.sponsorTags[sponsors]} sponsors={this.state.sponsors[sponsors]} eventId={this.props.event.id}/>) : ''}
+                                 </div>
+                              </div>
+
                            </div>
                         </div>
                      </div>

@@ -80,39 +80,37 @@ class AddTalk extends React.Component {
                   })
               }
           }
-
+          let getter;
+          if(this.props.match.params.talkId){
+            getter = nextProps.event.agenda.filter(agendaItem => agendaItem.id === this.props.match.params.talkId)[0];
+          }
           this.setState({
             speakers: nextProps.event.speakers,
             rooms: nextProps.event.rooms,
             agenda: nextProps.event.agenda,
-            //startDate:nextProps.event.startDate,
+            startDate:getter?moment(getter.date):nextProps.event.startDate,
             firstStartDate:nextProps.event.startDate,
             endDate:nextProps.event.endDate,
             loading: false,
-         },()=>{
-            if(this.props.match.params.talkId){
-               let getter = this.state.agenda.filter(agendaItem => agendaItem.id === this.props.match.params.talkId)[0];
-               //console.log(getter);
-               if(getter){
-                  this.setState({
-                     edit:true,
-                     noAlert:'',
-                     collided:false,
-                     id:getter.id,
-                     speaker:getter.speaker,
-                     topic:getter.topic,
-                     detail:getter.detail,
-                     level:getter.level,
-                     room:getter.room,
-                     startDate:moment(getter.date),
-                     firstStartDate:moment(nextProps.event.startDate),
-                     duration:getter.duration,
-                     topicsRaw:getter.tags.join(", "),
-                     topics:getter.tags,
-                  })
-               }
+          },()=>{
+             if (getter) {
+                this.setState({
+                   edit: true,
+                   noAlert: '',
+                   collided: false,
+                   id: getter.id,
+                   speaker: getter.speaker,
+                   topic: getter.topic,
+                   detail: getter.detail,
+                   level: getter.level,
+                   room: getter.room,
+                   startDate: moment(getter.date),
+                   firstStartDate: moment(nextProps.event.startDate),
+                   duration: getter.duration,
+                   topicsRaw: getter.tags.join(", "),
+                   topics: getter.tags,
+                })
             }
-
          });
       }
 

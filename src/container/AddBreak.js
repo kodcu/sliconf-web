@@ -225,11 +225,11 @@ class AddTalk extends React.Component {
                                        <label htmlFor="date">BREAK DATE and TIME</label>
                                        <DatePicker
                                           showTimeSelect
-                                          timeIntervals={5}
                                           minDate={moment(this.state.firstStartDate)}
                                           maxDate={moment(this.state.endDate)}
+                                          timeIntervals={5}
                                           className="u-full-width"
-                                          dateFormat="DD MMM YYYY, ddd, HH:mm"
+                                          dateFormat="DD MMM YYYY, ddd"
                                           locale={"en"}
                                           selected={moment(this.state.firstStartDate)}
                                           onChange={this.changeDateValue('startDate')}
