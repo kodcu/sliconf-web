@@ -27,15 +27,15 @@ class Statistics extends Component {
       componentWillReceiveProps(nextProps) {
             if (nextProps.event && nextProps.event.statics && nextProps.event.statics !== this.props.event.statics && !nextProps.event.loading) {
                   //console.log(nextProps.event.statics);
-                  this.setState({
-                        loading: false,
-                        approved: nextProps.event.statics.approvedComments,
-                        unapproved: nextProps.event.statics.deniedComments,
-                        users: nextProps.event.statics.totalUsers.allFetched,
-                        usersUnique: nextProps.event.statics.totalUsers.uniqueCount,
-                        mostQuestionedSpeech: nextProps.event.statics.mostCommentedSession ? nextProps.event.statics.mostCommentedSession.topic : '-',
-                        mostLikedQuestion: nextProps.event.statics.mostLikedComment ? nextProps.event.statics.mostLikedComment.commentValue : '-',
-                  })
+                        this.setState({
+                              loading: false,
+                              approved: nextProps.event.statics.approvedComments,
+                              unapproved: nextProps.event.statics.deniedComments,
+                              users: nextProps.event.statics.totalUsers ? nextProps.event.statics.totalUsers.allFetched : 0,
+                              usersUnique: nextProps.event.statics.totalUsers ? nextProps.event.statics.totalUsers.uniqueCount : 0,
+                              mostQuestionedSpeech: nextProps.event.statics.mostCommentedSession ? nextProps.event.statics.mostCommentedSession.topic : '-',
+                              mostLikedQuestion: nextProps.event.statics.mostLikedComment ? nextProps.event.statics.mostLikedComment.commentValue : '-',
+                        })
             }
 
             if (this.props.speaker !== nextProps.speaker) {

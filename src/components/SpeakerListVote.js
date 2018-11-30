@@ -9,7 +9,7 @@ const ListItem = ({speaker,index,eventId,props}) => {
          <td>{speaker.speaker}</td>
          <td>{speaker.workingAt}</td>
          <td>{speaker.topic}</td>
-         <td>{speaker.count}</td>
+         <td>{speaker.voteCount}</td>
          <td>{Math.round(speaker.average*100)/100}</td>
       </tr>
    )
@@ -40,21 +40,34 @@ class SpeakerListVote extends React.Component {
    }
 
    sortTable = (what,type) => {
-      let cloneTable = this.props.speakers ? this.props.speakers.slice(0) : [];
-      if(type){
-         return cloneTable.sort(function(a, b) {
-            if(type===1){
-               return a[what].toString().localeCompare(b[what].toString())
-            }else if(type===2){
-               return b[what].toString().localeCompare(a[what].toString())
-            }else{
-               return 0
-            }
-         })
-      }else{
-         return this.props.speakers;
-      }
-   };
+        let cloneTable = this.props.speakers ? this.props.speakers.slice(0) : [];
+        if(type){
+            return cloneTable.sort(function(a, b) {
+                if(type===1){
+                    // Normal sıralama yap. a=a, b=b
+                }else if(type===2){
+                    // Tam tersi sıralama. a=b, b=a
+                    let temp = a;
+                    a = b;
+                    b = temp;
+                }else{
+                    // Sıralama yapma, işlem yapmadan çık
+                    return 0
+                }
+                if(!isNaN(parseFloat(a[what])) && !isNaN(parseFloat(b[what]))){
+                    // Değerler sayı ise string compare işe yaramaz. 
+                    // String compare: 1, 22, 3, 4 gibi sıralar.
+                    // Bizim istediğimiz, 1, 3, 4, 22 gibi sıralaması.
+                    return a[what] - b[what];
+                }else{
+                    // Değerler string ise string compare yap
+                    return a[what].toString().localeCompare(b[what].toString())
+                }
+            })
+        }else{
+            return this.props.speakers;
+        }
+    };
 
    changeOrder = (which) => {
       if(which===this.state.active){
@@ -98,7 +111,7 @@ class SpeakerListVote extends React.Component {
                         <th style={{minWidth:150}} onClick={()=>{this.changeOrder("speaker")}}>Full Name {this.returnIcons("speaker")}</th>
                         <th style={{minWidth:170}} onClick={()=>{this.changeOrder("workingAt")}}>Working At {this.returnIcons("workingAt")}</th>
                         <th style={{width:"100%"}}>Topic</th>
-                        <th style={{width:100}} onClick={()=>{this.changeOrder("count")}}>Number of votes {this.returnIcons("count")}</th>
+                        <th style={{width:100}} onClick={()=>{this.changeOrder("voteCount")}}>Number of votes {this.returnIcons("voteCount")}</th>
                         <th style={{width:100}} onClick={()=>{this.changeOrder("average")}}>Average of votes {this.returnIcons("average")}</th>
                      </tr>
                      </thead>

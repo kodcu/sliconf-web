@@ -16,6 +16,11 @@ class RoomTag extends React.Component {
       //this.props.removeRoom(this.props.eventId,this.props.room.id)
    }
 
+   edit = () => {
+    this.props.editAlert(this.props.room.id);
+    //this.props.removeRoom(this.props.eventId,this.props.room.id)
+   }
+
    componentWillReceiveProps(nextProps){
       if(this.props.roomStore.del !== nextProps.roomStore.del){
          this.props.removeRoomFromLocal(this.props.room.id);
@@ -38,7 +43,7 @@ class RoomTag extends React.Component {
       const {room} = this.props;
       return (
          <div key={room.id} className="room" style={{background: this.state.color}}>
-            {room.label} ({this.getFloorName(room).name}) <div className="remove" onClick={this.remove}/>
+            {room.label} ({this.getFloorName(room).name}) <div className="edit" onClick={this.edit}/> <div className="remove" onClick={this.remove}/>
          </div>
       );
    }

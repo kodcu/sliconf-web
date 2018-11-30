@@ -18,8 +18,9 @@ import Floor from "../components/Floor";
 import Loading from "../components/Loading";
 import ReactTelInput from 'react-telephone-input';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
-import ReactTooltip from 'react-tooltip'
-import * as Silly from '../reducks/modules/silly'
+import ReactTooltip from 'react-tooltip';
+import * as Silly from '../reducks/modules/silly';
+import ProgressBar from "../components/ProgressBar";
 
 const _ = require("lodash");
 const { compose, withProps, lifecycle } = require("recompose");
@@ -250,14 +251,14 @@ class EditEvent extends React.Component {
    };
 
    sortRooms = (a,b) => {
-      return a.label>b.label;
+       //Do NOT sort rooms
+       return 0;
+       //return a.label>b.label;
    };
 
    componentWillReceiveProps(nextProps) {
       //console.log("bisiler oldu");
       //console.log(nextProps);
-
-
       if((nextProps.fetch && this.props.fetch !== nextProps.fetch) && nextProps.fetch.loading===false && nextProps.fetch.status===false){
          this.props.history.push("/");
       }
@@ -293,7 +294,9 @@ class EditEvent extends React.Component {
 
 
       if ((nextProps.event && this.props.event !== nextProps.event) || (this.props.event && nextProps.event && this.props.event.id !== nextProps.event.id)) {
-         //console.log("event degismis");
+          if(nextProps.event.noGeneral){
+            this.resetAll();
+          }
          //console.log("event",nextProps.fetch.status);
          if(nextProps.fetch.saveStatus===false){
             //console.log("STATUS FALSE, SHOWING MODAL");
@@ -313,8 +316,10 @@ class EditEvent extends React.Component {
             if(nextProps.event.deleted===true){
                this.props.history.push("/");
             }
-
+            console.log("eventin guncellenmesi lazim!", nextProps.event.statusDetails.percentage);
             this.setState({
+               status: nextProps.event.status ? nextProps.event.status : '',
+               statusDetails: nextProps.event.statusDetails ? nextProps.event.statusDetails : '',
                id: nextProps.event.id ? nextProps.event.id : '',
                name: nextProps.event.name ? nextProps.event.name : '',
                startDate: nextProps.event.startDate ? moment(nextProps.event.startDate) : moment(),
@@ -784,6 +789,24 @@ class EditEvent extends React.Component {
 
    closeRoomAlert = () => {
       this.setState({roomAlertIsOpen: false});
+   };
+
+   editRoom = () => {
+    this.setState({changed:true});
+    this.props.editRoomFromLocal(this.state.alertRoomId, this.state.roomModalName, this.state.editFloor);
+    this.setState({roomModalIsOpen:false});
+   };
+
+   moveRoomLeft = () => {
+    this.setState({changed:true});
+    this.props.moveRoomFromLocal(this.state.alertRoomId, "left");
+    this.setState({roomModalIsOpen:false});
+   };
+
+   moveRoomRight = () => {
+    this.setState({changed:true});
+    this.props.moveRoomFromLocal(this.state.alertRoomId, "right");
+    this.setState({roomModalIsOpen:false});
    };
 
    removeRoom = () => {
@@ -1310,6 +1333,57 @@ class EditEvent extends React.Component {
             <Modal
                className="Modal"
                overlayClassName="Overlay"
+               isOpen={this.state.roomModalIsOpen}
+               onRequestClose={()=>{this.setState({roomModalIsOpen:false})}}
+               contentLabel="Edit Room"
+            >
+               <div className="row">
+                  <div className="nine columns">
+                     <h2>Edit Room</h2>
+                  </div>
+                  <div className="three columns">
+                     <button style={{float:"right"}} onClick={()=>{this.setState({roomModalIsOpen:false})}}>close</button>
+                  </div>
+               </div>
+               <div className="row">
+                  <div className="six columns">
+                     <label htmlFor="roomModalName">Name</label>
+                     <input autoFocus className="u-full-width" type="text" id="roomModalName" value={this.state.roomModalName} onChange={(e) => this.setState({roomModalName:e.currentTarget.value})}/>
+                  </div>
+                  <div className="six columns">
+                    <label htmlFor="floorname">Floor</label>
+                    <select className="u-full-width" value={this.state.editFloor || ''}
+                        onChange={
+                            (e) => {
+                                this.setState({editFloor: e.currentTarget.value})
+                            }
+                        }>
+                        {this.state.floorPlan ? this.state.floorPlan.map((floor)=><option key={floor.id} value={floor.id}>{floor.name}</option>) : ""}
+                    </select>
+                </div>
+               </div>
+               <div className="row">
+                    <div className="eight columns">
+                        <div className="span" style={{float:"left"}}>
+                            <button onClick={this.moveRoomLeft} className={"button"}>{"< Move Left"}</button>
+                        </div>
+                        <div className="span" style={{float:"right"}}>
+                            <button onClick={this.moveRoomRight} className={"button"}>{"Move Right >"}</button>
+                        </div>
+                    </div>
+                    <div className="four columns">
+                        <div className="span" style={{float:"right"}}>
+                            <button onClick={this.editRoom} className={"button-primary"}>SAVE</button>
+                        </div>
+                    </div>
+               </div>
+                  
+            </Modal>
+
+
+            <Modal
+               className="Modal"
+               overlayClassName="Overlay"
                isOpen={this.state.modalIsOpen}
                onRequestClose={this.closeModal}
                contentLabel="Add Image"
@@ -1383,6 +1457,13 @@ class EditEvent extends React.Component {
                         </div>
                      </div>
                      */}
+                    <div className="row mtop25 mbottom50">
+                        <div className="twelve columns">
+                           <ProgressBar statusDetails={this.state.statusDetails} status={this.state.status}></ProgressBar>
+                        </div>
+                     </div>
+
+
                   <div className="container u-full-width tabs">
                      <ul className="navbar-list clickable noselect">
                         <li className={classNames('navbar-item',{'active':this.state.activeTab==="general"})}
@@ -1547,21 +1628,21 @@ class EditEvent extends React.Component {
                               <div className="twelve columns">
                                  <div className="six columns">
                                     <input className="moving u-full-width" type="text" id="facebook" value={this.state.facebook} onChange={(e) => this.setState({facebook:e.currentTarget.value, changed:true})}/>
-                                    <label htmlFor="facebook">facebook</label>
+                                    <label htmlFor="facebook">facebook (URL)</label>
                                  </div>
                                  <div className="six columns">
                                     <input className="moving u-full-width" type="text" id="instagram" value={this.state.instagram} onChange={(e) => this.setState({instagram:e.currentTarget.value, changed:true})}/>
-                                    <label htmlFor="instagram">instagram</label>
+                                    <label htmlFor="instagram">instagram (URL)</label>
                                  </div>
                               </div>
                               <div className="twelve columns">
                                  <div className="six columns">
                                     <input className="moving u-full-width" type="text" id="youtube" value={this.state.youtube} onChange={(e) => this.setState({youtube:e.currentTarget.value, changed:true})}/>
-                                    <label htmlFor="youtube">Youtube</label>
+                                    <label htmlFor="youtube">Youtube (URL)</label>
                                  </div>
                                  <div className="six columns">
                                     <input className="moving u-full-width" type="text" id="twitter" value={this.state.twitter} onChange={(e) => this.setState({twitter:e.currentTarget.value, changed:true})}/>
-                                    <label htmlFor="twitter">twitter</label>
+                                    <label htmlFor="twitter">twitter (URL)</label>
                                  </div>
                               </div>
                            </div>
@@ -1598,7 +1679,14 @@ class EditEvent extends React.Component {
                                  <RoomCreate floorPlan={this.state.floorPlan} canCreateTag={this.canCreateTag} callback={this.somethingChanged.bind(this)} eventId={this.state.eventId}/>
                                  <div className="row">
                                     <div className="twelve columns rooms" style={{marginLeft:0}}>
-                                       {this.props.event ? this.props.event.rooms.map((room)=><RoomTag {...this.props} removeAlert={this.openRoomAlert} key={room.id} room={room} eventId={this.props.event.id}/>) : ''}
+                                       {this.props.event ? this.props.event.rooms.map((room)=><RoomTag {...this.props} editAlert={(roomId)=>{
+                                           this.setState({
+                                               roomModalIsOpen: true, 
+                                               alertRoomId:roomId, 
+                                               roomModalName:this.props.event.rooms.find(el=>el.id===roomId).label,
+                                               editFloor: this.props.event.rooms.find(el=>el.id===roomId).floor,
+                                            });
+                                       }} removeAlert={this.openRoomAlert} key={room.id} room={room} eventId={this.props.event.id}/>) : ''}
                                     </div>
                                  </div>
                               </div>}

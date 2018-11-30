@@ -25,6 +25,8 @@ const FETCH_ROOMS_SUCCESS = 'event/FETCH_ROOMS_SUCCESS';
 const FETCH_ROOMS_FAIL = 'event/FETCH_ROOMS_FAIL';
 
 const REMOVE_ROOM_FROM_LOCAL = 'event/REMOVE_ROOM_FROM_LOCAL';
+const EDIT_ROOM_FROM_LOCAL = 'event/EDIT_ROOM_FROM_LOCAL';
+const MOVE_ROOM_FROM_LOCAL = 'event/MOVE_ROOM_FROM_LOCAL';
 const ADD_ROOM_TO_LOCAL = 'event/ADD_ROOM_TO_LOCAL';
 
 const REMOVE_TAG_FROM_LOCAL = 'event/REMOVE_TAG_FROM_LOCAL';
@@ -139,7 +141,7 @@ export default function reducer(state = initialState, action = {}) {
          return {
             ...state,
             loading: false,
-            event: floorMerge,
+            event: {...floorMerge, noGeneral:true},
             error: null
          };
       // events
@@ -201,6 +203,29 @@ export default function reducer(state = initialState, action = {}) {
          return {
             ...state,
             event:{...state.event,rooms:[...state.event.rooms.filter(room=>room.id!==action.roomId)]}
+         };
+      case MOVE_ROOM_FROM_LOCAL:
+            let where = action.swipeType==="left" ? -1 : action.swipeType==="right" ? +1 : 0;
+            let n = state.event.rooms.findIndex((room => room.id === action.roomId));
+            console.log("movin", n, "to", n+where);
+            let cloneRooms = state.event.rooms.slice(0);
+            if(cloneRooms[n+where]){
+                  let b = cloneRooms[n];
+                  cloneRooms[n] = cloneRooms[n+where];
+                  cloneRooms[n+where] = b;
+            }
+            return {
+                  ...state,
+                  event:{...state.event,rooms:[...cloneRooms]}
+            };
+      case EDIT_ROOM_FROM_LOCAL:
+            let i = state.event.rooms.findIndex((room => room.id === action.roomId));
+            state.event.rooms[i].label = action.roomLabel;
+            state.event.rooms[i].floor = action.roomFloor;
+            console.log(state.event.rooms);
+            return {
+            ...state,
+            event:{...state.event,rooms:state.event.rooms}
          };
       case ADD_ROOM_TO_LOCAL:
          return {
@@ -365,6 +390,21 @@ export function removeRoomFromLocal(roomId) {
       type: REMOVE_ROOM_FROM_LOCAL,
       roomId
    }
+}
+
+export function editRoomFromLocal(roomId, roomLabel, roomFloor) {
+      return {
+         type: EDIT_ROOM_FROM_LOCAL,
+         roomId, roomLabel, roomFloor
+      }
+}
+
+export function moveRoomFromLocal(roomId, swipeType) {
+      console.log(roomId, swipeType);
+      return {
+         type: MOVE_ROOM_FROM_LOCAL,
+         roomId, swipeType
+      }
 }
 
 export function addRoomToLocal(room) {

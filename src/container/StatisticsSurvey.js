@@ -59,7 +59,7 @@ class StatisticsSurvey extends Component {
                         </div>
                         <div className="three columns">
                             <h6>Percentage</h6>
-                            <h2 className="code">%{percentage}</h2>
+                            <h2 className="code">%{isNaN(percentage) ? 0 : percentage}</h2>
                         </div>
                     </div>
                     <div className="row">

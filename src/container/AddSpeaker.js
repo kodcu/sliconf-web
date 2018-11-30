@@ -168,12 +168,12 @@ class AddSpeaker extends React.Component {
                            <div className="six columns">
                               <input maxLength="120" type="text" className="moving u-full-width" value={this.state.linkedin} id="linkedin"
                                      onChange={this.changeValue('linkedin')}/>
-                              <label htmlFor="linkedin">linkedin</label>
+                              <label htmlFor="linkedin">linkedin (URL)</label>
                            </div>
                            <div className="six columns">
                               <input maxLength="120" type="text" className="moving u-full-width" value={this.state.twitter} id="twitter"
                                      onChange={this.changeValue('twitter')}/>
-                              <label htmlFor="twitter">twitter</label>
+                              <label htmlFor="twitter">twitter (URL)</label>
                            </div>
                         </div>
                      </div>

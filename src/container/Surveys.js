@@ -44,7 +44,7 @@ class Surveys extends React.Component {
             <div className="row">
                <div className="twelve columns">
                   <PageHead where={"/events/"+this.props.match.params.eventId+"/edit"} title="Surveys" {...this.props} />
-                  {this.props.event && this.props.event.event && this.props.event.event.startDate ?
+                  {/*REMOVE 0 TO SHOW*/ 0 && this.props.event && this.props.event.event && this.props.event.event.startDate ?
                      <div className="row mtop25 mbottom50"
                           style={{display: (this.props.event.event.startDate - moment()) / 86400000 < 1 ? "block" : "none"}}>
                         <div className="twelve columns">
@@ -63,7 +63,10 @@ class Surveys extends React.Component {
                      <SurveyList removeSurvey={this.removeSurvey} eventId={this.props.match.params.eventId} surveys={this.state.surveys} topProps={this.props}/>
                      <div className="row mtop25 mbottom100">
                         <div className="twelve columns">
-                           <Link to={"/events/"+this.props.match.params.eventId+"/addsurvey"} className="button button-primary">Add Survey</Link>
+                          <Link to={"/events/"+this.props.match.params.eventId+"/addsurvey"} className="button button-primary">Add Survey</Link>
+                          {this.props.event && this.props.event.event && this.props.event.event.startDate ?
+                            <Link to={"../statisticsSurvey"} style={{marginLeft:10}} className="button button-primary">Go Statistics</Link>
+                          : ""}
                         </div>
                      </div>
                   </Loading>
