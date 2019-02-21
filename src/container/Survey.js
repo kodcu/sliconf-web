@@ -127,6 +127,21 @@ class Survey extends React.Component {
       })
    };
 
+   changeOrder = (cloneSurvey, nthQuestion, where) => {
+      if(where===0){
+         if(cloneSurvey.length-1 !== nthQuestion){
+            cloneSurvey.splice(nthQuestion,1);
+         }
+      }else if((where===-1 && nthQuestion > 0) || (where===1 && nthQuestion < cloneSurvey.length-1)){
+         let temp = cloneSurvey[nthQuestion];
+         cloneSurvey[nthQuestion] = cloneSurvey[nthQuestion+where];
+         cloneSurvey[nthQuestion+where] = temp;
+      }
+      this.setState({
+         survey: cloneSurvey,
+      })
+   }
+
    render() {
       let cloneSurvey = this.state.survey.slice(0);
       return (
@@ -160,6 +175,14 @@ class Survey extends React.Component {
 
                      {this.state.survey.map((question, nthQuestion) => {
                         return (
+                        <div className="allWrapper">
+                           <div className="leftBarSurvey">
+                              <div class="priorityChanger">
+                                 <div onClick={()=>{this.changeOrder(cloneSurvey, nthQuestion, -1)}} className="top"></div>
+                                 <div onClick={()=>{this.changeOrder(cloneSurvey, nthQuestion, 1)}} className="bottom"></div>
+                                 <div onClick={()=>{this.changeOrder(cloneSurvey, nthQuestion, 0)}} className="delete"></div>
+                              </div>
+                           </div>
                            <div key={"QWrapper"+nthQuestion} className={"qWrapper "+ (nthQuestion%2===1 ? "odd" : "even")}>
                               <div className="row">
                                  <div className="seven columns">
@@ -210,6 +233,7 @@ class Survey extends React.Component {
                                  )
                               })}
                            </div>
+                        </div>
                         )
                      })}
                      <div className="row">

@@ -2035,10 +2035,16 @@ input[type=email],input[type=number],input[type=password],input[type=search],inp
     margin-top: 2px
 }
 
-.priorityChanger .bottom,.priorityChanger .top {
+.priorityChanger .bottom,.priorityChanger .top, .priorityChanger .delete {
     width: 42px;
     height: 21px;
-    background-color: #000
+    background-color: #000;
+    cursor:pointer;
+    transition:0.3s background-color;
+}
+
+.priorityChanger .bottom:hover,.priorityChanger .top:hover, .priorityChanger .delete:hover {
+    background-color: #29b573;
 }
 
 .priorityChanger .top {
@@ -2047,6 +2053,11 @@ input[type=email],input[type=number],input[type=password],input[type=search],inp
 
 .priorityChanger .bottom {
     -webkit-mask: url(../img/down.svg) no-repeat 50% 50%
+}
+
+.priorityChanger .delete {
+    height:42px;
+    -webkit-mask: url(../img/xline.svg) no-repeat 50% 50%
 }
 
 #askCheckLabel {
@@ -2601,12 +2612,34 @@ td:hover .percentage::after {
     width: 960px
 }
 
+.allWrapper{
+    clear: both;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+}
+
+.leftBarSurvey {
+    float:left;
+    margin: 40px 0 0;
+}
+
+.leftBarSurvey button {
+    width: 38px;
+    padding: 0;
+    display: inline-block;
+    float: left;
+    clear: both;
+}
+
 .qWrapper {
+    float:left;
     margin: 40px 0 0;
     padding-left: 20px;
     border-top: 3px solid transparent;
     border-bottom: 3px solid transparent;
-    border-left: 3px solid transparent
+    border-left: 3px solid transparent;
+    width: calc(100% - 70px);
 }
 
 .qWrapper.odd {
