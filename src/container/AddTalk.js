@@ -41,7 +41,7 @@ class AddTalk extends React.Component {
          id: this.state.id,
          speaker: this.state.speaker ? this.state.speaker : this.state.speakers[0].id,
          detail: this.state.detail,
-         topic: this.state.topic,
+         topic: this.state.topic.trim(),
          date: moment(this.state.startDate).valueOf(),
          duration: Number(this.state.duration),
          room: this.state.room ? this.state.room : this.state.rooms[0].id,
@@ -126,7 +126,7 @@ class AddTalk extends React.Component {
    }
 
    newVersion = () => {
-      if(this.state.topic){
+      if(this.state.topic.trim().length>0){
          if(this.state.duration>0 && this.state.duration!=='') {
             if(this.props.match.params.talkId){
                let cloneTalks = this.props.event ? this.props.event.agenda.slice(0) : [];
