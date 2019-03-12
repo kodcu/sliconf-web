@@ -46,7 +46,7 @@ class AddTalk extends React.Component {
          duration: Number(this.state.duration),
          room: this.state.room ? this.state.room : this.state.rooms[0].id,
          level: this.state.level ? this.state.level : 0,
-         tags: this.state.topics,
+         tags: this.state.topics.map(el=>el.trim()),
       }
    };
 

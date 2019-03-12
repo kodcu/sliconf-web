@@ -2700,3 +2700,7 @@ td:hover .percentage::after {
     float:left;
     padding: 0 30px;
 }
+
+button.selected-flag {
+    display: none;
+}
