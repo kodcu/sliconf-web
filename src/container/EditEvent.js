@@ -865,19 +865,26 @@ class EditEvent extends React.Component {
 
 
             }else if(this.state.activeTab==="floorplan"){
-
                let ses2 = this.state.floorPlan.slice(0);
                let mState = this.state;
-               //console.log(ses2)
-               ses2.filter(key2 =>{if(this.state.modalId.includes(key2.id)){ses2 = ses2.filter(function(el){
-                  if(el.id === key2.id){el.name = mState.modalName;el.image = mState.modalImage;}
-                  return true;
-               });}return false;});
+               
+               ses2.filter(
+                  key2 => {
+                  if(this.state.modalId.includes(key2.id)){
+                     ses2 = ses2.filter(function(el){
+                        if(el.id === key2.id){
+                           el.name = mState.modalName;
+                           el.image = mState.modalImage;
+                        }
+                        return true;
+                     });
+                  }
+                  return false;}
+               );
+
                this.setState({
                   floorPlan:ses2,
-                  nthNewFloor: this.state.nthNewFloor+1,
-               },()=> {
-                  //console.log("ye",this.state);
+                  nthChange: this.state.nthChange+1
                });
 
             }
