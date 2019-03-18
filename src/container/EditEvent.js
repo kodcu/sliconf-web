@@ -1014,7 +1014,7 @@ class EditEvent extends React.Component {
                isOpen={this.state.errorModal}
                contentLabel="Error!"
                onRequestClose={()=>{this.setState({errorModal:false})}}
-               style={{content : {width:500,textAlign:"center",overflow: "hidden"}}}
+               style={{content : {width:500,textAlign:"center",overflow: "hidden"}, overlay: {zIndex: 10}}}
             >
                <div className="row">
                   <div className="twelve columns">
