@@ -1459,7 +1459,7 @@ class EditEvent extends React.Component {
                      */}
                     <div className="row mtop25 mbottom50">
                         <div className="twelve columns">
-                           <ProgressBar statusDetails={this.state.statusDetails} status={this.state.status}></ProgressBar>
+                           <ProgressBar changeTab={this.changeTab} statusDetails={this.state.statusDetails} status={this.state.status}></ProgressBar>
                         </div>
                      </div>
 
