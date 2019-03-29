@@ -371,7 +371,7 @@ class AddTalk extends React.Component {
                            <div className="row mtop50 mbottom100">
                               <div className="six columns">
                                  <div data-for='global' data-tip style={{display:"inline-block",height:38}}>
-                                    <input disabled={this.state.collided} className={classNames('button-primary')} type="submit" onClick={this.addTalk} defaultValue={this.props.match.params.talkId ? "Save" : "Add Talk"}/>
+                                    <input disabled={this.state.collided} className={classNames('button-primary')} type="submit" onClick={this.addTalk} value={this.props.match.params.talkId ? "Save" : "Add Talk"}/>
                                  </div>
                                  {this.state.noAlert!=="" ? <ReactTooltip id="global" place="right" type="dark" effect="solid">{this.state.noAlert}</ReactTooltip>:''}
                               </div>

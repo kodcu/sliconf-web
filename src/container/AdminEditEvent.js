@@ -97,7 +97,7 @@ class AdminEditEvent extends React.Component {
                                                 if (this.state.changed) {
                                                     this.save()
                                                 }
-                                                   }} defaultValue={this.state.saveText}>SAVE</button>
+                                                   }} value={this.state.saveText}>SAVE</button>
                                             <a className={classNames({hidden: !this.state.changed})}
                                                onClick={this.openReset}>Reset</a>
                                             <span

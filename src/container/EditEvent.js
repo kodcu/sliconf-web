@@ -1434,7 +1434,7 @@ class EditEvent extends React.Component {
                               <div className="twelve columns">
                                  <button data-tip className="backButton" disabled={this.state.changed} onClick={()=>{this.props.history.push("/events")}} />
                                  <h2 style={{verticalAlign:"top",display: "inline-block"}}>Edit Event</h2>
-                                 <input style={{margin:"10px 30px"}} className={classNames('button-primary',{disabled:!this.state.changed})} type="submit" onClick={()=>{if(this.state.changed){this.save()}}} defaultValue={this.state.saveText}/>
+                                 <input style={{margin:"10px 30px"}} className={classNames('button-primary',{disabled:!this.state.changed})} type="submit" onClick={()=>{if(this.state.changed){this.save()}}} value={this.state.saveText}/>
                                  <a className={classNames({hidden:!this.state.changed})} onClick={this.openReset}>Reset</a>
                                  <span className={classNames("text italic",{hidden:this.state.changed || (this.state.saveText!=="SAVED!" && this.state.saveText!=="SAVE")})}>All changes are saved!</span>
                                  {/*<span className={classNames("text italic",{hidden:!this.state.changed})}>You have unsaved changes!</span>

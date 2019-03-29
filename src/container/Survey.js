@@ -246,7 +246,7 @@ class Survey extends React.Component {
                      <div className="row">
                         <div className="column mtop50">
                            <div className="twelwe columns">
-                              <input className="button button-primary" onClick={()=>{this.saveSurvey()}} type="submit" defaultValue="Save"/>
+                              <input className="button button-primary" onClick={()=>{this.saveSurvey()}} type="submit" value="Save"/>
                            </div>
                         </div>
                      </div>

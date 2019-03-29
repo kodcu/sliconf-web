@@ -195,7 +195,7 @@ class AddSpeaker extends React.Component {
                   </div>
                   <div className="row mtop50">
                      <div className="six columns">
-                        <input className={'button-primary'} disabled={!this.state.fullName} type="submit" onClick={this.addSpeaker} defaultValue="Save"/>
+                        <input className={'button-primary'} disabled={!this.state.fullName} type="submit" onClick={this.addSpeaker} value="Save"/>
                      </div>
                   </div>
                </div>
