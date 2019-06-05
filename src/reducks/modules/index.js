@@ -1,6 +1,5 @@
-import {combineReducers} from "redux"
-//import {routerReducer} from 'react-router-redux'
-
+import { REHYDRATE, PURGE, persistCombineReducers } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // or whatever storage you are using
 import rehydrate from "./reducer"
 import auth from "./auth"
 import event from "./event"
@@ -11,7 +10,12 @@ import silly from "./silly"
 import survey from "./survey"
 import admin from "./admin"
 
-export default combineReducers({
+const config = {
+    key: 'primary',
+    storage
+}
+
+export default persistCombineReducers(config, {
     //routing : routerReducer,
     rehydrate,
     auth,
@@ -22,4 +26,4 @@ export default combineReducers({
     silly,
     survey,
     admin
-});
+})

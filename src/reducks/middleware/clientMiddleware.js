@@ -9,7 +9,9 @@ export default function clientMiddleware(client) {
             return action(dispatch, getState);
          }
 
-         const {promise,mock, types, ...rest} = action; // eslint-disable-line no-redeclare
+         console.log(action);
+
+         const {promise,mock, types,...rest} = action; // eslint-disable-line no-redeclare
 
          if (mock) {
             const [REQUEST, SUCCESS] = types;

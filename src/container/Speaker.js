@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import * as EventActions from '../reducks/modules/event'
 import * as SpeakerActions from '../reducks/modules/speaker'
 import {connect} from 'react-redux';
-import Ionicon from 'react-ionicons'
+import {LogoLinkedin, LogoTwitter} from 'react-ionicons/lib/'
 import * as Silly from '../reducks/modules/silly'
 
 class Speaker extends Component {
@@ -118,11 +118,11 @@ class Speaker extends Component {
                               <p>
                                  {this.state.twitter ? <a onClick={() => {
                                     window.open(this.state.twitter, "_blank")
-                                 }}><Ionicon icon="logo-twitter" fontSize="32px" color="#1da1f2"/></a> : ''}
+                                 }}><LogoTwitter fontSize="32px" color="#1da1f2"/></a> : ''}
                                  {" "}
                                  {this.state.linkedin ? <a onClick={() => {
                                     window.open(this.state.linkedin, "_blank")
-                                 }}><Ionicon icon="logo-linkedin" fontSize="32px" color="#0077b5"/></a> : ''}
+                                 }}><LogoLinkedin fontSize="32px" color="#0077b5"/></a> : ''}
                               </p>
                            </div>
                         </div> : ''

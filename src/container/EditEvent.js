@@ -1010,6 +1010,8 @@ class EditEvent extends React.Component {
    };
 
    render() {
+
+
       return (
 
          <div className="container mtop">
@@ -1725,6 +1727,14 @@ class EditEvent extends React.Component {
                            <div className="twelve columns">
                               <h3>Advanced</h3>
                               <div className="row">
+                                 <div className="twelve columns" style={{display:"flex"}}>
+                                    Private?
+                                    <div className="switch">
+                                       <input id="switch-1" type="checkbox" />
+                                       <label htmlFor="switch-1" />
+                                    </div>
+                                 </div>
+                                 <h4 className="mtop100" style={{float:"left"}}>Danger Zone</h4>
                                  <div className="twelve columns">
                                     <button className="button-red" onClick={()=>{this.openDelete()}}>Delete Event</button>
                                  </div>

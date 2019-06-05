@@ -177,7 +177,7 @@ class Survey extends React.Component {
                         return (
                         <div className="allWrapper">
                            <div className="leftBarSurvey">
-                              <div class="priorityChanger">
+                              <div className="priorityChanger">
                                  <div onClick={()=>{this.changeOrder(cloneSurvey, nthQuestion, -1)}} className="top"></div>
                                  <div onClick={()=>{this.changeOrder(cloneSurvey, nthQuestion, 1)}} className="bottom"></div>
                                  <div onClick={()=>{this.changeOrder(cloneSurvey, nthQuestion, 0)}} className="delete"></div>

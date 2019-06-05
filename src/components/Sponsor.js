@@ -36,7 +36,7 @@ class Sponsor extends React.Component {
       });
       //console.log(this.props);
       this.setState({
-         color: '#' + randomColor.generate(sponsor.name)
+         color: '#' + randomColor(sponsor.name)
       })
    }
 

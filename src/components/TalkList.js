@@ -1,5 +1,9 @@
 import React from 'react';
-import Ionicon from 'react-ionicons'
+import IosRemoveCircle from 'react-ionicons/lib/IosRemoveCircle'
+import IosCafeOutline from 'react-ionicons/lib/IosCafeOutline'
+import IosArrowDown from 'react-ionicons/lib/IosArrowDown'
+import IosArrowUp from 'react-ionicons/lib/IosArrowUp'
+import IosRemove from 'react-ionicons/lib/IosRemove'
 import Modal from 'react-modal';
 import ReactTooltip from 'react-tooltip'
 
@@ -14,7 +18,7 @@ const ListItem = ({talk, removeTalk, editTalk, speaker, room, presentation}) => 
             textAlign: "center",
             padding: "5px",
             lineHeight: "10px"
-         }}><Ionicon icon="ios-remove-circle" fontSize="25px" color="#F44336" /></td> : ''
+         }}><IosRemoveCircle fontSize="25px" color="#F44336" /></td> : ''
          }
          <td onClick={()=>{editTalk(talk.id)}} style={{width:"400px"}}>{talk.topic}</td>
          <td onClick={()=>{editTalk(talk.id)}} style={{textAlign:"center"}}>
@@ -32,7 +36,7 @@ const ListItem = ({talk, removeTalk, editTalk, speaker, room, presentation}) => 
                <path d="M414 100l-23-44-5-10 4-14a13 13 0 0 0-23-8l-2 5-2-1V13a13 13 0 0 0-25-1v10h-3l-5-12a13 13 0 0 0-23 12l3 5-3 1v1l-9-7a12 12 0 1 0-15 20l4 3c-16 19-49 45-95 62-38 14-94 25-154 3a13 13 0 0 0-16 7 183 183 0 0 0 109 237l21 7 31 39h-3a13 13 0 0 0 0 25h55a12 12 0 1 0 0-25h-21l-27-34a182 182 0 0 0 85-18 183 183 0 0 0 99-115c10-33 6-66-9-94l46-22a12 12 0 0 0 6-17zm-70 136c-14 40-44 72-83 90A158 158 0 0 1 41 224l10 4a13 13 0 1 0 8-24c-14-4-21-11-24-15v-8a91 91 0 0 0 23 5 13 13 0 0 0 1-25c-12-1-18-4-22-6l4-18c61 19 122 9 171-11a61 61 0 0 0 58 51 61 61 0 0 0 81 25 105 105 0 0 1-7 34zm-6-114a12 12 0 0 0-5 19c8 10 13 22 16 34l-9 4c-9 5-19 6-29 2-9-3-17-10-21-20v-2c-3-5-8-8-14-7a36 36 0 0 1-40-38c34-17 60-39 74-57 2-3 5-5 9-6a37 37 0 0 1 50 16l17 33-48 22z"/>
                <path d="M338 60a13 13 0 0 0-13 12c0 4 2 7 4 9 2 3 6 4 9 4s6-1 9-4c2-2 3-5 3-9s-1-6-3-8c-3-3-6-4-9-4z"/>
             </svg>
-                     : talk.level===-1 ? <Ionicon data-tip="Break" icon="ios-cafe-outline" fontSize="32px" color="#1da1f2"/> : ''}
+                     : talk.level===-1 ? <IosCafeOutline data-tip="Break" fontSize="32px" color="#1da1f2"/> : ''}
          </td>
          <td onClick={()=>{editTalk(talk.id)}} style={{width:"200px"}}>{room ? room.label : ''}</td>
          <td onClick={()=>{editTalk(talk.id)}} style={{width:"200px"}}>{speaker ? speaker.name : ''}</td>
@@ -131,9 +135,9 @@ class TalkList extends React.Component {
 
    returnIcons = (what) => {
       return this.state.active===what ? this.state.mode===1
-         ? <Ionicon icon={"ios-arrow-up"} style={{verticalAlign:"top"}} />
-         : <Ionicon icon={"ios-arrow-down"} style={{verticalAlign:"top"}} />
-         : <Ionicon icon={"ios-remove"} style={{verticalAlign:"top"}} />
+         ? <IosArrowUp style={{verticalAlign:"top"}} />
+         : <IosArrowDown style={{verticalAlign:"top"}} />
+         : <IosRemove rotate={false} style={{verticalAlign:"top"}} />
    };
 
    render() {

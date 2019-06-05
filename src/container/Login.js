@@ -154,14 +154,13 @@ class Login extends React.Component {
                      <GoogleLogin
                         clientId="31237231524-4vibq7hrr7g6dsp1h9oh5h9k9mmndhhq.apps.googleusercontent.com"
                         buttonText={
-                           <div className="googleLogo">
-                              <span>Sign in with Google</span>
-                           </div>
+                           <div>Sign in with Google</div>
                         }
                         className="button-google"
                         onSuccess={this.responseGoogle}
                         onFailure={this.responseGoogle}
                      />
+                     <br/>
                   </div>
                </div>
 

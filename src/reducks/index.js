@@ -1,11 +1,13 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import { routerMiddleware } from 'react-router-redux'
-import {persistStore, autoRehydrate} from 'redux-persist'
+import { REHYDRATE, PURGE, persistStore} from 'redux-persist'
 import createMiddleware from './middleware/clientMiddleware';
 import ApiClient from '../helpers/ApiClient';
 import thunk from 'redux-thunk'
 import createHistory from 'history/createBrowserHistory'
 import rootReducer from './modules'
+import storage from 'redux-persist/lib/storage'
+import { exportNamedDeclaration } from '@babel/types';
 
 export const history = createHistory()
 export const client = new ApiClient();
@@ -28,7 +30,6 @@ if (process.env.NODE_ENV === 'development') {
 
 const composedEnhancers = compose(
   applyMiddleware(...middleware),
-  autoRehydrate(),
   ...enhancers
 )
 
@@ -38,7 +39,13 @@ const _store = createStore(
   composedEnhancers
 )
 
-let _persistor = persistStore(_store);
+let _persistor = persistStore(
+  _store,
+  null,
+  () => {
+       store.getState() // if you want to get restoredState
+  }
+ )
 
 export const persistor = _persistor;
 const store = _store;

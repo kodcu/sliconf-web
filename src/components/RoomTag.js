@@ -30,7 +30,7 @@ class RoomTag extends React.Component {
    componentWillMount() {
       const {room} = this.props;
       this.setState({
-         color: '#' + randomColor.generate(room.label)
+         color: '#' + randomColor(room.label)
       })
    }
 

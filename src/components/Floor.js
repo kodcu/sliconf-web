@@ -38,7 +38,7 @@ class Floor extends React.Component {
       });
       //console.log(this.props);
       this.setState({
-         color: '#' + randomColor.generate(floor.name)
+         color: '#' + randomColor(floor.name)
       })
    }
 

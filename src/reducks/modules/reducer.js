@@ -1,4 +1,4 @@
-import {REHYDRATE} from 'redux-persist/constants';
+import {REHYDRATE} from 'redux-persist';
 
 export default function reducer(state = {}, action = {}) {
    if (action.type === REHYDRATE) {

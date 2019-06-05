@@ -1,5 +1,8 @@
 import React from 'react';
-import Ionicon from 'react-ionicons'
+import IosCheckmark from 'react-ionicons/lib/IosCheckmark'
+import IosArrowDown from 'react-ionicons/lib/IosArrowDown'
+import IosArrowUp from 'react-ionicons/lib/IosArrowUp'
+import IosRemove from 'react-ionicons/lib/IosRemove'
 import ReactTooltip from 'react-tooltip'
 import classNames from 'classnames';
 
@@ -25,7 +28,7 @@ const PercentageCircle = (props) => {
                 <div id="percentageActiveBorder"
                      style={{backgroundImage: (props.percentage * 3.6 > 180 ? 'linear-gradient(' + (props.percentage * 3.6 - 90) + 'deg, transparent 50%, #29b573 50%),linear-gradient(90deg, #8ddeb8 50%, transparent 50%)' : 'linear-gradient(' + (90 + (props.percentage * 3.6)) + 'deg, transparent 50%, #8ddeb8 50%),linear-gradient(90deg, #8ddeb8 50%, transparent 50%)')}}
                      className="percentage-active-border">
-                    <Ionicon icon="ios-checkmark" fontSize="20px" color="white"/>
+                    <IosCheckmark fontSize="20px" color="white"/>
                 </div>
             }
         </div>
@@ -82,9 +85,9 @@ class AdminEventList extends React.Component {
 
     returnIcons = (what) => {
         return this.state.active === what ? this.state.mode === 1
-            ? <Ionicon icon={"ios-arrow-up"} style={{verticalAlign: "top"}}/>
-            : <Ionicon icon={"ios-arrow-down"} style={{verticalAlign: "top"}}/>
-            : <Ionicon icon={"ios-remove"} rotate={false} style={{verticalAlign: "top"}}/>
+        ? <IosArrowUp style={{verticalAlign:"top"}} />
+        : <IosArrowDown style={{verticalAlign:"top"}} />
+        : <IosRemove rotate={false} style={{verticalAlign:"top"}} />
     };
 
     tooler = [];

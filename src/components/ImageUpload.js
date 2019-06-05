@@ -74,8 +74,9 @@ class ImageUpload extends React.Component {
                style={{}}
                className={classNames('resimHolder', {'loading':this.state.loading}, {'active':(!this.state.removed && (this.state.imageId!=='' && this.state.imageId!==null && this.state.imageId!=="https://app.sliconf.com/api/image/get/"))})}
             >
-               {this.props.children}
-
+               {
+                  this.props.children
+               }
             </Dropzone>
             <button style={{marginTop:"20px"}} onClick={()=>{if(!this.state.loading){this.setState({imageId:null,removed:true},this.props.onLoad());}}}>Remove Image</button>
          </div>

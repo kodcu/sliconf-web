@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip'
-import Ionicon from 'react-ionicons'
+import IosRemoveCircle from 'react-ionicons/lib/IosRemoveCircle'
+import IosArrowDown from 'react-ionicons/lib/IosArrowDown'
+import IosArrowUp from 'react-ionicons/lib/IosArrowUp'
+import IosRemove from 'react-ionicons/lib/IosRemove'
 import Modal from 'react-modal';
 
 const ListItem = ({survey,index,eventId,props}) => {
@@ -17,7 +20,7 @@ const ListItem = ({survey,index,eventId,props}) => {
             textAlign: "center",
             padding: "5px",
             lineHeight: "10px"
-         }}><Ionicon icon="ios-remove-circle" fontSize="25px" color="#F44336" /></td>
+         }}><IosRemoveCircle fontSize="25px" color="#F44336" /></td>
          <td data-tip={"Click to View"} data-for="editTooltip" onClick={()=>{props.topProps.history.push('/events/'+eventId+'/editsurvey/'+index)}}>{survey.name}</td>
       </tr>
    )
@@ -82,9 +85,9 @@ class SurveyList extends React.Component {
 
    returnIcons = (what) => {
       return this.state.active===what ? this.state.mode===1
-         ? <Ionicon icon={"ios-arrow-up"} style={{verticalAlign:"top"}} />
-         : <Ionicon icon={"ios-arrow-down"} style={{verticalAlign:"top"}} />
-         : <Ionicon icon={"ios-remove"} style={{verticalAlign:"top"}} />
+         ? <IosArrowUp style={{verticalAlign:"top"}} />
+         : <IosArrowDown style={{verticalAlign:"top"}} />
+         : <IosRemove rotate={false} style={{verticalAlign:"top"}} />
    };
 
    render() {

@@ -22,7 +22,7 @@ class SponsorTag extends React.Component {
    componentWillMount() {
       const {tag} = this.props;
       this.setState({
-         color: '#' + randomColor.generate(tag.label)
+         color: '#' + randomColor(tag.label)
       })
    }
 

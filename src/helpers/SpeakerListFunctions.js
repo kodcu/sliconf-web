@@ -1,5 +1,7 @@
 import React from 'react';
-import Ionicon from 'react-ionicons'
+import IosArrowDown from 'react-ionicons/lib/IosArrowDown'
+import IosArrowUp from 'react-ionicons/lib/IosArrowUp'
+import IosRemove from 'react-ionicons/lib/IosRemove'
 
 export default class SpeakerListFunctions {
    static changeOrder = (speakers,state,setState,which) => {
@@ -45,8 +47,8 @@ export default class SpeakerListFunctions {
 
    static returnIcons = (state,what) => {
       return state.active===what ? state.mode===1
-         ? <Ionicon icon={"ios-arrow-up"} style={{verticalAlign:"top"}} />
-         : <Ionicon icon={"ios-arrow-down"} style={{verticalAlign:"top"}} />
-         : <Ionicon icon={"ios-remove"} style={{verticalAlign:"top"}} />
+         ? <IosArrowUp style={{verticalAlign:"top"}} />
+         : <IosArrowDown style={{verticalAlign:"top"}} />
+         : <IosRemove style={{verticalAlign:"top"}} />
    };
 }
