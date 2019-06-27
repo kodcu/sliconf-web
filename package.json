@@ -20,7 +20,7 @@
     "react-ionicons": "^3.0.1",
     "react-loading-placeholder": "^1.0.6",
     "react-modal": "^3.8.1",
-    "react-redux": "^7.0.3",
+    "react-redux": "^7.1.0",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "react-router-redux": "^4.0.8",
@@ -32,8 +32,8 @@
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "string-to-color": "^2.1.1",
-    "styled-components": "^4.2.1",
-    "superagent": "^5.0.5"
+    "styled-components": "^4.3.2",
+    "superagent": "^5.1.0"
   },
   "devDependencies": {
     "react-scripts": "^3.0.1"
