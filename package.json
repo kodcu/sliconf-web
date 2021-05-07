@@ -5,7 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "history": "^4.9.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "moment": "^2.24.0",
     "random-string": "^0.2.0",
     "react": "^16.8.6",
