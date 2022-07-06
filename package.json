@@ -6,7 +6,7 @@
     "classnames": "^2.2.6",
     "history": "^4.9.0",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "random-string": "^0.2.0",
     "react": "^16.8.6",
     "react-async-script": "^1.0.1",
